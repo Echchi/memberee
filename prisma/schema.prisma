@@ -9,22 +9,75 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   password  String
   name      String
-  phone     String   @unique
-  email     String?  @unique
-  role      Int      @default(1)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  phone     String    @unique
+  email     String?   @unique
+  role      Int       @default(1)
+  status    Int       @default(1)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Company   Company[]
 }
 
 model Company {
   id        Int       @id @default(autoincrement())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
   name      String
   contact   String?
   startTime DateTime?
   endTime   DateTime?
+  status    Int       @default(1)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  Worker    Worker[]
+
+  @@index([userId])
+}
+
+model Worker {
+  id           Int            @id @default(autoincrement())
+  company      Company        @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId    Int
+  name         String
+  phone        String         @unique
+  startDate    DateTime?
+  endDate      DateTime?
+  status       Int            @default(1)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  Member       Member[]
+  WorkerMember WorkerMember[]
+
+  @@index([companyId])
+}
+
+model Member {
+  id           Int           @id @default(autoincrement())
+  worker       Worker        @relation(fields: [workerId], references: [id], onDelete: Cascade)
+  workerId     Int
+  name         String
+  phone        String        @unique
+  startDate    DateTime?
+  endDate      DateTime?
+  status       Int           @default(1)
+  memo         String        @db.MediumText
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  WorkerMember WorkerMember?
+
+  @@index([workerId])
+}
+
+model WorkerMember {
+  id       Int    @id @default(autoincrement())
+  worker   Worker @relation(fields: [workerId], references: [id], onDelete: Cascade)
+  workerId Int    @unique
+  member   Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  memberId Int    @unique
+
+  @@index([workerId])
+  @@index([memberId])
 }
