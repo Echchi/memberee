@@ -50,8 +50,40 @@ model Worker {
   updatedAt    DateTime       @updatedAt
   Member       Member[]
   WorkerMember WorkerMember[]
+  Schedule     Schedule[]
 
   @@index([companyId])
+}
+
+model Schedule {
+  id            Int             @id @default(autoincrement())
+  worker        Worker          @relation(fields: [workerId], references: [id], onDelete: Cascade)
+  workerId      Int
+  member        Member          @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  memberId      Int
+  date          DateTime
+  startTime     DateTime
+  endTime       DateTime
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  WorkerPayment WorkerPayment[]
+  Attendance    Attendance?
+
+  @@index([workerId])
+  @@index([memberId])
+}
+
+model WorkerPayment {
+  id               Int      @id @default(autoincrement())
+  Schedule         Schedule @relation(fields: [ScheduleId], references: [id], onDelete: Cascade)
+  ScheduleId       Int
+  paymentForLesson Decimal
+  basePayment      Decimal
+  lessonCount      Int
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([ScheduleId])
 }
 
 model Member {
@@ -67,8 +99,30 @@ model Member {
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   WorkerMember WorkerMember?
+  Payment      Payment?
+  Attendance   Attendance?
+  Schedule     Schedule[]
 
   @@index([workerId])
+}
+
+model Attendance {
+  id             Int      @id @default(autoincrement())
+  Schedule       Schedule @relation(fields: [ScheduleId], references: [id], onDelete: Cascade)
+  ScheduleId     Int      @unique
+  member         Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  memberId       Int      @unique
+  attendanceDate DateTime
+  attendanceTime DateTime
+  Status         String
+
+  @@index([ScheduleId])
+  @@index([memberId])
+}
+
+enum Status {
+  Present
+  Absent
 }
 
 model WorkerMember {
@@ -79,5 +133,19 @@ model WorkerMember {
   memberId Int    @unique
 
   @@index([workerId])
+  @@index([memberId])
+}
+
+model Payment {
+  id            Int      @id @default(autoincrement())
+  member        Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  memberId      Int      @unique
+  forMonth      DateTime // 어떤 월에 대한 납부인지 나타내는 컬럼
+  paymentDate   DateTime // 실제 납부가 이루어진 날짜
+  amount        Decimal // 납부해야 하는 금액 또는 실제 납부된 금액
+  isPaid        Boolean // 납부 여부를 나타내는 불리언 값
+  dueDate       DateTime // 납부 기한 날짜
+  paymentMethod String // 납부 방법
+
   @@index([memberId])
 }
