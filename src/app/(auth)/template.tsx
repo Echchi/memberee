@@ -25,57 +25,57 @@ export default function Template({
   };
   const pathname = usePathname();
   return (
-    <div className="flex flex-col md:w-full md:max-w-full max-w-xl mx-auto min-h-screen bg-gradient-to-b from-white from-5% to-slate-100">
+    <div className="flex flex-col md:w-full md:max-w-full max-w-xl mx-auto min-h-screen bg-gradient-to-b from-white from-5% to-emerald-50">
       <div className="hidden md:flex fixed top-0 z-10 h-20 w-full px-4 py-2 items-center space-x-6 bg-white/90">
         <Link
-          className="text-4xl font-extrabold ml-3 text-blue-600 cursor-pointer"
-          href={"/admin/home"}
+          className="text-4xl font-extrabold ml-3 text-emerald-700 cursor-pointer"
+          href={"/main"}
         >
           Memberee
         </Link>
         <div className="flex-1 flex justify-center">
           <ul className="flex items-center mx-auto space-x-8 lg:space-x-20 text-lg lg:text-xl font-semibold">
             <Link
-              href={"/admin/task"}
+              href={"/member"}
               className={cls(
                 "cursor-pointer",
-                pathname === "/admin/task"
-                  ? "text-blue-500"
-                  : "hover:text-gray-500 transition-colors",
+                pathname === "/member"
+                  ? "text-emerald-700"
+                  : "hover:text-emerald-700 transition-colors text-stone-800",
               )}
             >
               회원 관리
             </Link>
             <Link
-              href={"/admin/report"}
+              href={"/worker"}
               className={cls(
                 "cursor-pointer",
-                pathname === "/admin/report"
-                  ? "text-blue-500"
-                  : "hover:text-gray-500 transition-colors",
+                pathname === "/worker"
+                  ? "text-emerald-700"
+                  : "hover:text-emerald-700 transition-colors text-stone-800",
               )}
             >
               직원 관리
             </Link>
             <Link
-              href={"/admin/member"}
+              href={"/payment"}
               className={cls(
                 "cursor-pointer",
-                pathname === "/admin/member"
-                  ? "text-blue-500"
-                  : "hover:text-gray-500 transition-colors",
+                pathname === "/payment"
+                  ? "text-emerald-700"
+                  : "hover:text-emerald-700 transition-colors text-stone-800",
               )}
             >
               임금 관리
             </Link>
 
             <Link
-              href={"/admin/account"}
+              href={"/account"}
               className={cls(
                 "cursor-pointer",
-                pathname === "/admin/account"
-                  ? "text-blue-500"
-                  : "hover:text-gray-500 transition-colors",
+                pathname === "/account"
+                  ? "text-emerald-700"
+                  : "hover:text-emerald-700 transition-colors text-stone-800",
               )}
             >
               계정 관리
@@ -84,7 +84,7 @@ export default function Template({
         </div>
       </div>
       {hasTopBar ? (
-        <div className="md:hidden fixed bg-white w-full h-12 max-w-xl justify-center text-lg px-10 font-medium text-gray-800 border-b top-0 flex items-center z-10">
+        <div className="md:hidden fixed bg-white w-full h-12 max-w-xl justify-center text-lg px-10 font-medium text-stone-800 border-b top-0 flex items-center z-10">
           {canGoBack ? (
             <button onClick={onClick} className="absolute left-4">
               <svg
@@ -110,7 +110,7 @@ export default function Template({
       ) : null}
       <div
         className={cls(
-          "md:pt-20 md:max-w-full md:w-[1400px] md:mx-auto px-3",
+          "md:pt-20 md:max-w-full md:w-[1400px] md:mx-auto px-3 text-stone-800",
           hasTabBar ? "pb-24" : "",
           hasTopBar ? "pt-12" : "",
         )}
@@ -118,7 +118,7 @@ export default function Template({
         {children}
       </div>
       {hasTabBar ? (
-        <nav className="md:hidden bg-white max-w-xl text-gray-700 border-t fixed bottom-0 w-full px-3 pb-2 pt-3 flex justify-between text-xs">
+        <nav className="md:hidden bg-white max-w-xl border-t fixed bottom-0 w-full px-3 pb-2 pt-3 flex justify-between text-xs">
           <TabItem
             icon={
               <svg
@@ -132,11 +132,11 @@ export default function Template({
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75"
+                  d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
                 />
               </svg>
             }
-            url={"/admin/task"}
+            url={"/worker"}
             title={"직원 관리"}
             location={pathname}
           />
@@ -153,11 +153,11 @@ export default function Template({
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75"
+                  d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"
                 />
               </svg>
             }
-            url={"/admin/report"}
+            url={"/member"}
             title={"회원 관리"}
             location={pathname}
           />
@@ -178,7 +178,7 @@ export default function Template({
                 ></path>
               </svg>
             }
-            url={"/admin/home"}
+            url={"/main"}
             title={"홈"}
             location={pathname}
           />
@@ -195,11 +195,11 @@ export default function Template({
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"
+                  d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                 />
               </svg>
             }
-            url={"/admin/member"}
+            url={"/payment"}
             title={"임금 관리"}
             location={pathname}
           />
@@ -216,11 +216,16 @@ export default function Template({
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"
+                  d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                 />
               </svg>
             }
-            url={"/admin/project"}
+            url={"/account"}
             title={"계정 관리"}
             location={pathname}
           />

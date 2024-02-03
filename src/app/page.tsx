@@ -1,5 +1,10 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
-  return <div className="text-9xl">랜딩</div>;
+  return (
+    <Link href={"/login"} className="text-9xl">
+      랜딩
+    </Link>
+  );
 }

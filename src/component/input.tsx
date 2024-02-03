@@ -1,6 +1,6 @@
 import React from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
-import { cls } from "../libs/utils";
+import { cls } from "@/libs/client/utils";
 
 interface InputFieldProps {
   type: string;
@@ -76,7 +76,7 @@ const Input: React.FC<InputFieldProps> = ({
             errorMessage ? "inner_input_error" : "inner_input",
             icon ? "lg:px-20 px-14" : "",
             label ? "lg:px-56 px-32" : "",
-            className ? className : "",
+            className ? `${className} !h-full` : "",
           )}
           type={type}
           maxLength={maxLength}

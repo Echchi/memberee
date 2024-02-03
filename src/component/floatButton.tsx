@@ -12,7 +12,7 @@ const FloatButton = ({ onClick }: { onClick?: () => void }) => {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="w-6 h-6 text-blue-800"
+        className="w-6 h-6 text-emerald-800"
       >
         <path
           strokeLinecap="round"

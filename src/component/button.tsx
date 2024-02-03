@@ -1,4 +1,4 @@
-import { cls } from "../libs/utils";
+import { cls } from "@/libs/client/utils";
 
 export interface ButtonProps {
   large?: boolean;
@@ -22,7 +22,7 @@ export default function Button({
         "outline-none w-full rounded-lg text-white font-semibold mt-5",
         isButtonDisabled
           ? "bg-gray-300 cursor-default"
-          : "bg-blue-500 hover:bg-blue-400 active:bg-blue-600 cursor-pointer",
+          : "bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-600 cursor-pointer",
         large ? "py-4 text-lg" : "py-2 text-sm ",
       )}
     >

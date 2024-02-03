@@ -1,6 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { cls } from "../libs/utils";
+import Link from "next/link";
+import { cls } from "@/libs/client/utils";
 
 interface TabItemProps {
   location: string;
@@ -10,13 +10,13 @@ interface TabItemProps {
 }
 const TabItem = ({ location, url, icon, title }: TabItemProps) => {
   return (
-    <Link to={url}>
+    <Link href={url}>
       <div
         className={cls(
-          "flex flex-col items-center space-y-2 ",
+          "flex flex-col items-center space-y-2",
           location === url
-            ? "text-blue-500"
-            : "hover:text-gray-500 transition-colors",
+            ? "text-emerald-600"
+            : "hover:text-stone-500 transition-colors text-stone-800",
         )}
       >
         {icon}

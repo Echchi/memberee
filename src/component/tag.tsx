@@ -1,5 +1,6 @@
 import React from "react";
-import { cls } from "../libs/utils";
+import { cls } from "@/libs/client/utils";
+
 export interface TagProps {
   color: "yellow" | "red" | "green" | "gray" | "blue";
   noBg?: boolean;
