@@ -25,7 +25,7 @@ export default function Template({
   };
   const pathname = usePathname();
   return (
-    <div className="flex flex-col md:w-full md:max-w-full max-w-xl mx-auto min-h-screen bg-gradient-to-b from-white from-5% to-emerald-50">
+    <div className="flex flex-col md:w-full md:max-w-full max-w-xl mx-auto min-h-screen bg-gradient-to-b from-white from-[1%] to-stone-100">
       <div className="hidden md:flex fixed top-0 z-10 h-20 w-full px-4 py-2 items-center space-x-6 bg-white/90">
         <Link
           className="text-4xl font-extrabold ml-3 text-emerald-700 cursor-pointer"
@@ -36,47 +36,47 @@ export default function Template({
         <div className="flex-1 flex justify-center">
           <ul className="flex items-center mx-auto space-x-8 lg:space-x-20 text-lg lg:text-xl font-semibold">
             <Link
-              href={"/member"}
               className={cls(
                 "cursor-pointer",
-                pathname === "/member"
+                pathname.includes("/member")
                   ? "text-emerald-700"
                   : "hover:text-emerald-700 transition-colors text-stone-800",
               )}
+              href={"/member"}
             >
               회원 관리
             </Link>
             <Link
-              href={"/worker"}
               className={cls(
                 "cursor-pointer",
-                pathname === "/worker"
+                pathname.includes("/worker")
                   ? "text-emerald-700"
                   : "hover:text-emerald-700 transition-colors text-stone-800",
               )}
+              href={"/worker"}
             >
               직원 관리
             </Link>
             <Link
-              href={"/payment"}
               className={cls(
                 "cursor-pointer",
-                pathname === "/payment"
+                pathname.includes("/payment")
                   ? "text-emerald-700"
                   : "hover:text-emerald-700 transition-colors text-stone-800",
               )}
+              href={"/payment"}
             >
               임금 관리
             </Link>
 
             <Link
-              href={"/account"}
               className={cls(
                 "cursor-pointer",
-                pathname === "/account"
+                pathname.includes("/account")
                   ? "text-emerald-700"
                   : "hover:text-emerald-700 transition-colors text-stone-800",
               )}
+              href={"/account"}
             >
               계정 관리
             </Link>
@@ -110,7 +110,7 @@ export default function Template({
       ) : null}
       <div
         className={cls(
-          "md:pt-20 md:max-w-full md:w-[1400px] md:mx-auto px-3 text-stone-800",
+          "md:pt-20 md:max-w-full md:w-[1400px] md:mx-auto px-3 lg:px-5 text-stone-800 min-h-[1100px]",
           hasTabBar ? "pb-24" : "",
           hasTopBar ? "pt-12" : "",
         )}

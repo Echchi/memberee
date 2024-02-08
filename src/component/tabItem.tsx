@@ -14,7 +14,7 @@ const TabItem = ({ location, url, icon, title }: TabItemProps) => {
       <div
         className={cls(
           "flex flex-col items-center space-y-2",
-          location === url
+          location.includes(url)
             ? "text-emerald-600"
             : "hover:text-stone-500 transition-colors text-stone-800",
         )}

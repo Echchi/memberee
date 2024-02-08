@@ -33,7 +33,7 @@ const Input: React.FC<InputFieldProps> = ({
   return (
     <div
       className={cls(
-        "relative flex items-center w-full border border-gray-300 bg-white",
+        "relative flex items-center w-full border border-stone-300 bg-white",
         className ? className : "",
       )}
     >
@@ -43,7 +43,7 @@ const Input: React.FC<InputFieldProps> = ({
         </span>
       )}
       {label && (
-        <span className="text-gray-600 max-w-24 lg:max-w-full absolute inset-y-0 left-0 flex items-center lg:pl-10 pl-4 whitespace-pre-line font-semibold">
+        <span className="text-stone-600 max-w-24 lg:max-w-full absolute inset-y-0 left-0 flex items-center lg:pl-10 pl-4 whitespace-pre-line font-semibold">
           {label}
         </span>
       )}
