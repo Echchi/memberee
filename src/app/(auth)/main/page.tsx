@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import TimeTable from "@/component/timeTable";
 import { cls } from "@/libs/client/utils";
 import { useRouter } from "next/navigation";
+import Tag from "@/component/tag";
 
 const Page = () => {
   const router = useRouter();
@@ -48,7 +49,7 @@ const Page = () => {
       <div className="md:grid grid-cols-2 grid-rows-3 gap-3 mt-4 lg:mt-12 h-[700px]">
         <div className="box flex-col row-span-3 hover:shadow-lg cursor-pointer transition-all h-1/2 md:h-full">
           <span className="box_title">{today} 수업</span>
-          <div className="overflow-y-auto mt-3">
+          <div className="overflow-y-auto overflow-x-auto mt-3">
             <TimeTable />
           </div>
         </div>
@@ -58,21 +59,21 @@ const Page = () => {
         >
           <div className="box_title">직원 관리</div>
           <div className="flex overflow-x-auto">
-            <div className="flex flex-col justify-evenly items-center rounded-lg min-x-fit px-5 py-2 hover:bg-orange-100 cursor-pointer transition-all">
+            <div className="flex flex-col justify-evenly items-center rounded-lg min-x-fit px-5 py-2 hover:bg-stone-100 cursor-pointer transition-all">
               <div className="rounded-full bg-gray-300 mb-4 h-20 w-20" />
               <p className="text-base md:text-lg font-semibold">함코치</p>
               <p className="text-sm md:text-base font-medium whitespace-no식wrap">
                 주중
               </p>
             </div>
-            <div className="flex flex-col items-center rounded-lg min-x-fit px-5 py-2 hover:bg-orange-100 cursor-pointer transition-all">
+            <div className="flex flex-col items-center rounded-lg min-x-fit px-5 py-2 hover:bg-stone-100 cursor-pointer transition-all">
               <div className="rounded-full bg-gray-300 mb-4 h-20 w-20" />
               <p className="text-base md:text-lg font-semibold">이코치</p>
               <p className="text-sm md:text-base font-medium whitespace-nowrap">
                 주중
               </p>
             </div>
-            <div className="flex flex-col items-center rounded-lg min-x-fit px-5 py-2 hover:bg-orange-100 cursor-pointer transition-all">
+            <div className="flex flex-col items-center rounded-lg min-x-fit px-5 py-2 hover:bg-stone-100 cursor-pointer transition-all">
               <div className="rounded-full bg-gray-300 mb-4 h-20 w-20" />
               <p className="text-base md:text-lg font-semibold">장코치</p>
               <p className="text-sm md:text-base font-medium whitespace-nowrap">
@@ -113,22 +114,13 @@ const Page = () => {
                     <td>{item.worker}</td>
                     <td className="flex justify-center">
                       {item.pay ? (
-                        <></>
+                        <span className="text-xs">
+                          <Tag color={"orange"} title={"미납"} />
+                        </span>
                       ) : (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={3}
-                          stroke="currentColor"
-                          className="w-4 h-4 text-emerald-600"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="m4.5 12.75 6 6 9-13.5"
-                          />
-                        </svg>
+                        <span className="text-xs">
+                          <Tag color={"emerald"} title={"납부"} />
+                        </span>
                       )}
                     </td>
                   </tr>
