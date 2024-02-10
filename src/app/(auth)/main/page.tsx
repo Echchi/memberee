@@ -83,7 +83,10 @@ const Page = () => {
           </div>
         </div>
 
-        <div className="box row-span-2 flex-col hover:shadow-lg cursor-pointer transition-all h-1/3 md:h-full">
+        <div
+          className="box row-span-2 flex-col hover:shadow-lg cursor-pointer transition-all h-1/3 md:h-full"
+          onClick={() => router.push("/member")}
+        >
           <div className="box_title">회원 관리</div>
           <div className="overflow-y-auto">
             <table className="text-center w-full">
