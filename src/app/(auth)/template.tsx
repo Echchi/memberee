@@ -86,7 +86,11 @@ export default function Template({
       {hasTopBar ? (
         <div className="md:hidden fixed bg-white w-full h-12 max-w-xl justify-center text-lg px-10 font-medium text-stone-800 border-b top-0 flex items-center z-10">
           {canGoBack ? (
-            <button onClick={onClick} className="absolute left-4">
+            <button
+              onClick={onClick}
+              className="absolute left-4"
+              data-testid="back-button"
+            >
               <svg
                 className="w-6 h-6"
                 fill="none"

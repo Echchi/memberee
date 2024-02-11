@@ -8,10 +8,10 @@
     }
     /* input */
     .inner_input {
-        @apply font-medium appearance-none w-full h-full outline-none pr-3 py-2 focus:outline-none focus:ring-emerald-500 focus:ring-inset focus:ring-[1.5px] transition-all bg-white
+        @apply font-medium appearance-none w-full h-full outline-none pr-3 py-2 focus:outline-none focus:ring-emerald-600 focus:ring-inset focus:ring-[1.5px] transition-all bg-white
     }
     .inner_input_res {
-        @apply font-medium appearance-none w-full h-full outline-none pr-3 py-2 flex items-center text-stone-600
+        @apply font-medium appearance-none w-full h-full outline-none pr-3 py-2 flex items-center text-stone-600 border-stone-300
     }
     .inner_input_error{
         @apply font-medium appearance-none w-full h-full outline-none pr-3 py-2 focus:outline-none focus:ring-rose-500 focus:ring-inset focus:ring-[1.5px] transition-all

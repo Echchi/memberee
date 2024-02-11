@@ -1,5 +1,5 @@
 import React from "react";
-import { cls } from "../libs/utils";
+import { cls } from "../libs/client/utils";
 
 const StatusTab = ({
   title,

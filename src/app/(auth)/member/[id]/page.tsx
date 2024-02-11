@@ -32,7 +32,13 @@ const Page = () => {
         <Input
           type={"div"}
           label={"납부"}
-          value={"회원"}
+          value={"2월 납부 완료"}
+          className="h-16 border-t-0 border-b lg:text-lg"
+        />
+        <Input
+          type={"div"}
+          label={"특이사항"}
+          value={"대학교수"}
           className="h-16 border-t-0 border-b lg:text-lg"
         />
       </div>
