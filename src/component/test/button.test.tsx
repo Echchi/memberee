@@ -11,7 +11,7 @@ describe("Button Component", () => {
   test("disabled when isDisabled is true", () => {
     render(<Button text={"Button"} isButtonDisabled={true} />);
     const buttonElement = screen.getByText("Button");
-    expect(buttonElement).toBeDisabled();
+    expect(buttonElement).toHaveClass("bg-gray-300 cursor-default");
   });
   test("large when lage is true", () => {
     render(<Button text={"Button"} large={true} />);

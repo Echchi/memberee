@@ -45,9 +45,7 @@ describe("Template Component", () => {
       (usePathname as jest.Mock).mockReturnValue(url);
 
       const link = screen.getAllByText(text);
-      link.forEach((item) => {
-        expect(item).toHaveClass("text-emerald-700");
-      });
+      expect(link).toHaveClass("text-emerald-700");
     });
   });
 

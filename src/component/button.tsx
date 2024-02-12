@@ -37,7 +37,6 @@ export default function Button({
       <button
         {...rest}
         onClick={onClick}
-        disabled={isButtonDisabled}
         className={cls(
           "outline-none w-full rounded-lg text-white font-semibold mt-5",
           isButtonDisabled

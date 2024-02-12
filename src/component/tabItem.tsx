@@ -15,12 +15,21 @@ const TabItem = ({ location, url, icon, title }: TabItemProps) => {
         className={cls(
           "flex flex-col items-center space-y-2",
           location.includes(url)
-            ? "text-emerald-600"
+            ? "text-emerald-700"
             : "hover:text-stone-500 transition-colors text-stone-800",
         )}
       >
         {icon}
-        <span className="whitespace-pre-line">{title}</span>
+        <span
+          className={cls(
+            "whitespace-pre-line",
+            location.includes(url)
+              ? "text-emerald-700"
+              : "hover:text-stone-500 transition-colors text-stone-800",
+          )}
+        >
+          {title}
+        </span>
       </div>
     </Link>
   );
