@@ -27,24 +27,24 @@ describe("Template Component", () => {
     expect(navLinks).toHaveLength(10);
   });
 
-  test("renders navigation links with active button color when URL matches", () => {
-    render(
-      <Template>
-        <div>Children</div>
-      </Template>,
-    );
-    const navLinks = screen.queryAllByRole("link");
-    expect(navLinks).toHaveLength(10);
-    const linksData = [
-      { url: "/member", text: "회원 관리" },
-      { url: "/worker", text: "직원 관리" },
-      { url: "/payment", text: "임금 관리" },
-      { url: "/account", text: "계정 관리" },
-    ];
-    linksData.forEach(({ url, text }) => {
-      (usePathname as jest.Mock).mockReturnValue(url);
+  const linksData = [
+    { url: "/member", text: "회원 관리" },
+    { url: "/worker", text: "직원 관리" },
+    { url: "/payment", text: "임금 관리" },
+    { url: "/account", text: "계정 관리" },
+  ];
 
-      const link = screen.getAllByText(text);
+  linksData.forEach(({ url, text }) => {
+    test(`renders navigation link with active button color for ${text} when URL matches`, () => {
+      (usePathname as jest.Mock).mockReturnValue(url);
+      render(
+        <Template>
+          <div>Children</div>
+        </Template>,
+      );
+
+      const link = screen.getByText(text);
+      // 'text-emerald-700' 클래스가 적용되었는지 확인
       expect(link).toHaveClass("text-emerald-700");
     });
   });
