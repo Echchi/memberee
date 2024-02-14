@@ -7,7 +7,7 @@ import { userEvent } from "@testing-library/user-event";
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
 }));
-describe("Login Page", () => {
+describe("로그인 페이지", () => {
   const mockPush = jest.fn();
 
   beforeEach(() => {
@@ -16,14 +16,14 @@ describe("Login Page", () => {
     });
   });
 
-  test("renders login form", () => {
+  test("로그인 폼 렌더링", () => {
     render(<Login />); // ARRANGE
     expect(screen.getByPlaceholderText("아이디")).toBeInTheDocument(); // ASSERT
     expect(screen.getByPlaceholderText("비밀번호")).toBeInTheDocument(); // ASSERT
     expect(screen.getByRole("button", { name: /로그인/i })).toBeInTheDocument(); // ASSERT
   });
 
-  test("navigates to main page with valid credentials", async () => {
+  test("로그인 성공 시 메인 페이지 이동", async () => {
     render(<Login />);
     const idInput = screen.getByPlaceholderText("아이디");
     const passwordInput = screen.getByPlaceholderText("비밀번호");
@@ -35,7 +35,7 @@ describe("Login Page", () => {
 
     expect(mockPush).toHaveBeenCalledWith("/main");
   });
-  test("displays error message with invalid credentials", async () => {
+  test("로그인 실패시 유효성 검사", async () => {
     render(<Login />);
     const idInput = screen.getByPlaceholderText("아이디");
     const passwordInput = screen.getByPlaceholderText("비밀번호");

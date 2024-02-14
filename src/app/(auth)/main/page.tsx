@@ -17,6 +17,7 @@ const Page = () => {
   return (
     <>
       <p
+        data-testid="main-alert"
         onClick={() => router.push("/member")}
         className={cls(
           "cursor-pointer flex items-center justify-between py-2 md:py-3 w-full bg-gradient-to-r from-orange-200 from-5% to-orange-300 rounded-full px-5 md:px-8 mt-3 font-semibold text-orange-600 animate-pulse",
@@ -47,7 +48,11 @@ const Page = () => {
         </button>
       </p>
       <div className="md:grid grid-cols-2 grid-rows-3 gap-3 mt-4 lg:mt-12 h-[700px]">
-        <div className="box flex-col row-span-3 hover:shadow-lg cursor-pointer transition-all h-1/2 md:h-full">
+        <div
+          className="box flex-col row-span-3 hover:shadow-lg cursor-pointer transition-all h-1/2 md:h-full"
+          onClick={() => router.push("/class")}
+          data-testid="class-mainbox"
+        >
           <span className="box_title">{today} 수업</span>
           <div className="overflow-y-auto overflow-x-auto mt-3">
             <TimeTable />
@@ -56,6 +61,7 @@ const Page = () => {
         <div
           className="box flex-col justify-center space-x-2 md:!py-2 cursor-pointer hover:shadow-lg"
           onClick={() => router.push("/worker")}
+          data-testid="worker-mainbox"
         >
           <div className="box_title">직원 관리</div>
           <div className="flex overflow-x-auto">
@@ -86,6 +92,7 @@ const Page = () => {
         <div
           className="box row-span-2 flex-col hover:shadow-lg cursor-pointer transition-all h-1/3 md:h-full"
           onClick={() => router.push("/member")}
+          data-testid="member-mainbox"
         >
           <div className="box_title">회원 관리</div>
           <div className="overflow-y-auto">

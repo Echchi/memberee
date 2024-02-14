@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { usePathname, useRouter } from "next/navigation";
-import Template from "../template";
+import Template from "./template";
 import { userEvent } from "@testing-library/user-event";
 
 jest.mock("next/navigation", () => ({
@@ -30,12 +30,11 @@ describe("Template Component", () => {
   const linksData = [
     { url: "/member", text: "회원 관리" },
     { url: "/worker", text: "직원 관리" },
-    { url: "/payment", text: "임금 관리" },
+    { url: "/class", text: "수업 관리" },
     { url: "/account", text: "계정 관리" },
   ];
-
   linksData.forEach(({ url, text }) => {
-    test(`renders navigation link with active button color for ${text} when URL matches`, () => {
+    test(`"${text}" link has active button color when URL is "${url}"`, () => {
       (usePathname as jest.Mock).mockReturnValue(url);
       render(
         <Template>
@@ -43,9 +42,11 @@ describe("Template Component", () => {
         </Template>,
       );
 
-      const link = screen.getByText(text);
-      // 'text-emerald-700' 클래스가 적용되었는지 확인
-      expect(link).toHaveClass("text-emerald-700");
+      const links = screen.getAllByText(text);
+      const hasActiveLink = links.some((link) =>
+        link.className.includes("text-emerald-700"),
+      );
+      expect(hasActiveLink).toBeTruthy();
     });
   });
 

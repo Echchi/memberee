@@ -24,26 +24,26 @@ describe("Tag Component", () => {
     expect(tagElement).toHaveClass("text-stone-600");
   });
 
-  test("renders tag with yellow color", () => {
+  test("색상 태그 렌더링", () => {
     render(<Tag color="yellow" title="Yellow Tag" />);
     const tagElement = screen.getByText("Yellow Tag");
     expect(tagElement).toBeInTheDocument();
     expect(tagElement).toHaveClass("text-yellow-600");
   });
 
-  test("applies background styles when noBg is false", () => {
+  test("기본 태그 렌더링", () => {
     render(<Tag color="emerald" title="Emerald Tag" />);
     const tagElement = screen.getByText("Emerald Tag");
     expect(tagElement).toHaveClass("bg-emerald-500/20");
   });
 
-  test("applies ring styles when noBg is true", () => {
+  test("태그 noBg true", () => {
     render(<Tag color="emerald" title="Emerald Tag" noBg={true} />);
     const tagElement = screen.getByText("Emerald Tag");
     expect(tagElement).toHaveClass("ring-emerald-200");
   });
 
-  test("calls onClick function when clicked", () => {
+  test("태그 onClick", () => {
     const onClickMock = jest.fn();
     render(<Tag color="emerald" title="Clickable Tag" onClick={onClickMock} />);
     const tagElement = screen.getByText("Clickable Tag");

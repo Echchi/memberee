@@ -33,6 +33,7 @@ const Join = () => {
     <form
       onSubmit={handleSubmit(onValid)}
       className="md:pt-10 md:max-w-full md:w-[1400px] md:mx-auto px-3 md:px-32 text-stone-800"
+      data-testid="join-form"
     >
       <div className="flex flex-col justify-center items-center mt-8">
         <h3 className="text-5xl font-extrabold ml-3 text-emerald-700">
@@ -152,7 +153,7 @@ const Join = () => {
             </svg>
           }
           type={"text"}
-          placeholder={"메일"}
+          placeholder={"이메일"}
           required={true}
           className={"h-14 border-t-0 border-b-1 rounded-b-lg"}
           register={register("mail", {

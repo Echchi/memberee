@@ -60,13 +60,13 @@ export default function Template({
             <Link
               className={cls(
                 "cursor-pointer",
-                pathname.includes("/payment")
+                pathname.includes("/class")
                   ? "text-emerald-700"
                   : "hover:text-emerald-700 transition-colors text-stone-800",
               )}
-              href={"/payment"}
+              href={"/class"}
             >
-              임금 관리
+              수업 관리
             </Link>
 
             <Link
@@ -203,8 +203,8 @@ export default function Template({
                 />
               </svg>
             }
-            url={"/payment"}
-            title={"임금 관리"}
+            url={"/class"}
+            title={"수업 관리"}
             location={pathname}
           />
           <TabItem
