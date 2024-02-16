@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
 }));
-describe("회원관리 메인 페이지", () => {
+describe("회원관리 조회 페이지", () => {
   const mockPush = jest.fn();
 
   beforeEach(() => {
