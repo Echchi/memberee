@@ -129,7 +129,7 @@ const Page = () => {
               })).map((item, index) => (
                 <tr
                   key={index}
-                  onClick={() => router.push(`member/${index}`)}
+                  onClick={() => router.push(`pay/${index}`)}
                   className="*:py-3 text-center border-b border-stone-100 hover:bg-orange-100 cursor-pointer active:bg-orange-200"
                 >
                   <td>{item.name}</td>
