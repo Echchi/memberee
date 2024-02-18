@@ -134,6 +134,7 @@ const Page = () => {
                     <option>중단</option>
                   </select>
                 </td>
+                <td>연체여부</td>
               </tr>
             </thead>
             <tbody>
@@ -166,6 +167,17 @@ const Page = () => {
                       <span className="text-xs">
                         <Tag color={"emerald"} title={"납부"} />
                       </span>
+                    )}
+                  </td>
+                  <td>
+                    {item.pay < 0 ? (
+                      <div className="flex justify-center items-center">
+                        <span className="text-xs">
+                          <Tag color={"orange"} title={"연체"} />
+                        </span>
+                      </div>
+                    ) : (
+                      <></>
                     )}
                   </td>
                 </tr>

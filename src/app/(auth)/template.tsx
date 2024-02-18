@@ -31,7 +31,7 @@ export default function Template({
           className="text-4xl font-extrabold ml-3 text-emerald-700 cursor-pointer"
           href={"/main"}
         >
-          Memberee
+          memberee
         </Link>
         <div className="flex-1 flex justify-center">
           <ul className="flex items-center mx-auto space-x-8 lg:space-x-20 text-lg lg:text-xl font-semibold">

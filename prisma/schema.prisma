@@ -63,7 +63,7 @@ model Schedule {
   workerId      Int
   member        Member          @relation(fields: [memberId], references: [id], onDelete: Cascade)
   memberId      Int
-  date          DateTime
+  dayOfWeek     Int
   startTime     DateTime
   endTime       DateTime
   createdAt     DateTime        @default(now())
@@ -95,6 +95,7 @@ model Member {
   workerId     Int
   name         String
   phone        String        @unique
+  birth        String?
   startDate    DateTime?
   endDate      DateTime?
   status       Int           @default(1)
