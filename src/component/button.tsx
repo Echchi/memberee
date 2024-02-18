@@ -26,7 +26,7 @@ export default function Button({
           isButtonDisabled
             ? "bg-gray-300 cursor-default"
             : "bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-600 cursor-pointer",
-          large ? "py-4 text-lg" : "py-2 text-sm ",
+          large ? "py-4 text-lg" : "py-2 text-sm px-3",
         )}
       >
         {text}

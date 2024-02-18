@@ -9,7 +9,7 @@ jest.mock("next/navigation", () => ({
   usePathname: jest.fn(),
 }));
 
-describe("Template Component", () => {
+describe("템플릿 컴포넌트", () => {
   beforeEach(() => {
     (useRouter as jest.Mock).mockReturnValue({
       back: jest.fn(),
@@ -17,24 +17,26 @@ describe("Template Component", () => {
     (usePathname as jest.Mock).mockReturnValue("/member");
   });
 
-  test("renders navigation links", () => {
+  test("링크 렌더링", () => {
     render(
       <Template>
         <div>Children</div>
       </Template>,
     );
     const navLinks = screen.queryAllByRole("link");
-    expect(navLinks).toHaveLength(10);
+    expect(navLinks).toHaveLength(12);
   });
 
   const linksData = [
+    { url: "/pay", text: "납부 관리" },
     { url: "/member", text: "회원 관리" },
     { url: "/worker", text: "직원 관리" },
     { url: "/class", text: "수업 관리" },
+    { url: "/salary", text: "임금 관리" },
     { url: "/account", text: "계정 관리" },
   ];
   linksData.forEach(({ url, text }) => {
-    test(`"${text}" link has active button color when URL is "${url}"`, () => {
+    test(`"${text}" 와 "${url}" 가 일치할 경우 글씨 색 변경`, () => {
       (usePathname as jest.Mock).mockReturnValue(url);
       render(
         <Template>
@@ -50,7 +52,7 @@ describe("Template Component", () => {
     });
   });
 
-  test("calls 'back' function when back button is clicked", async () => {
+  test("뒤로가기 버튼 클릭 시 뒤로가기", async () => {
     render(
       <Template>
         <div>Children</div>

@@ -58,33 +58,33 @@ model Worker {
 }
 
 model Schedule {
-  id            Int             @id @default(autoincrement())
-  worker        Worker          @relation(fields: [workerId], references: [id], onDelete: Cascade)
-  workerId      Int
-  member        Member          @relation(fields: [memberId], references: [id], onDelete: Cascade)
-  memberId      Int
-  dayOfWeek     Int
-  startTime     DateTime
-  endTime       DateTime
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  WorkerPayment WorkerPayment[]
-  Attendance    Attendance?
+  id         Int         @id @default(autoincrement())
+  worker     Worker      @relation(fields: [workerId], references: [id], onDelete: Cascade)
+  workerId   Int
+  member     Member      @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  memberId   Int
+  dayOfWeek  Int
+  startTime  DateTime
+  endTime    DateTime
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  Salary     Salary[]
+  Attendance Attendance?
 
   @@index([workerId])
   @@index([memberId])
 }
 
-model WorkerPayment {
-  id               Int      @id @default(autoincrement())
-  Schedule         Schedule @relation(fields: [ScheduleId], references: [id], onDelete: Cascade)
-  ScheduleId       Int
-  paymentForLesson Int
-  basePayment      Int
-  tax              Int
-  lessonCount      Int
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+model Salary {
+  id              Int      @id @default(autoincrement())
+  Schedule        Schedule @relation(fields: [ScheduleId], references: [id], onDelete: Cascade)
+  ScheduleId      Int
+  salaryForLesson Int
+  salaryPayment   Int
+  tax             Int
+  lessonCount     Int
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   @@index([ScheduleId])
 }
