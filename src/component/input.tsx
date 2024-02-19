@@ -30,6 +30,7 @@ const Input: React.FC<InputFieldProps> = ({
   options,
   ...rest
 }) => {
+  console.log(!!errorMessage);
   return (
     <div
       className={cls(
@@ -43,7 +44,7 @@ const Input: React.FC<InputFieldProps> = ({
         </span>
       )}
       {label && (
-        <span className="text-stone-600 max-w-24 lg:max-w-full absolute inset-y-0 left-0 flex items-center lg:pl-10 pl-4 whitespace-pre-line font-semibold">
+        <span className="text-stone-600 max-w-24 lg:max-w-full absolute inset-y-0 left-0 flex flex-nowrap items-center lg:pl-10 pl-4 whitespace-pre-line font-semibold">
           {label}
         </span>
       )}
@@ -74,8 +75,9 @@ const Input: React.FC<InputFieldProps> = ({
         <input
           className={cls(
             errorMessage ? "inner_input_error" : "inner_input",
-            icon ? "lg:px-20 px-14" : "",
-            label ? "lg:px-56 px-32" : "",
+            icon && !!errorMessage ? "lg:px-14 px-5" : "lg:pl-14 pl-12 pr-3",
+
+            label && !!errorMessage ? "lg:px-56 px-32" : "lg:pl-56 pl-32 pr-3",
             className ? `${className} !h-full` : "",
           )}
           type={type}

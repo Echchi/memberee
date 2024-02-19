@@ -2,7 +2,7 @@ import React from "react";
 
 interface ModalProps {
   title: string;
-  content: string;
+  content: React.ReactElement;
   onClose: () => void;
 }
 
@@ -19,9 +19,9 @@ const Modal = ({ title, content, onClose }: ModalProps) => {
     <div
       data-testid={"modal-backdrop"}
       onClick={handleBackdropClick}
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10"
     >
-      <div className="bg-white p-6 rounded-lg relative">
+      <div className="bg-white p-6 w-full max-h-fit md:w-2/5  relative rounded-lg">
         <button
           data-testid={"close-button"}
           onClick={onClose}
@@ -30,7 +30,7 @@ const Modal = ({ title, content, onClose }: ModalProps) => {
           &times;
         </button>
         <h2 className="text-lg font-semibold">{title}</h2>
-        <p>{content}</p>
+        <div className="mt-4">{content}</div>
       </div>
     </div>
   );

@@ -28,13 +28,13 @@ export default function Template({
     <div className="flex flex-col md:w-full md:max-w-full max-w-xl mx-auto min-h-screen bg-gradient-to-b from-white from-[1%] to-stone-100">
       <div className="hidden md:flex fixed top-0 z-10 h-20 w-full px-4 py-2 items-center space-x-6 bg-white/90">
         <Link
-          className="text-4xl font-extrabold ml-3 text-emerald-700 cursor-pointer"
+          className="text-3xl font-extrabold ml-3 text-emerald-700 cursor-pointer"
           href={"/main"}
         >
           memberee
         </Link>
         <div className="flex-1 flex justify-center">
-          <ul className="flex items-center mx-auto space-x-8 lg:space-x-20 text-lg lg:text-xl font-semibold">
+          <ul className="flex items-center mx-auto space-x-8 xl:space-x-20 text-base lg:text-lg font-semibold *:flex-nowrap">
             <Link
               className={cls(
                 "cursor-pointer",

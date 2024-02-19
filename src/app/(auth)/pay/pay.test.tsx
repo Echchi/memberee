@@ -2,9 +2,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Main from "./page";
 import { useRouter } from "next/navigation";
-import { userEvent } from "@testing-library/user-event";
 import { addMonths, format } from "date-fns";
-import Modal from "@/component/modal";
 
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),

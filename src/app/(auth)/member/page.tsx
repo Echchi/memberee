@@ -88,8 +88,8 @@ const Page = () => {
             className="rounded-xl border-0 h-12 bg-stone-100 w-full lg:w-1/2"
           />
           <div className="hidden lg:flex space-x-3 w-1/6">
-            <Button text={"이번달 출력"} />
-            <Button text={"회원 명단 출력"} />
+            <Button text={"이번달 출력"} className="mt-5" />
+            <Button text={"회원 명단 출력"} className="mt-5" />
           </div>
         </div>
       </div>

@@ -88,7 +88,7 @@ const Page = () => {
             className="rounded-xl border-0 h-12 bg-stone-100 w-full lg:w-1/2"
           />
           <div className="hidden lg:block w-24">
-            <Button text={"출력"} />
+            <Button text={"출력"} className="mt-5" />
           </div>
         </div>
       </div>
