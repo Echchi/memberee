@@ -7,25 +7,44 @@ import Button from "@/component/button";
 import modal from "@/component/modal";
 import Modal from "@/component/modal";
 import PayCheck from "@/app/(auth)/pay/[id]/payCheck";
+import PayRegister from "@/app/(auth)/pay/[id]/payRegister";
 
 const Page = () => {
   const router = useRouter();
   const [yearDesc, setYearDesc] = useState(true);
   const [monthDesc, setMonthDesc] = useState(true);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [registerModal, setRegisterModalOpen] = useState(false);
+  const [confirmModal, setConfirmModalOpen] = useState(false);
+  const handleTrClick = () => {};
   return (
     <>
-      {modalOpen && (
+      {registerModal && (
         <Modal
-          onClose={() => setModalOpen(false)}
+          onClose={() => setRegisterModalOpen(false)}
           title={"납부 등록"}
+          content={<PayRegister />}
+        />
+      )}
+      {confirmModal && (
+        <Modal
+          onClose={() => setConfirmModalOpen(false)}
+          title={"납부 확인"}
           content={<PayCheck />}
         />
       )}
-      <div className="box mt-3 flex-col">
+      <div className="box flex-col">
         <div className="flex justify-end items-center">
-          <div className="hidden md:block w-20">
-            <Button text="출력" printBtn={true} className="my-2" />
+          <div className="hidden md:flex items-center justify-end space-x-4 w-full *:w-32">
+            <div>
+              <Button
+                onClick={() => router.push("/pay")}
+                text={"목록"}
+                className="my-2 !bg-gray-400/80 hover:!bg-gray-400/50 active:!bg-gray-400"
+              />
+            </div>
+            <div>
+              <Button text="출력" className="my-2" />
+            </div>
           </div>
         </div>
         <div className="hidden md:flex bg-stone-100 text-stone-600 pl-10 tracking-wider text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg ">
@@ -61,7 +80,7 @@ const Page = () => {
             className="hidden md:flex h-16 border-t-0 border-b lg:text-lg"
           />
         </div>
-        <div className="border border-stone-300 border-t-0 rounded-b-lg w-full h-[850px]">
+        <div className="border border-stone-300 border-t-0 rounded-b-lg w-full h-[73\40px]">
           <table className="w-full table-auto">
             <thead>
               <tr className="bg-stone-100 font-semibold text-lg text-center *:py-3">
@@ -115,6 +134,11 @@ const Page = () => {
                 payDate: index % 2 === 0 ? "2024.01.01." : "",
               })).map((item, index) => (
                 <tr
+                  onClick={
+                    item.method.length > 0 && item.payDate.length > 0
+                      ? () => setConfirmModalOpen(true)
+                      : undefined
+                  }
                   key={index}
                   className="*:py-3 text-center border-b border-stone-100 hover:bg-orange-100 cursor-pointer active:bg-orange-200 has-[button]:hover:bg-white has-[button]:hover:cursor-default has-[button]:active:bg-white"
                 >
@@ -131,7 +155,7 @@ const Page = () => {
                         <Button
                           text={"납부 등록"}
                           className="!bg-amber-500 hover:!bg-amber-500/80 active:!bg-amber-600"
-                          onClick={() => setModalOpen(true)}
+                          onClick={() => setRegisterModalOpen(true)}
                         />
                       </div>
                     )}

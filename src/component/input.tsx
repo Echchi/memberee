@@ -30,7 +30,6 @@ const Input: React.FC<InputFieldProps> = ({
   options,
   ...rest
 }) => {
-  console.log(!!errorMessage);
   return (
     <div
       className={cls(
@@ -63,7 +62,7 @@ const Input: React.FC<InputFieldProps> = ({
         <select
           {...register}
           className={cls(
-            "outline-none bg-white",
+            "outline-none bg-white text-gray-400 font-medium",
             icon ? "ml-14" : "",
             label ? "ml-32 lg:ml-56" : "",
           )}
@@ -75,9 +74,8 @@ const Input: React.FC<InputFieldProps> = ({
         <input
           className={cls(
             errorMessage ? "inner_input_error" : "inner_input",
-            icon && !!errorMessage ? "lg:px-14 px-5" : "lg:pl-14 pl-12 pr-3",
-
-            label && !!errorMessage ? "lg:px-56 px-32" : "lg:pl-56 pl-32 pr-3",
+            icon ? "lg:px-20 px-14" : "",
+            label ? "lg:px-56 px-32" : "",
             className ? `${className} !h-full` : "",
           )}
           type={type}

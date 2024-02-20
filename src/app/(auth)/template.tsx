@@ -159,7 +159,7 @@ export default function Template({
       ) : null}
       <div
         className={cls(
-          "md:pt-20 md:max-w-full md:w-[1400px] md:mx-auto px-3 lg:px-5 text-stone-800 min-h-[1100px]",
+          "md:pt-28 md:max-w-full md:w-[1400px] md:mx-auto px-3 lg:px-5 text-stone-800 min-h-[1100px]",
           hasTabBar ? "pb-24" : "",
           hasTopBar ? "pt-12" : "",
         )}
