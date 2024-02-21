@@ -9,6 +9,8 @@ import IcFinder from "../../../../public/icons/ic_finder.svg";
 import Image from "next/image";
 import { add, addMonths, format } from "date-fns";
 import Button from "@/component/button";
+import Modal from "@/component/modal";
+import Register from "./register/page";
 
 const Page = () => {
   const router = useRouter();
@@ -16,6 +18,7 @@ const Page = () => {
   const [desc, setDesc] = useState(true);
   const [selectedTag, setSelectedTag] = useState(["미납", "납부완료"]);
   const [month, setMonth] = useState(today);
+  const [registerModalOpen, setRegisterModalOpen] = useState(false);
 
   const selectTag = (tag: string) => {
     if (selectedTag.includes(tag)) {
@@ -27,6 +30,14 @@ const Page = () => {
 
   return (
     <>
+      {registerModalOpen && (
+        <Modal
+          title={"신규 회원 등록"}
+          content={<Register />}
+          onClose={() => setRegisterModalOpen(false)}
+          className={"md:w-2/3"}
+        />
+      )}
       <div className="space-y-4">
         <div className="flex justify-center items-center font-semibold text-2xl mt-3">
           <button onClick={() => setMonth(addMonths(month, -1))}>
@@ -88,8 +99,12 @@ const Page = () => {
             className="rounded-xl border-0 h-12 bg-stone-100 w-full lg:w-1/2"
           />
           <div className="hidden lg:flex space-x-3 w-1/4">
-            <Button text={"이번달 출력"} className="mt-5" />
-            <Button text={"회원 명단 출력"} className="mt-5" />
+            <Button
+              onClick={() => setRegisterModalOpen(true)}
+              text={"회원 등록"}
+              className="mt-5 !bg-emerald-500 hover:!bg-emerald-500/80 active:!bg-emerald-600"
+            />
+            <Button text={"명단 출력"} className="mt-5" />
           </div>
         </div>
       </div>
@@ -126,15 +141,6 @@ const Page = () => {
                     />
                   </svg>
                 </td>
-                <td>
-                  <select className="bg-transparent outline-none focus:outline-none">
-                    <option>납부여부</option>
-                    <option>납부</option>
-                    <option>미납</option>
-                    <option>중단</option>
-                  </select>
-                </td>
-                <td>연체여부</td>
               </tr>
             </thead>
             <tbody>
@@ -154,32 +160,6 @@ const Page = () => {
                   <td>{item.phone}</td>
                   <td>{item.worker}</td>
                   <td>{item.regDate}</td>
-                  <td className="flex justify-center items-center">
-                    {item.pay < 0 ? (
-                      <span className="text-xs">
-                        <Tag color={"yellow"} title={"중단"} />
-                      </span>
-                    ) : item.pay < 1 ? (
-                      <span className="text-xs">
-                        <Tag color={"orange"} title={"미납"} />
-                      </span>
-                    ) : (
-                      <span className="text-xs">
-                        <Tag color={"emerald"} title={"납부"} />
-                      </span>
-                    )}
-                  </td>
-                  <td>
-                    {item.pay < 0 ? (
-                      <div className="flex justify-center items-center">
-                        <span className="text-xs">
-                          <Tag color={"orange"} title={"연체"} />
-                        </span>
-                      </div>
-                    ) : (
-                      <></>
-                    )}
-                  </td>
                 </tr>
               ))}
             </tbody>

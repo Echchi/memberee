@@ -94,6 +94,7 @@ const Login = () => {
           text={"로그인"}
           isButtonDisabled={isButtonDisabled}
           large={true}
+          className={"mt-5"}
         />
         <div className="grid grid-cols-3 divide-x divide-gray-300 mt-5 text-gray-400 w-11/12 mx-auto *:text-center">
           <div>

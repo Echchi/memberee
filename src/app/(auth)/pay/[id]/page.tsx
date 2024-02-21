@@ -59,7 +59,7 @@ const Page = () => {
             type={"div"}
             label={"이름"}
             value={"양지윤"}
-            className="h-16 border-t md:border-r-0 border-b-0 md:border-b lg:text-lg md:rounded-none rounded-t-lg"
+            className="h-16 md:border-t md:border-r-0 border-b-0 md:border-b lg:text-lg md:rounded-none rounded-t-lg"
           />
           <Input
             type={"div"}

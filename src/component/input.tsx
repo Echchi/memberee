@@ -14,6 +14,7 @@ interface InputFieldProps {
   errorMessage?: string;
   maxLength?: number;
   options?: string[];
+  isLong?: boolean;
 }
 
 const Input: React.FC<InputFieldProps> = ({
@@ -28,6 +29,7 @@ const Input: React.FC<InputFieldProps> = ({
   errorMessage,
   maxLength,
   options,
+  isLong = false,
   ...rest
 }) => {
   return (
@@ -74,8 +76,11 @@ const Input: React.FC<InputFieldProps> = ({
         <input
           className={cls(
             errorMessage ? "inner_input_error" : "inner_input",
-            icon ? "lg:px-20 px-14" : "",
-            label ? "lg:px-56 px-32" : "",
+            icon && isLong ? "lg:pl-20 pl-14 pr-3" : "",
+            icon && !isLong ? "lg:px-20 px-14" : "",
+            label && isLong ? "lg:pl-32 pl-20 pr-3" : "",
+            label && !isLong ? "lg:px-32 px-20" : "",
+            className ? `${className} !h-full` : "",
             className ? `${className} !h-full` : "",
           )}
           type={type}

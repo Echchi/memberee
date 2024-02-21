@@ -186,6 +186,7 @@ const Page = () => {
           </div>
         </div>
         <LineBox
+          onClick={() => router.push("/pay/1")}
           worker={"함코치"}
           day={"월, 수"}
           name={"회원 1"}
@@ -193,6 +194,7 @@ const Page = () => {
           pay={false}
         />
         <LineBox
+          onClick={() => router.push("/pay/1")}
           worker={"함코치"}
           day={"월, 수"}
           name={"회원 1"}
@@ -200,6 +202,7 @@ const Page = () => {
           pay={false}
         />
         <LineBox
+          onClick={() => router.push("/pay/1")}
           worker={"함코치"}
           day={"월, 수"}
           name={"회원 1"}
@@ -207,6 +210,7 @@ const Page = () => {
           pay={true}
         />
         <LineBox
+          onClick={() => router.push("/pay/1")}
           worker={"함코치"}
           day={"월, 수"}
           name={"회원 1"}
@@ -214,6 +218,7 @@ const Page = () => {
           pay={true}
         />
         <LineBox
+          onClick={() => router.push("/pay/1")}
           worker={"함코치"}
           day={"월, 수"}
           name={"회원 1"}
@@ -221,6 +226,7 @@ const Page = () => {
           pay={true}
         />
         <LineBox
+          onClick={() => router.push("/pay/1")}
           worker={"함코치"}
           day={"월, 수"}
           name={"회원 2"}
@@ -228,6 +234,7 @@ const Page = () => {
           pay={false}
         />
         <LineBox
+          onClick={() => router.push("/pay/1")}
           worker={"함코치"}
           day={"월, 수"}
           name={"회원 1"}
@@ -235,6 +242,7 @@ const Page = () => {
           pay={true}
         />
         <LineBox
+          onClick={() => router.push("/pay/1")}
           worker={"함코치"}
           day={"월, 수"}
           name={"회원 1"}

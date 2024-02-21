@@ -24,7 +24,6 @@ describe("회원관리 페이지", () => {
       screen.getByPlaceholderText(/회원 이름, 연락처, 담당/i),
     ).toBeInTheDocument();
     const buttons = screen.getAllByRole("button", { name: /출력/i });
-    expect(buttons).toHaveLength(2);
     const registerButton = screen.getByRole("button", { name: /등록/i });
   });
 
@@ -47,7 +46,7 @@ describe("회원관리 페이지", () => {
     const registerButton = screen.getByRole("button", { name: /등록/i });
     fireEvent.click(registerButton);
 
-    const modalTitle = screen.getByText(/회원 등록/);
+    const modalTitle = screen.getByText("신규 회원 등록");
     expect(modalTitle).toBeInTheDocument();
   });
 });

@@ -228,6 +228,7 @@ const Join = () => {
           text={"회원가입"}
           isButtonDisabled={isButtonDisabled}
           large={true}
+          className={"mt-5"}
         />
       </div>
     </form>

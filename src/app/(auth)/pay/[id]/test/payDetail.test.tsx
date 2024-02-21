@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import Detail from "./page";
+import Detail from "../page";
 
 import Modal from "@/component/modal";
 import { usePathname, useRouter } from "next/navigation";
