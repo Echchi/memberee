@@ -5,7 +5,19 @@ import { cls, formatCurrency } from "@/libs/client/utils";
 import Button from "@/component/button";
 
 const Page = () => {
-  const [selectedDay, setSelectedDat] = useState("0");
+  const [selectedDay, setSelectedDay] = useState<string[]>(["0"]);
+  const handleSelectDay = (day: string) => {
+    if (selectedDay.includes(day)) {
+      setSelectedDay((prev) => prev.filter((selected) => selected !== day));
+    } else {
+      if (selectedDay.length < 3) {
+        setSelectedDay((prev) => [...prev, day]);
+      } else {
+        setSelectedDay((prev) => [...prev.slice(0, -1), day]);
+      }
+    }
+  };
+
   return (
     <div className="grid grid-cols-2">
       <Input
@@ -36,78 +48,85 @@ const Page = () => {
       />
       <div className="col-span-2 h-24 border border-y-0 border-neutral-300 flex flex-col justify-center lg:pl-10 pl-4">
         <div className="flex">
-          <span className="flex items-center lg:text-lg text-base font-semibold text-stone-600">
+          <span className="flex items-center lg:text-lg text-base font-bold text-stone-600">
             요일 선택
           </span>
           <div className="grow flex justify-center items-center">
-            <div className="bg-emerald-600 rounded-full px-7 py-3 w-fit space-x-10 text-lg *:py-2 *:px-3 *:shadow *:font-medium">
+            <div className="px-10 py-3 w-fit space-x-10 text-lg *:py-2 *:px-4 *:trnsition-all">
               <button
                 className={cls(
-                  "rounded-full",
-                  selectedDay === "0"
-                    ? "bg-white text-stone-600"
-                    : "bg-transparent text-white",
+                  "rounded-full text-stone-600",
+                  selectedDay.includes("0")
+                    ? "ring-2 ring-inset ring-emerald-600 font-bold"
+                    : "bg-transparent font-medium",
                 )}
+                onClick={() => handleSelectDay("0")}
               >
                 월
               </button>
               <button
                 className={cls(
-                  "rounded-full",
-                  selectedDay === "1"
-                    ? "bg-white text-stone-600"
-                    : "bg-transparent text-white",
+                  "rounded-full text-stone-600",
+                  selectedDay.includes("1")
+                    ? "ring-2 ring-inset ring-emerald-600 font-bold"
+                    : "bg-transparent font-medium",
                 )}
+                onClick={() => handleSelectDay("1")}
               >
                 화
               </button>
               <button
                 className={cls(
-                  "rounded-full",
-                  selectedDay === "2"
-                    ? "bg-white text-stone-600"
-                    : "bg-transparent text-white",
+                  "rounded-full text-stone-600",
+                  selectedDay.includes("2")
+                    ? "ring-2 ring-inset ring-emerald-600 font-bold"
+                    : "bg-transparent font-medium",
                 )}
+                onClick={() => handleSelectDay("2")}
               >
                 수
               </button>
               <button
                 className={cls(
-                  "rounded-full",
-                  selectedDay === "3"
-                    ? "bg-white text-stone-600"
-                    : "bg-transparent text-white",
+                  "rounded-full text-stone-600",
+                  selectedDay.includes("3")
+                    ? "ring-2 ring-inset ring-emerald-600 font-bold"
+                    : "bg-transparent font-medium",
                 )}
+                onClick={() => handleSelectDay("3")}
               >
                 목
               </button>
               <button
                 className={cls(
-                  "rounded-full",
-                  selectedDay === "4"
-                    ? "bg-white text-stone-600"
-                    : "bg-transparent text-white",
+                  "rounded-full text-stone-600",
+                  selectedDay.includes("4")
+                    ? "ring-2 ring-inset ring-emerald-600 font-bold"
+                    : "bg-transparent font-medium",
                 )}
+                onClick={() => handleSelectDay("4")}
               >
                 금
               </button>
               <button
                 className={cls(
-                  "rounded-full",
-                  selectedDay === "5"
-                    ? "bg-white text-stone-600"
-                    : "bg-transparent text-white",
+                  "rounded-full text-stone-600",
+                  selectedDay.includes("5")
+                    ? "ring-2 ring-inset ring-emerald-600 font-bold"
+                    : "bg-transparent font-medium",
                 )}
+                onClick={() => handleSelectDay("5")}
               >
                 토
               </button>
               <button
                 className={cls(
-                  "rounded-full",
-                  selectedDay === "6"
-                    ? "bg-white text-stone-600"
-                    : "bg-transparent text-white",
+                  "rounded-full text-stone-600",
+                  selectedDay.includes("6")
+                    ? "ring-2 ring-inset ring-emerald-600 font-bold"
+                    : "bg-transparent font-medium",
                 )}
+                onClick={() => handleSelectDay("6")}
               >
                 일
               </button>
