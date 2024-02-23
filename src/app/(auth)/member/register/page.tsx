@@ -144,7 +144,7 @@ const Page = () => {
         type={"text"}
         label={"메모"}
         placeholder={"국민은행 000-000-00-000000"}
-        className="h-14 lg:text-lg rounded-b-lg"
+        className="h-14 lg:text-lg rounded-br-lg border-l-0"
       />
       <Button text={"등록"} className="mt-4" large={true} />
     </div>
