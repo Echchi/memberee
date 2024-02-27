@@ -54,7 +54,7 @@ const Page = () => {
             시간 선택
           </span>
 
-          <div className="grid lg:grid-cols-7 grid-cols-4 justify-items-center py-3 w-full ">
+          <div className="grid lg:grid-cols-7 grid-cols-4 justify-items-center py-3 w-full px-4">
             {["월", "화", "수", "목", "금", "토", "일"].map((day, index) => (
               <div
                 key={index}
@@ -77,12 +77,15 @@ const Page = () => {
                     selectedDay.includes(day) ? "flex" : "hidden",
                   )}
                 >
-                  <select className="outline-none bg-transparent text-xs xl:text-lg font-semibold">
-                    <option>오전</option>
-                    <option>오후</option>
+                  <select
+                    data-testid="select"
+                    className="outline-none bg-transparent text-xs xl:text-lg font-medium text-stone-600"
+                  >
+                    <option data-testid="select-option">오전</option>
+                    <option data-testid="select-option">오후</option>
                   </select>
                   <input
-                    className="outline-none bg-transparent max-w-14 text-xs xl:text-lg font-semibold"
+                    className="outline-none bg-transparent max-w-14 text-xs xl:text-lg font-medium"
                     type="text"
                     placeholder={"09:00"}
                     maxLength={5}
@@ -96,7 +99,23 @@ const Page = () => {
       <div className="col-span-2">
         <Input
           type={"text"}
-          label={"납부금액"}
+          label={
+            <span className="flex justify-center items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                className="w-4 h-4 text-stone-400 mr-1"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0Zm-6 3.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM7.293 5.293a1 1 0 1 1 .99 1.667c-.459.134-1.033.566-1.033 1.29v.25a.75.75 0 1 0 1.5 0v-.115a2.5 2.5 0 1 0-2.518-4.153.75.75 0 1 0 1.061 1.06Z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              납부금액
+            </span>
+          }
           placeholder={formatCurrency("250000")}
           className="h-14 lg:text-lg border-b-0"
         />

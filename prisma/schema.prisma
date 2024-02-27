@@ -44,7 +44,9 @@ model Worker {
   company      Company        @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId    Int
   name         String
+  birth        String?
   phone        String         @unique
+  commission   Int
   startDate    DateTime?
   endDate      DateTime?
   status       Int            @default(1)

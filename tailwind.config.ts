@@ -11,6 +11,20 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-pretendard)"],
       },
+      keyframes: {
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        fadeOut: {
+          "0%": { opacity: "1" },
+          "100%": { opacity: "0" },
+        },
+      },
+      animation: {
+        fadeIn: "fadeIn 0.2s ease-in-out forwards",
+        fadeOut: "fadeOut 0.2s ease-in-out forwards",
+      },
     },
   },
   plugins: [],

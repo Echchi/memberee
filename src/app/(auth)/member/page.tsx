@@ -20,94 +20,51 @@ const Page = () => {
   const [month, setMonth] = useState(today);
   const [registerModalOpen, setRegisterModalOpen] = useState(false);
 
-  const selectTag = (tag: string) => {
-    if (selectedTag.includes(tag)) {
-      setSelectedTag((prev) => prev.filter((item) => item != tag));
-    } else {
-      setSelectedTag((prev) => [...prev, tag]);
-    }
-  };
-
   return (
     <>
       {registerModalOpen && (
         <Modal
           title={"신규 회원 등록"}
           content={<Register />}
-          onClose={() => setRegisterModalOpen(true)}
+          onClose={() => setRegisterModalOpen(false)}
           className={"md:w-2/3"}
         />
       )}
-      <div className="space-y-4">
-        <div className="flex justify-center items-center font-semibold text-2xl mt-3">
-          <button onClick={() => setMonth(addMonths(month, -1))}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.75 19.5 8.25 12l7.5-7.5"
-              />
-            </svg>
-          </button>
-          <span className="lg:px-6 px-4">{format(month, "yyyy년 MM월")}</span>
-          <button onClick={() => setMonth(addMonths(month, 1))}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m8.25 4.5 7.5 7.5-7.5 7.5"
-              />
-            </svg>
-          </button>
-        </div>
-        <div className="my-3 flex justify-between items-center lg:space-x-0 space-x-4">
-          <Input
-            type="text"
-            placeholder="회원 이름, 연락처, 담당"
-            icon={
-              <span className="text-gray-300">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                  />
-                </svg>
-              </span>
-            }
-            className="rounded-xl border-0 h-12 bg-stone-100 w-full lg:w-1/2"
+
+      <div className="my-3 flex justify-between items-center lg:space-x-0 space-x-4">
+        <Input
+          type="text"
+          placeholder="회원 이름, 연락처, 담당"
+          icon={
+            <span className="text-gray-300">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                />
+              </svg>
+            </span>
+          }
+          className="rounded-xl border-0 h-12 bg-stone-100 w-full lg:w-1/2"
+        />
+        <div className="flex space-x-3 w-1/4">
+          <Button
+            onClick={() => setRegisterModalOpen(true)}
+            text={"회원 등록"}
+            className="mt-0 py-3 lg:py-0 lg:mt-5 !bg-emerald-500 hover:!bg-emerald-500/80 active:!bg-emerald-600"
           />
-          <div className="flex space-x-3 w-1/4">
-            <Button
-              onClick={() => setRegisterModalOpen(true)}
-              text={"회원 등록"}
-              className="mt-0 py-3 lg:py-0 lg:mt-5 !bg-emerald-500 hover:!bg-emerald-500/80 active:!bg-emerald-600"
-            />
-            <Button text={"명단 출력"} className="hidden lg:block mt-5" />
-          </div>
+          <Button text={"명단 출력"} className="hidden lg:block mt-5" />
         </div>
       </div>
+
       <div className="hidden lg:block box mt-3">
         <div className="w-full">
           <table className="w-full table-auto">

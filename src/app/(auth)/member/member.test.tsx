@@ -2,9 +2,6 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Main from "./page";
 import { useRouter } from "next/navigation";
-import { userEvent } from "@testing-library/user-event";
-import { addMonths, format } from "date-fns";
-import Modal from "@/component/modal";
 
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
@@ -25,20 +22,6 @@ describe("회원관리 페이지", () => {
     ).toBeInTheDocument();
     const buttons = screen.getAllByRole("button", { name: /출력/i });
     const registerButton = screen.getByRole("button", { name: /등록/i });
-  });
-
-  test("버튼 클릭시 날짜 변경", () => {
-    render(<Main />);
-    const prevMonthButton = screen.getAllByRole("button")[0];
-    const nextMonthButton = screen.getAllByRole("button")[1];
-
-    fireEvent.click(nextMonthButton);
-    const nextMonth = format(addMonths(new Date(), 1), "yyyy년 MM월");
-    expect(screen.getByText(nextMonth)).toBeInTheDocument();
-
-    fireEvent.click(prevMonthButton);
-    const prevMonth = format(new Date(), "yyyy년 MM월");
-    expect(screen.getByText(prevMonth)).toBeInTheDocument();
   });
 
   test("등록 버튼 클릭시 회원등록 모달 표출", () => {

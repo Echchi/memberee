@@ -6,7 +6,7 @@ interface InputFieldProps {
   type: string;
   value?: string;
   placeholder?: string;
-  label?: string;
+  label?: string | React.ReactElement;
   register?: UseFormRegisterReturn;
   required?: boolean;
   icon?: React.ReactElement;
@@ -54,7 +54,7 @@ const Input: React.FC<InputFieldProps> = ({
           className={cls(
             "inner_input_res",
             icon ? "pl-14" : "",
-            label ? "ml-32 lg:ml-56" : "",
+            label ? "ml-40 lg:ml-56" : "",
             className ? className : "",
           )}
         >
@@ -66,7 +66,7 @@ const Input: React.FC<InputFieldProps> = ({
           className={cls(
             "outline-none bg-white text-gray-400 font-medium",
             icon ? "ml-14" : "",
-            label ? "ml-32 lg:ml-56" : "",
+            label ? "ml-40 lg:ml-56" : "",
           )}
         >
           {options &&
@@ -78,8 +78,8 @@ const Input: React.FC<InputFieldProps> = ({
             errorMessage ? "inner_input_error" : "inner_input",
             icon && isLong ? "lg:pl-20 pl-14 pr-2" : "",
             icon && !isLong ? "lg:px-20 px-14" : "",
-            label && isLong ? "lg:pl-32 pl-20 pr-2" : "",
-            label && !isLong ? "lg:px-32 px-20" : "",
+            label && isLong ? "lg:pl-40 pl-20 pr-2" : "",
+            label && !isLong ? "lg:px-40 px-20" : "",
             className ? `${className} !h-full` : "",
             className ? `${className} !h-full` : "",
           )}
