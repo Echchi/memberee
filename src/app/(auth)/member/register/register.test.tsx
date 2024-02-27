@@ -16,7 +16,7 @@ describe("회원등록 모달", () => {
     expect(screen.getByText("납부금액")).toBeInTheDocument();
     expect(screen.getByText("시작 일자")).toBeInTheDocument();
     expect(screen.getByText("담당")).toBeInTheDocument();
+    expect(screen.getByText("비고")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /등록/i }));
-    expect(screen.getByRole("button", { name: /취소/i }));
   });
 });

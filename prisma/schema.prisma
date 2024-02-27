@@ -57,22 +57,37 @@ model Worker {
   @@index([companyId])
 }
 
+model LessonFee {
+  id        Int        @id @default(autoincrement())
+  type      String // "Weekday" or "Weekend"
+  frequency Int // 주중 또는 주말 수업의 빈도 (예: 1, 2, 3)
+  amount    Int // 해당 수업 유형 및 빈도에 대한 수업료 금액
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Schedule  Schedule[]
+
+  @@unique([type, frequency])
+}
+
 model Schedule {
-  id         Int         @id @default(autoincrement())
-  worker     Worker      @relation(fields: [workerId], references: [id], onDelete: Cascade)
-  workerId   Int
-  member     Member      @relation(fields: [memberId], references: [id], onDelete: Cascade)
-  memberId   Int
-  dayOfWeek  Int
-  startTime  DateTime
-  endTime    DateTime
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  Salary     Salary[]
-  Attendance Attendance?
+  id          Int         @id @default(autoincrement())
+  worker      Worker      @relation(fields: [workerId], references: [id], onDelete: Cascade)
+  workerId    Int
+  member      Member      @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  memberId    Int
+  lessonFee   LessonFee   @relation(fields: [lessonFeeId], references: [id])
+  lessonFeeId Int
+  dayOfWeek   Int // 요일을 나타내는 숫자 (0: 일요일, 1: 월요일, ..., 6: 토요일)
+  startTime   DateTime
+  endTime     DateTime
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  Salary      Salary[]
+  Attendance  Attendance?
 
   @@index([workerId])
   @@index([memberId])
+  @@index([lessonFeeId])
 }
 
 model Salary {

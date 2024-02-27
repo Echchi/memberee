@@ -48,110 +48,48 @@ const Page = () => {
         placeholder={"직업"}
         className="h-14 lg:text-lg border-b-1"
       />
-      <div className="col-span-2 border border-y-0 border-neutral-300 flex flex-col justify-center lg:pl-10 pl-4 x *:text-base *:font-semibold *:text-stone-600">
-        <div className="flex">
-          <span className="flex items-center lg:text-lg">요일 선택</span>
-          <div className="grow flex justify-center items-center">
-            <div className="px-10 py-3 w-fit space-x-10 text-lg *:py-2 *:px-4 *:trnsition-all">
-              <button
-                className={cls(
-                  "rounded-full text-stone-600",
-                  selectedDay.includes("월")
-                    ? "ring-2 ring-inset ring-emerald-600 font-bold"
-                    : "bg-transparent font-medium",
-                )}
-                onClick={() => handleSelectDay("월")}
+      <div className="py-3 col-span-2 border border-y-0 border-neutral-300 flex flex-col justify-center lg:pl-10 pl-4">
+        <div className="flex min-h-32">
+          <span className="hidden lg:flex items-center lg:text-lg flex-nowrap w-24 font-semibold text-stone-600">
+            시간 선택
+          </span>
+
+          <div className="grid lg:grid-cols-7 grid-cols-4 justify-items-center py-3 w-full ">
+            {["월", "화", "수", "목", "금", "토", "일"].map((day, index) => (
+              <div
+                key={index}
+                className="relative flex flex-col justify-center items-center text-lg *:py-2 *:px-4 *:trnsition-all py-4 lg:py-0"
               >
-                월
-              </button>
-              <button
-                className={cls(
-                  "rounded-full text-stone-600",
-                  selectedDay.includes("화")
-                    ? "ring-2 ring-inset ring-emerald-600 font-bold"
-                    : "bg-transparent font-medium",
-                )}
-                onClick={() => handleSelectDay("화")}
-              >
-                화
-              </button>
-              <button
-                className={cls(
-                  "rounded-full text-stone-600",
-                  selectedDay.includes("수")
-                    ? "ring-2 ring-inset ring-emerald-600 font-bold"
-                    : "bg-transparent font-medium",
-                )}
-                onClick={() => handleSelectDay("수")}
-              >
-                수
-              </button>
-              <button
-                className={cls(
-                  "rounded-full text-stone-600",
-                  selectedDay.includes("목")
-                    ? "ring-2 ring-inset ring-emerald-600 font-bold"
-                    : "bg-transparent font-medium",
-                )}
-                onClick={() => handleSelectDay("목")}
-              >
-                목
-              </button>
-              <button
-                className={cls(
-                  "rounded-full text-stone-600",
-                  selectedDay.includes("금")
-                    ? "ring-2 ring-inset ring-emerald-600 font-bold"
-                    : "bg-transparent font-medium",
-                )}
-                onClick={() => handleSelectDay("금")}
-              >
-                금
-              </button>
-              <button
-                className={cls(
-                  "rounded-full text-stone-600",
-                  selectedDay.includes("토")
-                    ? "ring-2 ring-inset ring-emerald-600 font-bold"
-                    : "bg-transparent font-medium",
-                )}
-                onClick={() => handleSelectDay("토")}
-              >
-                토
-              </button>
-              <button
-                className={cls(
-                  "rounded-full text-stone-600",
-                  selectedDay.includes("일")
-                    ? "ring-2 ring-inset ring-emerald-600 font-bold"
-                    : "bg-transparent font-medium",
-                )}
-                onClick={() => handleSelectDay("일")}
-              >
-                일
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="flex">
-          <span className="flex items-center lg:text-lg">시간 선택</span>
-          <div className="grow flex items-center">
-            <div className="min-h-44 flex flex-col justify-center px-10 py-3 w-fit *:space-x-10 text-lg *:py-2 *:px-4 *:trnsition-all">
-              {selectedDay.map((day, index) => (
-                <div className="pl-0 w-full" key={index}>
-                  <span>{day}</span>
-                  <select className="outline-none bg-transparent">
+                <button
+                  className={cls(
+                    "rounded-full text-stone-600",
+                    selectedDay.includes(day)
+                      ? "ring-2 ring-inset ring-emerald-600 font-bold"
+                      : "bg-transparent font-medium",
+                  )}
+                  onClick={() => handleSelectDay(day)}
+                >
+                  {day}
+                </button>
+                <div
+                  className={cls(
+                    "absolute -bottom-3 justify-center items-center",
+                    selectedDay.includes(day) ? "flex" : "hidden",
+                  )}
+                >
+                  <select className="outline-none bg-transparent text-xs xl:text-lg font-semibold">
                     <option>오전</option>
                     <option>오후</option>
                   </select>
                   <input
-                    className="outline-none bg-transparent"
+                    className="outline-none bg-transparent max-w-14 text-xs xl:text-lg font-semibold"
                     type="text"
                     placeholder={"09:00"}
+                    maxLength={5}
                   />
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -178,7 +116,7 @@ const Page = () => {
       <div className="col-span-2">
         <Input
           type={"text"}
-          label={"메모"}
+          label={"비고"}
           placeholder={"국민은행 000-000-00-000000"}
           isLong={true}
           className="h-14 lg:text-lg rounded-b border-t-0"

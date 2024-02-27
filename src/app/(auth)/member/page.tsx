@@ -34,7 +34,7 @@ const Page = () => {
         <Modal
           title={"신규 회원 등록"}
           content={<Register />}
-          onClose={() => setRegisterModalOpen(false)}
+          onClose={() => setRegisterModalOpen(true)}
           className={"md:w-2/3"}
         />
       )}
@@ -74,7 +74,7 @@ const Page = () => {
             </svg>
           </button>
         </div>
-        <div className="my-3 flex justify-between">
+        <div className="my-3 flex justify-between items-center lg:space-x-0 space-x-4">
           <Input
             type="text"
             placeholder="회원 이름, 연락처, 담당"
@@ -98,13 +98,13 @@ const Page = () => {
             }
             className="rounded-xl border-0 h-12 bg-stone-100 w-full lg:w-1/2"
           />
-          <div className="hidden lg:flex space-x-3 w-1/4">
+          <div className="flex space-x-3 w-1/4">
             <Button
               onClick={() => setRegisterModalOpen(true)}
               text={"회원 등록"}
-              className="mt-5 !bg-emerald-500 hover:!bg-emerald-500/80 active:!bg-emerald-600"
+              className="mt-0 py-3 lg:py-0 lg:mt-5 !bg-emerald-500 hover:!bg-emerald-500/80 active:!bg-emerald-600"
             />
-            <Button text={"명단 출력"} className="mt-5" />
+            <Button text={"명단 출력"} className="hidden lg:block mt-5" />
           </div>
         </div>
       </div>
@@ -167,35 +167,19 @@ const Page = () => {
         </div>
       </div>
       <div className="lg:hidden flex flex-col space-y-3 mt-5">
-        <div className="flex justify-between">
-          <div className="flex space-x-2">
-            <Tag
-              color={"orange"}
-              noBg={!selectedTag.includes("미납")}
-              title={"미납"}
-              onClick={() => selectTag("미납")}
-            />
-            <Tag
-              color={"stone"}
-              noBg={!selectedTag.includes("납부완료")}
-              title={"납부완료"}
-              onClick={() => selectTag("납부완료")}
-            />
-          </div>
-        </div>
         <LineBox
           worker={"함코치"}
           day={"월, 수"}
           name={"회원 1"}
           phone={"010-0000-0000"}
-          pay={false}
+          pay={true}
         />
         <LineBox
           worker={"함코치"}
           day={"월, 수"}
           name={"회원 1"}
           phone={"010-0000-0000"}
-          pay={false}
+          pay={true}
         />
         <LineBox
           worker={"함코치"}
@@ -223,7 +207,7 @@ const Page = () => {
           day={"월, 수"}
           name={"회원 2"}
           phone={"010-0000-0000"}
-          pay={false}
+          pay={true}
         />
         <LineBox
           worker={"함코치"}
