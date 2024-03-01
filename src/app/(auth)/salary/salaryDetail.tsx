@@ -27,7 +27,7 @@ const SalaryDetail = () => {
         <tbody>
           {Array.from({ length: 10 }, (_, index) => ({
             name: `이름 ${index + 1}`,
-            dayOfWeek: "월 화",
+            dayOfWeek: "화 목",
             amount: 220000,
           })).map((item, index) => (
             <tr
