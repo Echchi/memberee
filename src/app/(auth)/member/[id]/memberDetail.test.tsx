@@ -31,8 +31,8 @@ describe("회원관리 상세 페이지", () => {
 
   test("수정 버튼 클릭시 확인 및 취소 버튼 렌더링", () => {
     render(<Detail />);
-    const modifyButton = screen.getByRole("button", { name: /수정/i });
-    fireEvent.click(modifyButton);
+    const editButton = screen.getByRole("button", { name: /수정/i });
+    fireEvent.click(editButton);
     expect(screen.getByRole("button", { name: /확인/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /취소/i })).toBeInTheDocument();
   });
