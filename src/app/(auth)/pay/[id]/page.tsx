@@ -47,7 +47,7 @@ const Page = () => {
             </div>
           </div>
         </div>
-        <div className="hidden md:flex bg-stone-100 text-stone-600 pl-10 tracking-wider text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg ">
+        <div className="border border-x border-b-0 hidden md:flex bg-stone-100 text-stone-600 pl-10 tracking-wider text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg ">
           납부내역
         </div>
         <div
@@ -59,25 +59,25 @@ const Page = () => {
             type={"div"}
             label={"이름"}
             value={"양지윤"}
-            className="h-16 md:border-t md:border-r-0 border-b-0 md:border-b lg:text-lg md:rounded-none rounded-t-lg"
+            className="h-16 md:border-r-0 lg:text-lg md:rounded-none rounded-t-lg"
           />
           <Input
             type={"div"}
             label={"담당"}
             value={"함코치"}
-            className="h-16 md:border-t border-b lg:text-lg"
+            className="h-16 lg:text-lg"
           />
           <Input
             type={"div"}
             label={"연락처"}
             value={"010-0000-0000"}
-            className="h-16 border-t-0 border-b md:border-r-0 lg:text-lg"
+            className="h-16 border-t-0 md:border-r-0 lg:text-lg"
           />
           <Input
             type={"div"}
             label={"연체/ 총 납부"}
             value={"1건 / 12건"}
-            className="hidden md:flex h-16 border-t-0 border-b lg:text-lg"
+            className="hidden md:flex h-16 border-t-0 lg:text-lg"
           />
         </div>
         <div className="border border-stone-300 border-t-0 rounded-b-lg w-full h-[73\40px]">

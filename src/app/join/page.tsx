@@ -7,7 +7,7 @@ import Button from "@/component/button";
 import UserData from "@/types/user";
 import CompanyData from "@/types/company";
 
-interface JoinData extends UserData, CompanyData {}
+export interface JoinData extends UserData, CompanyData {}
 
 const Join = () => {
   const {
@@ -212,7 +212,14 @@ const Join = () => {
           placeholder={"연락처"}
           required={true}
           className={"h-14 border-t-0 rounded-b-lg"}
-          register={register("coContact", { required: true })}
+          register={register("coContact", {
+            required: true,
+            maxLength: 11,
+            pattern: {
+              value: /^\d{11}$/,
+              message: "휴대폰 번호는 11자리 숫자로 입력해주세요",
+            },
+          })}
         />
         {/*<div className="pl-2 py-4 text-gray-500 flex items-center">*/}
         {/*  위치정보 서비스 동의*/}

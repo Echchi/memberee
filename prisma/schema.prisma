@@ -47,6 +47,7 @@ model Worker {
   birth        String?
   phone        String         @unique
   commission   Int
+  dayOfWeek    Int
   startDate    DateTime?
   endDate      DateTime?
   status       Int            @default(1)
@@ -72,24 +73,36 @@ model LessonFee {
 }
 
 model Schedule {
-  id          Int         @id @default(autoincrement())
-  worker      Worker      @relation(fields: [workerId], references: [id], onDelete: Cascade)
-  workerId    Int
-  member      Member      @relation(fields: [memberId], references: [id], onDelete: Cascade)
-  memberId    Int
-  lessonFee   LessonFee   @relation(fields: [lessonFeeId], references: [id])
-  lessonFeeId Int
-  dayOfWeek   Int // 요일을 나타내는 숫자 (0: 일요일, 1: 월요일, ..., 6: 토요일)
-  startTime   DateTime
-  endTime     DateTime
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  Salary      Salary[]
-  Attendance  Attendance?
+  id             Int              @id @default(autoincrement())
+  worker         Worker           @relation(fields: [workerId], references: [id], onDelete: Cascade)
+  workerId       Int
+  member         Member           @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  memberId       Int
+  lessonFee      LessonFee        @relation(fields: [lessonFeeId], references: [id])
+  lessonFeeId    Int
+  dayOfWeek      Int // 요일을 나타내는 숫자 (0: 일요일, 1: 월요일, ..., 6: 토요일)
+  startTime      DateTime
+  endTime        DateTime
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  Salary         Salary[]
+  Attendance     Attendance?
+  ScheduleMember ScheduleMember[]
 
   @@index([workerId])
   @@index([memberId])
   @@index([lessonFeeId])
+}
+
+model ScheduleMember {
+  id         Int      @id @default(autoincrement())
+  schedule   Schedule @relation(fields: [scheduleId], references: [id])
+  scheduleId Int
+  member     Member   @relation(fields: [memberId], references: [id])
+  memberId   Int
+
+  @@index([scheduleId])
+  @@index([memberId])
 }
 
 model Salary {
@@ -107,23 +120,24 @@ model Salary {
 }
 
 model Member {
-  id           Int           @id @default(autoincrement())
-  worker       Worker        @relation(fields: [workerId], references: [id], onDelete: Cascade)
-  workerId     Int
-  name         String
-  phone        String        @unique
-  birth        String?
-  job          String?
-  startDate    DateTime?
-  endDate      DateTime?
-  status       Int           @default(1)
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  WorkerMember WorkerMember?
-  Payment      Payment?
-  Attendance   Attendance?
-  Schedule     Schedule[]
-  Memos        Memo[]
+  id             Int              @id @default(autoincrement())
+  worker         Worker           @relation(fields: [workerId], references: [id], onDelete: Cascade)
+  workerId       Int
+  name           String
+  phone          String           @unique
+  birth          String?
+  job            String?
+  startDate      DateTime?
+  endDate        DateTime?
+  status         Int              @default(1)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  WorkerMember   WorkerMember?
+  Payment        Payment?
+  Attendance     Attendance?
+  Schedule       Schedule[]
+  Memos          Memo[]
+  ScheduleMember ScheduleMember[]
 
   @@index([workerId])
 }

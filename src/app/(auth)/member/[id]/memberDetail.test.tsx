@@ -18,10 +18,13 @@ describe("회원관리 상세 페이지", () => {
     render(<Detail />);
     expect(screen.getByText(/이름/i)).toBeInTheDocument();
     expect(screen.getByText(/연락처/i)).toBeInTheDocument();
+    expect(screen.getByText(/생년월일/i)).toBeInTheDocument();
     expect(screen.getByText(/담당/i)).toBeInTheDocument();
     expect(screen.getByText(/등록일/i)).toBeInTheDocument();
     expect(screen.getByText(/시작일/i)).toBeInTheDocument();
-    expect(screen.getByText(/메모/i)).toBeInTheDocument();
+    expect(screen.getByText(/수업료/i)).toBeInTheDocument();
+    expect(screen.getByText(/수업 시간/i)).toBeInTheDocument();
+    expect(screen.getByText(/상담 일지/i)).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: /메모 추가/i }),
     ).toBeInTheDocument();

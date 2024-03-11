@@ -4,17 +4,17 @@
 
 @layer base {
     html {
-        @apply font-sans text-stone-800 select-none;
+        @apply font-sans text-stone-800 select-none text-xs lg:text-base;
     }
     /* input */
     .inner_input {
-        @apply font-medium appearance-none w-full h-full outline-none pr-3 py-2 focus:outline-none focus:ring-emerald-600 focus:ring-inset focus:ring-[1.5px] transition-all bg-white placeholder:lg:text-lg placeholder:text-sm
+        @apply font-medium appearance-none w-full h-full outline-none pr-3 py-2 focus:outline-none focus:ring-emerald-600 focus:ring-inset focus:ring-[1.5px] transition-all bg-white placeholder:lg:text-lg placeholder:text-base
     }
     .inner_input_res {
         @apply font-medium appearance-none w-full h-full outline-none pr-3 py-2 flex items-center text-stone-600 border-stone-300
     }
     .inner_input_error{
-        @apply font-medium appearance-none w-full h-full outline-none pr-3 py-2 focus:outline-none focus:ring-orange-500 focus:ring-inset focus:ring-[1.5px] transition-all placeholder:lg:text-lg placeholder:text-sm
+        @apply font-medium appearance-none w-full h-full outline-none pr-3 py-2 focus:outline-none focus:ring-orange-500 focus:ring-inset focus:ring-[1.5px] transition-all placeholder:lg:text-lg placeholder:text-base
     }
     .inner_select {
         @apply appearance-none w-full h-full outline-none pl-2 pr-3 py-2
@@ -30,12 +30,12 @@
         @apply absolute inset-y-0 right-2 flex items-center text-orange-500 font-medium bg-white m-1 text-xs lg:text-base
     }
 
-    /* admin */
+
     .box {
-        @apply flex rounded-xl px-4 md:px-10 py-3 md:py-5 md:my-0 my-5 shadow font-medium bg-white
+        @apply flex rounded-xl px-4 md:px-10 py-3 md:pt-5 md:pb-8 md:my-0 my-5 shadow font-medium bg-white
     }
     .box_clickable {
-        @apply rounded-xl px-4 md:px-12 py-3 md:py-5 md:my-0 my-5 md:grid grid-cols-2 shadow md:space-y-1 font-medium bg-white cursor-pointer
+        @apply rounded-xl px-4 md:px-12 py-3 md:pt-5 md:pb-8 md:my-0 my-5 md:grid grid-cols-2 shadow md:space-y-1 font-medium bg-white cursor-pointer
     }
 
     .box_title{

@@ -19,8 +19,8 @@ describe("계정 관리 페이지", () => {
 
   test("수정 버튼 클릭 시 취소, 확인 버튼 렌더링", async () => {
     render(<Accout />);
-    const modifyBtn = screen.getByRole("button", { name: /수정/i });
-    fireEvent.click(modifyBtn);
+    const editButton = screen.getByRole("button", { name: /수정/i });
+    fireEvent.click(editButton);
     expect(screen.getByRole("button", { name: /확인/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /취소/i })).toBeInTheDocument();
   });

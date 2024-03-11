@@ -59,9 +59,9 @@ const Page = () => {
           <Button
             onClick={() => setRegisterModalOpen(true)}
             text={"회원 등록"}
-            className="mt-0 py-3 lg:py-0 lg:mt-5 !bg-emerald-500 hover:!bg-emerald-500/80 active:!bg-emerald-600"
+            className="mt-0 py-3 !bg-emerald-500 hover:!bg-emerald-500/80 active:!bg-emerald-600"
           />
-          <Button text={"명단 출력"} className="hidden lg:block mt-5" />
+          <Button text={"명단 출력"} className="py-3 hidden lg:block" />
         </div>
       </div>
 
@@ -78,6 +78,19 @@ const Page = () => {
                     <option>함코치</option>
                     <option>이코치</option>
                     <option>장코치</option>
+                  </select>
+                </td>
+
+                <td>
+                  <select className="bg-transparent outline-none focus:outline-none">
+                    <option>요일</option>
+                    <option>월</option>
+                    <option>화</option>
+                    <option>수</option>
+                    <option>목</option>
+                    <option>금</option>
+                    <option>토</option>
+                    <option>일</option>
                   </select>
                 </td>
                 <td className="flex justify-center items-center">
@@ -106,6 +119,7 @@ const Page = () => {
                 phone: "010-0000-0000",
                 worker: "함코치",
                 regDate: "2024.01.01.",
+                dayOfWeek: "월 수",
                 pay: Math.floor(Math.random() * 3) - 1,
               })).map((item, index) => (
                 <tr
@@ -116,6 +130,7 @@ const Page = () => {
                   <td>{item.name}</td>
                   <td>{item.phone}</td>
                   <td>{item.worker}</td>
+                  <td>{item.dayOfWeek}</td>
                   <td>{item.regDate}</td>
                 </tr>
               ))}

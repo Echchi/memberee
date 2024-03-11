@@ -75,44 +75,26 @@ const Page = () => {
       <div className="col-span-2">
         <Input
           type={"text"}
-          label={
-            <span className="flex justify-center items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
-                fill="currentColor"
-                className="w-4 h-4 text-stone-400 mr-1"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0Zm-6 3.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM7.293 5.293a1 1 0 1 1 .99 1.667c-.459.134-1.033.566-1.033 1.29v.25a.75.75 0 1 0 1.5 0v-.115a2.5 2.5 0 1 0-2.518-4.153.75.75 0 1 0 1.061 1.06Z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              납부금액
-            </span>
-          }
-          placeholder={formatCurrency("250000")}
-          className="h-14 lg:text-lg border-b-0"
+          label={"수수료"}
+          placeholder={"10%"}
+          className="h-14 lg:text-lg border-b-1"
         />
       </div>
-      <Input
-        type={"text"}
-        label={"담당"}
-        placeholder={formatCurrency("이코치")}
-        className="h-14 lg:text-lg border-b-1"
-      />
-      <Input
-        type={"text"}
-        label={"시작 일자"}
-        placeholder={today}
-        className="h-14 lg:text-lg border-b-1 border-l-0"
-      />
+
+      <div className="col-span-2">
+        <Input
+          type={"text"}
+          label={"계좌번호"}
+          placeholder={"국민은행 000-000-00-000000"}
+          isLong={true}
+          className="h-14 lg:text-lg rounded-b border-t-0"
+        />
+      </div>
       <div className="col-span-2">
         <Input
           type={"text"}
           label={"비고"}
-          placeholder={"국민은행 000-000-00-000000"}
+          placeholder={""}
           isLong={true}
           className="h-14 lg:text-lg rounded-b border-t-0"
         />

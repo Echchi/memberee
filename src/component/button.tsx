@@ -7,6 +7,7 @@ export interface ButtonProps {
   [key: string]: any;
   printBtn?: boolean;
   className?: string;
+  type?: "button" | "submit" | "reset" | undefined;
 }
 
 export default function Button({
@@ -16,6 +17,7 @@ export default function Button({
   isButtonDisabled,
   printBtn = false,
   className,
+  type,
   ...rest
 }: ButtonProps) {
   if (printBtn) {
@@ -23,6 +25,7 @@ export default function Button({
       <button
         {...rest}
         onClick={onClick}
+        type={type}
         className={cls(
           "outline-none w-full rounded-lg text-white font-semibold transition-all",
           isButtonDisabled
@@ -40,8 +43,9 @@ export default function Button({
       <button
         {...rest}
         onClick={onClick}
+        type={type}
         className={cls(
-          "text-sm md:text-base outline-none w-full rounded-lg text-white font-semibold transition-all",
+          "py-3 text-sm md:text-base outline-none w-full rounded-lg text-white font-semibold transition-all",
           isButtonDisabled
             ? "bg-gray-300 cursor-default"
             : "bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-600 cursor-pointer",

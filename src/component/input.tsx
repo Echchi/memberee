@@ -45,7 +45,7 @@ const Input: React.FC<InputFieldProps> = ({
         </span>
       )}
       {label && (
-        <span className="text-stone-600 max-w-24 lg:max-w-full absolute inset-y-0 left-0 flex flex-nowrap items-center lg:pl-10 pl-4 whitespace-pre-line font-semibold">
+        <span className="text-xs lg:text-lg text-stone-600 max-w-24 lg:max-w-full absolute inset-y-0 left-0 flex flex-nowrap items-center lg:pl-10 pl-4 whitespace-pre-line font-semibold">
           {label}
         </span>
       )}
@@ -53,9 +53,12 @@ const Input: React.FC<InputFieldProps> = ({
         <div
           className={cls(
             "inner_input_res",
-            icon ? "pl-14" : "",
-            label ? "ml-40 lg:ml-56" : "",
-            className ? className : "",
+            icon && isLong ? "lg:pl-20 pl-14 pr-2" : "",
+            icon && !isLong ? "lg:px-20 px-14" : "",
+            label && isLong ? "lg:pl-40 pl-20 pr-2" : "",
+            label && !isLong ? "lg:px-40 px-20" : "",
+            className ? `${className} !h-full` : "",
+            className ? `${className} !h-full` : "",
           )}
         >
           {value}
@@ -64,9 +67,9 @@ const Input: React.FC<InputFieldProps> = ({
         <select
           {...register}
           className={cls(
-            "outline-none bg-white text-gray-400 font-medium",
+            "outline-none bg-white text-gray-400 font-medium text-xs lg:text-base",
             icon ? "ml-14" : "",
-            label ? "ml-40 lg:ml-56" : "",
+            label ? "ml-20 lg:ml-40" : "",
           )}
         >
           {options &&

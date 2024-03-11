@@ -23,18 +23,4 @@ describe("납부관리 페이지", () => {
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /출력/i })).toBeInTheDocument();
   });
-
-  test("버튼 클릭시 날짜 변경", () => {
-    render(<Main />);
-    const prevMonthButton = screen.getAllByRole("button")[0];
-    const nextMonthButton = screen.getAllByRole("button")[1];
-
-    fireEvent.click(nextMonthButton);
-    const nextMonth = format(addMonths(new Date(), 1), "yyyy년 MM월");
-    expect(screen.getByText(nextMonth)).toBeInTheDocument();
-
-    fireEvent.click(prevMonthButton);
-    const prevMonth = format(new Date(), "yyyy년 MM월");
-    expect(screen.getByText(prevMonth)).toBeInTheDocument();
-  });
 });

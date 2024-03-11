@@ -4,9 +4,11 @@ import Input from "@/component/input";
 import Button from "@/component/button";
 import Modal from "@/component/modal";
 import Register from "./register/page";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const [registerModalOpen, setRegisterModalOpen] = useState(false);
+  const route = useRouter();
   return (
     <>
       {registerModalOpen && (
@@ -51,27 +53,36 @@ const Page = () => {
         </div>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 w-full gap-3 *:cursor-pointer *:transition-all ">
-        <div className="bg-white w-full min-h-fit shadow rounded-lg flex flex-col items-center p-4 hover:shadow-lg">
+        <div
+          className="bg-white w-full min-h-fit shadow rounded-lg flex flex-col items-center p-4 hover:shadow-lg"
+          onClick={() => route.push("/worker/1")}
+        >
           <div className="bg-stone-200 rounded-full h-32 w-32" />
           <div className="mt-4 flex flex-col items-center space-y-1">
             <p className="font-bold text-lg tracking-wider">함코치</p>
-            <p>월요일, 화요일</p>
+            <p>월 화 수 목 금</p>
             <p>010-0000-0000</p>
           </div>
         </div>
-        <div className="bg-white w-full min-h-fit shadow rounded-lg flex flex-col items-center p-4 hover:shadow-lg">
+        <div
+          className="bg-white w-full min-h-fit shadow rounded-lg flex flex-col items-center p-4 hover:shadow-lg"
+          onClick={() => route.push("/worker/1")}
+        >
           <div className="bg-stone-200 rounded-full h-32 w-32" />
           <div className="mt-4 flex flex-col items-center space-y-1">
             <p className="font-bold text-lg tracking-wider">이코치</p>
-            <p>월요일, 화요일</p>
+            <p>월 화 수 목 금</p>
             <p>010-0000-0000</p>
           </div>
         </div>
-        <div className="bg-white w-full min-h-fit shadow rounded-lg flex flex-col items-center p-4 hover:shadow-lg">
+        <div
+          className="bg-white w-full min-h-fit shadow rounded-lg flex flex-col items-center p-4 hover:shadow-lg"
+          onClick={() => route.push("/worker/1")}
+        >
           <div className="bg-stone-200 rounded-full h-32 w-32" />
           <div className="mt-4 flex flex-col items-center space-y-1">
             <p className="font-bold text-lg tracking-wider">장코치</p>
-            <p>토요일, 일요일</p>
+            <p>토 일</p>
             <p>010-0000-0000</p>
           </div>
         </div>

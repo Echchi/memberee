@@ -12,6 +12,8 @@ describe("회원가입 페이지", () => {
     expect(screen.getByPlaceholderText("휴대폰 번호")).toBeInTheDocument(); // ASSERT
     expect(screen.getByPlaceholderText("이메일")).toBeInTheDocument(); // ASSERT
     expect(screen.getByPlaceholderText("업체명")).toBeInTheDocument(); // ASSERT
+    expect(screen.getByPlaceholderText("시작시간")).toBeInTheDocument(); // ASSERT
+    expect(screen.getByPlaceholderText("종료시간")).toBeInTheDocument(); // ASSERT
     expect(screen.getByPlaceholderText("연락처")).toBeInTheDocument(); // ASSERT
     expect(
       screen.getByRole("button", { name: /회원가입/i }),
