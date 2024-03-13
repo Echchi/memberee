@@ -8,7 +8,7 @@ import Input from "@/component/input";
 import IcFinder from "../../../../public/icons/ic_finder.svg";
 import Image from "next/image";
 import { add, addMonths, format } from "date-fns";
-import Button from "@/component/button";
+import Button from "@/component/button/button";
 import Modal from "@/component/modal";
 import Register from "./register/page";
 

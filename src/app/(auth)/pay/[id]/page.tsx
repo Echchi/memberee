@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Input from "@/component/input";
 import Tag from "@/component/tag";
 import { useRouter } from "next/navigation";
-import Button from "@/component/button";
+import Button from "@/component/button/button";
 import modal from "@/component/modal";
 import Modal from "@/component/modal";
 import PayCheck from "@/app/(auth)/pay/[id]/payCheck";

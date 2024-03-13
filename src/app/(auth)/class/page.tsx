@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Reorder } from "framer-motion";
 import MonthChanger from "@/component/monthChanger";
 import Input from "@/component/input";
-import Button from "@/component/button";
+import Button from "@/component/button/button";
 
 const Page = () => {
   const today = new Date();

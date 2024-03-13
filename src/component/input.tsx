@@ -1,8 +1,9 @@
-import React from "react";
+import React, { InputHTMLAttributes } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 import { cls } from "@/libs/client/utils";
 
 interface InputFieldProps {
+  name: string;
   type: string;
   value?: string;
   placeholder?: string;
@@ -11,13 +12,15 @@ interface InputFieldProps {
   required?: boolean;
   icon?: React.ReactElement;
   className?: string;
-  errorMessage?: string;
+  errorMessage?: string[];
   maxLength?: number;
   options?: string[];
   isLong?: boolean;
 }
 
-const Input: React.FC<InputFieldProps> = ({
+const Input: React.FC<
+  InputFieldProps & InputHTMLAttributes<HTMLInputElement>
+> = ({
   type,
   value,
   placeholder,
@@ -30,6 +33,7 @@ const Input: React.FC<InputFieldProps> = ({
   maxLength,
   options,
   isLong = false,
+  name = "",
   ...rest
 }) => {
   return (
@@ -65,7 +69,6 @@ const Input: React.FC<InputFieldProps> = ({
         </div>
       ) : type === "select" ? (
         <select
-          {...register}
           className={cls(
             "outline-none bg-white text-gray-400 font-medium text-xs lg:text-base",
             icon ? "ml-14" : "",
@@ -86,14 +89,19 @@ const Input: React.FC<InputFieldProps> = ({
             className ? `${className} !h-full` : "",
             className ? `${className} !h-full` : "",
           )}
+          name={name}
           type={type}
           maxLength={maxLength}
           placeholder={placeholder}
           required={required}
-          {...register}
         />
       )}
-      {errorMessage && <span className="error">{errorMessage}</span>}
+      {errorMessage &&
+        errorMessage.map((error, index) => (
+          <span key={index} className="error">
+            {error}
+          </span>
+        ))}
     </div>
   );
 };

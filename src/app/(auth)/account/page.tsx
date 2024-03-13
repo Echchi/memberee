@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Input from "@/component/input";
 import { cls } from "@/libs/client/utils";
-import Button from "@/component/button";
+import Button from "@/component/button/button";
 import UserData from "@/types/user";
 import CompanyData from "@/types/company";
 import { JoinData } from "@/app/join/page";

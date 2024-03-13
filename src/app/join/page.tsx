@@ -3,10 +3,12 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import Input from "@/component/input";
 import { cls } from "@/libs/client/utils";
-import Button from "@/component/button";
+import Button from "@/component/button/button";
 import UserData from "@/types/user";
 import CompanyData from "@/types/company";
-
+import FormButton from "@/component/button/formButton";
+import { useFormState } from "react-dom";
+import { createAccount } from "@/app/join/action";
 export interface JoinData extends UserData, CompanyData {}
 
 const Join = () => {
@@ -28,10 +30,15 @@ const Join = () => {
   const onValid = (data: JoinData) => {
     console.log(data);
   };
-
+  const [state, dispatch] = useFormState(createAccount, null);
   return (
+    // <form
+    //   onSubmit={handleSubmit(onValid)}
+    //   className="md:pt-10 md:max-w-full md:w-[1400px] md:mx-auto px-3 md:px-32 text-stone-800"
+    //   data-testid="join-form"
+    // >
     <form
-      onSubmit={handleSubmit(onValid)}
+      action={dispatch}
       className="md:pt-10 md:max-w-full md:w-[1400px] md:mx-auto px-3 md:px-32 text-stone-800"
       data-testid="join-form"
     >
@@ -66,7 +73,8 @@ const Join = () => {
           placeholder={"이름"}
           required={true}
           className={"h-14 rounded-t-lg"}
-          register={register("name", { required: true })}
+          name={"username"}
+          errorMessage={state?.fieldErrors.username}
         />
         <Input
           icon={
@@ -88,6 +96,8 @@ const Join = () => {
           required={true}
           className={"h-14 border-t-0 border-b-1"}
           register={register("id", { required: true })}
+          name={"userid"}
+          errorMessage={state?.fieldErrors.userid}
         />
         <Input
           icon={
@@ -109,6 +119,31 @@ const Join = () => {
           required={true}
           className={"h-14 border-t-0 border-b-1"}
           register={register("password", { required: true })}
+          name={"password"}
+          errorMessage={state?.fieldErrors.password}
+        />
+        <Input
+          icon={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="w-6 h-6 text-gray-300"
+            >
+              <path
+                fillRule="evenodd"
+                d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z"
+                clipRule="evenodd"
+              />
+            </svg>
+          }
+          type={"text"}
+          placeholder={"비밀번호 확인"}
+          required={true}
+          className={"h-14 border-t-0 border-b-1"}
+          register={register("password", { required: true })}
+          name={"confirm_password"}
+          errorMessage={state?.fieldErrors.confirm_password}
         />
         <Input
           icon={
@@ -138,7 +173,8 @@ const Join = () => {
               message: "휴대폰 번호는 11자리 숫자로 입력해주세요",
             },
           })}
-          errorMessage={errors?.phone?.message}
+          errorMessage={state?.fieldErrors.phone}
+          name={"phone"}
         />
         <Input
           icon={
@@ -163,14 +199,13 @@ const Join = () => {
               message: "이메일을 올바르게 입력해주세요",
             },
           })}
-          errorMessage={errors?.mail?.message}
+          errorMessage={state?.fieldErrors.email}
+          name={"email"}
         />
-
         {/*  회사  : 이름, 연락처  */}
         <p className="font-semibold tracking-wide text-stone-600 pt-8 pb-3 ">
           업체 정보
         </p>
-
         <Input
           icon={
             <svg
@@ -192,6 +227,8 @@ const Join = () => {
           required={true}
           className={"h-14 border-t-1 border-b-1 rounded-t-lg"}
           register={register("coName", { required: true })}
+          name={"co_name"}
+          errorMessage={state?.fieldErrors.co_name}
         />
         <Input
           icon={
@@ -220,6 +257,8 @@ const Join = () => {
               message: "휴대폰 번호는 11자리 숫자로 입력해주세요",
             },
           })}
+          name={"co_contact"}
+          errorMessage={state?.fieldErrors.co_contact}
         />
         {/*<div className="pl-2 py-4 text-gray-500 flex items-center">*/}
         {/*  위치정보 서비스 동의*/}
@@ -231,12 +270,7 @@ const Join = () => {
         {/*    value={"true"}*/}
         {/*  />*/}
         {/*</div>*/}
-        <Button
-          text={"회원가입"}
-          isButtonDisabled={isButtonDisabled}
-          large={true}
-          className={"mt-5"}
-        />
+        <FormButton text={"회원가입"} className={"mt-5"} />
       </div>
     </form>
   );

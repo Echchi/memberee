@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Input from "@/component/input";
-import Button from "@/component/button";
+import Button from "@/component/button/button";
 import { useForm } from "react-hook-form";
 import ic_user from "icons/ic_user.svg";
 import React from "react";

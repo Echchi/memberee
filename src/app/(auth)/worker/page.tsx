@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Input from "@/component/input";
-import Button from "@/component/button";
+import Button from "@/component/button/button";
 import Modal from "@/component/modal";
 import Register from "./register/page";
 import { useRouter } from "next/navigation";

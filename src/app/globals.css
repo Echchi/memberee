@@ -27,7 +27,7 @@
 
     /* error */
     .error {
-        @apply absolute inset-y-0 right-2 flex items-center text-orange-500 font-medium bg-white m-1 text-xs lg:text-base
+        @apply absolute inset-y-0 right-2 flex items-center text-orange-500 font-medium bg-white m-1 text-xs lg:text-base bg-transparent
     }
 
 

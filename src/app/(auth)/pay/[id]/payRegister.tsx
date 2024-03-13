@@ -2,7 +2,7 @@ import React from "react";
 import Input from "@/component/input";
 import { format } from "date-fns";
 import { formatCurrency } from "@/libs/client/utils";
-import Button from "@/component/button";
+import Button from "@/component/button/button";
 
 const PayCheck = () => {
   const today = format(new Date(), "yyyy. MM. dd");

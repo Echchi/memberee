@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Input from "@/component/input";
 import { cls } from "@/libs/client/utils";
-import Button from "@/component/button";
+import Button from "@/component/button/button";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { addMonths, format } from "date-fns";
 import MonthChanger from "@/component/monthChanger";
 import Input from "@/component/input";
-import Button from "@/component/button";
+import Button from "@/component/button/button";
 import Tag from "@/component/tag";
 import { useRouter } from "next/navigation";
 import { formatCurrency } from "@/libs/client/utils";
