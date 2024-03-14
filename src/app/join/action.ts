@@ -25,7 +25,7 @@ const formSchema = z
       .min(4, "")
       .trim()
       .regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR),
-    confirm_password: z.string().min(4).trim(),
+    confirm_password: z.string().min(4, "").trim(),
     phone: z
       .string()
       .trim()
