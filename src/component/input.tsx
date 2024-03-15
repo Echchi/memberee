@@ -96,12 +96,9 @@ const Input: React.FC<
           required={required}
         />
       )}
-      {errorMessage &&
-        errorMessage.map((error, index) => (
-          <span key={index} className="error">
-            {error}
-          </span>
-        ))}
+      {errorMessage && (
+        <span className="error">{errorMessage[errorMessage.length - 1]}</span>
+      )}
     </div>
   );
 };
