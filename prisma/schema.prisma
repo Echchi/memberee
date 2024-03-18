@@ -1,4 +1,4 @@
-generator client {
+generator db {
   provider = "prisma-client-js"
 }
 
@@ -10,14 +10,14 @@ datasource db {
 
 model User {
   id        Int       @id @default(autoincrement())
+  userid    String    @unique
   password  String
   name      String
-  birth     String
   phone     String    @unique
   email     String    @unique
   mode      Int       @default(1)
-  role      Int       @default(1)
-  status    Int       @default(1)
+  role      Int       @default(1) // 1: 일반 회원, 2: 관리자
+  status    Int       @default(-1) // -1: 가입대기, 0: 탈퇴, 1: 가입
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   Company   Company[]
@@ -25,13 +25,15 @@ model User {
 
 model Company {
   id        Int       @id @default(autoincrement())
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
+  user      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int?
   name      String
+  num       String    @unique
   contact   String?
   startTime DateTime?
   endTime   DateTime?
-  status    Int       @default(1)
+  payDay    Int       @default(1) // 납부 일자 (매 월 00 일 1 ~ 31)
+  status    Int       @default(1) // 0: 중단, 1: 영업중
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   Worker    Worker[]
@@ -41,8 +43,8 @@ model Company {
 
 model Worker {
   id           Int            @id @default(autoincrement())
-  company      Company        @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  companyId    Int
+  company      Company?       @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId    Int?
   name         String
   birth        String?
   phone        String         @unique

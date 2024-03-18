@@ -6,11 +6,15 @@ import Button from "@/component/button/button";
 import { useForm } from "react-hook-form";
 import ic_user from "icons/ic_user.svg";
 import React from "react";
+import FormButton from "@/component/button/formButton";
+import { useFormState } from "react-dom";
+import { login } from "@/app/login/action";
 interface LoginData {
   id: string;
   password: string;
 }
 const Login = () => {
+  const [state, dispatch] = useFormState(login, null);
   const {
     register,
     handleSubmit,
@@ -33,7 +37,8 @@ const Login = () => {
   };
   return (
     <div className="w-full max-w-lg mx-auto">
-      <form onSubmit={handleSubmit(onValid)} className="w-full mt-32 px-8">
+      {/*<form onSubmit={handleSubmit(onValid)} className="w-full mt-32 px-8">*/}
+      <form action={dispatch} className="w-full mt-32 px-8">
         <div className="flex flex-col justify-center items-center space-y-3">
           <h3 className="text-5xl md:text-7xl font-extrabold text-emerald-700">
             memberee
@@ -61,7 +66,8 @@ const Login = () => {
             }
             placeholder={"아이디"}
             className="h-1/2 rounded-t-xl"
-            register={register("id", { required: true })}
+            name="userid"
+            // register={register("id", { required: true })}
           />
           <Input
             required={true}
@@ -82,7 +88,8 @@ const Login = () => {
             }
             placeholder={"비밀번호"}
             className="h-1/2 rounded-b-xl border-t-0"
-            register={register("password", { required: true })}
+            name="password"
+            // register={register("password", { required: true })}
           />
         </div>
         {errors?.id?.message && (
@@ -90,12 +97,7 @@ const Login = () => {
             {errors.id.message}
           </p>
         )}
-        <Button
-          text={"로그인"}
-          isButtonDisabled={isButtonDisabled}
-          large={true}
-          className={"mt-5"}
-        />
+        <FormButton text={"로그인"} className={"mt-5"} />
         <div className="grid grid-cols-3 divide-x divide-gray-300 mt-5 text-gray-400 w-11/12 mx-auto *:text-center">
           <div>
             <Link href={"/"}>아이디 찾기</Link>

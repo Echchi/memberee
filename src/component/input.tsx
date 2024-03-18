@@ -16,6 +16,7 @@ interface InputFieldProps {
   maxLength?: number;
   options?: string[];
   isLong?: boolean;
+  selectDescription?: string;
 }
 
 const Input: React.FC<
@@ -34,6 +35,7 @@ const Input: React.FC<
   options,
   isLong = false,
   name = "",
+  selectDescription,
   ...rest
 }) => {
   return (
@@ -68,16 +70,24 @@ const Input: React.FC<
           {value}
         </div>
       ) : type === "select" ? (
-        <select
-          className={cls(
-            "outline-none bg-white text-gray-400 font-medium text-xs lg:text-base",
-            icon ? "ml-14" : "",
-            label ? "ml-20 lg:ml-40" : "",
+        <>
+          <select
+            name={name}
+            className={cls(
+              "outline-none bg-white text-gray-400 font-medium text-xs lg:text-base",
+              icon ? "ml-14 lg:ml-20" : "",
+              label ? "ml-20 lg:ml-40" : "",
+            )}
+          >
+            {options &&
+              options.map((item, index) => <option key={index}>{item}</option>)}
+          </select>
+          {selectDescription && (
+            <span className="ml-4 relative text-gray-400 font-medium text-xs lg:text-lg">
+              {selectDescription}
+            </span>
           )}
-        >
-          {options &&
-            options.map((item, index) => <option key={index}>{item}</option>)}
-        </select>
+        </>
       ) : (
         <input
           className={cls(
