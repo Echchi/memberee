@@ -2,6 +2,7 @@
 
 import { z } from "zod";
 import validator from "validator";
+import bcrypt from "bcrypt";
 import {
   CO_NUM_REGEX,
   ID_REGEX,
@@ -26,13 +27,28 @@ const checkUserid = async (userid: string) => {
   });
   return !user;
 };
+const checkPhone = async (phone: string) => {
+  const user = await db.user.findUnique({
+    where: {
+      phone,
+    },
+    select: {
+      userid: true,
+    },
+  });
+  return !user;
+};
 
 const checkCoNum = async (num: string) => {
   const company = await db.company.findUnique({
     where: {
       num,
     },
+    select: {
+      id: true,
+    },
   });
+  console.log(company);
   return !company;
 };
 
@@ -62,13 +78,15 @@ const formSchema = z
       .refine(
         (phone) => validator.isMobilePhone(phone, "ko-KR"),
         "연락처를 올바르게 입력해주세요",
-      ),
+      )
+      .refine(checkPhone, "이미 가입된 번호예요"),
     email: z.string().trim().email("이메일을 올바르게 입력해주세요"),
     co_name: z.string().trim(),
     co_num: z
       .string({ required_error: "사업자등록번호를 올바르게 입력해주세요" })
       .trim()
-      .regex(CO_NUM_REGEX, "사업자등록번호를 올바르게 입력해주세요"),
+      .regex(CO_NUM_REGEX, "사업자등록번호를 올바르게 입력해주세요")
+      .refine(checkCoNum, "이미 등록된 사업자등록번호예요"),
     payDay: z.string(),
     co_contact: z
       .string()
@@ -84,7 +102,6 @@ const formSchema = z
   });
 
 export const createAccount = async (prevState: any, formData: FormData) => {
-  console.log(formData);
   const data = {
     username: formData.get("username"),
     userid: formData.get("userid"),
@@ -103,9 +120,27 @@ export const createAccount = async (prevState: any, formData: FormData) => {
     return result.error.flatten();
   } else {
     console.log(result.data);
-
-    // 사업자등록번호 중복 체크
-    // 비밀번호 해시
+    const hashedPassword = await bcrypt.hash(result.data.password, 12);
+    const user = await db.user.create({
+      data: {
+        userid: result.data.userid,
+        password: hashedPassword,
+        name: result.data.username,
+        phone: result.data.phone,
+        email: result.data.email,
+      },
+    });
+    const company = await db.company.create({
+      data: {
+        name: result.data.co_name,
+        num: result.data.co_num,
+        contact: result.data.co_contact,
+        startTime: new Date(),
+        endTime: new Date(),
+        payDay: +result.data.payDay,
+        userId: user.id,
+      },
+    });
     // 로그인
   }
 };

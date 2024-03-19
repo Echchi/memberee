@@ -12,31 +12,8 @@ import { createAccount } from "@/app/join/action";
 export interface JoinData extends UserData, CompanyData {}
 
 const Join = () => {
-  const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { errors },
-    watch,
-  } = useForm<JoinData>();
-
-  const watchForm = watch();
-
-  const allFieldsFilled =
-    Object.entries(watchForm).length > 0 &&
-    Object.values(watchForm).every((field) => field);
-
-  const isButtonDisabled = !allFieldsFilled;
-  const onValid = (data: JoinData) => {
-    console.log(data);
-  };
   const [state, dispatch] = useFormState(createAccount, null);
   return (
-    // <form
-    //   onSubmit={handleSubmit(onValid)}
-    //   className="md:pt-10 md:max-w-full md:w-[1400px] md:mx-auto px-3 md:px-32 text-stone-800"
-    //   data-testid="join-form"
-    // >
     <form
       action={dispatch}
       className="md:pt-10 md:max-w-full md:w-[1400px] md:mx-auto px-3 md:px-32 text-stone-800"
@@ -95,7 +72,6 @@ const Join = () => {
           placeholder={"아이디"}
           required={true}
           className={"h-14 border-t-0 border-b-1"}
-          register={register("id", { required: true })}
           name={"userid"}
           errorMessage={state?.fieldErrors.userid}
         />
@@ -118,7 +94,6 @@ const Join = () => {
           placeholder={"비밀번호"}
           required={true}
           className={"h-14 border-t-0 border-b-1"}
-          register={register("password", { required: true })}
           name={"password"}
           errorMessage={state?.fieldErrors.password}
         />
@@ -141,7 +116,6 @@ const Join = () => {
           placeholder={"비밀번호 확인"}
           required={true}
           className={"h-14 border-t-0 border-b-1"}
-          register={register("password", { required: true })}
           name={"confirm_password"}
           errorMessage={state?.fieldErrors.confirm_password}
         />
@@ -165,14 +139,6 @@ const Join = () => {
           required={true}
           className={"h-14 border-t-0 border-b-1"}
           maxLength={11}
-          register={register("phone", {
-            required: true,
-            maxLength: 11,
-            pattern: {
-              value: /^\d{11}$/,
-              message: "휴대폰 번호는 11자리 숫자로 입력해주세요",
-            },
-          })}
           errorMessage={state?.fieldErrors.phone}
           name={"phone"}
         />
@@ -192,13 +158,6 @@ const Join = () => {
           placeholder={"이메일"}
           required={true}
           className={"h-14 border-t-0 border-b-1 rounded-b-lg"}
-          register={register("mail", {
-            required: true,
-            pattern: {
-              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-              message: "이메일을 올바르게 입력해주세요",
-            },
-          })}
           errorMessage={state?.fieldErrors.email}
           name={"email"}
         />
@@ -226,7 +185,6 @@ const Join = () => {
           placeholder={"업체명"}
           required={true}
           className={"h-14 border-t-1 border-b-1 rounded-t-lg"}
-          register={register("coName", { required: true })}
           name={"co_name"}
           errorMessage={state?.fieldErrors.co_name}
         />
@@ -249,14 +207,6 @@ const Join = () => {
           placeholder={"사업자 등록 번호를 숫자로만 입력해주세요"}
           required={true}
           className={"h-14 border-t-0"}
-          register={register("coContact", {
-            required: true,
-            maxLength: 11,
-            pattern: {
-              value: /^\d{11}$/,
-              message: "휴대폰 번호는 11자리 숫자로 입력해주세요",
-            },
-          })}
           name={"co_num"}
           errorMessage={state?.fieldErrors.co_num}
         />
@@ -301,14 +251,6 @@ const Join = () => {
           placeholder={"연락처"}
           required={true}
           className={"h-14 border-t-0 rounded-b-lg"}
-          register={register("coContact", {
-            required: true,
-            maxLength: 11,
-            pattern: {
-              value: /^\d{11}$/,
-              message: "휴대폰 번호는 11자리 숫자로 입력해주세요",
-            },
-          })}
           name={"co_contact"}
           errorMessage={state?.fieldErrors.co_contact}
         />

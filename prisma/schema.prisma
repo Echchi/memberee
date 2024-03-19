@@ -14,7 +14,7 @@ model User {
   password  String
   name      String
   phone     String    @unique
-  email     String    @unique
+  email     String
   mode      Int       @default(1)
   role      Int       @default(1) // 1: 일반 회원, 2: 관리자
   status    Int       @default(-1) // -1: 가입대기, 0: 탈퇴, 1: 가입

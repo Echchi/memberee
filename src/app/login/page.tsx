@@ -9,32 +9,12 @@ import React from "react";
 import FormButton from "@/component/button/formButton";
 import { useFormState } from "react-dom";
 import { login } from "@/app/login/action";
-interface LoginData {
-  id: string;
-  password: string;
-}
+
 const Login = () => {
   const [state, dispatch] = useFormState(login, null);
-  const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { errors },
-    watch,
-  } = useForm<LoginData>();
 
   const router = useRouter();
-  const watchId = watch("id");
-  const watchPassword = watch("password");
-  const isButtonDisabled = !watchId || !watchPassword;
 
-  const onValid = (data: LoginData) => {
-    if (data.id === "tennis" && data.password === "12345") {
-      router.push("/main");
-    } else {
-      setError("id", { message: "아이디 또는 비밀번호를 확인해주세요" });
-    }
-  };
   return (
     <div className="w-full max-w-lg mx-auto">
       {/*<form onSubmit={handleSubmit(onValid)} className="w-full mt-32 px-8">*/}
@@ -92,9 +72,9 @@ const Login = () => {
             // register={register("password", { required: true })}
           />
         </div>
-        {errors?.id?.message && (
+        {state?.fieldErrors && (
           <p className="text-orange-500 text-center mt-5">
-            {errors.id.message}
+            {state?.fieldErrors.userid || state?.fieldErrors.password}
           </p>
         )}
         <FormButton text={"로그인"} className={"mt-5"} />
