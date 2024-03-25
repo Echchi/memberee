@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 import Button from "@/component/button/button";
 import modal from "@/component/modal";
 import Modal from "@/component/modal";
-import PayCheck from "@/app/(auth)/pay/[id]/payCheck";
-import PayRegister from "@/app/(auth)/pay/[id]/payRegister";
+import PayCheck from "@/app/(tabBar)/pay/[id]/payCheck";
+import PayRegister from "@/app/(tabBar)/pay/[id]/payRegister";
 
 const Page = () => {
   const router = useRouter();

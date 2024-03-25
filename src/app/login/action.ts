@@ -31,18 +31,19 @@ export async function login(prevState: any, formData: FormData) {
         password: true,
       },
     });
-    console.log(user);
-
+    console.log("user", user);
     const ok = await bcrypt.compare(result.data.password, user!.password ?? "");
+    console.log("ok", ok);
     if (ok) {
       const session = await getSession();
       session.id = user!.id;
+      await session.save();
       redirect("/main");
     } else {
       return {
         fieldErrors: {
-          password: ["비밀번호가 일치하지 않습니다"],
-          email: [],
+          password: ["일치하는 계정이 존재하지 않습니다"],
+          userid: [],
         },
       };
     }

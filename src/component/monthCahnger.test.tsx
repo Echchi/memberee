@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import monthChanger from "./monthChanger";
 import { addMonths, format } from "date-fns";
-import Main from "@/app/(auth)/salary/page";
+import Main from "@/app/(tabBar)/salary/page";
 
 describe("이전 달, 다음 달 이동 컴포넌트", () => {
   test("버튼 클릭시 날짜 변경", () => {

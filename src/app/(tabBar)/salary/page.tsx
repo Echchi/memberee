@@ -8,8 +8,8 @@ import Tag from "@/component/tag";
 import { useRouter } from "next/navigation";
 import { formatCurrency } from "@/libs/client/utils";
 import Modal from "@/component/modal";
-import PayRegister from "@/app/(auth)/pay/[id]/payRegister";
-import SalaryDetail from "@/app/(auth)/salary/salaryDetail";
+import PayRegister from "@/app/(tabBar)/pay/[id]/payRegister";
+import SalaryDetail from "@/app/(tabBar)/salary/salaryDetail";
 
 const Page = () => {
   const today = new Date();

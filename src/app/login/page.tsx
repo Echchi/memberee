@@ -14,7 +14,7 @@ const Login = () => {
   const [state, dispatch] = useFormState(login, null);
 
   const router = useRouter();
-
+  console.log("state", state);
   return (
     <div className="w-full max-w-lg mx-auto">
       {/*<form onSubmit={handleSubmit(onValid)} className="w-full mt-32 px-8">*/}
@@ -74,7 +74,8 @@ const Login = () => {
         </div>
         {state?.fieldErrors && (
           <p className="text-orange-500 text-center mt-5">
-            {state?.fieldErrors.userid || state?.fieldErrors.password}
+            {(state?.fieldErrors.userid && state?.fieldErrors.userid[0]) ||
+              (state?.fieldErrors.password && state?.fieldErrors.password[0])}
           </p>
         )}
         <FormButton text={"로그인"} className={"mt-5"} />
