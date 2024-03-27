@@ -16,7 +16,6 @@ export async function middleware(request: NextRequest) {
   const session = await getSession();
   const exits = publicUrls[request.nextUrl.pathname];
 
-  // 로그아웃 시 설정
   if (!session.id) {
     if (!exits) {
       return NextResponse.redirect(new URL("/login", request.url));
