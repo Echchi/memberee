@@ -12,7 +12,7 @@ const Page = () => {
     if (selectedDay.includes(day)) {
       setSelectedDay((prev) => prev.filter((selected) => selected !== day));
     } else {
-      if (selectedDay.length < 3) {
+      if (selectedDay.length < 7) {
         setSelectedDay((prev) => [...prev, day]);
       } else {
         setSelectedDay((prev) => [...prev.slice(0, -1), day]);
@@ -27,6 +27,7 @@ const Page = () => {
         label={"이름"}
         placeholder={"이름"}
         className="h-14 lg:text-lg border-r-0 border-b-0 rounded-tl-lg"
+        name={"name"}
       />
       <Input
         isLong={true}
@@ -34,6 +35,7 @@ const Page = () => {
         label={"연락처"}
         placeholder={"숫자만 입력해주세요"}
         className="h-14 lg:text-lg border-b-0 rounded-tr-lg"
+        name={"phone"}
       />
       <Input
         isLong={true}
@@ -41,15 +43,17 @@ const Page = () => {
         label={"생년월일"}
         placeholder={"여덟자리 숫자로 입력해주세요"}
         className="h-14 lg:text-lg border-b-1 border-r-0"
+        name={"birth"}
       />
       <Input
         type={"text"}
         label={"직업"}
         placeholder={"직업"}
         className="h-14 lg:text-lg border-b-1"
+        name={"job"}
       />
       <div className="py-3 col-span-2 border border-y-0 border-neutral-300 flex flex-col justify-center lg:pl-10 pl-4">
-        <div className="flex min-h-32">
+        <div className="flex min-h-44">
           <span className="hidden lg:flex items-center lg:text-lg flex-nowrap w-24 font-semibold text-stone-600">
             시간 선택
           </span>
@@ -73,23 +77,40 @@ const Page = () => {
                 </button>
                 <div
                   className={cls(
-                    "absolute -bottom-3 justify-center items-center",
-                    selectedDay.includes(day) ? "flex" : "hidden",
+                    "absolute -bottom-4 justify-center items-center",
+                    selectedDay.includes(day) ? "flex flex-col" : "hidden",
                   )}
                 >
-                  <select
-                    data-testid="select"
-                    className="outline-none bg-transparent text-xs xl:text-lg font-medium text-stone-600"
-                  >
-                    <option data-testid="select-option">오전</option>
-                    <option data-testid="select-option">오후</option>
-                  </select>
-                  <input
-                    className="outline-none bg-transparent max-w-14 text-xs xl:text-lg font-medium"
-                    type="text"
-                    placeholder={"09:00"}
-                    maxLength={5}
-                  />
+                  <div className="flex">
+                    <select
+                      data-testid="select"
+                      className="outline-none bg-transparent text-xs xl:text-lg font-medium text-stone-600"
+                    >
+                      <option data-testid="select-option">오전</option>
+                      <option data-testid="select-option">오후</option>
+                    </select>
+                    <input
+                      className="outline-none bg-transparent max-w-14 text-xs xl:text-lg font-medium"
+                      type="text"
+                      placeholder={"09:00"}
+                      maxLength={5}
+                    />
+                  </div>
+                  <div className="flex">
+                    <select
+                      data-testid="select"
+                      className="outline-none bg-transparent text-xs xl:text-lg font-medium text-stone-600"
+                    >
+                      <option data-testid="select-option">오전</option>
+                      <option data-testid="select-option">오후</option>
+                    </select>
+                    <input
+                      className="outline-none bg-transparent max-w-14 text-xs xl:text-lg font-medium"
+                      type="text"
+                      placeholder={"10:00"}
+                      maxLength={5}
+                    />
+                  </div>
                 </div>
               </div>
             ))}
