@@ -52,7 +52,7 @@ const Page = () => {
         className="h-14 lg:text-lg border-b-1"
         name={"job"}
       />
-      <div className="py-3 col-span-2 border border-y-0 border-neutral-300 flex flex-col justify-center lg:pl-10 pl-4">
+      <div className="py-3 col-span-2 border border-y-0 border-neutral-300 flex flex-col lg:pl-10 pl-4">
         <div className="flex min-h-44">
           <span className="hidden lg:flex items-center lg:text-lg flex-nowrap w-24 font-semibold text-stone-600">
             시간 선택

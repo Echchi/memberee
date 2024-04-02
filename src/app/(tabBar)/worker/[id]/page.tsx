@@ -91,6 +91,7 @@ const Page = () => {
             className="h-14 lg:text-lg border-t-0 border-b-0"
           />
         </div>
+
         <div className="text-stone-600 font-bold text-sm lg:text-lg flex justify-center items-center h-14 bg-neutral-100 col-span-2 border-x border-t border-neutral-300">
           담당 회원
         </div>

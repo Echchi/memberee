@@ -19,6 +19,7 @@ export async function login(prevState: any, formData: FormData) {
   console.log(formData);
 
   const result = formSchema.safeParse(data);
+  console.log(result.success);
   if (!result.success) {
     return result.error.flatten();
   } else {
@@ -29,16 +30,26 @@ export async function login(prevState: any, formData: FormData) {
       select: {
         id: true,
         password: true,
+        status: true,
       },
     });
-    console.log("user", user);
     const ok = await bcrypt.compare(result.data.password, user!.password ?? "");
-    console.log("ok", ok);
+    console.log("user", user);
     if (ok) {
-      const session = await getSession();
-      session.id = user!.id;
-      await session.save();
-      redirect("/main");
+      const isConfirmed = user!.status > 0;
+      if (!isConfirmed) {
+        return {
+          fieldErrors: {
+            password: ["가입 대기중입니다. 조금만 기다려주세요."],
+            userid: [],
+          },
+        };
+      } else {
+        const session = await getSession();
+        session.id = user!.id;
+        await session.save();
+        redirect("/main");
+      }
     } else {
       return {
         fieldErrors: {

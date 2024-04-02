@@ -17,12 +17,16 @@ const Page = () => {
   };
 
   return (
-    <div className="grid grid-cols-2">
+    <form className="grid grid-cols-2">
       <Input
         type={"text"}
         label={"이름"}
         placeholder={"이름"}
         className="h-14 lg:text-lg border-r-0 border-b-0 rounded-tl-lg"
+        name={"name"}
+        maxLength={6}
+        minLength={2}
+        required={true}
       />
       <Input
         isLong={true}
@@ -30,6 +34,9 @@ const Page = () => {
         label={"연락처"}
         placeholder={"숫자만 입력해주세요"}
         className="h-14 lg:text-lg border-b-0 rounded-tr-lg"
+        name={"phone"}
+        maxLength={11}
+        required={true}
       />
       <Input
         isLong={true}
@@ -37,12 +44,14 @@ const Page = () => {
         label={"생년월일"}
         placeholder={"여덟자리 숫자로 입력해주세요"}
         className="h-14 lg:text-lg border-b-1 border-r-0"
+        name={"birth"}
       />
       <Input
         type={"text"}
         label={"시작일자"}
         placeholder={today}
         className="h-14 lg:text-lg border-b-1"
+        name={"startDate"}
       />
       <div className="py-3 col-span-2 border border-y-0 border-neutral-300 flex flex-col justify-center lg:pl-10 pl-4">
         <div className="flex 16">
@@ -78,18 +87,24 @@ const Page = () => {
           label={"수수료"}
           placeholder={"10%"}
           className="h-14 lg:text-lg border-b-1"
+          name={"commission"}
         />
       </div>
-
-      <div className="col-span-2">
-        <Input
-          type={"text"}
-          label={"계좌번호"}
-          placeholder={"국민은행 000-000-00-000000"}
-          isLong={true}
-          className="h-14 lg:text-lg rounded-b border-t-0"
-        />
-      </div>
+      <Input
+        type={"text"}
+        label={"은행"}
+        placeholder={"국민"}
+        className="h-14 lg:text-lg border-t-0 border-r-0"
+        name={"bank"}
+      />
+      <Input
+        type={"text"}
+        label={"계좌번호"}
+        placeholder={"000-000-00-000000"}
+        isLong={true}
+        className="h-14 lg:text-lg  border-t-0"
+        name={"accountNumber"}
+      />
       <div className="col-span-2">
         <Input
           type={"text"}
@@ -97,12 +112,13 @@ const Page = () => {
           placeholder={""}
           isLong={true}
           className="h-14 lg:text-lg rounded-b border-t-0"
+          name={"content"}
         />
       </div>
       <div className="col-span-2 flex justify-between space-x-10">
         <Button text={"등록"} className="mt-4" large={true} />
       </div>
-    </div>
+    </form>
   );
 };
 

@@ -42,24 +42,39 @@ model Company {
 }
 
 model Worker {
-  id           Int            @id @default(autoincrement())
-  company      Company?       @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  companyId    Int?
-  name         String
-  birth        String?
-  phone        String         @unique
-  commission   Int
-  dayOfWeek    Int
-  startDate    DateTime?
-  endDate      DateTime?
-  status       Int            @default(1)
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  Member       Member[]
-  WorkerMember WorkerMember[]
-  Schedule     Schedule[]
+  id            Int            @id @default(autoincrement())
+  company       Company?       @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId     Int?
+  name          String
+  birth         String?
+  phone         String         @unique
+  commission    Int
+  dayOfWeek     Int
+  startDate     DateTime?
+  bank          String?
+  accountNumber String?        @unique
+  endDate       DateTime?
+  status        Int            @default(1)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  Member        Member[]
+  WorkerMember  WorkerMember[]
+  Schedule      Schedule[]
+  WorkerMemos   WorkerMemo[]
 
   @@index([companyId])
+}
+
+model WorkerMemo {
+  id        Int      @id @default(autoincrement())
+  date      DateTime
+  content   String   @db.MediumText
+  workerId  Int
+  worker    Worker   @relation(fields: [workerId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([workerId])
 }
 
 model LessonFee {
