@@ -4,6 +4,8 @@ import Input from "@/component/input";
 import { cls, formatCurrency } from "@/libs/client/utils";
 import Button from "@/component/button/button";
 import { format } from "date-fns";
+import { createWorker } from "@/app/(tabBar)/worker/register/action";
+import { useFormState } from "react-dom";
 
 const Page = () => {
   const today = format(new Date(), "yyyy. MM. dd.");
@@ -16,8 +18,10 @@ const Page = () => {
     }
   };
 
+  const [state, dispatch] = useFormState(createWorker, null);
+
   return (
-    <form className="grid grid-cols-2">
+    <form className="grid grid-cols-2" action={dispatch}>
       <Input
         type={"text"}
         label={"이름"}
@@ -72,6 +76,7 @@ const Page = () => {
                       ? "ring-2 ring-inset ring-emerald-600 font-bold"
                       : "bg-transparent font-medium",
                   )}
+                  type={"button"}
                   onClick={() => handleSelectDay(day)}
                 >
                   {day}

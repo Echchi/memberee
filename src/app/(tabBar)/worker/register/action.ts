@@ -48,5 +48,6 @@ export const createWorker = async (prevState: any, formData: FormData) => {
     content: formData.get("content"),
   };
 
-  console.log(data);
+  const result = formSchema.safeParse(data);
+  console.log(result.error);
 };
