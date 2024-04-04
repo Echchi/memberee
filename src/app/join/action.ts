@@ -11,6 +11,8 @@ import {
   PASSWORD_REGEX_ERROR,
 } from "@/libs/constants";
 import db from "@/libs/server/db";
+import getSession from "@/libs/client/session";
+import { redirect } from "next/navigation";
 interface ICheckPassword {
   password: string;
   confirm_password: string;
@@ -142,5 +144,10 @@ export const createAccount = async (prevState: any, formData: FormData) => {
       },
     });
     // 로그인
+    const session = await getSession();
+    session.id = user.id;
+    session.company = company.id;
+    await session.save();
+    redirect("/main");
   }
 };

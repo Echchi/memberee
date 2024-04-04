@@ -31,9 +31,14 @@ export async function login(prevState: any, formData: FormData) {
         id: true,
         password: true,
         status: true,
+        Company: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
-    const ok = await bcrypt.compare(result.data.password, user!.password ?? "");
+    const ok = await bcrypt.compare(result.data.password, user?.password ?? "");
     console.log("user", user);
     if (ok) {
       const isConfirmed = user!.status > 0;
@@ -47,6 +52,7 @@ export async function login(prevState: any, formData: FormData) {
       } else {
         const session = await getSession();
         session.id = user!.id;
+        session.company = user!.Company[0].id;
         await session.save();
         redirect("/main");
       }

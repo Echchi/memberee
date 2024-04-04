@@ -12,13 +12,23 @@ export const PASSWORD_REGEX_ERROR =
 export const BIRTH_REGEX = new RegExp(
   /^\d{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$/,
 );
-export const BIRTH_REGEX_ERROR = "생년월일을 숫자 여덟자로 입력해주세요";
+export const BIRTH_REGEX_ERROR = "생년월일을 올바르게 입력해주세요";
 
 export const STARTDATE_REGEX = new RegExp(
   /^\d{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$/,
 );
-export const STARTDATE_REGEX_ERROR = "시작일자를 숫자 여덟자로 입력해주세요";
+export const STARTDATE_REGEX_ERROR = "시작일자를 올바르게 입력해주세요";
 
 export const ONLY_NUMBER_REGEX = new RegExp(/^\d+$/);
 
 export const ONLY_NUMBER_REGEX_ERROR = "숫자로만 입력해주세요";
+
+export const DAYOFWEEK: Record<number, string> = {
+  1: "월",
+  2: "화",
+  3: "수",
+  4: "목",
+  5: "금",
+  6: "토",
+  0: "일",
+};

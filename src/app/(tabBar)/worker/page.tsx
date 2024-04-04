@@ -1,28 +1,37 @@
-"use client";
-import React, { useState } from "react";
+import React from "react";
 import Input from "@/component/input";
 import Button from "@/component/button/button";
 import Modal from "@/component/modal";
 import Register from "./register/page";
 import { useRouter } from "next/navigation";
+import RegisterModal from "@/app/(tabBar)/worker/registerModal";
+import db from "@/libs/server/db";
+import Link from "next/link";
+import { DayOfWeek } from "@/component/dayOfWeek";
 
-const Page = () => {
-  const [registerModalOpen, setRegisterModalOpen] = useState(false);
-  const route = useRouter();
+async function getWorkers() {
+  const workers = await db.worker.findMany({
+    where: {
+      status: 1,
+    },
+    select: {
+      id: true,
+      name: true,
+      dayOfWeek: true,
+      phone: true,
+    },
+  });
+  return workers;
+}
+
+const Page = async () => {
+  const workers = await getWorkers();
   return (
     <>
-      {registerModalOpen && (
-        <Modal
-          title={"직원 등록"}
-          content={<Register />}
-          onClose={() => setRegisterModalOpen(false)}
-          className={"md:w-2/3"}
-        />
-      )}
-
       <div className="my-3 flex justify-between items-center lg:space-x-0 space-x-4">
         <Input
           type="text"
+          name={"searchWord"}
           placeholder="이름"
           icon={
             <span className="text-gray-300">
@@ -45,47 +54,24 @@ const Page = () => {
           className="rounded-xl border-0 h-12 bg-stone-100 w-full lg:w-1/2"
         />
         <div className="flex space-x-3 w-1/12">
-          <Button
-            onClick={() => setRegisterModalOpen(true)}
-            text={"직원 등록"}
-            className="mt-0 py-3  lg:mt-5 !bg-emerald-500 hover:!bg-emerald-500/80 active:!bg-emerald-600"
-          />
+          <RegisterModal />
         </div>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 w-full gap-3 *:cursor-pointer *:transition-all ">
-        <div
-          className="bg-white w-full min-h-fit shadow rounded-lg flex flex-col items-center p-4 hover:shadow-lg"
-          onClick={() => route.push("/worker/1")}
-        >
-          <div className="bg-stone-200 rounded-full h-32 w-32" />
-          <div className="mt-4 flex flex-col items-center space-y-1">
-            <p className="font-bold text-lg tracking-wider">함코치</p>
-            <p>월 화 수 목 금</p>
-            <p>010-0000-0000</p>
-          </div>
-        </div>
-        <div
-          className="bg-white w-full min-h-fit shadow rounded-lg flex flex-col items-center p-4 hover:shadow-lg"
-          onClick={() => route.push("/worker/1")}
-        >
-          <div className="bg-stone-200 rounded-full h-32 w-32" />
-          <div className="mt-4 flex flex-col items-center space-y-1">
-            <p className="font-bold text-lg tracking-wider">이코치</p>
-            <p>월 화 수 목 금</p>
-            <p>010-0000-0000</p>
-          </div>
-        </div>
-        <div
-          className="bg-white w-full min-h-fit shadow rounded-lg flex flex-col items-center p-4 hover:shadow-lg"
-          onClick={() => route.push("/worker/1")}
-        >
-          <div className="bg-stone-200 rounded-full h-32 w-32" />
-          <div className="mt-4 flex flex-col items-center space-y-1">
-            <p className="font-bold text-lg tracking-wider">장코치</p>
-            <p>토 일</p>
-            <p>010-0000-0000</p>
-          </div>
-        </div>
+        {workers.map((worker, index) => (
+          <Link
+            href={`/worker/${worker.id}`}
+            key={worker.id}
+            className="bg-white w-full min-h-fit shadow rounded-lg flex flex-col items-center p-4 hover:shadow-lg"
+          >
+            <div className="bg-stone-200 rounded-full h-32 w-32" />
+            <div className="mt-4 flex flex-col items-center space-y-1">
+              <p className="font-bold text-lg tracking-wider">{worker.name}</p>
+              <p className="space-x-2">{DayOfWeek(worker.dayOfWeek || "")}</p>
+              <p>{worker.phone}</p>
+            </div>
+          </Link>
+        ))}
       </div>
     </>
   );

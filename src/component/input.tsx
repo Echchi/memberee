@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes } from "react";
+import React, { ChangeEvent, InputHTMLAttributes } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 import { cls } from "@/libs/client/utils";
 
@@ -104,6 +104,7 @@ const Input: React.FC<
           maxLength={maxLength}
           placeholder={placeholder}
           required={required}
+          defaultValue={value}
         />
       )}
       {errorMessage && (

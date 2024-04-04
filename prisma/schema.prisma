@@ -46,15 +46,15 @@ model Worker {
   company       Company?       @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId     Int?
   name          String
-  birth         String?
-  phone         String         @unique
-  commission    Int
-  dayOfWeek     Int
+  birth         DateTime?
+  phone         String
+  commission    Int?
+  dayOfWeek     String?
   startDate     DateTime?
   bank          String?
-  accountNumber String?        @unique
+  accountNumber String?
   endDate       DateTime?
-  status        Int            @default(1)
+  status        Int            @default(1) // 0: 중단, 1: 근무중
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   Member        Member[]
@@ -67,7 +67,6 @@ model Worker {
 
 model WorkerMemo {
   id        Int      @id @default(autoincrement())
-  date      DateTime
   content   String   @db.MediumText
   workerId  Int
   worker    Worker   @relation(fields: [workerId], references: [id])

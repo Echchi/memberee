@@ -10,6 +10,10 @@ import {
   STARTDATE_REGEX,
   STARTDATE_REGEX_ERROR,
 } from "@/libs/constants";
+import db from "@/libs/server/db";
+import getSession from "@/libs/client/session";
+import { formatDateTime } from "@/libs/client/utils";
+import { redirect } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(2, "이름을 올바르게 입력해주세요").trim(),
@@ -26,7 +30,7 @@ const formSchema = z.object({
   commission: z
     .string()
     .trim()
-    .regex(ONLY_NUMBER_REGEX, ONLY_NUMBER_REGEX_ERROR),
+    .transform((val) => parseInt(val, 10)),
   bank: z.string().trim(),
   accountNumber: z
     .string()
@@ -36,6 +40,7 @@ const formSchema = z.object({
 });
 
 export const createWorker = async (prevState: any, formData: FormData) => {
+  const session = await getSession();
   const data = {
     name: formData.get("name"),
     phone: formData.get("phone"),
@@ -49,5 +54,33 @@ export const createWorker = async (prevState: any, formData: FormData) => {
   };
 
   const result = formSchema.safeParse(data);
-  console.log(result.error);
+  if (!result.success) {
+    console.log(result.error.flatten());
+    return result.error.flatten();
+  } else {
+    console.log(result.data);
+    const worker = await db.worker.create({
+      data: {
+        name: result.data.name,
+        phone: result.data.phone,
+        birth: formatDateTime(result.data.birth),
+        startDate: formatDateTime(result.data.startDate),
+        dayOfWeek: result.data.dayOfWeek,
+        commission: result.data.commission,
+        bank: result.data.bank,
+        accountNumber: result.data.accountNumber,
+        companyId: session.company,
+      },
+    });
+
+    if (result.data.content) {
+      const workerMemo = await db.workerMemo.create({
+        data: {
+          content: result.data.content,
+          workerId: worker.id,
+        },
+      });
+    }
+    redirect("/worker/1");
+  }
 };

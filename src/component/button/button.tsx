@@ -1,4 +1,6 @@
+"use client";
 import { cls } from "@/libs/client/utils";
+import { useFormStatus } from "react-dom";
 
 export interface ButtonProps {
   large?: boolean;
@@ -19,6 +21,7 @@ export default function Button({
   type,
   ...rest
 }: ButtonProps) {
+  const { pending } = useFormStatus();
   return (
     <button
       {...rest}
@@ -33,7 +36,7 @@ export default function Button({
         className ? className : "",
       )}
     >
-      {text}
+      {pending ? "등록중" : text}
     </button>
   );
 }
