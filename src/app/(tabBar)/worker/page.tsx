@@ -8,11 +8,21 @@ import RegisterModal from "@/app/(tabBar)/worker/registerModal";
 import db from "@/libs/server/db";
 import Link from "next/link";
 import { DayOfWeek } from "@/component/dayOfWeek";
+import { useForm } from "react-hook-form";
 
-async function getWorkers() {
+async function getWorkers(formData?: FormData) {
+  console.log("formData", formData);
+  const searchWordValue = formData?.get("searchWord");
+  const searchWord = typeof searchWordValue === "string" ? searchWordValue : "";
   const workers = await db.worker.findMany({
     where: {
       status: 1,
+      ...(searchWord && {
+        name: {
+          contains: searchWord,
+          mode: "insensitive",
+        },
+      }),
     },
     select: {
       id: true,
@@ -26,33 +36,36 @@ async function getWorkers() {
 
 const Page = async () => {
   const workers = await getWorkers();
+
   return (
     <>
       <div className="my-3 flex justify-between items-center lg:space-x-0 space-x-4">
-        <Input
-          type="text"
-          name={"searchWord"}
-          placeholder="이름"
-          icon={
-            <span className="text-gray-300">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                />
-              </svg>
-            </span>
-          }
-          className="rounded-xl border-0 h-12 bg-stone-100 w-full lg:w-1/2"
-        />
+        <form action={getWorkers}>
+          <Input
+            type="text"
+            name={"searchWord"}
+            placeholder="이름"
+            icon={
+              <span className="text-gray-300">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                  />
+                </svg>
+              </span>
+            }
+            className="rounded-xl border-0 h-12 bg-stone-100 w-full lg:w-1/2"
+          />
+        </form>
         <div className="flex space-x-3 w-1/12">
           <RegisterModal />
         </div>

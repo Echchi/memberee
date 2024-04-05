@@ -21,10 +21,10 @@ const Page = () => {
     }
   };
 
-  const [state, dispatch] = useFormState(createWorker, null);
+  const [state, action] = useFormState(createWorker, null);
 
   return (
-    <form className="grid grid-cols-2" action={dispatch}>
+    <form className="grid grid-cols-2" action={action}>
       <Input
         type={"text"}
         label={"이름"}

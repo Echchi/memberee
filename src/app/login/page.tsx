@@ -11,14 +11,14 @@ import { useFormState } from "react-dom";
 import { login } from "@/app/login/action";
 
 const Login = () => {
-  const [state, dispatch] = useFormState(login, null);
+  const [state, action] = useFormState(login, null);
 
   const router = useRouter();
   console.log("state", state);
   return (
     <div className="w-full max-w-lg mx-auto">
       {/*<form onSubmit={handleSubmit(onValid)} className="w-full mt-32 px-8">*/}
-      <form action={dispatch} className="w-full mt-32 px-8">
+      <form action={action} className="w-full mt-32 px-8">
         <div className="flex flex-col justify-center items-center space-y-3">
           <h3 className="text-5xl md:text-7xl font-extrabold text-emerald-700">
             memberee

@@ -12,10 +12,10 @@ import { createAccount } from "@/app/join/action";
 export interface JoinData extends UserData, CompanyData {}
 
 const Join = () => {
-  const [state, dispatch] = useFormState(createAccount, null);
+  const [state, action] = useFormState(createAccount, null);
   return (
     <form
-      action={dispatch}
+      action={action}
       className="md:pt-10 md:max-w-full md:w-[1400px] md:mx-auto px-3 md:px-32 text-stone-800"
       data-testid="join-form"
     >
