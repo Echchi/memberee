@@ -11,6 +11,7 @@ import { DayOfWeek } from "@/component/dayOfWeek";
 import { useForm } from "react-hook-form";
 
 async function getWorkers(formData?: FormData) {
+  "use server";
   console.log("formData", formData);
   const searchWordValue = formData?.get("searchWord");
   const searchWord = typeof searchWordValue === "string" ? searchWordValue : "";
@@ -20,7 +21,6 @@ async function getWorkers(formData?: FormData) {
       ...(searchWord && {
         name: {
           contains: searchWord,
-          mode: "insensitive",
         },
       }),
     },
@@ -40,7 +40,7 @@ const Page = async () => {
   return (
     <>
       <div className="my-3 flex justify-between items-center lg:space-x-0 space-x-4">
-        <form action={getWorkers}>
+        <form action={getWorkers} className="w-full">
           <Input
             type="text"
             name={"searchWord"}
