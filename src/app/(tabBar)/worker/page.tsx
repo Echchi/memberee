@@ -9,12 +9,13 @@ import db from "@/libs/server/db";
 import Link from "next/link";
 import { DayOfWeek } from "@/component/dayOfWeek";
 import { useForm } from "react-hook-form";
+import Worker from "@/component/worker/worker";
 
 async function getWorkers(formData?: FormData) {
   "use server";
-  console.log("formData", formData);
   const searchWordValue = formData?.get("searchWord");
   const searchWord = typeof searchWordValue === "string" ? searchWordValue : "";
+  console.log("searchWord", searchWord);
   const workers = await db.worker.findMany({
     where: {
       status: 1,
@@ -71,20 +72,24 @@ const Page = async () => {
         </div>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 w-full gap-3 *:cursor-pointer *:transition-all ">
-        {workers.map((worker, index) => (
-          <Link
-            href={`/worker/${worker.id}`}
-            key={worker.id}
-            className="bg-white w-full min-h-fit shadow rounded-lg flex flex-col items-center p-4 hover:shadow-lg"
-          >
-            <div className="bg-stone-200 rounded-full h-32 w-32" />
-            <div className="mt-4 flex flex-col items-center space-y-1">
-              <p className="font-bold text-lg tracking-wider">{worker.name}</p>
-              <p className="space-x-2">{DayOfWeek(worker.dayOfWeek || "")}</p>
-              <p>{worker.phone}</p>
-            </div>
-          </Link>
-        ))}
+        {workers && <Worker workers={workers} />}
+        {/*{workers &&*/}
+        {/*  workers.map((worker, index) => (*/}
+        {/*    <Link*/}
+        {/*      href={`/worker/${worker.id}`}*/}
+        {/*      key={worker.id}*/}
+        {/*      className="bg-white w-full min-h-fit shadow rounded-lg flex flex-col items-center p-4 hover:shadow-lg"*/}
+        {/*    >*/}
+        {/*      <div className="bg-stone-200 rounded-full h-32 w-32" />*/}
+        {/*      <div className="mt-4 flex flex-col items-center space-y-1">*/}
+        {/*        <p className="font-bold text-lg tracking-wider">*/}
+        {/*          {worker.name}*/}
+        {/*        </p>*/}
+        {/*        <p className="space-x-2">{DayOfWeek(worker.dayOfWeek || "")}</p>*/}
+        {/*        <p>{worker.phone}</p>*/}
+        {/*      </div>*/}
+        {/*    </Link>*/}
+        {/*  ))}*/}
       </div>
     </>
   );

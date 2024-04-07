@@ -1,0 +1,33 @@
+import React from "react";
+import Link from "next/link";
+import { DayOfWeek } from "@/component/dayOfWeek";
+export interface Worker {
+  id: number;
+  name: string;
+  phone: string;
+  dayOfWeek: string | null;
+}
+
+const Worker = ({ workers }: { workers: Worker[] }) => {
+  return (
+    <>
+      {workers &&
+        workers.map((worker, index) => (
+          <Link
+            href={`/worker/${worker.id}`}
+            key={worker.id}
+            className="bg-white w-full min-h-fit shadow rounded-lg flex flex-col items-center p-4 hover:shadow-lg"
+          >
+            <div className="bg-stone-200 rounded-full h-32 w-32" />
+            <div className="mt-4 flex flex-col items-center space-y-1">
+              <p className="font-bold text-lg tracking-wider">{worker.name}</p>
+              <p className="space-x-2">{DayOfWeek(worker.dayOfWeek || "")}</p>
+              <p>{worker.phone}</p>
+            </div>
+          </Link>
+        ))}
+    </>
+  );
+};
+
+export default Worker;
