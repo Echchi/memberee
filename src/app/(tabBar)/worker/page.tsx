@@ -1,14 +1,7 @@
 import React from "react";
 import Input from "@/component/input";
-import Button from "@/component/button/button";
-import Modal from "@/component/modal";
-import Register from "./register/page";
-import { useRouter } from "next/navigation";
 import RegisterModal from "@/app/(tabBar)/worker/registerModal";
 import db from "@/libs/server/db";
-import Link from "next/link";
-import { DayOfWeek } from "@/component/dayOfWeek";
-import { useForm } from "react-hook-form";
 import Worker from "@/component/worker/worker";
 
 async function getWorkers(formData?: FormData) {
