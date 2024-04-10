@@ -7,19 +7,18 @@ import { format } from "date-fns";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import db from "@/libs/server/db";
 import { getWorker } from "@/app/(tabBar)/worker/[id]/api";
+import { Worker } from ".prisma/client";
 
-const Page = () => {
-  const pathname = usePathname();
+const Page = ({ params }: { params: { id: string } }) => {
   const [worker, setWorker] = useState<Worker>();
-  const id = pathname;
+  const id = params.id;
   useEffect(() => {
     const fetchWorker = async () => {
       console.log("id", id);
       try {
         if (id) {
           const response = await getWorker(+id);
-
-          console.log("response", response);
+          response && setWorker(response);
         }
       } catch (error) {
         return new Error("error fetch worker");
@@ -27,7 +26,7 @@ const Page = () => {
     };
 
     fetchWorker();
-  }, []);
+  }, [id]);
   const router = useRouter();
   const today = format(new Date(), "yyyy년 MM월 dd일");
   const [isEdit, setIsEdit] = useState(false);
@@ -54,17 +53,19 @@ const Page = () => {
         <Input
           type={isEdit ? "text" : "div"}
           label={"이름"}
-          value={"이코치"}
-          placeholder={"이코치"}
+          value={worker?.name}
+          placeholder={worker?.name}
           className="h-14 lg:text-lg border-r-0 border-b-0"
+          name="name"
         />
         <Input
           isLong={true}
           type={isEdit ? "text" : "div"}
           label={"연락처"}
           value={"010-0000-0000"}
-          placeholder={"01000000000"}
+          placeholder={worker?.phone}
           className="h-14 lg:text-lg border-b-0"
+          name="phone"
         />
         <Input
           isLong={true}
