@@ -3,20 +3,21 @@ import Input from "@/component/input";
 import RegisterModal from "@/app/(tabBar)/worker/registerModal";
 import db from "@/libs/server/db";
 import Worker from "@/component/worker/worker";
-
-async function getWorkers(formData?: FormData) {
+import { useFormState } from "react-dom";
+export async function getWorkers() {
+  // export async function getWorkers(formData?: FormData) {
   "use server";
-  const searchWordValue = formData?.get("searchWord");
-  const searchWord = typeof searchWordValue === "string" ? searchWordValue : "";
-  console.log("searchWord", searchWord);
+  // const searchWordValue = formData?.get("searchWord");
+  // const searchWord = typeof searchWordValue === "string" ? searchWordValue : "";
+  // console.log("searchWord", searchWord);
   const workers = await db.worker.findMany({
     where: {
       status: 1,
-      ...(searchWord && {
-        name: {
-          contains: searchWord,
-        },
-      }),
+      // ...(searchWord && {
+      //   name: {
+      //     contains: searchWord,
+      //   },
+      // }),
     },
     select: {
       id: true,
@@ -25,12 +26,11 @@ async function getWorkers(formData?: FormData) {
       phone: true,
     },
   });
+  console.log("workers", workers);
   return workers;
 }
-
 const Page = async () => {
   const workers = await getWorkers();
-
   return (
     <>
       <div className="my-3 flex justify-between items-center lg:space-x-0 space-x-4">
@@ -65,7 +65,7 @@ const Page = async () => {
         </div>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 w-full gap-3 *:cursor-pointer *:transition-all ">
-        {workers && <Worker workers={workers} />}
+        <Worker workers={workers} />
         {/*{workers &&*/}
         {/*  workers.map((worker, index) => (*/}
         {/*    <Link*/}

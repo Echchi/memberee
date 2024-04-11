@@ -1,6 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import { DayOfWeek } from "@/component/dayOfWeek";
+import db from "@/libs/server/db";
+import { useFormState } from "react-dom";
 export interface Worker {
   id: number;
   name: string;
@@ -8,7 +10,7 @@ export interface Worker {
   dayOfWeek: string | null;
 }
 
-const Worker = ({ workers }: { workers: Worker[] }) => {
+const Worker = async ({ workers }: { workers: Worker[] }) => {
   return (
     <>
       {workers &&

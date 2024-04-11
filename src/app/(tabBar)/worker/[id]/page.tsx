@@ -1,12 +1,33 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "@/component/input";
 import { cls } from "@/libs/client/utils";
 import Button from "@/component/button/button";
 import { format } from "date-fns";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import db from "@/libs/server/db";
+import { getWorker } from "@/app/(tabBar)/worker/[id]/api";
 
 const Page = () => {
+  const pathname = usePathname();
+  const [worker, setWorker] = useState<Worker>();
+  const id = pathname;
+  useEffect(() => {
+    const fetchWorker = async () => {
+      console.log("id", id);
+      try {
+        if (id) {
+          const response = await getWorker(+id);
+
+          console.log("response", response);
+        }
+      } catch (error) {
+        return new Error("error fetch worker");
+      }
+    };
+
+    fetchWorker();
+  }, []);
   const router = useRouter();
   const today = format(new Date(), "yyyy년 MM월 dd일");
   const [isEdit, setIsEdit] = useState(false);
