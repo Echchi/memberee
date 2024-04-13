@@ -2,10 +2,16 @@ generator db {
   provider = "prisma-client-js"
 }
 
+// datasource db {
+//   provider     = "mysql"
+//   url          = env("DATABASE_URL")
+//   relationMode = "prisma"
+// }
+
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -67,7 +73,7 @@ model Worker {
 
 model WorkerMemo {
   id        Int      @id @default(autoincrement())
-  content   String   @db.MediumText
+  content   String   @db.Text
   workerId  Int
   worker    Worker   @relation(fields: [workerId], references: [id])
   createdAt DateTime @default(now())
@@ -161,7 +167,7 @@ model Member {
 model Memo {
   id        Int      @id @default(autoincrement())
   date      DateTime
-  content   String   @db.MediumText
+  content   String   @db.Text
   memberId  Int
   member    Member   @relation(fields: [memberId], references: [id])
   createdAt DateTime @default(now())
