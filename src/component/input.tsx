@@ -23,8 +23,8 @@ const Input: React.FC<
   InputFieldProps & InputHTMLAttributes<HTMLInputElement>
 > = ({
   type,
-  value,
-  placeholder,
+  value = "",
+  placeholder = "",
   label,
   register,
   required,

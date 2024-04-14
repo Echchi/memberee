@@ -6,6 +6,10 @@ export async function getWorker(id: number) {
     where: {
       id: id,
     },
+    include: {
+      Member: true,
+      WorkerMemos: true,
+    },
   });
   return worker;
 }
