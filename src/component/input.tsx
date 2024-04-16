@@ -3,9 +3,9 @@ import { UseFormRegisterReturn } from "react-hook-form";
 import { cls } from "@/libs/client/utils";
 
 interface InputFieldProps {
-  name: string;
+  name?: string;
   type: string;
-  value?: string;
+  value?: string | string[];
   placeholder?: string;
   label?: string | React.ReactElement;
   register?: UseFormRegisterReturn;

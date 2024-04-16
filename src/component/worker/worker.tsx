@@ -3,6 +3,7 @@ import Link from "next/link";
 import { DayOfWeek } from "@/component/dayOfWeek";
 import db from "@/libs/server/db";
 import { useFormState } from "react-dom";
+import { formatPhone } from "@/libs/client/utils";
 export interface Worker {
   id: number;
   name: string;
@@ -24,7 +25,7 @@ const Worker = async ({ workers }: { workers: Worker[] }) => {
             <div className="mt-4 flex flex-col items-center space-y-1">
               <p className="font-bold text-lg tracking-wider">{worker.name}</p>
               <p className="space-x-2">{DayOfWeek(worker.dayOfWeek || "")}</p>
-              <p>{worker.phone}</p>
+              <p>{formatPhone(worker?.phone)}</p>
             </div>
           </Link>
         ))}

@@ -13,3 +13,12 @@ export async function getWorker(id: number) {
   });
   return worker;
 }
+
+export async function getMembers(id: number) {
+  const members = await db.member.findMany({
+    where: {
+      workerId: id,
+    },
+  });
+  return members;
+}

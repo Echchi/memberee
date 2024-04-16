@@ -16,7 +16,6 @@ export default function Button({
   onClick,
   text,
   isButtonDisabled,
-
   className,
   type,
   ...rest

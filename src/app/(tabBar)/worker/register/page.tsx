@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import { createWorker } from "@/app/(tabBar)/worker/register/action";
 import { useFormState, useFormStatus } from "react-dom";
 import { DAYOFWEEK } from "@/libs/constants";
+import SelectWorkingDay from "@/component/worker/workingDay";
 
 const Page = () => {
   const today = format(new Date(), "yyyyMMdd");
@@ -53,7 +54,7 @@ const Page = () => {
         type={"text"}
         label={"생년월일"}
         placeholder={"20000726"}
-        className="h-14 lg:text-lg border-b-1 border-r-0"
+        className="h-14 lg:text-lg border-b-0 border-r-0"
         name={"birth"}
         maxLength={8}
         minLength={8}
@@ -65,42 +66,18 @@ const Page = () => {
         label={"시작일자"}
         value={today}
         placeholder={today}
-        className="h-14 lg:text-lg border-b-1"
+        className="h-14 lg:text-lg border-b-0"
         name={"startDate"}
         maxLength={8}
         minLength={8}
         required={true}
         errorMessage={state?.fieldErrors.startDate}
       />
-      <div className="py-3 col-span-2 border border-y-0 border-neutral-300 flex flex-col justify-center lg:pl-10 pl-4">
-        <div className="flex 16">
-          <span className="hidden lg:flex items-center lg:text-lg flex-nowrap w-24 font-semibold text-stone-600">
-            요일 선택
-          </span>
+      <SelectWorkingDay
+        selectedDay={selectedDay}
+        handleSelectDay={handleSelectDay}
+      />
 
-          <div className="grid lg:grid-cols-7 grid-cols-4 justify-items-center py-3 w-full px-4">
-            {Object.entries(DAYOFWEEK).map(([index, day]) => (
-              <div
-                key={day}
-                className="relative flex flex-col justify-center items-center text-lg *:py-2 *:px-4 *:trnsition-all py-4 lg:py-0"
-              >
-                <button
-                  className={cls(
-                    "rounded-full text-stone-600",
-                    selectedDay.includes(+index)
-                      ? "ring-2 ring-inset ring-emerald-600 font-bold"
-                      : "bg-transparent font-medium",
-                  )}
-                  type={"button"}
-                  onClick={() => handleSelectDay(+index)}
-                >
-                  {day}
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
       <input
         type={"text"}
         value={selectedDay.join("")}
