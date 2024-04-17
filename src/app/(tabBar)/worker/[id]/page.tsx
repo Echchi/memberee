@@ -58,12 +58,14 @@ const Page = ({ params }: { params: { id: string } }) => {
     : "날짜 없음";
 
   const [selectedDay, setSelectedDay] = useState<number[]>([]);
+
   useEffect(() => {
     if (worker?.dayOfWeek) {
       const dayIndexes = worker.dayOfWeek.split("").map((day) => +day);
       setSelectedDay(dayIndexes);
     }
   }, [worker?.dayOfWeek]);
+
   const updateWorkerWithId = updateWorker.bind(null, id);
   const [state, action] = useFormState(updateWorkerWithId, null);
 
@@ -75,6 +77,15 @@ const Page = ({ params }: { params: { id: string } }) => {
     } else {
       setSelectedDay((prev) => [...prev, dayIndex]);
     }
+  };
+
+  const handleUpdateBtn = (event: MouseEvent) => {
+    event.preventDefault();
+    setIsEdit(true);
+  };
+  const handleCancelBtn = (event: MouseEvent) => {
+    event.preventDefault();
+    setIsEdit(false);
   };
 
   return (
@@ -109,7 +120,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             name="name"
             maxLength={6}
             minLength={2}
-            // errorMessage={state?.fieldErrors.name}
+            errorMessage={state?.fieldErrors.name}
           />
           <Input
             isLong={true}
@@ -129,41 +140,41 @@ const Page = ({ params }: { params: { id: string } }) => {
             name="phone"
             maxLength={11}
             minLength={10}
-            // errorMessage={state?.fieldErrors.phone}
+            errorMessage={state?.fieldErrors.phone}
           />
           <Input
             isLong={true}
             type={isEdit ? "text" : "div"}
             label={"생년월일"}
-            value={!isEdit ? birthDateFormatted : birthDateNotFormatted}
+            value={isEdit ? birthDateNotFormatted : birthDateFormatted}
             placeholder={birthDateNotFormatted}
             className="h-14 lg:text-lg border-b-0 border-r-0"
             name="birth"
             maxLength={8}
             minLength={8}
-            // errorMessage={state?.fieldErrors.birth}
+            errorMessage={state?.fieldErrors.birth}
           />
           <Input
             type={isEdit ? "text" : "div"}
             label={"시작일자"}
-            value={!isEdit ? startDateFormatted : startDateNotFormatted}
+            value={isEdit ? startDateNotFormatted : startDateFormatted}
             placeholder={startDateNotFormatted}
             className="h-14 lg:text-lg border-b-0"
             name="startDate"
             maxLength={8}
             minLength={8}
-            // errorMessage={state?.fieldErrors.startDate}
+            errorMessage={state?.fieldErrors.startDate}
           />
           <div className="col-span-2">
             {!isEdit ? (
               <Input
                 type={"div"}
                 label={"근무일"}
-                value={
-                  worker?.dayOfWeek
-                    ?.split("")
-                    .map((day, index) => `${DAYOFWEEK[+day]} `) || ""
-                }
+                value={worker?.dayOfWeek
+                  ?.split("")
+                  .map((day, index) => +day)
+                  .sort()
+                  .map((day) => `${DAYOFWEEK[+day]} ` || "")}
                 className="h-14 lg:text-lg border-b-0"
               />
             ) : (
@@ -173,17 +184,24 @@ const Page = ({ params }: { params: { id: string } }) => {
               />
             )}
           </div>
-
+          <input
+            type={"text"}
+            value={selectedDay.join("")}
+            className="hidden"
+            name={"dayOfWeek"}
+          />
           <div className="col-span-2">
             <Input
               type={isEdit ? "text" : "div"}
               label={"수수료"}
-              value={`${worker?.commission} %` || ""}
+              value={
+                isEdit ? worker?.commission + "" : `${worker?.commission} %`
+              }
               placeholder={`${worker?.commission} %` || ""}
               className="h-14 lg:text-lg border-b-1"
               name="commission"
               maxLength={2}
-              // errorMessage={state?.fieldErrors.commission}
+              errorMessage={state?.fieldErrors.commission}
             />
           </div>
 
@@ -226,19 +244,21 @@ const Page = ({ params }: { params: { id: string } }) => {
           <Button
             text={isEdit ? "취소" : "탈퇴"}
             className="!bg-neutral-300 hover:!bg-neutral-200 active:!bg-neutral-400 !w-1/6"
-            type="button"
-            onClick={isEdit ? () => setIsEdit(false) : undefined}
+            type={"button"}
+            onClick={
+              isEdit ? (event: MouseEvent) => handleCancelBtn(event) : undefined
+            }
           />
+
           {!isEdit ? (
             <Button
               text={"수정"}
               className="!w-1/6"
               type="button"
-              onClick={isEdit ? () => setIsEdit(false) : () => setIsEdit(true)}
+              onClick={(event: MouseEvent) => handleUpdateBtn(event)}
             />
           ) : (
-            <></>
-            // <Button text={"완료"} className="!w-1/6" type="submit" />
+            <Button text={"완료"} className="!w-1/6" type="submit" />
           )}
         </div>
       </form>

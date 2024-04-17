@@ -36,7 +36,7 @@ const Modal = ({ title, content, onClose, className }: ModalProps) => {
       data-testid={"modal-backdrop"}
       onClick={(event) => handleBackdropClick(event)}
       className={cls(
-        "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10",
+        "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20",
         animation === "fadeIn" ? "animate-fadeIn" : "animate-fadeOut",
       )}
     >

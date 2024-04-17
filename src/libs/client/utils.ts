@@ -1,4 +1,4 @@
-import { format, parse } from "date-fns";
+import { format, isValid, parse, parseISO } from "date-fns";
 import { DAYOFWEEK } from "@/libs/constants";
 
 export function cls(...classnames: string[]) {
@@ -12,20 +12,18 @@ export function formatCurrency(currency: string | number) {
   // return currency.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-export function formatDateTime(date: string) {
-  let res;
+export function formatISODate(date: string | Date | null | undefined): string {
   if (typeof date === "string") {
-    res = parse(date, "yyyyMMdd", new Date());
+    const parsedDate = parseISO(date);
+    return format(parsedDate, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx");
+  } else if (date instanceof Date) {
+    return format(date, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx");
   }
-  return res;
+  return "";
 }
 export function formatKorDate(date: string) {
-  let res;
-  if (typeof date === "string") {
-    const tmp = parse(date, "yyyyMMdd", new Date());
-    res = format(tmp, "yyyy년 MM월 dd일");
-  }
-  return res;
+  const tmp = parse(date, "yyyyMMdd", new Date());
+  return format(tmp, "yyyy년 MM월 dd일");
 }
 
 export function formatPhone(phoneNumber: string) {

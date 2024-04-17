@@ -12,7 +12,7 @@ import {
 } from "@/libs/constants";
 import db from "@/libs/server/db";
 import getSession from "@/libs/client/session";
-import { formatDateTime } from "@/libs/client/utils";
+import { formatISODate } from "@/libs/client/utils";
 import { redirect, useSearchParams } from "next/navigation";
 
 const formSchema = z.object({
@@ -49,11 +49,13 @@ export const updateWorker = async (
   const worker = await db.worker.findUnique({
     where: { id: +id, companyId },
   });
+
   const data = {
     name: formData.get("name") || worker?.name,
     phone: formData.get("phone") || worker?.phone,
     birth: formData.get("birth") || worker?.birth,
-    startDate: formData.get("startDate") || worker?.phone,
+    startDate: formData.get("startDate") || worker?.startDate,
+
     dayOfWeek: formData.get("dayOfWeek") || worker?.dayOfWeek,
     commission: formData.get("commission") || worker?.commission,
     bank: formData.get("bank") || worker?.bank,
@@ -69,9 +71,13 @@ export const updateWorker = async (
 
     const updatedWorker = await db.worker.update({
       where: { id: +id, companyId },
-      data: result.data,
+      data: {
+        ...result.data,
+        birth: formatISODate(result.data.birth),
+        startDate: formatISODate(result.data.startDate),
+      },
     });
 
-    redirect(`/worker/${updatedWorker.id}`);
+    redirect(`${id}`);
   }
 };

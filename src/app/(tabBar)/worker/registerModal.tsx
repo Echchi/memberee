@@ -19,7 +19,7 @@ const RegisterModal = () => {
       <Button
         onClick={() => setRegisterModalOpen(true)}
         text={"직원 등록"}
-        className="mt-0 py-3  lg:mt-5 !bg-emerald-500 hover:!bg-emerald-500/80 active:!bg-emerald-600"
+        className="mt-0 py-3 lg:mt-5 !bg-emerald-500 hover:!bg-emerald-500/80 active:!bg-emerald-600"
       />
     </>
   );

@@ -12,7 +12,7 @@ import {
 } from "@/libs/constants";
 import db from "@/libs/server/db";
 import getSession from "@/libs/client/session";
-import { formatDateTime } from "@/libs/client/utils";
+import { formatISODate } from "@/libs/client/utils";
 import { redirect } from "next/navigation";
 
 const formSchema = z.object({
@@ -63,8 +63,8 @@ export const createWorker = async (prevState: any, formData: FormData) => {
       data: {
         name: result.data.name,
         phone: result.data.phone,
-        birth: formatDateTime(result.data.birth),
-        startDate: formatDateTime(result.data.startDate),
+        birth: formatISODate(result.data.birth),
+        startDate: formatISODate(result.data.startDate),
         dayOfWeek: result.data.dayOfWeek,
         commission: result.data.commission,
         bank: result.data.bank,
