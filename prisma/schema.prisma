@@ -60,7 +60,7 @@ model Worker {
   bank          String?
   accountNumber String?
   endDate       DateTime?
-  status        Int            @default(1) // 0: 중단, 1: 근무중
+  status        Int            @default(1) // 0: 퇴사, 1: 근무중
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   Member        Member[]

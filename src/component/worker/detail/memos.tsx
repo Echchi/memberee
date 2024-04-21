@@ -24,6 +24,7 @@ const Memos = ({ memos }: { memos: WorkerMemo[] }) => {
         <span>비고</span>
         <button
           className="absolute right-5 text-emerald-600 hover:text-emerald-500"
+          type={"button"}
           onClick={() => setIsMemoModalOpen(true)}
         >
           <svg
@@ -40,27 +41,29 @@ const Memos = ({ memos }: { memos: WorkerMemo[] }) => {
           </svg>
         </button>
       </div>
-      <div className="col-span-2 border border-neutral-300 border-b-0 max-h-[40vh] overflow-y-auto">
-        <table className="w-full">
-          <thead>
-            <tr className="sticky top-0 bg-stone-100 font-semibold text-lg text-center *:py-3 border border-b border-x-0 border-t-0">
-              <td className="w-1/6">작성일</td>
-              <td className="flex justify-center items-center">내용</td>
-            </tr>
-          </thead>
-          <tbody>
-            {memos.map((memo, index) => (
-              <tr
-                key={index}
-                className="*:py-3 text-center border-b border-stone-100"
-              >
-                <td>{format(memo.createdAt + "", "yyyy년 MM월 dd일")}</td>
-                <td className="p-3">{memo.content}</td>
+      {memos?.length > 0 && (
+        <div className="col-span-2 border border-neutral-300 border-b-0 max-h-[40vh] overflow-y-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="sticky top-0 bg-stone-100 font-semibold text-lg text-center *:py-3 border border-b border-x-0 border-t-0">
+                <td className="w-1/6">작성일</td>
+                <td className="flex justify-center items-center">내용</td>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {memos.map((memo, index) => (
+                <tr
+                  key={index}
+                  className="*:py-3 text-center border-b border-stone-100"
+                >
+                  <td>{format(memo.createdAt + "", "yyyy년 MM월 dd일")}</td>
+                  <td className="p-3">{memo.content}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </>
   );
 };

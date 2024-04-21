@@ -17,9 +17,14 @@ import SelectWorkingDay from "@/component/worker/workingDay";
 import { useFormState } from "react-dom";
 import { createAccount } from "@/app/join/action";
 import { updateWorker } from "@/app/(tabBar)/worker/[id]/action";
+import ConfirmModal from "@/component/modal/confirmModal";
 
 export interface IWorkerWithMemos extends Worker {
   WorkerMemos?: WorkerMemo[];
+}
+
+function ConfirmModalå() {
+  return null;
 }
 
 const Page = ({ params }: { params: { id: string } }) => {
@@ -88,8 +93,23 @@ const Page = ({ params }: { params: { id: string } }) => {
     setIsEdit(false);
   };
 
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   return (
     <>
+      {isConfirmOpen && (
+        <Modal
+          title={""}
+          onClose={() => setIsConfirmOpen(false)}
+          content={
+            <ConfirmModal
+              name={worker?.name || ""}
+              action={"퇴사 처리"}
+              onClose={() => setIsConfirmOpen(false)}
+              onConfirm={() => setIsConfirmOpen(false)}
+            />
+          }
+        />
+      )}
       <form className="box justify-center flex-col" action={action}>
         <div className="col-span-2 flex justify-end items-center">
           <div className="hidden md:flex items-center justify-end space-x-4 w-full *:w-32">
@@ -242,11 +262,13 @@ const Page = ({ params }: { params: { id: string } }) => {
         </div>
         <div className="flex justify-between mt-4">
           <Button
-            text={isEdit ? "취소" : "탈퇴"}
+            text={isEdit ? "취소" : "퇴사"}
             className="!bg-neutral-300 hover:!bg-neutral-200 active:!bg-neutral-400 !w-1/6"
             type={"button"}
             onClick={
-              isEdit ? (event: MouseEvent) => handleCancelBtn(event) : undefined
+              isEdit
+                ? (event: MouseEvent) => handleCancelBtn(event)
+                : () => setIsConfirmOpen(true)
             }
           />
 
