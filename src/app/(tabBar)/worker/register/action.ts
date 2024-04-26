@@ -81,6 +81,6 @@ export const createWorker = async (prevState: any, formData: FormData) => {
         },
       });
     }
-    redirect("/worker/1");
+    redirect(`${worker.id}`);
   }
 };

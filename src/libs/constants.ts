@@ -30,5 +30,11 @@ export const DAYOFWEEK: Record<number, string> = {
   4: "목",
   5: "금",
   6: "토",
-  0: "일",
+  7: "일",
 };
+export const TIME_REGEX = /^(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$/;
+
+export const TIME_REGEX_ERROR = "시간을 올바르게 입력해주세요";
+
+export const MONEY_REGEX = /^\d{1,6}$/;
+export const MONEY_REGEX_ERROR = "금액을 올바르게 입력해주세요";

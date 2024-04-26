@@ -4,14 +4,13 @@ import { cls } from "@/libs/client/utils";
 
 interface IWorkingDayProps {
   selectedDay: number[];
-  handleSelectDay: (index: number) => void;
+  handleSelectDay: (event: React.MouseEvent, index: number) => void;
 }
 
 const SelectWorkingDay = (props: IWorkingDayProps) => {
   const { selectedDay, handleSelectDay } = props;
-  console.log("selectedDay", selectedDay);
   return (
-    <div className="py-3 col-span-2 border border-t-1 border-b-0 border-neutral-300 flex flex-col justify-center lg:pl-10 pl-4">
+    <div className="bg-white py-3 col-span-2 border border-t-1 border-b-0 border-neutral-300 flex flex-col justify-center lg:pl-10 pl-4">
       <div className="flex 16">
         <span className="hidden lg:flex items-center lg:text-lg flex-nowrap w-24 font-semibold text-stone-600">
           근무일
@@ -31,7 +30,9 @@ const SelectWorkingDay = (props: IWorkingDayProps) => {
                     : "bg-transparent font-medium",
                 )}
                 type={"button"}
-                onClick={() => handleSelectDay(+index)}
+                onClick={(event: React.MouseEvent) =>
+                  handleSelectDay(event, +index)
+                }
               >
                 {day}
               </button>

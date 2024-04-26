@@ -43,13 +43,14 @@ model Company {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   Worker    Worker[]
+  Member    Member[]
 
   @@index([userId])
 }
 
 model Worker {
-  id            Int            @id @default(autoincrement())
-  company       Company?       @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  id            Int          @id @default(autoincrement())
+  company       Company?     @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId     Int?
   name          String
   birth         DateTime?
@@ -60,11 +61,10 @@ model Worker {
   bank          String?
   accountNumber String?
   endDate       DateTime?
-  status        Int            @default(1) // 0: 퇴사, 1: 근무중
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+  status        Int          @default(1) // 0: 퇴사, 1: 근무중
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
   Member        Member[]
-  WorkerMember  WorkerMember[]
   Schedule      Schedule[]
   WorkerMemos   WorkerMemo[]
 
@@ -83,14 +83,14 @@ model WorkerMemo {
 }
 
 model LessonFee {
-  id        Int        @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   type      String // "Weekday" or "Weekend"
   frequency Int // 주중 또는 주말 수업의 빈도 (예: 1, 2, 3)
   amount    Int // 해당 수업 유형 및 빈도에 대한 수업료 금액
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  Schedule  Schedule[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
+  // Schedule  Schedule[]
   @@unique([type, frequency])
 }
 
@@ -100,20 +100,21 @@ model Schedule {
   workerId       Int
   member         Member           @relation(fields: [memberId], references: [id], onDelete: Cascade)
   memberId       Int
-  lessonFee      LessonFee        @relation(fields: [lessonFeeId], references: [id])
-  lessonFeeId    Int
+  lessonFee      Int
   dayOfWeek      Int // 요일을 나타내는 숫자 (0: 일요일, 1: 월요일, ..., 6: 토요일)
   startTime      DateTime
   endTime        DateTime
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
-  Salary         Salary[]
   Attendance     Attendance?
   ScheduleMember ScheduleMember[]
 
+  Salary   Salary? @relation(fields: [salaryId], references: [id])
+  salaryId Int?
+
   @@index([workerId])
   @@index([memberId])
-  @@index([lessonFeeId])
+  @@index([salaryId])
 }
 
 model ScheduleMember {
@@ -129,32 +130,31 @@ model ScheduleMember {
 
 model Salary {
   id              Int      @id @default(autoincrement())
-  Schedule        Schedule @relation(fields: [ScheduleId], references: [id], onDelete: Cascade)
-  ScheduleId      Int
   salaryForLesson Int
-  salaryPayment   Int
-  tax             Int
-  lessonCount     Int
+  salaryPayment   Int?
+  tax             Int?
+  lessonCount     Int?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  @@index([ScheduleId])
+  Schedule Schedule[]
 }
 
 model Member {
   id             Int              @id @default(autoincrement())
   worker         Worker           @relation(fields: [workerId], references: [id], onDelete: Cascade)
   workerId       Int
+  company        Company?         @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId      Int?
   name           String
-  phone          String           @unique
-  birth          String?
+  phone          String
+  birth          DateTime?
   job            String?
   startDate      DateTime?
   endDate        DateTime?
-  status         Int              @default(1)
+  status         Int              @default(1) // -1: 중단, 0: 탈퇴, 1: 수강중
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
-  WorkerMember   WorkerMember?
   Payment        Payment?
   Attendance     Attendance?
   Schedule       Schedule[]
@@ -162,11 +162,11 @@ model Member {
   ScheduleMember ScheduleMember[]
 
   @@index([workerId])
+  @@index([companyId])
 }
 
 model Memo {
   id        Int      @id @default(autoincrement())
-  date      DateTime
   content   String   @db.Text
   memberId  Int
   member    Member   @relation(fields: [memberId], references: [id])
@@ -195,28 +195,16 @@ enum Status {
   Absent
 }
 
-model WorkerMember {
-  id       Int    @id @default(autoincrement())
-  worker   Worker @relation(fields: [workerId], references: [id], onDelete: Cascade)
-  workerId Int    @unique
-  member   Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
-  memberId Int    @unique
-
-  @@index([workerId])
-  @@index([memberId])
-}
-
 model Payment {
-  id            Int      @id @default(autoincrement())
-  member        Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
-  memberId      Int      @unique
-  forYear       Int // 어떤 연도에 대한 납부인지 나타내는 컬럼
-  forMonth      Int // 어떤 월에 대한 납부인지 나타내는 컬럼
-  paymentDate   DateTime // 실제 납부가 이루어진 날짜
-  amount        Int // 납부해야 하는 금액 또는 실제 납부된 금액
-  isPaid        Boolean // 납부 여부를 나타내는 불리언 값
-  dueDate       DateTime // 납부 기한 날짜
-  paymentMethod String // 납부 방법
+  id            Int       @id @default(autoincrement())
+  member        Member    @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  memberId      Int       @unique
+  forYear       Int? // 어떤 연도에 대한 납부인지 나타내는 컬럼
+  forMonth      Int? // 어떤 월에 대한 납부인지 나타내는 컬럼
+  paymentDate   DateTime? // 실제 납부가 이루어진 날짜
+  isPaid        Boolean? // 납부 여부를 나타내는 불리언 값
+  dueDate       DateTime? // 납부 기한 날짜
+  paymentMethod String? // 납부 방법
 
   @@index([memberId])
 }

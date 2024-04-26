@@ -2,6 +2,10 @@ import React, { ChangeEvent, InputHTMLAttributes } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 import { cls } from "@/libs/client/utils";
 
+interface IOption {
+  value: number;
+  label: string;
+}
 interface InputFieldProps {
   name?: string;
   type: string;
@@ -14,9 +18,10 @@ interface InputFieldProps {
   className?: string;
   errorMessage?: string[];
   maxLength?: number;
-  options?: string[];
+  options?: IOption[];
   isLong?: boolean;
   selectDescription?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Input: React.FC<
@@ -36,6 +41,8 @@ const Input: React.FC<
   isLong = false,
   name = "",
   selectDescription,
+  onChange,
+
   ...rest
 }) => {
   return (
@@ -74,13 +81,17 @@ const Input: React.FC<
           <select
             name={name}
             className={cls(
-              "outline-none bg-white text-gray-400 font-medium text-xs lg:text-base",
+              "outline-none bg-white text-stone-600 font-medium text-xs lg:text-lg",
               icon ? "ml-14 lg:ml-20" : "",
               label ? "ml-20 lg:ml-40" : "",
             )}
           >
             {options &&
-              options.map((item, index) => <option key={index}>{item}</option>)}
+              options.map(({ value, label }, index) => (
+                <option key={index} value={value}>
+                  {label}
+                </option>
+              ))}
           </select>
           {selectDescription && (
             <span className="ml-4 relative text-gray-400 font-medium text-xs lg:text-lg">
@@ -105,6 +116,7 @@ const Input: React.FC<
           placeholder={placeholder}
           required={required}
           defaultValue={value}
+          onChange={onChange}
         />
       )}
       {errorMessage && (

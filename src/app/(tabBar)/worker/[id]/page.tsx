@@ -1,12 +1,18 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Input from "@/component/input";
-import { cls, formatKorDate, formatPhone } from "@/libs/client/utils";
+import {
+  cls,
+  dateFormattedtoKor,
+  dateFormattedtoNum,
+  formatKorDate,
+  formatPhone,
+} from "@/libs/client/utils";
 import Button from "@/component/button/button";
 import { format } from "date-fns";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import db from "@/libs/server/db";
-import { getWorker } from "@/app/(tabBar)/worker/[id]/api";
+import { getWorker, terminateWorker } from "@/app/(tabBar)/worker/[id]/api";
 import { Worker, WorkerMemo } from ".prisma/client";
 import Modal from "@/component/modal";
 import { DAYOFWEEK } from "@/libs/constants";
@@ -21,10 +27,6 @@ import ConfirmModal from "@/component/modal/confirmModal";
 
 export interface IWorkerWithMemos extends Worker {
   WorkerMemos?: WorkerMemo[];
-}
-
-function ConfirmModalå() {
-  return null;
 }
 
 const Page = ({ params }: { params: { id: string } }) => {
@@ -46,21 +48,10 @@ const Page = ({ params }: { params: { id: string } }) => {
 
     fetchWorker();
   }, [id]);
+
   const router = useRouter();
   const today = format(new Date(), "yyyy년 MM월 dd일");
   const [isEdit, setIsEdit] = useState(false);
-  const birthDateFormatted = worker?.birth
-    ? format(worker.birth, "yyyy년 MM월 dd일")
-    : "날짜 없음";
-  const birthDateNotFormatted = worker?.birth
-    ? format(worker?.birth, "yyyyMMdd")
-    : "날짜 없음";
-  const startDateFormatted = worker?.startDate
-    ? format(worker.startDate, "yyyy년 MM월 dd일")
-    : "날짜 없음";
-  const startDateNotFormatted = worker?.startDate
-    ? format(worker?.startDate, "yyyyMMdd")
-    : "날짜 없음";
 
   const [selectedDay, setSelectedDay] = useState<number[]>([]);
 
@@ -74,7 +65,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   const updateWorkerWithId = updateWorker.bind(null, id);
   const [state, action] = useFormState(updateWorkerWithId, null);
 
-  const handleSelectDay = (dayIndex: number) => {
+  const handleSelectDay = (event: React.MouseEvent, dayIndex: number) => {
     if (selectedDay.includes(dayIndex)) {
       setSelectedDay((prev) =>
         prev.filter((selected) => selected !== dayIndex),
@@ -105,7 +96,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               name={worker?.name || ""}
               action={"퇴사 처리"}
               onClose={() => setIsConfirmOpen(false)}
-              onConfirm={() => setIsConfirmOpen(false)}
+              onConfirm={() => terminateWorker(+id)}
             />
           }
         />
@@ -127,7 +118,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           </div>
         </div>
         <div className="grid grid-cols-2">
-          <div className="col-span-2 border border-x border-b-0 hidden md:flex bg-stone-100 text-stone-600 pl-10 tracking-wider text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg ">
+          <div className="col-span-2 border border-x border-b-0 hidden md:flex bg-stone-100 text-stone-600 tracking-wider text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg ">
             직원 카드
           </div>
 
@@ -166,8 +157,12 @@ const Page = ({ params }: { params: { id: string } }) => {
             isLong={true}
             type={isEdit ? "text" : "div"}
             label={"생년월일"}
-            value={isEdit ? birthDateNotFormatted : birthDateFormatted}
-            placeholder={birthDateNotFormatted}
+            value={
+              isEdit
+                ? dateFormattedtoNum(worker?.birth)
+                : dateFormattedtoKor(worker?.birth)
+            }
+            placeholder={dateFormattedtoNum(worker?.birth)}
             className="h-14 lg:text-lg border-b-0 border-r-0"
             name="birth"
             maxLength={8}
@@ -177,8 +172,12 @@ const Page = ({ params }: { params: { id: string } }) => {
           <Input
             type={isEdit ? "text" : "div"}
             label={"시작일자"}
-            value={isEdit ? startDateNotFormatted : startDateFormatted}
-            placeholder={startDateNotFormatted}
+            value={
+              isEdit
+                ? dateFormattedtoNum(worker?.startDate)
+                : dateFormattedtoKor(worker?.startDate)
+            }
+            placeholder={dateFormattedtoNum(worker?.startDate)}
             className="h-14 lg:text-lg border-b-0"
             name="startDate"
             maxLength={8}
@@ -255,7 +254,11 @@ const Page = ({ params }: { params: { id: string } }) => {
             <></>
           ) : (
             <motion.div className="col-span-2">
-              <Memos memos={worker?.WorkerMemos || []} />
+              <Memos
+                memos={worker?.WorkerMemos?.sort((a, b) => b.id - a.id) || []}
+                id={worker?.id + "" || ""}
+                title={"비고"}
+              />
               <Members id={id} />
             </motion.div>
           )}
@@ -263,7 +266,7 @@ const Page = ({ params }: { params: { id: string } }) => {
         <div className="flex justify-between mt-4">
           <Button
             text={isEdit ? "취소" : "퇴사"}
-            className="!bg-neutral-300 hover:!bg-neutral-200 active:!bg-neutral-400 !w-1/6"
+            className={cls("!w-1/6", isEdit ? "gray_btn" : "red_btn")}
             type={"button"}
             onClick={
               isEdit

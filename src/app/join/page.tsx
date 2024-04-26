@@ -230,7 +230,10 @@ const Join = () => {
           className={"h-14 border-t-0"}
           type={"select"}
           selectDescription={"일이 납부일이에요"}
-          options={Array.from({ length: 31 }, (_, index) => index + 1 + "")}
+          options={Array.from({ length: 31 }, (_, index) => ({
+            value: index + 1,
+            label: (index + 1).toString(),
+          }))}
         />
         <Input
           icon={

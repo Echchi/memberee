@@ -64,11 +64,8 @@ export const updateWorker = async (
 
   const result = formSchema.safeParse(data);
   if (!result.success) {
-    console.log(result.error.flatten());
     return result.error.flatten();
   } else {
-    console.log(result.data);
-
     const updatedWorker = await db.worker.update({
       where: { id: +id, companyId },
       data: {

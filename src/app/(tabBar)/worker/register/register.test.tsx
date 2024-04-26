@@ -1,9 +1,9 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import Register from "./page";
+import Page from "./page";
 
 describe("직원등록 모달", () => {
   test("직원등록 모달 렌더링", () => {
-    render(<Register />);
+    render(<Page />);
     expect(screen.getByText("이름")).toBeInTheDocument();
     expect(screen.getByText("연락처")).toBeInTheDocument();
     expect(screen.getByText("생년월일")).toBeInTheDocument();

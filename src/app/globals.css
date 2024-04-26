@@ -38,10 +38,11 @@
 
     /* error */
     .error {
-        @apply absolute inset-y-0 right-2 flex items-center text-orange-500 font-medium bg-white m-1 text-xs lg:text-base bg-transparent
+        @apply absolute inset-y-0 right-2 flex items-center text-orange-500 font-medium m-1 text-xs lg:text-base bg-transparent
     }
 
 
+    /* box */
     .box {
         @apply flex rounded-xl px-4 md:px-10 py-3 md:pt-5 md:pb-8 md:my-0 my-5 shadow font-medium bg-white
     }
@@ -51,6 +52,14 @@
 
     .box_title{
         @apply text-xl font-bold col-span-2 pt-2 pb-4 flex justify-between items-center text-emerald-800
+    }
+
+    /* button */
+    .gray_btn{
+        @apply !bg-neutral-300 hover:!bg-neutral-200 active:!bg-neutral-400
+    }
+    .red_btn{
+        @apply !bg-red-400 hover:!bg-red-300 active:!bg-red-500
     }
 
 }

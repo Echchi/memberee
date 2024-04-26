@@ -1,3 +1,4 @@
+"use server";
 import React from "react";
 import Link from "next/link";
 import { DayOfWeek } from "@/component/dayOfWeek";
@@ -5,6 +6,7 @@ import db from "@/libs/server/db";
 import { useFormState } from "react-dom";
 import { formatPhone } from "@/libs/client/utils";
 import { DAYOFWEEK } from "@/libs/constants";
+import getSession from "@/libs/client/session";
 export interface Worker {
   id: number;
   name: string;
@@ -12,7 +14,29 @@ export interface Worker {
   dayOfWeek: string | null;
 }
 
-const Worker = async ({ workers }: { workers: Worker[] }) => {
+export async function getWorkers(query: string) {
+  const companyId = getSession().com;
+
+  const workers = await db.worker.findMany({
+    where: {
+      status: 1,
+      ...(query && {
+        name: {
+          contains: query?.toLowerCase(),
+        },
+      }),
+    },
+    select: {
+      id: true,
+      name: true,
+      dayOfWeek: true,
+      phone: true,
+    },
+  });
+  return workers;
+}
+const Workers = async ({ query }: { query?: string }) => {
+  const workers = await getWorkers(query || "");
   return (
     <>
       {workers &&
@@ -40,4 +64,4 @@ const Worker = async ({ workers }: { workers: Worker[] }) => {
   );
 };
 
-export default Worker;
+export default Workers;

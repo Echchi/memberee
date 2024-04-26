@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { cls } from "@/libs/client/utils";
 
@@ -13,6 +14,7 @@ const Modal = ({ title, content, onClose, className }: ModalProps) => {
   const [animation, setAnimation] = useState("fadeIn"); // 애니메이션 상태 관리
 
   const handleBackdropClick = (event: React.MouseEvent) => {
+    event.preventDefault();
     if (event.target === event.currentTarget) {
       setAnimation("fadeOut");
       setTimeout(() => {
@@ -21,7 +23,8 @@ const Modal = ({ title, content, onClose, className }: ModalProps) => {
       }, 200);
     }
   };
-  const handleClose = () => {
+  const handleClose = (event: React.MouseEvent) => {
+    event.preventDefault();
     setAnimation("fadeOut");
     setTimeout(() => {
       setIsOpen(false);
@@ -34,7 +37,7 @@ const Modal = ({ title, content, onClose, className }: ModalProps) => {
   return (
     <div
       data-testid={"modal-backdrop"}
-      onClick={(event) => handleBackdropClick(event)}
+      onClick={(event: React.MouseEvent) => handleBackdropClick(event)}
       className={cls(
         "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20",
         animation === "fadeIn" ? "animate-fadeIn" : "animate-fadeOut",
@@ -48,8 +51,9 @@ const Modal = ({ title, content, onClose, className }: ModalProps) => {
       >
         <button
           data-testid={"close-button"}
-          onClick={handleClose}
+          onClick={(event: React.MouseEvent) => handleClose(event)}
           className="absolute top-4 right-4 text-2xl"
+          type="button"
         >
           &times;
         </button>

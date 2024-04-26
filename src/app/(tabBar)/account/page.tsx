@@ -115,7 +115,7 @@ const Page = () => {
         <div className="flex justify-between mt-4">
           <Button
             text={isEdit ? "취소" : "탈퇴"}
-            className="!bg-neutral-300 hover:!bg-neutral-200 active:!bg-neutral-400 !w-1/6"
+            className="gray_btn !w-1/6"
             type={"button"}
             onClick={isEdit ? () => setIsEdit(false) : undefined}
           />

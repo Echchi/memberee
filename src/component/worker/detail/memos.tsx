@@ -3,29 +3,66 @@ import { WorkerMemo } from ".prisma/client";
 import { format } from "date-fns";
 import Modal from "@/component/modal";
 import Button from "@/component/button/button";
+import MemoModal from "@/component/modal/memoModal";
+import {
+  createWorkerMemo,
+  deleteWorkerMemo,
+  updateWorkerMemo,
+} from "@/app/(tabBar)/worker/[id]/api";
+import { Memo } from "@prisma/client";
+import { cls } from "@/libs/client/utils";
 
-const Memos = ({ memos }: { memos: WorkerMemo[] }) => {
+const Memos = ({
+  memos,
+  id,
+  title,
+  isMember,
+}: {
+  memos: WorkerMemo[] | Memo[];
+  id: string;
+  title: string;
+  isMember?: boolean;
+}) => {
   const [isMemoModalOpen, setIsMemoModalOpen] = useState(false);
+  const [memoType, setMemoType] = useState<"create" | "read">("create");
+  const [savedMemo, setSavedMemo] = useState("");
+  const [memoId, setMemoId] = useState(-1);
+  const handleClickMemo = (savedMemo: string, memoId: number) => {
+    setMemoType("read");
+    setSavedMemo(savedMemo);
+    setMemoId(memoId);
+    setIsMemoModalOpen(true);
+  };
+  const handleClickMemoAdd = () => {
+    setMemoType("create");
+    setIsMemoModalOpen(true);
+  };
   return (
     <>
       {isMemoModalOpen && (
         <Modal
-          title="비고"
+          title={title}
           content={
-            <>
-              <textarea className="w-full h-52 bg-neutral-100 p-4 rounded-xl resize-none overflow-y-auto outline-none focus:ring-2 focus:ring-emerald-600" />
-              <Button text="등록" className="mt-3" />
-            </>
+            <MemoModal
+              id={id}
+              createMemo={createWorkerMemo}
+              updateMemo={updateWorkerMemo}
+              deleteMemo={deleteWorkerMemo}
+              type={memoType}
+              savedMemo={savedMemo}
+              memoId={memoId}
+              onClose={() => setIsMemoModalOpen(false)}
+            />
           }
           onClose={() => setIsMemoModalOpen(false)}
         />
       )}
       <div className="relative text-stone-600 font-bold text-sm lg:text-lg flex justify-center items-center h-14 bg-neutral-100 col-span-2 border-x  border-neutral-300">
-        <span>비고</span>
+        <span>{title}</span>
         <button
           className="absolute right-5 text-emerald-600 hover:text-emerald-500"
           type={"button"}
-          onClick={() => setIsMemoModalOpen(true)}
+          onClick={() => handleClickMemoAdd()}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -42,22 +79,30 @@ const Memos = ({ memos }: { memos: WorkerMemo[] }) => {
         </button>
       </div>
       {memos?.length > 0 && (
-        <div className="col-span-2 border border-neutral-300 border-b-0 max-h-[40vh] overflow-y-auto">
+        <div
+          className={cls(
+            "col-span-2 border border-neutral-300 max-h-[40vh] overflow-x-hidden overflow-y-auto",
+            isMember ? "border-b-1 rounded-b-lg" : "border-b-0",
+          )}
+        >
           <table className="w-full">
             <thead>
               <tr className="sticky top-0 bg-stone-100 font-semibold text-lg text-center *:py-3 border border-b border-x-0 border-t-0">
                 <td className="w-1/6">작성일</td>
-                <td className="flex justify-center items-center">내용</td>
+                <td className="text-center">내용</td>
               </tr>
             </thead>
             <tbody>
               {memos.map((memo, index) => (
                 <tr
                   key={index}
-                  className="*:py-3 text-center border-b border-stone-100"
+                  className="*:py-3 text-center border-stone-100 hover:bg-orange-100 cursor-pointer"
+                  onClick={() => handleClickMemo(memo.content, memo.id)}
                 >
                   <td>{format(memo.createdAt + "", "yyyy년 MM월 dd일")}</td>
-                  <td className="p-3">{memo.content}</td>
+                  <td className="p-3 truncate">
+                    {`${memo.content.length > 100 ? memo.content.slice(0, 100) + "..." : memo.content}`}
+                  </td>
                 </tr>
               ))}
             </tbody>

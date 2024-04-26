@@ -4,7 +4,7 @@ import Button from "@/component/button/button";
 const ConfirmModal = ({
   action,
   onClose,
-  oConfirm,
+  onConfirm,
   ...rest
 }: {
   action: string;
@@ -13,7 +13,7 @@ const ConfirmModal = ({
   [key: string]: any;
 }) => {
   return (
-    <div className="h-52">
+    <div className="h-52 mb-3">
       <div className="h-4/5 flex flex-col justify-center items-center text-lg space-y-2">
         <p>{action} 처리는 복구되지 않습니다</p>
         <p>
@@ -24,12 +24,10 @@ const ConfirmModal = ({
       <div className="flex w-full justify-end space-x-3">
         <Button
           text={"취소"}
-          className={
-            "!bg-neutral-300 hover:!bg-neutral-200 active:!bg-neutral-400 !w-1/6"
-          }
+          className={"gray_btn !w-1/6"}
           onClick={() => onClose()}
         />
-        <Button text={"확인"} className="!w-1/6" />
+        <Button text={"확인"} className="!w-1/6" onClick={() => onConfirm()} />
       </div>
     </div>
   );
