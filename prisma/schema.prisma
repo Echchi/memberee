@@ -152,10 +152,11 @@ model Member {
   job            String?
   startDate      DateTime?
   endDate        DateTime?
+  suspendedDate  DateTime?
   status         Int              @default(1) // -1: 중단, 0: 탈퇴, 1: 수강중
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
-  Payment        Payment?
+  Payment        Payment[]
   Attendance     Attendance?
   Schedule       Schedule[]
   Memos          Memo[]
@@ -198,13 +199,13 @@ enum Status {
 model Payment {
   id            Int       @id @default(autoincrement())
   member        Member    @relation(fields: [memberId], references: [id], onDelete: Cascade)
-  memberId      Int       @unique
+  memberId      Int
   forYear       Int? // 어떤 연도에 대한 납부인지 나타내는 컬럼
   forMonth      Int? // 어떤 월에 대한 납부인지 나타내는 컬럼
   paymentDate   DateTime? // 실제 납부가 이루어진 날짜
-  isPaid        Boolean? // 납부 여부를 나타내는 불리언 값
-  dueDate       DateTime? // 납부 기한 날짜
+  lessonFee     Int? // 납부 금액
   paymentMethod String? // 납부 방법
+  memo          String?
 
   @@index([memberId])
 }

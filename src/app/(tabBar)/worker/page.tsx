@@ -1,7 +1,7 @@
 import React from "react";
 import Input from "@/component/input";
 import RegisterModal from "@/app/(tabBar)/worker/registerModal";
-import Workers from "@/component/worker/workers";
+import Workers from "@/component/page/worker/workers";
 import Search from "@/component/search";
 import Button from "@/component/button/button";
 

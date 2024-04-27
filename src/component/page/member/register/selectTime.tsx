@@ -10,6 +10,7 @@ const SelectTime = ({
   handleTimeChange,
   timeError,
   setTimeError,
+  selectedTime,
 }: {
   selectedDay: number[];
   handleTimeChange: (
@@ -19,8 +20,9 @@ const SelectTime = ({
   ) => void;
   timeError: string;
   setTimeError?: React.Dispatch<React.SetStateAction<string>>;
+  selectedTime?: ITime;
 }) => {
-  const [times, setTimes] = useState<ITime>({});
+  const [times, setTimes] = useState<ITime>(selectedTime || {});
 
   const RUNTIME = 20;
   useEffect(() => {
@@ -129,7 +131,7 @@ const SelectTime = ({
               <div className="!font-semibold">시작 시간</div>
               <div className="!font-semiboldl">종료 시간</div>
               {selectedDay.sort().map((day, index) => (
-                <React.Fragment key={index}>
+                <React.Fragment key={`select_time_${index}`}>
                   <div className="self-center">{DAYOFWEEK[day]}요일</div>
 
                   <input
@@ -138,7 +140,7 @@ const SelectTime = ({
                     placeholder={"10:00"}
                     required={true}
                     maxLength={5}
-                    value={times[day]?.startTime || ""}
+                    defaultValue={times[day]?.startTime || ""}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       handleStartTimeChange(day, e.target.value)
                     }
@@ -150,7 +152,7 @@ const SelectTime = ({
                     placeholder={"10:20"}
                     required={true}
                     maxLength={5}
-                    value={times[day]?.endTime || ""}
+                    defaultValue={times[day]?.endTime || ""}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       handleEndTimeChange(day, e.target.value)
                     }

@@ -6,16 +6,29 @@ interface LineBoxProps {
   day?: string;
   name: string;
   phone: string;
-  pay: boolean;
+  active: boolean;
   onClick?: () => void;
+  isNotPaid?: boolean;
 }
 
-const LineBox = ({ worker, day, name, phone, onClick, pay }: LineBoxProps) => {
+const LineBox = ({
+  worker,
+  day,
+  name,
+  phone,
+  onClick,
+  active,
+  isNotPaid,
+}: LineBoxProps) => {
   return (
     <div
       className={cls(
         "rounded-lg p-3 hover:scale-95 transition-all cursor-pointer w-full",
-        pay ? "bg-stone-200" : "bg-orange-200",
+        isNotPaid
+          ? !active
+            ? "!bg-stone-200"
+            : "!bg-orange-500/20"
+          : "bg-stone-100",
       )}
       onClick={onClick}
     >

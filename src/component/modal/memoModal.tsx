@@ -52,11 +52,8 @@ const MemoModal = ({
   };
 
   const handleClickDelete = () => {
-    if (isEdit) {
-      deleteMemo(memoId);
-    }
+    deleteMemo(memoId);
     onClose();
-    // revalidatePath(`${id}`);
     window.location.reload();
   };
 
@@ -93,12 +90,6 @@ const MemoModal = ({
       {isEdit ? (
         <div className="flex justify-end space-x-3">
           <Button
-            text="삭제"
-            className="mt-3 red_btn !w-1/6"
-            type="button"
-            onClick={handleClickDelete}
-          />
-          <Button
             text="완료"
             className="mt-3 !w-1/6"
             type="button"
@@ -106,12 +97,20 @@ const MemoModal = ({
           />
         </div>
       ) : (
-        <Button
-          text={type === "read" ? "수정" : "등록"}
-          className="mt-3"
-          type="button"
-          onClick={type === "read" ? () => setIsEdit(true) : handleClick}
-        />
+        <div className="flex justify-end space-x-3">
+          <Button
+            text="삭제"
+            className="mt-3 red_btn !w-1/6"
+            type="button"
+            onClick={handleClickDelete}
+          />
+          <Button
+            text={type === "read" ? "수정" : "등록"}
+            className="mt-3"
+            type="button"
+            onClick={type === "read" ? () => setIsEdit(true) : handleClick}
+          />
+        </div>
       )}
     </>
   );

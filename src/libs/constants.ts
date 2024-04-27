@@ -18,6 +18,10 @@ export const STARTDATE_REGEX = new RegExp(
   /^\d{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$/,
 );
 export const STARTDATE_REGEX_ERROR = "시작일자를 올바르게 입력해주세요";
+export const PAYDATE_REGEX = new RegExp(
+  /^\d{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$/,
+);
+export const PAYDATE_REGEX_ERROR = "납부일자를 올바르게 입력해주세요";
 
 export const ONLY_NUMBER_REGEX = new RegExp(/^\d+$/);
 
@@ -38,3 +42,22 @@ export const TIME_REGEX_ERROR = "시간을 올바르게 입력해주세요";
 
 export const MONEY_REGEX = /^\d{1,6}$/;
 export const MONEY_REGEX_ERROR = "금액을 올바르게 입력해주세요";
+
+export const PAYMENT_METHOD = [
+  {
+    value: "계좌이체",
+    label: "계좌이체",
+  },
+  {
+    value: "카드",
+    label: "카드",
+  },
+  {
+    value: "현금",
+    label: "현금",
+  },
+  {
+    value: "기타",
+    label: "기타",
+  },
+];

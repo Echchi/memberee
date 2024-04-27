@@ -1,60 +1,177 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "@/component/input";
 import { format } from "date-fns";
-import { cls, formatCurrency } from "@/libs/client/utils";
+import {
+  cls,
+  dateFormattedtoKor,
+  dateFormattedtoNum,
+  formatCurrency,
+} from "@/libs/client/utils";
 import Button from "@/component/button/button";
+import { IPay } from "@/component/page/pay/[id]/list";
+import {
+  MONEY_REGEX,
+  MONEY_REGEX_ERROR,
+  PAYDATE_REGEX,
+  PAYDATE_REGEX_ERROR,
+  PAYMENT_METHOD,
+} from "@/libs/constants";
+import { createPay, deletePay, updatePay } from "@/app/(tabBar)/pay/[id]/api";
 
-const PayCheck = () => {
+const PayCheck = ({ param }: { param: IPay | null }) => {
+  console.log("PayCheck param", param);
   const today = format(new Date(), "yyyy. MM. dd");
-  const [mode, setMode] = useState("div");
+  const [isEdit, setIsEdit] = useState(false);
+  const [error, setError] = useState({
+    paymentDate: "",
+    lessonFee: "",
+  });
+  const [data, setData] = useState({
+    id: param?.id,
+    memberId: param?.memberId,
+    forYear: Number(param?.year),
+    forMonth: Number(param?.month),
+    paymentDate: dateFormattedtoNum(param?.paymentDate),
+    lessonFee: param?.lessonFee,
+    paymentMethod: param?.method,
+    memo: param?.memo,
+  });
+
+  const handleChangePaymentDate = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const { value } = event.target;
+    if (value.length > 0) {
+      setError((prev) => ({
+        ...prev,
+        paymentDate: "",
+      }));
+    }
+    if (!PAYDATE_REGEX.test(value)) {
+      setError((prev) => ({
+        ...prev,
+        paymentDate: PAYDATE_REGEX_ERROR,
+      }));
+    } else {
+      setData((prev) => ({
+        ...prev,
+        paymentDate: value,
+      }));
+    }
+  };
+  const handleChangeLessonFee = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const { value } = event.target;
+
+    if (value.length > 0) {
+      setError((prev) => ({
+        ...prev,
+        lessonFee: "",
+      }));
+    }
+    if (!MONEY_REGEX.test(value)) {
+      setError((prev) => ({
+        ...prev,
+        lessonFee: MONEY_REGEX_ERROR,
+      }));
+    } else {
+      setData((prev) => ({
+        ...prev,
+        lessonFee: value,
+      }));
+    }
+  };
+  const handleChangeMemo = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+
+    setData((prev) => ({
+      ...prev,
+      memo: value,
+    }));
+  };
+
   return (
     <>
       <Input
-        type={mode}
+        type={isEdit ? "text" : "div"}
         label={"납부일자"}
-        placeholder={today}
-        value={today}
+        placeholder={dateFormattedtoNum(param?.paymentDate)}
+        value={
+          isEdit
+            ? dateFormattedtoNum(param?.paymentDate)
+            : dateFormattedtoKor(param?.paymentDate)
+        }
         className="h-14 lg:text-lg border-b-0 rounded-t-lg"
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+          handleChangePaymentDate(event)
+        }
+        maxLength={8}
+        minLength={8}
+        required={true}
+        errorMessage={[error?.paymentDate]}
       />
       <Input
-        type={mode === "text" ? "select" : mode}
+        type={isEdit ? "select" : "div"}
         label={"납부방법"}
-        options={["계좌이체", "신용카드", "현금", "기타"]}
-        value={"계좌이체"}
+        options={PAYMENT_METHOD}
+        value={param?.method || "기타"}
         className="h-14 lg:text-lg border-b-0"
+        onSelectChange={(event) => {
+          console.log("납부방법 event.target.value", event.target.value);
+          setData((prev) => ({ ...prev, paymentMethod: event.target.value }));
+        }}
       />
       <Input
-        type={mode}
+        type={isEdit ? "text" : "div"}
         label={"납부금액"}
-        placeholder={formatCurrency("250000")}
-        value={formatCurrency("250000")}
+        placeholder={formatCurrency(param?.lessonFee)}
+        value={isEdit ? param?.lessonFee : formatCurrency(param?.lessonFee)}
         className="h-14 lg:text-lg border-b-0"
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+          handleChangeLessonFee(event)
+        }
+        maxLength={7}
+        minLength={4}
+        required={true}
+        errorMessage={[error?.lessonFee]}
       />
       <Input
-        type={mode}
+        type={isEdit ? "text" : "div"}
         label={"메모"}
-        placeholder={"국민은행 000-000-00-000000"}
-        value={"국민은행 000-000-00-000000"}
+        placeholder={param?.memo}
+        value={param?.memo ? param.memo : isEdit ? "" : "-"}
         className="h-14 lg:text-lg rounded-b-lg"
+        maxLength={100}
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+          handleChangeMemo(event)
+        }
       />
       <div className="md:flex justify-between *:md:w-1/6">
-        <div className={cls(mode === "text" ? "block" : "invisible")}>
+        {isEdit ? (
           <Button
             text={"취소"}
-            className="mt-4 !bg-gray-400/80 hover:!bg-gray-400/50 active:!bg-gray-400"
+            className="mt-4 !bg-gray-400/80 hover:!bg-gray-400/50 active:!bg-gray-400 !w1/6"
             large={true}
-            onClick={() => setMode("div")}
+            onClick={() => setIsEdit(false)}
           />
-        </div>
-        <div>
+        ) : (
           <Button
-            type={mode === "text" ? "submit" : "button"}
-            text={mode === "text" ? "확인" : "수정"}
-            className="mt-4"
+            type={"button"}
+            text={"미납처리"}
+            className="mt-4 red_btn !w-1/6"
             large={true}
-            onClick={() => setMode("text")}
+            onClick={() => deletePay(data)}
           />
-        </div>
+        )}
+
+        <Button
+          type={"button"}
+          text={isEdit ? "확인" : "수정"}
+          className="mt-4 !w1/6"
+          large={true}
+          onClick={isEdit ? () => updatePay(data) : () => setIsEdit(true)}
+        />
       </div>
     </>
   );

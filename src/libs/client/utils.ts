@@ -1,4 +1,4 @@
-import { format, isValid, parse, parseISO } from "date-fns";
+import { addMonths, format, isValid, parse, parseISO } from "date-fns";
 import { DAYOFWEEK } from "@/libs/constants";
 
 export function cls(...classnames: string[]) {
@@ -44,9 +44,32 @@ export function combineCurrentDateWithTime(time: string) {
 }
 
 export const dateFormattedtoKor = (date?: Date | null) => {
-  console.log("왜 업다구 그래~! ", date);
   return date ? format(date, "yyyy년 MM월 dd일") : "날짜 없음";
 };
 export const dateFormattedtoNum = (date?: Date | null) => {
   return date ? format(date, "yyyyMMdd") : "날짜 없음";
 };
+
+export function generatePaymentDates(date: Date, paymentDay: number) {
+  // console.log("generatePaymentDates", startDate, paymentDay);
+  const currentDate = new Date();
+  const start = new Date(date);
+  const current = new Date(currentDate);
+
+  const initialYear = start.getFullYear();
+  const initialMonth = start.getMonth();
+  let firstPaymentDate = new Date(initialYear, initialMonth, paymentDay);
+
+  if (firstPaymentDate < start) {
+    firstPaymentDate = addMonths(firstPaymentDate, 1);
+  }
+
+  const paymentDates = [];
+
+  while (firstPaymentDate <= current) {
+    paymentDates.push(format(firstPaymentDate, "yyyyM"));
+    firstPaymentDate = addMonths(firstPaymentDate, 1);
+  }
+
+  return paymentDates;
+}

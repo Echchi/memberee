@@ -1,7 +1,7 @@
 import React from "react";
 
-const MemberMb = () => {
+const LessonFee = () => {
   return <div></div>;
 };
 
-export default MemberMb;
+export default LessonFee;

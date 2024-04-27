@@ -2,13 +2,19 @@
 import React from "react";
 import Link from "next/link";
 import db from "@/libs/server/db";
-import { getWorkers } from "@/component/worker/workers";
+import { getWorkers } from "@/component/page/worker/workers";
 import { DAYOFWEEK } from "@/libs/constants";
 import { dateFormattedtoKor } from "@/libs/client/utils";
 import getSession from "@/libs/client/session";
 import Member from "./member";
 import LineBox from "@/component/lineBox";
-export async function getMembers(query: string) {
+import MemberMb from "./member_mb";
+export async function getMembers(
+  query: string,
+  year?: number,
+  month?: number,
+  isPay: boolean = false,
+) {
   const session = await getSession();
   const companyId = session.company;
   const members = await db.member.findMany({
@@ -32,12 +38,16 @@ export async function getMembers(query: string) {
         ],
       }),
     },
-    orderBy: [
-      { status: "desc" }, // status 기준으로 오름차순 정렬 (1 먼저, -1 나중에)
-    ],
+    orderBy: [{ status: "desc" }],
     include: {
       Schedule: true,
       worker: true,
+      Payment: {
+        where: {
+          ...(year && { forYear: year }),
+          ...(month && { forMonth: month }),
+        },
+      },
     },
   });
   return members;
@@ -127,62 +137,66 @@ const Members = async ({
         </div>
       </div>
       <div className="lg:hidden flex flex-col space-y-3 mt-5">
-        <LineBox
-          worker={"함코치"}
-          day={"월, 수"}
-          name={"회원 1"}
-          phone={"010-0000-0000"}
-          pay={true}
-        />
-        <LineBox
-          worker={"함코치"}
-          day={"월, 수"}
-          name={"회원 1"}
-          phone={"010-0000-0000"}
-          pay={true}
-        />
-        <LineBox
-          worker={"함코치"}
-          day={"월, 수"}
-          name={"회원 1"}
-          phone={"010-0000-0000"}
-          pay={true}
-        />
-        <LineBox
-          worker={"함코치"}
-          day={"월, 수"}
-          name={"회원 1"}
-          phone={"010-0000-0000"}
-          pay={true}
-        />
-        <LineBox
-          worker={"함코치"}
-          day={"월, 수"}
-          name={"회원 1"}
-          phone={"010-0000-0000"}
-          pay={true}
-        />
-        <LineBox
-          worker={"함코치"}
-          day={"월, 수"}
-          name={"회원 2"}
-          phone={"010-0000-0000"}
-          pay={true}
-        />
-        <LineBox
-          worker={"함코치"}
-          day={"월, 수"}
-          name={"회원 1"}
-          phone={"010-0000-0000"}
-          pay={true}
-        />
-        <LineBox
-          worker={"함코치"}
-          day={"월, 수"}
-          name={"회원 1"}
-          phone={"010-0000-0000"}
-          pay={true}
-        />
+        {members &&
+          members.map((member, index) => (
+            <MemberMb member={member} key={member.id} />
+          ))}
+        {/*<LineBox*/}
+        {/*  worker={"함코치"}*/}
+        {/*  day={"월, 수"}*/}
+        {/*  name={"회원 1"}*/}
+        {/*  phone={"010-0000-0000"}*/}
+        {/*  pay={true}*/}
+        {/*/>*/}
+        {/*<LineBox*/}
+        {/*  worker={"함코치"}*/}
+        {/*  day={"월, 수"}*/}
+        {/*  name={"회원 1"}*/}
+        {/*  phone={"010-0000-0000"}*/}
+        {/*  pay={true}*/}
+        {/*/>*/}
+        {/*<LineBox*/}
+        {/*  worker={"함코치"}*/}
+        {/*  day={"월, 수"}*/}
+        {/*  name={"회원 1"}*/}
+        {/*  phone={"010-0000-0000"}*/}
+        {/*  pay={true}*/}
+        {/*/>*/}
+        {/*<LineBox*/}
+        {/*  worker={"함코치"}*/}
+        {/*  day={"월, 수"}*/}
+        {/*  name={"회원 1"}*/}
+        {/*  phone={"010-0000-0000"}*/}
+        {/*  pay={true}*/}
+        {/*/>*/}
+        {/*<LineBox*/}
+        {/*  worker={"함코치"}*/}
+        {/*  day={"월, 수"}*/}
+        {/*  name={"회원 1"}*/}
+        {/*  phone={"010-0000-0000"}*/}
+        {/*  pay={true}*/}
+        {/*/>*/}
+        {/*<LineBox*/}
+        {/*  worker={"함코치"}*/}
+        {/*  day={"월, 수"}*/}
+        {/*  name={"회원 2"}*/}
+        {/*  phone={"010-0000-0000"}*/}
+        {/*  pay={true}*/}
+        {/*/>*/}
+        {/*<LineBox*/}
+        {/*  worker={"함코치"}*/}
+        {/*  day={"월, 수"}*/}
+        {/*  name={"회원 1"}*/}
+        {/*  phone={"010-0000-0000"}*/}
+        {/*  pay={true}*/}
+        {/*/>*/}
+        {/*<LineBox*/}
+        {/*  worker={"함코치"}*/}
+        {/*  day={"월, 수"}*/}
+        {/*  name={"회원 1"}*/}
+        {/*  phone={"010-0000-0000"}*/}
+        {/*  pay={true}*/}
+        {/*/>*/}
       </div>
     </>
   );

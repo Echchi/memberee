@@ -7,6 +7,7 @@ import { useFormState } from "react-dom";
 import { formatPhone } from "@/libs/client/utils";
 import { DAYOFWEEK } from "@/libs/constants";
 import getSession from "@/libs/client/session";
+import session from "@/libs/client/session";
 export interface Worker {
   id: number;
   name: string;
@@ -15,22 +16,21 @@ export interface Worker {
 }
 
 export async function getWorkers(query: string) {
-  const companyId = getSession().com;
+  const session = await getSession();
+  const companyId = session.company;
 
   const workers = await db.worker.findMany({
     where: {
       status: 1,
+      companyId: companyId,
       ...(query && {
         name: {
           contains: query?.toLowerCase(),
         },
       }),
     },
-    select: {
-      id: true,
-      name: true,
-      dayOfWeek: true,
-      phone: true,
+    include: {
+      Member: true,
     },
   });
   return workers;

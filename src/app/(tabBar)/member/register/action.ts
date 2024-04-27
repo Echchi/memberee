@@ -56,22 +56,12 @@ export const createMember = async (prevState: any, formData: FormData) => {
     job: formData.get("job"),
     dayOfWeek: formData.get("dayOfWeek"),
     times: JSON.parse(formData.get("times") as string),
-    startTime: formData.get("startTime"),
-    endTime: formData.get("endTime"),
     lessonFee: formData.get("lessonFee"),
     worker: formData.get("worker"),
     startDate: formData.get("startDate"),
     content: formData.get("content"),
   };
   const result = formSchema.safeParse(data);
-  // const timesData = formData.get("times");
-  // let parsedTimes = {};
-  // try {
-  //   parsedTimes = JSON.parse(timesData);
-  // } catch (error) {
-  //   console.error("Parsing error", error);
-  //   return { error: "Times data is invalid" };
-  // }
   if (!result.success) {
     console.log(result.error.flatten());
     return result.error.flatten();
@@ -121,16 +111,16 @@ export const createMember = async (prevState: any, formData: FormData) => {
       const schedules = await db.$transaction(schedulePromises);
       console.log("========== schedule =========", schedules);
     }
-    const payment = await db.payment.create({
-      data: {
-        memberId: member.id,
-        forYear: getYear(new Date()),
-        forMonth: getMonth(new Date()),
-        paymentDate: new Date(),
-        isPaid: true,
-      },
-    });
-    console.log("========== salary =========", salary);
+    // const payment = await db.payment.create({
+    //   data: {
+    //     memberId: member.id,
+    //     forYear: getYear(new Date()),
+    //     forMonth: getMonth(new Date()) + 1,
+    //     paymentDate: new Date(),
+    //     isPaid: true,
+    //   },
+    // });
+    // console.log("========== payment =========", payment);
 
     if (result.data.content) {
       const Memo = await db.memo.create({

@@ -1,10 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "@/component/input";
 import Button from "@/component/button/button";
 import { format } from "date-fns";
 import { useFormState } from "react-dom";
-import SelectWorkingDay from "@/component/worker/workingDay";
+import SelectWorkingDay from "@/component/page/worker/workingDay";
 import { createWorker } from "@/app/(tabBar)/worker/register/action";
 import { useRouter } from "next/navigation";
 
@@ -22,7 +22,9 @@ const Page = () => {
       setSelectedDay((prev) => [...prev, dayIndex]);
     }
   };
-
+  useEffect(() => {
+    console.log("selectedDay", selectedDay);
+  }, [selectedDay]);
   const [state, action] = useFormState(createWorker, null);
 
   return (
@@ -88,6 +90,7 @@ const Page = () => {
           value={selectedDay.join("")}
           className="hidden"
           name={"dayOfWeek"}
+          readOnly
         />
         <div className="col-span-2">
           <Input

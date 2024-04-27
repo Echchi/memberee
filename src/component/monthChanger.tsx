@@ -1,16 +1,28 @@
-import React, { useState } from "react";
-import { addMonths, format } from "date-fns";
+"use client";
+import React, { useEffect, useState } from "react";
+import { addMonths, format, getMonth, getYear } from "date-fns";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-const MonthChanger = ({
-  month,
-  setMonth,
-}: {
-  month: Date;
-  setMonth: React.Dispatch<React.SetStateAction<Date>>;
-}) => {
+const MonthChanger = () => {
+  const pathname = usePathname();
+  const searchParams = useSearchParams().toString();
+  const { replace } = useRouter();
+  const today = new Date();
+  const [date, setDate] = useState(today);
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+
+    const year = getYear(date) + "";
+    const month = getMonth(date) + 1 + "";
+    params.set("year", year);
+    params.set("month", month);
+    replace(`${pathname}?${params.toString()}`);
+  }, [date]);
+
   return (
     <div className="flex justify-center items-center font-semibold text-2xl mt-3">
-      <button onClick={() => setMonth(addMonths(month, -1))}>
+      <button onClick={() => setDate(addMonths(date, -1))}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -26,8 +38,8 @@ const MonthChanger = ({
           />
         </svg>
       </button>
-      <span className="lg:px-6 px-4">{format(month, "yyyy년 MM월")}</span>
-      <button onClick={() => setMonth(addMonths(month, 1))}>
+      <span className="lg:px-6 px-4">{format(date, "yyyy년 MM월")}</span>
+      <button onClick={() => setDate(addMonths(date, 1))}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

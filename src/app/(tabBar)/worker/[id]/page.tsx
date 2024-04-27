@@ -12,21 +12,33 @@ import Button from "@/component/button/button";
 import { format } from "date-fns";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import db from "@/libs/server/db";
-import { getWorker, terminateWorker } from "@/app/(tabBar)/worker/[id]/api";
-import { Worker, WorkerMemo } from ".prisma/client";
+import {
+  createWorkerMemo,
+  deleteWorkerMemo,
+  getWorker,
+  terminateWorker,
+  updateWorkerMemo,
+} from "@/app/(tabBar)/worker/[id]/api";
+import { Worker, WorkerMemo, Member } from ".prisma/client";
 import Modal from "@/component/modal";
 import { DAYOFWEEK } from "@/libs/constants";
-import Members from "@/component/worker/detail/members";
-import Memos from "@/component/worker/detail/memos";
+import Members from "@/component/page/worker/detail/members";
+import Memos from "@/component/page/worker/detail/memos";
 import { motion } from "framer-motion";
-import SelectWorkingDay from "@/component/worker/workingDay";
+import SelectWorkingDay from "@/component/page/worker/workingDay";
 import { useFormState } from "react-dom";
 import { createAccount } from "@/app/join/action";
 import { updateWorker } from "@/app/(tabBar)/worker/[id]/action";
 import ConfirmModal from "@/component/modal/confirmModal";
+import { Schedule } from "@prisma/client";
+
+export interface MemberWithSch extends Member {
+  Schedule: Schedule[];
+}
 
 export interface IWorkerWithMemos extends Worker {
   WorkerMemos?: WorkerMemo[];
+  Member?: MemberWithSch[];
 }
 
 const Page = ({ params }: { params: { id: string } }) => {
@@ -208,6 +220,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             value={selectedDay.join("")}
             className="hidden"
             name={"dayOfWeek"}
+            readOnly
           />
           <div className="col-span-2">
             <Input
@@ -258,8 +271,11 @@ const Page = ({ params }: { params: { id: string } }) => {
                 memos={worker?.WorkerMemos?.sort((a, b) => b.id - a.id) || []}
                 id={worker?.id + "" || ""}
                 title={"비고"}
+                createMemo={createWorkerMemo}
+                updateMemo={updateWorkerMemo}
+                deleteMemo={deleteWorkerMemo}
               />
-              <Members id={id} />
+              <Members members={worker?.Member || []} />
             </motion.div>
           )}
         </div>

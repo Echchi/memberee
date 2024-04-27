@@ -36,7 +36,6 @@ const formSchema = z.object({
     .string()
     .trim()
     .regex(ONLY_NUMBER_REGEX, ONLY_NUMBER_REGEX_ERROR),
-  content: z.string().optional(),
 });
 
 export const updateWorker = async (

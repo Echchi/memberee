@@ -10,13 +10,12 @@ const WorkerList = ({ selectedDay }: { selectedDay: number[] }) => {
   useEffect(() => {
     const fetchWorkerList = async () => {
       const workerList = await getWorkerList();
-      console.log("workerList", workerList);
       const filterWorkerList = workerList.filter((worker) =>
-        selectedDay.some((day) => worker.dayOfWeek.includes(day.toString())),
+        selectedDay.some((day) => worker?.dayOfWeek?.includes(day.toString())),
       );
       setWorkers(filterWorkerList);
     };
-    console.log("workers~~~~~~~~", workers);
+
     fetchWorkerList();
   }, [selectedDay]);
 

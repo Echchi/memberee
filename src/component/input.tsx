@@ -3,7 +3,7 @@ import { UseFormRegisterReturn } from "react-hook-form";
 import { cls } from "@/libs/client/utils";
 
 interface IOption {
-  value: number;
+  value: number | string;
   label: string;
 }
 interface InputFieldProps {
@@ -22,6 +22,7 @@ interface InputFieldProps {
   isLong?: boolean;
   selectDescription?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSelectChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const Input: React.FC<
@@ -42,7 +43,7 @@ const Input: React.FC<
   name = "",
   selectDescription,
   onChange,
-
+  onSelectChange,
   ...rest
 }) => {
   return (
@@ -85,6 +86,8 @@ const Input: React.FC<
               icon ? "ml-14 lg:ml-20" : "",
               label ? "ml-20 lg:ml-40" : "",
             )}
+            onChange={onSelectChange}
+            defaultValue={value}
           >
             {options &&
               options.map(({ value, label }, index) => (

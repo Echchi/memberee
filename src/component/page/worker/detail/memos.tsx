@@ -2,13 +2,8 @@ import React, { useState } from "react";
 import { WorkerMemo } from ".prisma/client";
 import { format } from "date-fns";
 import Modal from "@/component/modal";
-import Button from "@/component/button/button";
 import MemoModal from "@/component/modal/memoModal";
-import {
-  createWorkerMemo,
-  deleteWorkerMemo,
-  updateWorkerMemo,
-} from "@/app/(tabBar)/worker/[id]/api";
+
 import { Memo } from "@prisma/client";
 import { cls } from "@/libs/client/utils";
 
@@ -17,11 +12,17 @@ const Memos = ({
   id,
   title,
   isMember,
+  createMemo,
+  updateMemo,
+  deleteMemo,
 }: {
   memos: WorkerMemo[] | Memo[];
   id: string;
   title: string;
   isMember?: boolean;
+  createMemo: any;
+  updateMemo: any;
+  deleteMemo: any;
 }) => {
   const [isMemoModalOpen, setIsMemoModalOpen] = useState(false);
   const [memoType, setMemoType] = useState<"create" | "read">("create");
@@ -45,11 +46,11 @@ const Memos = ({
           content={
             <MemoModal
               id={id}
-              createMemo={createWorkerMemo}
-              updateMemo={updateWorkerMemo}
-              deleteMemo={deleteWorkerMemo}
-              type={memoType}
+              createMemo={createMemo}
+              updateMemo={updateMemo}
+              deleteMemo={deleteMemo}
               savedMemo={savedMemo}
+              type={memoType}
               memoId={memoId}
               onClose={() => setIsMemoModalOpen(false)}
             />
@@ -57,7 +58,11 @@ const Memos = ({
           onClose={() => setIsMemoModalOpen(false)}
         />
       )}
-      <div className="relative text-stone-600 font-bold text-sm lg:text-lg flex justify-center items-center h-14 bg-neutral-100 col-span-2 border-x  border-neutral-300">
+      <div
+        className={cls(
+          "relative text-stone-600 font-bold text-sm lg:text-lg flex justify-center items-center h-14 bg-neutral-100 col-span-2 border-x  border-neutral-300 border-b-0",
+        )}
+      >
         <span>{title}</span>
         <button
           className="absolute right-5 text-emerald-600 hover:text-emerald-500"
@@ -82,7 +87,7 @@ const Memos = ({
         <div
           className={cls(
             "col-span-2 border border-neutral-300 max-h-[40vh] overflow-x-hidden overflow-y-auto",
-            isMember ? "border-b-1 rounded-b-lg" : "border-b-0",
+            isMember ? "border-b-1 rounded-b-lg" : "",
           )}
         >
           <table className="w-full">

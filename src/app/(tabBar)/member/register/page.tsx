@@ -4,13 +4,13 @@ import Input from "@/component/input";
 import { cls, formatCurrency } from "@/libs/client/utils";
 import Button from "@/component/button/button";
 import { format } from "date-fns";
-import SelectTime, { ITime } from "@/component/member/register/selectTime";
+import SelectTime, { ITime } from "@/component/page/member/register/selectTime";
 import { DAYOFWEEK, TIME_REGEX, TIME_REGEX_ERROR } from "@/libs/constants";
 import { useFormState } from "react-dom";
 import { createMember } from "@/app/(tabBar)/member/register/action";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
-import WorkerList from "@/component/member/register/workerList";
+import WorkerList from "@/component/page/member/register/workerList";
 
 const Page = () => {
   const router = useRouter();
@@ -37,9 +37,6 @@ const Page = () => {
       }
     }
   };
-  useEffect(() => {
-    console.log("존나어렵네", selectedTime);
-  }, [selectedTime]);
 
   const handleTimeChange = (
     day: number,
@@ -49,15 +46,6 @@ const Page = () => {
     if (!TIME_REGEX.test(value)) {
       setTimeError(TIME_REGEX_ERROR);
     } else {
-      // setSelectedTime({
-      //   ...selectedTime,
-      //   [day]: {
-      //     ...selectedTime[day],
-      //     // startTime: type === "startTime" && value,
-      //     // endTime: type === "endTime" && value,
-      //
-      //   },
-      // });
       setSelectedTime((prev) => ({
         ...prev,
         [day]: {
@@ -69,9 +57,6 @@ const Page = () => {
     }
   };
 
-  useEffect(() => {
-    console.log("selectedTime", selectedTime);
-  }, [selectedTime]);
   const [state, action] = useFormState(createMember, null);
   return (
     <div className="max-w-screen-lg mx-auto mt-10">
@@ -108,6 +93,8 @@ const Page = () => {
           label={"생년월일"}
           placeholder={"20000726"}
           className="h-14 lg:text-lg border-b-1 border-r-0"
+          maxLength={8}
+          minLength={8}
           name={"birth"}
           errorMessage={state?.fieldErrors.birth}
         />
@@ -134,7 +121,7 @@ const Page = () => {
             <div className="relative grid grid-cols-7 justify-items-center lg:py-3 w-full px-4 overflow-y-auto">
               {Object.entries(DAYOFWEEK).map(([index, day]) => (
                 <div
-                  key={day}
+                  key={`select_dayOFWeek_${day}`}
                   className="relative flex flex-col justify-center items-center text-lg *:lg:py-2 *:lg:px-4 *:transition-all *:py-1 *:px-2.5"
                 >
                   <button
@@ -161,6 +148,7 @@ const Page = () => {
           value={selectedDay.join("")}
           className="hidden"
           name={"dayOfWeek"}
+          readOnly
         />
         {selectedDay.length > 0 && (
           <SelectTime
@@ -176,6 +164,7 @@ const Page = () => {
           className="hidden"
           required={true}
           name={"times"}
+          readOnly
         />
         <div className="col-span-2">
           <Input

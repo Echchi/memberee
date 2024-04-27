@@ -13,21 +13,29 @@ export async function getWorker(id: number) {
       id: id,
     },
     include: {
-      Member: true,
+      Member: {
+        where: {
+          status: { in: [-1, 1] },
+        },
+        include: {
+          Schedule: true,
+        },
+      },
       WorkerMemos: true,
     },
   });
   return worker;
 }
 
-export async function getMembers(id: number) {
-  const members = await db.member.findMany({
-    where: {
-      workerId: id,
-    },
-  });
-  return members;
-}
+// export async function getMembers(id: number) {
+//   const members = await db.member.findMany({
+//     where: {
+//       workerId: id,
+//       status: { in: [-1, 1] },
+//     },
+//   });
+//   return members;
+// }
 
 export async function terminateWorker(id: number) {
   const session = await getSession();
@@ -68,7 +76,7 @@ export const updateWorkerMemo = async (id: number, content: string) => {
       workerId: true,
     },
   });
-  revalidatePath(`${updateWorkerMemo.workerId}`);
+  redirect(`${updateWorkerMemo.workerId}`);
 };
 export const deleteWorkerMemo = async (id: number) => {
   const deleteWorkerMemo = await db.workerMemo.delete({
