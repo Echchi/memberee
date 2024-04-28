@@ -1,10 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { formatCurrency } from "@/libs/client/utils";
-import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
+
 import { useRouter } from "next/navigation";
-import Modal from "@/component/modal";
-import SalaryDetail from "@/app/(tabBar)/salary/salaryDetail";
+
 import { WorkerWithMember } from "@/app/(tabBar)/salary/page";
 
 const Salary = ({
