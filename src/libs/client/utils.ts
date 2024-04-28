@@ -51,7 +51,7 @@ export const dateFormattedtoNum = (date?: Date | null) => {
 };
 
 export function generatePaymentDates(date: Date, paymentDay: number) {
-  // console.log("generatePaymentDates", startDate, paymentDay);
+  // console.log("generatePaymentDates", date, paymentDay);
   const currentDate = new Date();
   const start = new Date(date);
   const current = new Date(currentDate);

@@ -23,6 +23,7 @@ export async function getMembers(
         in: [1, -1],
       },
       companyId: companyId,
+
       ...(query && {
         OR: [
           {
@@ -37,6 +38,12 @@ export async function getMembers(
           },
         ],
       }),
+      ...(year &&
+        month && {
+          startDate: {
+            lte: new Date(year, month - 1, 1),
+          },
+        }),
     },
     orderBy: [{ status: "desc" }],
     include: {

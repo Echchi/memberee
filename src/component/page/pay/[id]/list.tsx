@@ -52,18 +52,23 @@ const List = ({
       const paymentDate = payment.find(
         (item) => item.forYear + "" === year && item.forMonth + "" === month,
       )?.paymentDate;
+      const lessonFee = payment.find(
+        (item) => item.forYear + "" === year && item.forMonth + "" === month,
+      )?.lessonFee;
+
       return {
         id: id,
         memberId: member?.id,
         year: year,
         month: month,
         method: method,
-        lessonFee: member?.Schedule?.[0]?.lessonFee + "",
+        lessonFee: lessonFee,
         memo: memo,
         paymentDate: paymentDate,
       };
     });
     setListItem(items);
+    console.log("pay Items", items);
   }, [totalPeriod, payment, member]);
 
   const handleClickPay = (item: IPay) => {
@@ -159,9 +164,10 @@ const List = ({
                   }
                   key={index}
                   className={cls(
-                    "*:py-3 text-center border-b border-stone-100  ",
-                    member && member?.status < 0
-                      ? ""
+                    "*:py-3 text-center border-b border-stone-100",
+                    (item && item?.lessonFee < 0) ||
+                      (member && member.status < 0)
+                      ? "bg-stone-100"
                       : "hover:bg-orange-100 cursor-pointer active:bg-orange-200 has-[button]:hover:bg-white has-[button]:hover:cursor-default has-[button]:active:bg-white",
                   )}
                 >
@@ -172,9 +178,13 @@ const List = ({
                   </td>
                   <td>
                     {item.lessonFee < 0 ? (
-                      <span className="text-xs">
-                        <Tag color={"yellow"} title={"중단"} />
-                      </span>
+                      <div className="mx-auto min-w-fit w-1/2 md:w-1/4">
+                        <Button
+                          text={"중단"}
+                          className="!bg-gray-500 hover:!bg-gray-500 active:!bg-gray-500 !py-3"
+                          onClick={() => handleClickPay(item)}
+                        />
+                      </div>
                     ) : item.paymentDate ? (
                       <span> {dateFormattedtoKor(item.paymentDate)}</span>
                     ) : (

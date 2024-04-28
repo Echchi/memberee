@@ -139,11 +139,11 @@ const Page = ({ params }: { params: { id: string } }) => {
     );
     for (const period of suspendedPeriod) {
       const year = period.slice(0, 4);
-      const month = period.slice(5);
-      console.log("handleRestartClick", year, month);
-      // await updateStopPeriodPayment(+id, year, month);
+      const month = period.slice(4);
+
+      await updateStopPeriodPayment(+id, year, month);
     }
-    revalidatePath(`${id}`);
+    router.refresh();
   };
 
   const handleTerminateClick = () => {
@@ -435,6 +435,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               <Memos
                 memos={member?.Memos?.sort((a, b) => b.id - a.id) || []}
                 id={member?.id + "" || ""}
+                statue={member?.status}
                 title={"상담 내역"}
                 isMember={true}
                 createMemo={createMemberMemo}

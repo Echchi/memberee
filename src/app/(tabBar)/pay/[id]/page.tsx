@@ -1,17 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Input from "@/component/input";
-import Tag from "@/component/tag";
 import { useRouter } from "next/navigation";
 import Button from "@/component/button/button";
-import modal from "@/component/modal";
-import Modal from "@/component/modal";
-import PayRegister from "@/app/(tabBar)/pay/[id]/payRegister";
 import { getMember } from "@/app/(tabBar)/member/[id]/api";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 import { cls, formatPhone, generatePaymentDates } from "@/libs/client/utils";
 import { Payment } from ".prisma/client";
-import { addMonths, compareAsc, differenceInMonths, format } from "date-fns";
 import { getCompany } from "@/app/(tabBar)/pay/[id]/api";
 import List from "@/component/page/pay/[id]/list";
 

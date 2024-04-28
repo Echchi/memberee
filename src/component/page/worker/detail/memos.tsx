@@ -11,6 +11,7 @@ const Memos = ({
   memos,
   id,
   title,
+  status,
   isMember,
   createMemo,
   updateMemo,
@@ -19,6 +20,7 @@ const Memos = ({
   memos: WorkerMemo[] | Memo[];
   id: string;
   title: string;
+  status: number;
   isMember?: boolean;
   createMemo: any;
   updateMemo: any;
@@ -101,8 +103,15 @@ const Memos = ({
               {memos.map((memo, index) => (
                 <tr
                   key={index}
-                  className="*:py-3 text-center border-stone-100 hover:bg-orange-100 cursor-pointer"
-                  onClick={() => handleClickMemo(memo.content, memo.id)}
+                  className={cls(
+                    "*:py-3 text-center border-stone-100",
+                    status > 0 ? "hover:bg-orange-100 cursor-pointer" : "",
+                  )}
+                  onClick={
+                    status > 0
+                      ? () => handleClickMemo(memo.content, memo.id)
+                      : undefined
+                  }
                 >
                   <td>{format(memo.createdAt + "", "yyyy년 MM월 dd일")}</td>
                   <td className="p-3 truncate">

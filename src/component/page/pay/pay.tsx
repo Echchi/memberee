@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 
 const Pay = ({ member }: { member: IMemberWithSchedules }) => {
-  console.log("member", member);
   const router = useRouter();
   return (
     <tr
@@ -19,7 +18,8 @@ const Pay = ({ member }: { member: IMemberWithSchedules }) => {
       <td>{member?.worker?.name}</td>
 
       <td className="flex justify-center items-center">
-        {member.status < 0 || member.Payment.lessonFee < 0 ? (
+        {member.status < 0 ||
+        (member.Payment.length > 0 && member.Payment[0].lessonFee < 0) ? (
           <span className="text-xs">
             <Tag color={"yellow"} title={"중단"} />
           </span>
