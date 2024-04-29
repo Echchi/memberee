@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { addMonths, format } from "date-fns";
+import React from "react";
+import { addMonths, format, getMonth, getYear } from "date-fns";
 import MonthChanger from "@/component/monthChanger";
 import Input from "@/component/input";
 import Button from "@/component/button/button";
@@ -11,22 +11,34 @@ import PayRegister from "@/app/(tabBar)/pay/[id]/payRegister";
 import SalaryDetail from "@/app/(tabBar)/salary/salaryDetail";
 import SalaryList from "@/component/page/salary/salaryList";
 import db from "@/libs/server/db";
-import { getWorkers } from "@/component/page/worker/workers";
 import getSession from "@/libs/client/session";
-export async function getSalarys(year: string, month: string) {
+import { Member, Schedule, Worker } from "@prisma/client";
+import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
+
+export interface WorkerWithMember extends Worker {
+  Member: IMemberWithSchedules[];
+}
+export async function getWorkersSalarys(year: string, month: string) {
   const session = await getSession();
   const companyId = session.company;
-  const salarys = await db.worker.findMany({
+  const workers = await db.worker.findMany({
     where: {
       status: 1,
       companyId: companyId,
     },
     include: {
-      Member: true,
-      Schedule: true,
+      Member: {
+        where: {
+          status: 1,
+        },
+        include: {
+          Schedule: true,
+        },
+      },
     },
   });
-  return salarys;
+  console.log("workers", workers);
+  return workers;
 }
 
 const Page = async ({
@@ -34,9 +46,9 @@ const Page = async ({
 }: {
   searchParams?: { year?: string; month?: string };
 }) => {
-  const year = Number(searchParams?.year);
-  const month = Number(searchParams?.month);
-  const salarys = await getSalarys(year, month);
+  const year = searchParams?.year || getYear(new Date()) + "";
+  const month = searchParams?.month || getMonth(new Date()) + "";
+  const workers = await getWorkersSalarys(year, month);
 
   return (
     <>
@@ -47,7 +59,7 @@ const Page = async ({
         </div>
       </div>
 
-      <SalaryList year={year} month={month} />
+      <SalaryList workers={workers} />
     </>
   );
 };

@@ -7,6 +7,17 @@ import { revalidatePath } from "next/cache";
 import { IPay } from "@/component/page/pay/[id]/list";
 import { Payment } from ".prisma/client";
 import { formatISODate } from "@/libs/client/utils";
+import { Member } from "@prisma/client";
+
+interface ICreatePayment {
+  memberId: number;
+  forYear: number;
+  forMonth: number;
+  paymentDate: string;
+  lessonFee: number;
+  paymentMethod: string;
+  memo: string;
+}
 
 export async function getCompany() {
   const session = await getSession();
@@ -20,7 +31,7 @@ export async function getCompany() {
   return company;
 }
 
-export const createPay = async (param: Payment) => {
+export const createPay = async (param: ICreatePayment) => {
   const createPay = await db.payment.create({
     data: {
       memberId: param.memberId,

@@ -86,7 +86,12 @@ const List = ({
         <Modal
           onClose={() => setRegisterModalOpen(false)}
           title={"납부 등록"}
-          content={<PayRegister param={selectedPay} />}
+          content={
+            <PayRegister
+              param={selectedPay}
+              lessonFee={member?.Schedule[0]?.lessonFee}
+            />
+          }
         />
       )}
       {confirmModal && (
@@ -181,8 +186,8 @@ const List = ({
                       <div className="mx-auto min-w-fit w-1/2 md:w-1/4">
                         <Button
                           text={"중단"}
-                          className="!bg-gray-500 hover:!bg-gray-500 active:!bg-gray-500 !py-3"
-                          onClick={() => handleClickPay(item)}
+                          className="!bg-neutral-300 hover:!bg-neutral-300 active:!bg-neutral-300 !py-3 !cursor-default"
+                          onClick={() => undefined}
                         />
                       </div>
                     ) : item.paymentDate ? (
@@ -191,8 +196,17 @@ const List = ({
                       <div className="mx-auto min-w-fit w-1/2 md:w-1/4">
                         <Button
                           text={"납부 등록"}
-                          className="!bg-amber-500 hover:!bg-amber-500/80 active:!bg-amber-600 !py-3"
-                          onClick={() => handleClickPay(item)}
+                          className={cls(
+                            "!py-3",
+                            member.status < 0
+                              ? "!bg-neutral-300 hover:!bg-neutral-300 active:!bg-neutral-300"
+                              : "!bg-amber-500 hover:!bg-amber-500/80 active:!bg-amber-600",
+                          )}
+                          onClick={
+                            member.status < 0
+                              ? undefined
+                              : () => handleClickPay(item)
+                          }
                         />
                       </div>
                     )}

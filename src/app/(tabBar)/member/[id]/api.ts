@@ -83,8 +83,11 @@ export const updateStopPeriodPayment = async (
       lessonFee: -1,
       memo: "중단",
     },
+    select: {
+      memberId: true,
+    },
   });
-  redirect(`${updateMemberMemo.memberId}`);
+  redirect(`${updateStopPeriodPayment?.memberId}`);
 };
 
 export const deleteMemberMemo = async (id: number) => {

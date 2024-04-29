@@ -1,5 +1,5 @@
 "use server";
-import React from "react";
+import React, { useEffect } from "react";
 import { getMembers } from "@/component/page/member/members";
 import Pay from "./pay";
 import PayMb from "@/component/page/pay/pay_mb";
@@ -52,9 +52,17 @@ const PayList = async ({
               {members &&
                 members
                   .sort((a, b) => {
-                    const aHasPayment = a.Payment ? 1 : 0;
-                    const bHasPayment = b.Payment ? 1 : 0;
-                    return aHasPayment - bHasPayment;
+                    const aHasPayment = a.Payment
+                      ? a.Payment?.lessonFee < 0
+                        ? -1
+                        : 1
+                      : 0;
+                    const bHasPayment = b.Payment
+                      ? b.Payment?.lessonFee < 0
+                        ? -1
+                        : 1
+                      : 0;
+                    return bHasPayment - aHasPayment;
                   })
                   .map((member, index) => (
                     <Pay key={`pay+${member.id}`} member={member} />

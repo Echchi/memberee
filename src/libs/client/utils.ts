@@ -1,4 +1,11 @@
-import { addMonths, format, isValid, parse, parseISO } from "date-fns";
+import {
+  addMonths,
+  format,
+  isValid,
+  parse,
+  parseISO,
+  subMonths,
+} from "date-fns";
 import { DAYOFWEEK } from "@/libs/constants";
 
 export function cls(...classnames: string[]) {
@@ -50,9 +57,13 @@ export const dateFormattedtoNum = (date?: Date | null) => {
   return date ? format(date, "yyyyMMdd") : "날짜 없음";
 };
 
-export function generatePaymentDates(date: Date, paymentDay: number) {
+export function generatePaymentDates(
+  date: Date,
+  paymentDay: number,
+  includeThisMonth: boolean = true,
+) {
   // console.log("generatePaymentDates", date, paymentDay);
-  const currentDate = new Date();
+  const currentDate = includeThisMonth ? new Date() : subMonths(new Date(), 1);
   const start = new Date(date);
   const current = new Date(currentDate);
 

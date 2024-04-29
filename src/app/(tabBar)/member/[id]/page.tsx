@@ -23,7 +23,14 @@ import {
   updateStopPeriodPayment,
 } from "@/app/(tabBar)/member/[id]/api";
 import { DAYOFWEEK, TIME_REGEX, TIME_REGEX_ERROR } from "@/libs/constants";
-import { Memo, Member, Worker, Schedule, Payment } from "@prisma/client";
+import {
+  Memo,
+  Member,
+  Worker,
+  Schedule,
+  Payment,
+  Company,
+} from "@prisma/client";
 import WorkerList from "@/component/page/member/register/workerList";
 import { motion } from "framer-motion";
 import Memos from "@/component/page/worker/detail/memos";
@@ -40,7 +47,7 @@ export interface IMemberWithSchedules extends Member {
   Schedule?: Schedule[];
   worker?: Worker;
   Payment?: Payment[];
-  company?: Company;
+  company?: Company | null;
 }
 
 const Page = ({ params }: { params: { id: string } }) => {
@@ -133,15 +140,18 @@ const Page = ({ params }: { params: { id: string } }) => {
 
   const handleRestartClick = async () => {
     await changeStatusMember(+id, 1);
-    const suspendedPeriod = generatePaymentDates(
-      member?.suspendedDate,
-      member?.company.payDay,
-    );
-    for (const period of suspendedPeriod) {
-      const year = period.slice(0, 4);
-      const month = period.slice(4);
+    if (member?.suspendedDate && member?.company?.payDay) {
+      const suspendedPeriod = generatePaymentDates(
+        member?.suspendedDate,
+        member?.company?.payDay,
+        false,
+      );
+      for (const period of suspendedPeriod) {
+        const year = period.slice(0, 4);
+        const month = period.slice(4);
 
-      await updateStopPeriodPayment(+id, year, month);
+        await updateStopPeriodPayment(+id, year, month);
+      }
     }
     router.refresh();
   };
@@ -435,7 +445,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               <Memos
                 memos={member?.Memos?.sort((a, b) => b.id - a.id) || []}
                 id={member?.id + "" || ""}
-                statue={member?.status}
+                status={member?.status}
                 title={"상담 내역"}
                 isMember={true}
                 createMemo={createMemberMemo}

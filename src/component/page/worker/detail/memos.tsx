@@ -20,7 +20,7 @@ const Memos = ({
   memos: WorkerMemo[] | Memo[];
   id: string;
   title: string;
-  status: number;
+  status?: number;
   isMember?: boolean;
   createMemo: any;
   updateMemo: any;
@@ -105,10 +105,12 @@ const Memos = ({
                   key={index}
                   className={cls(
                     "*:py-3 text-center border-stone-100",
-                    status > 0 ? "hover:bg-orange-100 cursor-pointer" : "",
+                    status && status > 0
+                      ? "hover:bg-orange-100 cursor-pointer"
+                      : "",
                   )}
                   onClick={
-                    status > 0
+                    status && status > 0
                       ? () => handleClickMemo(memo.content, memo.id)
                       : undefined
                   }

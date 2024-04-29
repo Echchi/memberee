@@ -13,15 +13,20 @@ import {
 } from "@/libs/constants";
 import { createPay } from "@/app/(tabBar)/pay/[id]/api";
 
-const PayRegister = ({ param }: { param: IPay | null }) => {
-  console.log("Pay Register Param", param);
+const PayRegister = ({
+  param,
+  lessonFee,
+}: {
+  param: IPay | null;
+  lessonFee: number;
+}) => {
   const today = format(new Date(), "yyyyMMdd");
   const [error, setError] = useState({
     paymentDate: "",
     lessonFee: "",
   });
   const [data, setData] = useState({
-    memberId: param?.memberId,
+    memberId: param?.memberId || -1,
     forYear: Number(param?.year),
     forMonth: Number(param?.month),
     paymentDate: today,
@@ -30,10 +35,6 @@ const PayRegister = ({ param }: { param: IPay | null }) => {
     memo: "",
   });
 
-  useEffect(() => {
-    // console.log("💫 data 💫", data);
-    console.log("💫 error 💫", Object.values(error));
-  }, [error]);
   const handleChangePaymentDate = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -87,6 +88,9 @@ const PayRegister = ({ param }: { param: IPay | null }) => {
       memo: value,
     }));
   };
+  useEffect(() => {
+    console.log("Pay data", data);
+  }, [data]);
   return (
     <>
       <Input
@@ -117,7 +121,7 @@ const PayRegister = ({ param }: { param: IPay | null }) => {
         type={"text"}
         label={"납부금액"}
         placeholder={param?.lessonFee}
-        value={data.lessonFee}
+        value={lessonFee + ""}
         className="h-14 lg:text-lg border-b-0"
         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
           handleChangeLessonFee(event)

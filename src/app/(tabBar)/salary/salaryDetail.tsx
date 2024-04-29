@@ -1,7 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { formatCurrency } from "@/libs/client/utils";
+import { Member } from "@prisma/client";
+import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
+import { DAYOFWEEK } from "@/libs/constants";
+import { setState } from "jest-circus";
 
-const SalaryDetail = () => {
+const SalaryDetail = ({
+  members,
+}: {
+  members: IMemberWithSchedules[] | null;
+}) => {
+  const [totalLessonFee, setTotalLessonFee] = useState(0);
+  const [totalSalary, setTotalSalary] = useState(0);
+  useEffect(() => {
+    const totalLessonFee =
+      members?.reduce((total, member) => {
+        const firstLessonFee = member?.Schedule?.[0]?.lessonFee || 0;
+        return total + firstLessonFee;
+      }, 0) || 0;
+    setTotalLessonFee(totalLessonFee);
+  }, [members]);
+
   return (
     <div className="w-full border border-neutral-300 rounded-b-lg h-[40vh] overflow-y-auto rounded-t-lg">
       <table className="w-full table-auto">
@@ -25,27 +44,30 @@ const SalaryDetail = () => {
           </tr>
         </thead>
         <tbody>
-          {Array.from({ length: 10 }, (_, index) => ({
-            name: `이름 ${index + 1}`,
-            dayOfWeek: "화 목 금",
-            amount: 220000,
-          })).map((item, index) => (
-            <tr
-              key={index}
-              className="*:py-3 text-center border-b border-stone-100"
-            >
-              <td>{item.name}</td>
+          {members &&
+            members.map((member, index) => (
+              <tr
+                key={index}
+                className="*:py-3 text-center border-b border-stone-100"
+              >
+                <td>{member.name}</td>
 
-              <td>{item.dayOfWeek}</td>
-              <td>{formatCurrency(item.amount)}</td>
-            </tr>
-          ))}
+                <td>
+                  {member?.Schedule?.map((sh) => DAYOFWEEK[sh.dayOfWeek])}
+                </td>
+                <td>
+                  {formatCurrency(
+                    (member?.Schedule && member?.Schedule[0].lessonFee) || 0,
+                  )}
+                </td>
+              </tr>
+            ))}
         </tbody>
         <tfoot className="sticky bottom-0">
           <tr className="text-xs lg:text-base font-semibold *:py-3 text-center border-stone-100 bg-stone-100">
             <td>합계</td>
-            <td>70 명</td>
-            <td>{formatCurrency(220000 * 70)} 원</td>
+            <td>{members?.length} 명</td>
+            <td>{formatCurrency(totalLessonFee)} 원</td>
           </tr>
         </tfoot>
       </table>

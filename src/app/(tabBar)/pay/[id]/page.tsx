@@ -17,6 +17,7 @@ const Page = ({ params }: { params: { id: string } }) => {
 
   const [member, setMember] = useState<IMemberWithSchedules>();
   const [payment, setPayment] = useState<Payment[]>([]);
+  const [stopPeriod, setStopPeriod] = useState(0);
   const [paymentCnt, setPaymentCnt] = useState(0);
   const [paymonth, setPayMonth] = useState<string[]>([]);
   const [totalPeriod, setTotalPeriod] = useState<string[]>([]);
@@ -43,6 +44,14 @@ const Page = ({ params }: { params: { id: string } }) => {
 
     fetchMember();
   }, [id]);
+  useEffect(() => {
+    if (payment.length > 0) {
+      const stopMonths = payment.filter(
+        (item) => item && item.lessonFee != null && item?.lessonFee < 0,
+      );
+      setStopPeriod(stopMonths?.length || 0);
+    }
+  }, [payment]);
 
   useEffect(() => {
     const fetchCompany = async () => {
@@ -52,6 +61,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           const total =
             member?.startDate &&
             generatePaymentDates(member?.startDate, response.payDay);
+
           setTotalPeriod(total || []);
         }
       } catch (error) {
@@ -122,7 +132,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           <Input
             type={"div"}
             label={"미납/ 총 납부"}
-            value={`${totalPeriod.length - paymentCnt}건 / ${totalPeriod.length}건`}
+            value={`${totalPeriod.length - paymentCnt - stopPeriod}건 / ${totalPeriod.length - stopPeriod}건`}
             className="hidden md:flex h-16 border-t-0 lg:text-lg"
           />
         </div>
