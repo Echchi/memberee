@@ -7,6 +7,7 @@ import {
   subMonths,
 } from "date-fns";
 import { DAYOFWEEK } from "@/libs/constants";
+import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 
 export function cls(...classnames: string[]) {
   return classnames.join(" ");
@@ -84,3 +85,24 @@ export function generatePaymentDates(
 
   return paymentDates;
 }
+
+export const calculateLessonFee = (members: IMemberWithSchedules[]) => {
+  return members.reduce((total, member) => {
+    const firstLessonFee = member?.Schedule?.[0]?.lessonFee || 0;
+    return total + firstLessonFee;
+  }, 0);
+};
+
+export const calculateSalary = (
+  lessonFee: number,
+  commission: number | null,
+) => {
+  const commissionDecimal = (commission || 0) / 100;
+  return lessonFee * (1 - commissionDecimal) * (1 - 0.033);
+};
+
+export const compareDate = (payDay: number) => {
+  const today = new Date();
+  const currentDay = today.getDate();
+  return currentDay <= payDay;
+};

@@ -15,35 +15,60 @@ export async function getMembers(
   month?: number,
   isPay: boolean = false,
 ) {
+  console.log("큐리큐리", query);
   const session = await getSession();
   const companyId = session.company;
   const members = await db.member.findMany({
     where: {
-      status: {
-        in: [1, -1],
-      },
       companyId: companyId,
-
-      ...(query && {
-        OR: [
-          {
-            name: {
-              contains: query.toLowerCase(),
-            },
-          },
-          {
-            phone: {
-              contains: query.toLowerCase(),
-            },
-          },
-        ],
-      }),
-      ...(year &&
-        month && {
-          startDate: {
-            lte: new Date(year, month - 1, 1),
-          },
-        }),
+      AND: [
+        ...(query
+          ? [
+              {
+                OR: [
+                  {
+                    name: {
+                      contains: query.toLowerCase(),
+                    },
+                  },
+                  {
+                    phone: {
+                      contains: query.toLowerCase(),
+                    },
+                  },
+                ],
+              },
+            ]
+          : []),
+        ...(year && month
+          ? [
+              {
+                OR: [
+                  {
+                    AND: [
+                      { status: 0 },
+                      {
+                        OR: [
+                          { endDate: null },
+                          {
+                            endDate: {
+                              gte: new Date(year, month - 1, 1),
+                            },
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  {
+                    status: {
+                      not: 0,
+                    },
+                  },
+                ],
+              },
+            ]
+          : []),
+      ],
     },
     orderBy: [{ status: "desc" }],
     include: {
@@ -57,6 +82,7 @@ export async function getMembers(
       },
     },
   });
+
   return members;
 }
 const Members = async ({
@@ -122,22 +148,6 @@ const Members = async ({
               {members &&
                 members.map((member, index) => (
                   <Member member={member} key={member.id} />
-                  // <tr
-                  //   key={index}
-                  //   className="*:py-3 text-center border-b border-stone-100 hover:bg-orange-100 cursor-pointer active:bg-orange-200"
-                  // >
-                  //   {/*<Link key={member.id} href={`member/${member.id}`}>*/}
-                  //   <td>{member.name}</td>
-                  //   <td>{member.phone}</td>
-                  //   <td>{member.worker.name}</td>
-                  //   <td>
-                  //     {member.Schedule.map(
-                  //       (item, index) => DAYOFWEEK[item.dayOfWeek],
-                  //     )}
-                  //   </td>
-                  //   <td>{dateFormattedtoKor(member?.createdAt)}</td>
-                  //   {/*</Link>*/}
-                  // </tr>
                 ))}
             </tbody>
           </table>
@@ -148,62 +158,6 @@ const Members = async ({
           members.map((member, index) => (
             <MemberMb member={member} key={member.id} />
           ))}
-        {/*<LineBox*/}
-        {/*  worker={"함코치"}*/}
-        {/*  day={"월, 수"}*/}
-        {/*  name={"회원 1"}*/}
-        {/*  phone={"010-0000-0000"}*/}
-        {/*  pay={true}*/}
-        {/*/>*/}
-        {/*<LineBox*/}
-        {/*  worker={"함코치"}*/}
-        {/*  day={"월, 수"}*/}
-        {/*  name={"회원 1"}*/}
-        {/*  phone={"010-0000-0000"}*/}
-        {/*  pay={true}*/}
-        {/*/>*/}
-        {/*<LineBox*/}
-        {/*  worker={"함코치"}*/}
-        {/*  day={"월, 수"}*/}
-        {/*  name={"회원 1"}*/}
-        {/*  phone={"010-0000-0000"}*/}
-        {/*  pay={true}*/}
-        {/*/>*/}
-        {/*<LineBox*/}
-        {/*  worker={"함코치"}*/}
-        {/*  day={"월, 수"}*/}
-        {/*  name={"회원 1"}*/}
-        {/*  phone={"010-0000-0000"}*/}
-        {/*  pay={true}*/}
-        {/*/>*/}
-        {/*<LineBox*/}
-        {/*  worker={"함코치"}*/}
-        {/*  day={"월, 수"}*/}
-        {/*  name={"회원 1"}*/}
-        {/*  phone={"010-0000-0000"}*/}
-        {/*  pay={true}*/}
-        {/*/>*/}
-        {/*<LineBox*/}
-        {/*  worker={"함코치"}*/}
-        {/*  day={"월, 수"}*/}
-        {/*  name={"회원 2"}*/}
-        {/*  phone={"010-0000-0000"}*/}
-        {/*  pay={true}*/}
-        {/*/>*/}
-        {/*<LineBox*/}
-        {/*  worker={"함코치"}*/}
-        {/*  day={"월, 수"}*/}
-        {/*  name={"회원 1"}*/}
-        {/*  phone={"010-0000-0000"}*/}
-        {/*  pay={true}*/}
-        {/*/>*/}
-        {/*<LineBox*/}
-        {/*  worker={"함코치"}*/}
-        {/*  day={"월, 수"}*/}
-        {/*  name={"회원 1"}*/}
-        {/*  phone={"010-0000-0000"}*/}
-        {/*  pay={true}*/}
-        {/*/>*/}
       </div>
     </>
   );

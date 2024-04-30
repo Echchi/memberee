@@ -18,8 +18,12 @@ const Pay = ({ member }: { member: IMemberWithSchedules }) => {
       <td>{member?.worker?.name}</td>
 
       <td className="flex justify-center items-center">
-        {member.status < 0 ||
-        (member?.Payment && member?.Payment[0]?.lessonFee < 0) ? (
+        {member.status === 0 && member.endDate ? (
+          <span className="text-xs">
+            <Tag color={"stone"} title={"탈퇴"} />
+          </span>
+        ) : member.status < 0 ||
+          (member?.Payment && member?.Payment[0]?.lessonFee < 0) ? (
           <span className="text-xs">
             <Tag color={"yellow"} title={"중단"} />
           </span>
@@ -33,17 +37,6 @@ const Pay = ({ member }: { member: IMemberWithSchedules }) => {
           </span>
         )}
       </td>
-      {/*<td>*/}
-      {/*  {member.pay < 0 ? (*/}
-      {/*    <div className="flex justify-center items-center">*/}
-      {/*      <span className="text-xs">*/}
-      {/*        <Tag color={"orange"} title={"연체"} />*/}
-      {/*      </span>*/}
-      {/*    </div>*/}
-      {/*  ) : (*/}
-      {/*    <></>*/}
-      {/*  )}*/}
-      {/*</td>*/}
     </tr>
   );
 };

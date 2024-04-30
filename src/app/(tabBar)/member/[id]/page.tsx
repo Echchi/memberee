@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Input from "@/component/input";
 import {
   cls,
+  compareDate,
   dateFormattedtoKor,
   dateFormattedtoNum,
   formatCurrency,
@@ -92,6 +93,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [selectedDay, setSelectedDay] = useState<number[]>([]);
   const [selectedTime, setSelectedTime] = useState<ITime>({});
   const [timeError, setTimeError] = useState("");
+
   const handleSelectDay = (event: React.MouseEvent, dayIndex: number) => {
     event.preventDefault();
     if (selectedDay.includes(dayIndex)) {
@@ -133,7 +135,9 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [confirmType, setConfirmType] = useState<"중단" | "탈퇴" | "중단 취소">(
     "중단 취소",
   );
+  const [includeThismonth, setIncludeThisMonth] = useState(false);
   const handleStopClick = () => {
+    setIncludeThisMonth(compareDate(member?.company?.payDay || 1));
     setConfirmType("중단");
     setIsConfirmOpen(true);
   };
@@ -157,6 +161,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   };
 
   const handleTerminateClick = () => {
+    setIncludeThisMonth(compareDate(member?.company?.payDay || 1));
     setConfirmType("탈퇴");
     setIsConfirmOpen(true);
   };
@@ -189,6 +194,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               name={member?.name || ""}
               action={`${confirmType} 처리`}
               onClose={() => setIsConfirmOpen(false)}
+              includeThismonth={includeThismonth}
               onConfirm={() =>
                 changeStatusMember(+id, confirmType === "탈퇴" ? 0 : -1)
               }

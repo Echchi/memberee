@@ -18,7 +18,7 @@ const PayList = async ({
   setDesc?: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const members = await getMembers(query || "", year, month);
-
+  console.log("members 페이리스트 ~~~~~~~~~~~~~~~~~~~~~~~", members);
   return (
     <>
       <div className="hidden lg:block box mt-3">
@@ -52,16 +52,22 @@ const PayList = async ({
               {members &&
                 members
                   .sort((a, b) => {
-                    const aHasPayment = a.Payment
-                      ? a.Payment?.lessonFee < 0
-                        ? -1
-                        : 1
-                      : 0;
-                    const bHasPayment = b.Payment
-                      ? b.Payment?.lessonFee < 0
-                        ? -1
-                        : 1
-                      : 0;
+                    const aHasPayment =
+                      a.status === 0
+                        ? -2
+                        : a.Payment.length > 0
+                          ? a.Payment[0]?.lessonFee < 0
+                            ? -1
+                            : 0
+                          : 1;
+                    const bHasPayment =
+                      b.status === 0
+                        ? -2
+                        : b.Payment.length > 0
+                          ? b.Payment[0]?.lessonFee < 0
+                            ? -1
+                            : 0
+                          : 1;
                     return bHasPayment - aHasPayment;
                   })
                   .map((member, index) => (

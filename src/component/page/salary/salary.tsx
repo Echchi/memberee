@@ -1,6 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { formatCurrency } from "@/libs/client/utils";
+import {
+  calculateLessonFee,
+  calculateSalary,
+  formatCurrency,
+} from "@/libs/client/utils";
 
 import { useRouter } from "next/navigation";
 
@@ -24,12 +28,7 @@ const Salary = ({
     setOpenDetailModal(true);
   };
   useEffect(() => {
-    const totalLessonFee =
-      worker.Member?.reduce((total, member) => {
-        const firstLessonFee = member?.Schedule?.[0]?.lessonFee || 0;
-        return total + firstLessonFee;
-      }, 0) || 0;
-    setTotalLessonFee(totalLessonFee);
+    setTotalLessonFee(calculateLessonFee(worker.Member));
   }, [worker]);
 
   return (
@@ -55,10 +54,7 @@ const Salary = ({
       <td>{worker?.commission} %</td>
       <td>3.3 %</td>
       <td>
-        {formatCurrency(
-          totalLessonFee * (1 - (worker?.commission || 0) / 100) * (1 - 0.033),
-        )}
-        원
+        {formatCurrency(calculateSalary(totalLessonFee, worker?.commission))}원
       </td>
     </>
   );

@@ -7,10 +7,13 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 
-export async function getWorker(id: number) {
+export async function getWorker(id: number, month?: string, year?: string) {
+  const session = await getSession();
+  const companyId = session.company;
   const worker = await db.worker.findUnique({
     where: {
       id: id,
+      companyId: companyId,
     },
     include: {
       Member: {

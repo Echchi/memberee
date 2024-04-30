@@ -1,10 +1,10 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { cls } from "@/libs/client/utils";
 
 interface LineBoxProps {
   worker?: string;
   day?: string;
-  name: string;
+  name: string | ReactElement;
   phone: string;
   active: boolean;
   onClick?: () => void;

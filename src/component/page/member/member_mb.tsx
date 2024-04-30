@@ -5,20 +5,29 @@ import LineBox from "@/component/lineBox";
 import { DAYOFWEEK } from "@/libs/constants";
 import { formatPhone } from "@/libs/client/utils";
 import { useRouter } from "next/navigation";
+import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 
-const MemberMb = ({ member }: { member: Member }) => {
+const MemberMb = ({ member }: { member: IMemberWithSchedules }) => {
   const router = useRouter();
   return (
-    <div className="lg:hidden flex flex-col space-y-3 mt-5">
-      <LineBox
-        onClick={() => router.push(`/member/${member.id}`)}
-        worker={member.worker.name}
-        day={member.Schedule.map((item, index) => DAYOFWEEK[item.dayOfWeek])}
-        name={member.name}
-        phone={formatPhone(member.phone)}
-        active={member.status > 0}
-      />
-    </div>
+    <>
+      {member.status === 0 ? (
+        <></>
+      ) : (
+        <div className="lg:hidden flex flex-col space-y-3 mt-5">
+          <LineBox
+            onClick={() => router.push(`/member/${member.id}`)}
+            worker={member.worker?.name}
+            day={member.Schedule?.map(
+              (item, index) => DAYOFWEEK[item.dayOfWeek],
+            ).join("")}
+            name={member.name}
+            phone={formatPhone(member.phone)}
+            active={member.status > 0}
+          />
+        </div>
+      )}
+    </>
   );
 };
 

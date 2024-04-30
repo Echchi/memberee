@@ -140,7 +140,7 @@ const SelectTime = ({
                     placeholder={"10:00"}
                     required={true}
                     maxLength={5}
-                    defaultValue={times[day]?.startTime || ""}
+                    value={times[day]?.startTime || ""}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       handleStartTimeChange(day, e.target.value)
                     }
@@ -152,7 +152,7 @@ const SelectTime = ({
                     placeholder={"10:20"}
                     required={true}
                     maxLength={5}
-                    defaultValue={times[day]?.endTime || ""}
+                    value={times[day]?.endTime || ""}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       handleEndTimeChange(day, e.target.value)
                     }

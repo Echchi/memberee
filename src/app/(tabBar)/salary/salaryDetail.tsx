@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { formatCurrency } from "@/libs/client/utils";
+import { calculateLessonFee, formatCurrency } from "@/libs/client/utils";
 import { Member } from "@prisma/client";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 import { DAYOFWEEK } from "@/libs/constants";
@@ -13,12 +13,7 @@ const SalaryDetail = ({
   const [totalLessonFee, setTotalLessonFee] = useState(0);
   const [totalSalary, setTotalSalary] = useState(0);
   useEffect(() => {
-    const totalLessonFee =
-      members?.reduce((total, member) => {
-        const firstLessonFee = member?.Schedule?.[0]?.lessonFee || 0;
-        return total + firstLessonFee;
-      }, 0) || 0;
-    setTotalLessonFee(totalLessonFee);
+    setTotalLessonFee(calculateLessonFee(members || []));
   }, [members]);
 
   return (

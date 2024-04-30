@@ -101,7 +101,7 @@ model Schedule {
   member         Member           @relation(fields: [memberId], references: [id], onDelete: Cascade)
   memberId       Int
   lessonFee      Int
-  dayOfWeek      Int // 요일을 나타내는 숫자 (0: 일요일, 1: 월요일, ..., 6: 토요일)
+  dayOfWeek      Int // 요일을 나타내는 숫자 (1: 월요일, ..., 6: 토요일, 7: 일요일)
   startTime      DateTime
   endTime        DateTime
   createdAt      DateTime         @default(now())

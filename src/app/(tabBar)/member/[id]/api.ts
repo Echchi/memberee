@@ -6,9 +6,13 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
 export async function getMember(id: number) {
+  const session = await getSession();
+  const companyId = session.company;
   const member = await db.member.findUnique({
     where: {
       id: id,
+      companyId: companyId,
+      status: 1,
     },
 
     include: {
