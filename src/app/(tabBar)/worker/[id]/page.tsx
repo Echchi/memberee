@@ -159,7 +159,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           </div>
         </div>
         <div ref={workerRef} className="grid grid-cols-2">
-          <div className="col-span-2 border border-x border-b-0 hidden md:flex bg-stone-100 text-stone-600 tracking-wider text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg ">
+          <div className="col-span-2 border border-x border-b-0 hidden md:flex bg-stone-100 text-stone-600 tracking-wider text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg print:flex">
             직원 카드
           </div>
 

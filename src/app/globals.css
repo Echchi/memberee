@@ -3,20 +3,15 @@
 @tailwind utilities;
 
 @media print {
-    @layer utilities {
-        .printable {
-            @apply max-h-none overflow-visible page-break-inside-avoid break-inside-avoid;
-        }
-
-        .page-break {
-            @apply page-break-after-always;
-        }
-
-        .no-page-break {
-            @apply page-break-inside-avoid break-inside-avoid page-break-before-avoid;
-        }
+    html, body {
+        height: 100vh; /* Use 100% here to support printing more than a single page*/
+        margin: 5px !important;
+        padding: 5px !important;
+        overflow: visible;
     }
+
 }
+
 @layer base {
     html {
         @apply font-sans text-stone-800 select-none text-xs lg:text-base;
