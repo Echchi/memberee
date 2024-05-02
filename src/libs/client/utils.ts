@@ -57,16 +57,20 @@ export const dateFormattedtoKor = (date?: Date | null) => {
 export const dateFormattedtoNum = (date?: Date | null) => {
   return date ? format(date, "yyyyMMdd") : "날짜 없음";
 };
+export const dateFormattedtoDot = (date?: Date | null) => {
+  return date ? format(date, "yyyy.MM.dd.") : "날짜 없음";
+};
 
 export function generatePaymentDates(
   date: Date,
   paymentDay: number,
   includeThisMonth: boolean = true,
+  endDate?: Date,
 ) {
   // console.log("generatePaymentDates", date, paymentDay);
   const currentDate = includeThisMonth ? new Date() : subMonths(new Date(), 1);
   const start = new Date(date);
-  const current = new Date(currentDate);
+  const end = endDate ? endDate : new Date(currentDate);
 
   const initialYear = start.getFullYear();
   const initialMonth = start.getMonth();
@@ -78,7 +82,7 @@ export function generatePaymentDates(
 
   const paymentDates = [];
 
-  while (firstPaymentDate <= current) {
+  while (firstPaymentDate <= end) {
     paymentDates.push(format(firstPaymentDate, "yyyyM"));
     firstPaymentDate = addMonths(firstPaymentDate, 1);
   }

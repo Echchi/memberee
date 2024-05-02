@@ -55,9 +55,7 @@ const Classes = ({ classes }: { classes: Schedule[] }) => {
 
     setScheduleByDay(newScheduleByDay);
   }, [classes]);
-  useEffect(() => {
-    console.log("scheduleByDay", scheduleByDay);
-  }, [scheduleByDay]);
+
   return (
     <>
       {Array.from({ length: 18 }).map((_, hourIndex) => (

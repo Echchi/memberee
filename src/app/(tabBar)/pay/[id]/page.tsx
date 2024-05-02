@@ -5,10 +5,16 @@ import { useRouter } from "next/navigation";
 import Button from "@/component/button/button";
 import { getMember } from "@/app/(tabBar)/member/[id]/api";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
-import { cls, formatPhone, generatePaymentDates } from "@/libs/client/utils";
+import {
+  cls,
+  dateFormattedtoKor,
+  formatPhone,
+  generatePaymentDates,
+} from "@/libs/client/utils";
 import { Payment } from ".prisma/client";
 import { getCompany } from "@/app/(tabBar)/pay/[id]/api";
 import List from "@/component/page/pay/[id]/list";
+import Tag from "@/component/tag";
 
 const Page = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
@@ -60,7 +66,14 @@ const Page = ({ params }: { params: { id: string } }) => {
         if (response) {
           const total =
             member?.startDate &&
-            generatePaymentDates(member?.startDate, response.payDay);
+            (member?.endDate
+              ? generatePaymentDates(
+                  member?.startDate,
+                  response.payDay,
+                  true,
+                  member?.endDate,
+                )
+              : generatePaymentDates(member?.startDate, response.payDay));
 
           setTotalPeriod(total || []);
         }
@@ -88,6 +101,13 @@ const Page = ({ params }: { params: { id: string } }) => {
       <div className="box flex-col">
         <div className="flex justify-end items-center">
           <div className="hidden md:flex items-center justify-end space-x-4 w-full *:w-32">
+            {member?.status === 0 && (
+              <Tag
+                color={"stone"}
+                title={`${dateFormattedtoKor(member?.endDate)} 탈퇴`}
+                className={"!w-fit !py-4 *:!font-bold !px-4"}
+              />
+            )}
             <div>
               <Button
                 onClick={() => router.push("/pay")}
@@ -106,7 +126,7 @@ const Page = ({ params }: { params: { id: string } }) => {
         <div
           className={cls(
             "grid md:grid-cols-2 w-full cursor-pointer",
-            member && member?.status < 0 ? "*:bg-stone-100" : "",
+            member && member?.status <= 0 ? "*:bg-stone-100" : "",
           )}
           data-testid={"member-info"}
           onClick={() => router.push(`/member/${member?.id}`)}
@@ -139,96 +159,6 @@ const Page = ({ params }: { params: { id: string } }) => {
         {member && (
           <List member={member} payment={payment} totalPeriod={totalPeriod} />
         )}
-        {/*<div*/}
-        {/*  className={cls(*/}
-        {/*    "border border-stone-300 border-t-0 rounded-b-lg w-full h-[73\x20px]",*/}
-        {/*    member && member?.status < 0 ? "*:bg-stone-100" : "",*/}
-        {/*  )}*/}
-        {/*>*/}
-        {/*  <table className="w-full table-auto">*/}
-        {/*    <thead>*/}
-        {/*      <tr className="bg-stone-100 font-semibold text-lg text-center *:py-3">*/}
-        {/*        <td className="flex justify-center items-center">*/}
-        {/*          연도*/}
-        {/*          <svg*/}
-        {/*            onClick={() => setYearDesc((prev) => !prev)}*/}
-        {/*            xmlns="http://www.w3.org/2000/svg"*/}
-        {/*            fill="none"*/}
-        {/*            viewBox="0 0 24 24"*/}
-        {/*            strokeWidth={1.5}*/}
-        {/*            stroke="currentColor"*/}
-        {/*            className="w-6 h-6 ml-2"*/}
-        {/*          >*/}
-        {/*            <path*/}
-        {/*              strokeLinecap="round"*/}
-        {/*              strokeLinejoin="round"*/}
-        {/*              d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"*/}
-        {/*            />*/}
-        {/*          </svg>*/}
-        {/*        </td>*/}
-        {/*        <td>*/}
-        {/*          <div className="flex justify-center items-center">*/}
-        {/*            월*/}
-        {/*            <svg*/}
-        {/*              onClick={() => setMonthDesc((prev) => !prev)}*/}
-        {/*              xmlns="http://www.w3.org/2000/svg"*/}
-        {/*              fill="none"*/}
-        {/*              viewBox="0 0 24 24"*/}
-        {/*              strokeWidth={1.5}*/}
-        {/*              stroke="currentColor"*/}
-        {/*              className="w-6 h-6 ml-2"*/}
-        {/*            >*/}
-        {/*              <path*/}
-        {/*                strokeLinecap="round"*/}
-        {/*                strokeLinejoin="round"*/}
-        {/*                d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"*/}
-        {/*              />*/}
-        {/*            </svg>*/}
-        {/*          </div>*/}
-        {/*        </td>*/}
-        {/*        <td className="hidden md:block">납부방법</td>*/}
-        {/*        <td>납부일자</td>*/}
-        {/*      </tr>*/}
-        {/*    </thead>*/}
-        {/*    <tbody>*/}
-        {/*      {Array.from({ length: 12 }, (_, index) => ({*/}
-        {/*        year: 2024,*/}
-        {/*        month: 1,*/}
-        {/*        method: index % 2 === 0 ? "계좌이체" : "",*/}
-        {/*        payDate: index % 2 === 0 ? "2024.01.01." : "",*/}
-        {/*      })).map((item, index) => (*/}
-        {/*        <tr*/}
-        {/*          onClick={*/}
-        {/*            item.method.length > 0 && item.payDate.length > 0*/}
-        {/*              ? () => setConfirmModalOpen(true)*/}
-        {/*              : undefined*/}
-        {/*          }*/}
-        {/*          key={index}*/}
-        {/*          className="*:py-3 text-center border-b border-stone-100 hover:bg-orange-100 cursor-pointer active:bg-orange-200 has-[button]:hover:bg-white has-[button]:hover:cursor-default has-[button]:active:bg-white"*/}
-        {/*        >*/}
-        {/*          <td>{item.year}</td>*/}
-        {/*          <td>{item.month}</td>*/}
-        {/*          <td className="hidden md:block">*/}
-        {/*            {item.method.length > 0 ? item.method : "-"}*/}
-        {/*          </td>*/}
-        {/*          <td>*/}
-        {/*            {item.payDate.length > 0 ? (*/}
-        {/*              item.payDate*/}
-        {/*            ) : (*/}
-        {/*              <div className="mx-auto min-w-fit w-1/2 md:w-1/4">*/}
-        {/*                <Button*/}
-        {/*                  text={"납부 등록"}*/}
-        {/*                  className="!bg-amber-500 hover:!bg-amber-500/80 active:!bg-amber-600 !py-3"*/}
-        {/*                  onClick={() => setRegisterModalOpen(true)}*/}
-        {/*                />*/}
-        {/*              </div>*/}
-        {/*            )}*/}
-        {/*          </td>*/}
-        {/*        </tr>*/}
-        {/*      ))}*/}
-        {/*    </tbody>*/}
-        {/*  </table>*/}
-        {/*</div>*/}
       </div>
     </>
   );

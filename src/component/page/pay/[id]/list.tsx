@@ -104,7 +104,7 @@ const List = ({
       <div
         className={cls(
           "border border-stone-300 border-t-0 rounded-b-lg w-full h-[73\x20px]",
-          member && member?.status < 0 ? "*:bg-stone-100" : "",
+          member && member?.status <= 0 ? "*:bg-stone-100" : "",
         )}
       >
         <table className="w-full table-auto">

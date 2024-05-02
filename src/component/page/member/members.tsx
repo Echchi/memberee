@@ -9,15 +9,25 @@ import getSession from "@/libs/client/session";
 import Member from "./member";
 import LineBox from "@/component/lineBox";
 import MemberMb from "./member_mb";
+import { getCompany } from "@/app/(tabBar)/pay/[id]/api";
+import { getMonth, getYear } from "date-fns";
 export async function getMembers(
   query: string,
   year?: number,
   month?: number,
   isPay: boolean = false,
 ) {
-  console.log("큐리큐리", query);
   const session = await getSession();
   const companyId = session.company;
+  const company = await getCompany();
+  const payDayDate = new Date(
+    Date.UTC(
+      year || getYear(new Date()),
+      (month || getMonth(new Date())) - 1,
+      company?.payDay,
+    ),
+  );
+
   const members = await db.member.findMany({
     where: {
       companyId: companyId,
@@ -52,7 +62,7 @@ export async function getMembers(
                           { endDate: null },
                           {
                             endDate: {
-                              gte: new Date(year, month - 1, 1),
+                              gte: payDayDate,
                             },
                           },
                         ],

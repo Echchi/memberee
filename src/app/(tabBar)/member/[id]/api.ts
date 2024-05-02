@@ -12,7 +12,6 @@ export async function getMember(id: number) {
     where: {
       id: id,
       companyId: companyId,
-      status: 1,
     },
 
     include: {

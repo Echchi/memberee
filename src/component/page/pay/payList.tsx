@@ -3,8 +3,6 @@ import React, { useEffect } from "react";
 import { getMembers } from "@/component/page/member/members";
 import Pay from "./pay";
 import PayMb from "@/component/page/pay/pay_mb";
-import getSession from "@/libs/client/session";
-import db from "@/libs/server/db";
 
 const PayList = async ({
   query,
@@ -18,7 +16,6 @@ const PayList = async ({
   setDesc?: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const members = await getMembers(query || "", year, month);
-  console.log("members 페이리스트 ~~~~~~~~~~~~~~~~~~~~~~~", members);
   return (
     <>
       <div className="hidden lg:block box mt-3">

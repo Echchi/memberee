@@ -35,7 +35,6 @@ const Page = ({
       try {
         if (selectedWorker) {
           const response = await getClasses(+selectedWorker, year, month);
-          console.log("직원 선택에 따른 결과물", response);
           response && setClasses(response);
         }
       } catch (error) {

@@ -19,10 +19,11 @@ import { getCompany } from "@/app/(tabBar)/pay/[id]/api";
 export interface WorkerWithMember extends Worker {
   Member: IMemberWithSchedules[];
 }
-export async function getWorkersSalarys(year: string, month: string) {
+export async function getWorkersSalarys(year: number, month: number) {
   const session = await getSession();
   const companyId = session.company;
   const company = await getCompany();
+  const payDayDate = new Date(Date.UTC(year, month - 1, company?.payDay));
   const workers = await db.worker.findMany({
     where: {
       status: 1, // 직원이 활동 중인 상태
@@ -49,13 +50,13 @@ export async function getWorkersSalarys(year: string, month: string) {
                 {
                   status: 0,
                   endDate: {
-                    gte: new Date(+year, +month - 1, company?.payDay),
+                    gte: payDayDate,
                   },
                 },
                 {
                   status: -1,
                   suspendedDate: {
-                    gte: new Date(+year, +month - 1, company?.payDay),
+                    gte: payDayDate,
                   },
                 },
               ],
@@ -69,11 +70,6 @@ export async function getWorkersSalarys(year: string, month: string) {
     },
   });
 
-  console.log("workers", workers);
-  console.log(
-    "slarary는 잘 나오는구마!",
-    new Date(+year, +month - 1, company?.payDay),
-  );
   return workers;
 }
 
@@ -82,8 +78,8 @@ const Page = async ({
 }: {
   searchParams?: { year?: string; month?: string };
 }) => {
-  const year = searchParams?.year || getYear(new Date()) + "";
-  const month = searchParams?.month || getMonth(new Date()) + "";
+  const year = Number(searchParams?.year) || getYear(new Date());
+  const month = Number(searchParams?.month) || getMonth(new Date());
 
   const workers = await getWorkersSalarys(year, month);
 

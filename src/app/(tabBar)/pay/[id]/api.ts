@@ -8,6 +8,7 @@ import { IPay } from "@/component/page/pay/[id]/list";
 import { Payment } from ".prisma/client";
 import { formatISODate } from "@/libs/client/utils";
 import { Member } from "@prisma/client";
+import { getMonth, getYear } from "date-fns";
 
 interface ICreatePayment {
   memberId: number;
