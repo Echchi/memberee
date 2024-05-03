@@ -2,12 +2,24 @@
 import db from "@/libs/server/db";
 import getSession from "@/libs/client/session";
 import { getCompany } from "@/app/(tabBar)/pay/[id]/api";
+import { getMonth, getYear } from "date-fns";
 
-export async function getClasses(id: number, year: number, month: number) {
+export async function getClasses(options: {
+  id?: number;
+  year?: number;
+  month?: number;
+  dayOfWeek?: number;
+}) {
   const session = await getSession();
   const companyId = session.company;
   const company = await getCompany();
-  const payDayDate = new Date(Date.UTC(year, month - 1, company?.payDay));
+  const payDayDate = new Date(
+    Date.UTC(
+      options.year || getYear(new Date()),
+      options.month || getMonth(new Date()) - 1,
+      company?.payDay,
+    ),
+  );
   const members = await db.member.findMany({
     where: {
       companyId: companyId,
@@ -16,8 +28,8 @@ export async function getClasses(id: number, year: number, month: number) {
           Payment: {
             none: {
               lessonFee: -1,
-              forYear: year,
-              forMonth: month,
+              forYear: options.year,
+              forMonth: options.month,
             },
           },
         },
@@ -49,13 +61,16 @@ export async function getClasses(id: number, year: number, month: number) {
   console.log("members", members);
   const classes = await db.schedule.findMany({
     where: {
-      workerId: id,
+      ...(options.id && { workerId: options.id }),
+      ...(options.dayOfWeek && { dayOfWeek: options.dayOfWeek }),
+
       memberId: {
         in: members.map((m) => m.id), // 조회된 memberId 사용
       },
     },
     include: {
       member: true,
+      worker: true,
     },
   });
 

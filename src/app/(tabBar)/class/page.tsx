@@ -11,10 +11,6 @@ import { getClasses } from "@/app/(tabBar)/class/api";
 import { Member, Schedule } from "@prisma/client";
 import { getMonth, getYear } from "date-fns";
 
-export interface ScheduleWithMember extends Schedule {
-  mebmer: Member[];
-}
-
 const Page = ({
   searchParams,
 }: {
@@ -24,7 +20,7 @@ const Page = ({
   const month = Number(searchParams?.month) || getMonth(new Date());
   const [initValue, setInitValue] = useState("");
   const [selectedWorker, setSelectedWorker] = useState("");
-  const [classes, setClasses] = useState<ScheduleWithMember>();
+  const [classes, setClasses] = useState<Schedule[]>();
   const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const classes = event.target.value;
     setSelectedWorker(classes);
@@ -34,7 +30,11 @@ const Page = ({
     const fetchWorker = async () => {
       try {
         if (selectedWorker) {
-          const response = await getClasses(+selectedWorker, year, month);
+          const response = await getClasses({
+            id: +selectedWorker,
+            year,
+            month,
+          });
           response && setClasses(response);
         }
       } catch (error) {

@@ -11,6 +11,10 @@ import {
   parseISO,
 } from "date-fns";
 import { useRouter } from "next/navigation";
+import {
+  calculateGridRowEnd,
+  calculateGridRowStart,
+} from "@/libs/client/utils";
 
 const Classes = ({ classes }: { classes: Schedule[] }) => {
   console.log("classes worker", classes);
@@ -71,7 +75,7 @@ const Classes = ({ classes }: { classes: Schedule[] }) => {
                   <div
                     onClick={() => router.push(`/member/${c.memberId}`)}
                     key={`schedule_${index}`}
-                    className="font-medium bg-amber-200 w-full rounded-xl p-2 text-xs shadow hover:z-10 transition-all cursor-pointer"
+                    className="font-medium bg-amber-200 w-full rounded-xl p-2 text-xs shadow hover:z-10 hover:scale-150 transition-all cursor-pointer"
                     style={{
                       gridRowStart: c.gridRowStart,
                       gridRowEnd: `span ${Number(c.gridRowStart) + Number(c.gridRowEnd)}`,
@@ -124,18 +128,5 @@ const Classes = ({ classes }: { classes: Schedule[] }) => {
     </>
   );
 };
-
-function calculateGridRowStart(startTime: string, endTime: string) {
-  const [hour, minutes] = startTime.split(":").map(Number);
-  return Math.floor(minutes / 10) + 1;
-}
-
-function calculateGridRowEnd(startTime: string, endTime: string) {
-  const startMinutes =
-    parseInt(startTime.split(":")[0]) * 60 + parseInt(startTime.split(":")[1]);
-  const endMinutes =
-    parseInt(endTime.split(":")[0]) * 60 + parseInt(endTime.split(":")[1]);
-  return Math.ceil((endMinutes - startMinutes) / 10);
-}
 
 export default Classes;

@@ -110,3 +110,18 @@ export const compareDate = (payDay: number) => {
   const currentDay = today.getDate();
   return currentDay <= payDay;
 };
+
+// class
+
+export function calculateGridRowStart(startTime: string, endTime: string) {
+  const [hour, minutes] = startTime.split(":").map(Number);
+  return Math.floor(minutes / 10) + 1;
+}
+
+export function calculateGridRowEnd(startTime: string, endTime: string) {
+  const startMinutes =
+    parseInt(startTime.split(":")[0]) * 60 + parseInt(startTime.split(":")[1]);
+  const endMinutes =
+    parseInt(endTime.split(":")[0]) * 60 + parseInt(endTime.split(":")[1]);
+  return Math.ceil((endMinutes - startMinutes) / 10);
+}
