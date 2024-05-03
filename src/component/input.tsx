@@ -1,4 +1,9 @@
-import React, { ChangeEvent, InputHTMLAttributes } from "react";
+import React, {
+  ChangeEvent,
+  InputHTMLAttributes,
+  useEffect,
+  useState,
+} from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 import { cls } from "@/libs/client/utils";
 
@@ -46,6 +51,22 @@ const Input: React.FC<
   onSelectChange,
   ...rest
 }) => {
+  type === "select" && console.log("환장하겄네 value", value);
+  const [selectedValue, setSelectedValue] = useState(value);
+
+  useEffect(() => {
+    if (value && type === "select") {
+      setSelectedValue(value);
+    }
+  }, [value]);
+
+  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedValue(event.target.value);
+    if (onSelectChange) {
+      onSelectChange(event);
+    }
+  };
+
   return (
     <div
       className={cls(
@@ -86,8 +107,8 @@ const Input: React.FC<
               icon ? "ml-14 lg:ml-20" : "",
               label ? "ml-20 lg:ml-40" : "",
             )}
-            onChange={onSelectChange}
-            defaultValue={value}
+            value={selectedValue}
+            onChange={handleSelectChange}
           >
             {options &&
               options.map(({ value, label }, index) => (

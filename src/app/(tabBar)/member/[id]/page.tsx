@@ -46,7 +46,7 @@ import { revalidatePath } from "next/cache";
 export interface IMemberWithSchedules extends Member {
   Memos?: Memo[];
   Schedule?: Schedule[];
-  worker?: Worker;
+  worker?: Worker | null;
   Payment?: Payment[];
   company?: Company | null;
 }
@@ -154,7 +154,7 @@ const Page = ({ params }: { params: { id: string } }) => {
         const year = period.slice(0, 4);
         const month = period.slice(4);
 
-        await updateStopPeriodPayment(+id, year, month);
+        await updateStopPeriodPayment(+id, member.workerId, year, month);
       }
     }
     router.refresh();
@@ -401,7 +401,10 @@ const Page = ({ params }: { params: { id: string } }) => {
             errorMessage={state?.fieldErrors.lessonFee}
           />
           {isEdit ? (
-            <WorkerList selectedDay={selectedDay} />
+            <WorkerList
+              selectedDay={selectedDay}
+              selectedWorker={member?.worker?.id}
+            />
           ) : (
             <Input
               type={"div"}

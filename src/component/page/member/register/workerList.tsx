@@ -7,6 +7,7 @@ import { getWorkerList } from "@/app/(tabBar)/worker/register/api";
 
 interface WorkerListProps {
   selectedDay?: number[];
+  selectedWorker?: number;
   isOnly?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   setInitValue?: React.Dispatch<React.SetStateAction<string>>;
@@ -14,6 +15,7 @@ interface WorkerListProps {
 
 const WorkerList: React.FC<WorkerListProps> = ({
   selectedDay,
+  selectedWorker,
   isOnly = false,
   onChange,
   setInitValue,
@@ -45,6 +47,7 @@ const WorkerList: React.FC<WorkerListProps> = ({
       {isOnly && onChange ? (
         <select
           onChange={onChange}
+          defaultValue={selectedWorker}
           className="rounded-xl border-0 h-12 px-6 bg-stone-100 w-full lg:w-fit outline-none"
         >
           {workers.map((worker) => (
@@ -57,6 +60,7 @@ const WorkerList: React.FC<WorkerListProps> = ({
         <Input
           type={"select"}
           label={"담당"}
+          value={selectedWorker + ""}
           options={workers.map((worker) => ({
             value: worker.id,
             label: worker.name,

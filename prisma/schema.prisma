@@ -49,24 +49,25 @@ model Company {
 }
 
 model Worker {
-  id            Int          @id @default(autoincrement())
-  company       Company?     @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  companyId     Int?
-  name          String
-  birth         DateTime?
-  phone         String
-  commission    Int?
-  dayOfWeek     String?
-  startDate     DateTime?
-  bank          String?
-  accountNumber String?
-  endDate       DateTime?
-  status        Int          @default(1) // 0: 퇴사, 1: 근무중
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  Member        Member[]
-  Schedule      Schedule[]
-  WorkerMemos   WorkerMemo[]
+  id              Int               @id @default(autoincrement())
+  company         Company?          @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId       Int?
+  name            String
+  birth           DateTime?
+  phone           String
+  commission      Int?
+  dayOfWeek       String?
+  startDate       DateTime?
+  bank            String?
+  accountNumber   String?
+  endDate         DateTime?
+  status          Int               @default(1) // 0: 퇴사, 1: 근무중
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  Member          Member[]
+  Schedule        Schedule[]
+  WorkerMemos     WorkerMemo[]
+  WorkerChangeLog WorkerChangeLog[]
 
   @@index([companyId])
 }
@@ -141,26 +142,27 @@ model Salary {
 }
 
 model Member {
-  id             Int              @id @default(autoincrement())
-  worker         Worker           @relation(fields: [workerId], references: [id], onDelete: Cascade)
-  workerId       Int
-  company        Company?         @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  companyId      Int?
-  name           String
-  phone          String
-  birth          DateTime?
-  job            String?
-  startDate      DateTime?
-  endDate        DateTime?
-  suspendedDate  DateTime?
-  status         Int              @default(1) // -1: 중단, 0: 탈퇴, 1: 수강중
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  Payment        Payment[]
-  Attendance     Attendance?
-  Schedule       Schedule[]
-  Memos          Memo[]
-  ScheduleMember ScheduleMember[]
+  id              Int               @id @default(autoincrement())
+  worker          Worker            @relation(fields: [workerId], references: [id], onDelete: Cascade)
+  workerId        Int
+  company         Company?          @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId       Int?
+  name            String
+  phone           String
+  birth           DateTime?
+  job             String?
+  startDate       DateTime?
+  endDate         DateTime?
+  suspendedDate   DateTime?
+  status          Int               @default(1) // -1: 중단, 0: 탈퇴, 1: 수강중
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  Payment         Payment[]
+  Attendance      Attendance?
+  Schedule        Schedule[]
+  Memos           Memo[]
+  ScheduleMember  ScheduleMember[]
+  WorkerChangeLog WorkerChangeLog[]
 
   @@index([workerId])
   @@index([companyId])
@@ -206,6 +208,21 @@ model Payment {
   lessonFee     Int? // 납부 금액
   paymentMethod String? // 납부 방법
   memo          String?
+  workerId      Int
 
+  @@index([memberId])
+}
+
+model WorkerChangeLog {
+  id               Int      @id @default(autoincrement())
+  workerId         Int
+  memberId         Int
+  changedDate      DateTime @default(now())
+  previousWorkerId Int
+
+  worker Worker @relation(fields: [workerId], references: [id])
+  member Member @relation(fields: [memberId], references: [id])
+
+  @@index([workerId])
   @@index([memberId])
 }

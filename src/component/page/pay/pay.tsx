@@ -16,7 +16,7 @@ const Pay = ({ member }: { member: IMemberWithSchedules }) => {
     >
       <td>{member.name}</td>
       <td>{member.phone}</td>
-      <td>{member?.worker?.name}</td>
+      <td>{member.worker?.name}</td>
 
       <td className="flex justify-center items-center">
         {member.status === 0 && member.endDate ? (

@@ -82,21 +82,42 @@ export const updateMember = async (
   if (!result.success) {
     return result.error.flatten();
   } else {
+    const workerIdChanged =
+      Number(result.data.worker) !== savedMember?.workerId;
+    const updateData = {
+      name: result.data.name,
+      phone: result.data.phone,
+      birth: formatISODate(result.data.birth),
+      job: result.data.job,
+      workerId: Number(result.data.worker),
+      startDate: formatISODate(result.data.startDate),
+      companyId: companyId,
+    };
+
     const member = await db.member.update({
       where: { id: +id, companyId },
-      data: {
-        name: result.data.name,
-        phone: result.data.phone,
-        birth: formatISODate(result.data.birth),
-        job: result.data.job,
-        workerId: result.data.worker,
-        startDate: formatISODate(result.data.startDate),
-        companyId: companyId,
-      },
+      data: updateData,
       include: {
         worker: true,
       },
     });
+
+    // workerId가 변경되었다면 모든 스케줄 업데이트
+    if (workerIdChanged) {
+      await db.workerChangeLog.create({
+        data: {
+          memberId: +id,
+          workerId: Number(result.data.worker),
+          previousWorkerId: savedMember?.workerId || -1,
+          changedDate: new Date(),
+        },
+      });
+
+      await db.schedule.updateMany({
+        where: { memberId: member.id },
+        data: { workerId: member.workerId },
+      });
+    }
 
     console.log("========== member =========", member);
 
@@ -146,6 +167,7 @@ export const updateMember = async (
             data: {
               startTime: combineCurrentDateWithTime(startTime),
               endTime: combineCurrentDateWithTime(endTime),
+              workerId: result.data.worker,
             },
           });
         } else {

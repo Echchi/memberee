@@ -64,7 +64,7 @@ function TimeTable({ classes }: { classes: classWithMember[] }) {
 
   return (
     <div
-      className="mt-3 !grid  justify-items-center *:text-lg *:font-semibold gap-3 overflow-auto"
+      className="mt-3 !grid  justify-items-center *:text-lg *:font-semibold gap-3 overflow-auto min-w-fit"
       style={{
         gridTemplateColumns: `80px repeat(${Object.keys(scheduleByWorker).length}, minmax(120px, 1fr))`,
       }}

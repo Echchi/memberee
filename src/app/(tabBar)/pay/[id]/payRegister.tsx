@@ -27,6 +27,7 @@ const PayRegister = ({
   });
   const [data, setData] = useState({
     memberId: param?.memberId || -1,
+    workerId: param?.workerId,
     forYear: Number(param?.year),
     forMonth: Number(param?.month),
     paymentDate: today,

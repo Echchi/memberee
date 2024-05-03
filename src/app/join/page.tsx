@@ -208,6 +208,7 @@ const Join = () => {
           required={true}
           className={"h-14 border-t-0"}
           name={"co_num"}
+          maxLength={10}
           errorMessage={state?.fieldErrors.co_num}
         />
         <Input

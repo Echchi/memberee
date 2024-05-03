@@ -14,6 +14,7 @@ import Tag from "@/component/tag";
 export interface IPay {
   id?: number;
   memberId?: number;
+  workerId?: number;
   year: string;
   month: string;
   method: string | null | undefined;
@@ -59,6 +60,7 @@ const List = ({
       return {
         id: id,
         memberId: member?.id,
+        workerId: member?.workerId,
         year: year,
         month: month,
         method: method,

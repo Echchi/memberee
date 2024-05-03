@@ -16,6 +16,7 @@ const PayList = async ({
   setDesc?: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const members = await getMembers(query || "", year, month);
+  // console.log("======================== members", members, year, month);
   return (
     <>
       <div className="hidden lg:block box mt-3">

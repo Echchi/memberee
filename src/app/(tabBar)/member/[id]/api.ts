@@ -75,12 +75,14 @@ export const updateMemberMemo = async (id: number, content: string) => {
 };
 export const updateStopPeriodPayment = async (
   id: number,
+  workerId: number,
   year: string,
   month: string,
 ) => {
   const updateStopPeriodPayment = await db.payment.create({
     data: {
       memberId: id,
+      workerId: Number(workerId),
       forYear: Number(year),
       forMonth: Number(month),
       lessonFee: -1,

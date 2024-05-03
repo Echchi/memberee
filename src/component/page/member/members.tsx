@@ -4,13 +4,14 @@ import Link from "next/link";
 import db from "@/libs/server/db";
 import { getWorkers } from "@/component/page/worker/workers";
 import { DAYOFWEEK } from "@/libs/constants";
-import { dateFormattedtoKor } from "@/libs/client/utils";
+import { dateFormattedtoKor, isAfterYearMonth } from "@/libs/client/utils";
 import getSession from "@/libs/client/session";
 import Member from "./member";
 import LineBox from "@/component/lineBox";
 import MemberMb from "./member_mb";
 import { getCompany } from "@/app/(tabBar)/pay/[id]/api";
 import { getMonth, getYear } from "date-fns";
+import { start } from "repl";
 export async function getMembers(
   query: string,
   year?: number,
@@ -20,6 +21,12 @@ export async function getMembers(
   const session = await getSession();
   const companyId = session.company;
   const company = await getCompany();
+  const thisYear = getYear(new Date());
+  const thisMonth = getMonth(new Date()) + 1;
+  const startDate = new Date(
+    Date.UTC(year || thisYear, (month || thisMonth) - 1, 1),
+  ); // 해당 월의 시작일
+  const endDate = new Date(Date.UTC(year || thisYear, month || thisMonth, 0));
   const payDayDate = new Date(
     Date.UTC(
       year || getYear(new Date()),
@@ -93,7 +100,47 @@ export async function getMembers(
     },
   });
 
-  return members;
+  const membersWithLatestWorkers = await Promise.all(
+    members.map(async (member) => {
+      const latestWorkerLog = await db.workerChangeLog.findFirst({
+        where: {
+          memberId: member.id,
+          changedDate: {
+            lt: endDate,
+          },
+        },
+        orderBy: { changedDate: "desc" },
+      });
+
+      console.log("startDate", startDate);
+      console.log(
+        "latestWorkerLog changedDate",
+        latestWorkerLog && latestWorkerLog?.changedDate,
+      );
+      console.log(
+        " latestWorkerLog & isAfterYearMonth(latestWorkerLog.changedDate, startDate)",
+        latestWorkerLog &&
+          isAfterYearMonth(latestWorkerLog.changedDate, startDate),
+      );
+      const workerToUse = latestWorkerLog
+        ? latestWorkerLog &&
+          isAfterYearMonth(latestWorkerLog.changedDate, startDate)
+          ? await db.worker.findUnique({
+              where: { id: latestWorkerLog.previousWorkerId },
+            })
+          : await db.worker.findUnique({
+              where: { id: latestWorkerLog.workerId },
+            })
+        : member.worker;
+
+      return {
+        ...member,
+        worker: workerToUse,
+      };
+    }),
+  );
+
+  return membersWithLatestWorkers;
 }
 const Members = async ({
   query,

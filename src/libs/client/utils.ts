@@ -1,6 +1,8 @@
 import {
   addMonths,
   format,
+  getMonth,
+  getYear,
   isValid,
   parse,
   parseISO,
@@ -124,4 +126,13 @@ export function calculateGridRowEnd(startTime: string, endTime: string) {
   const endMinutes =
     parseInt(endTime.split(":")[0]) * 60 + parseInt(endTime.split(":")[1]);
   return Math.ceil((endMinutes - startMinutes) / 10);
+}
+
+export function isAfterYearMonth(date1: Date, date2: Date) {
+  const year1 = getYear(date1);
+  const month1 = getMonth(date1);
+  const year2 = getYear(date2);
+  const month2 = getMonth(date2);
+
+  return year1 > year2 || (year1 === year2 && month1 > month2);
 }

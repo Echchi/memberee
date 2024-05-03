@@ -12,6 +12,7 @@ import { getMonth, getYear } from "date-fns";
 
 interface ICreatePayment {
   memberId: number;
+  workerId: number;
   forYear: number;
   forMonth: number;
   paymentDate: string;
@@ -36,6 +37,7 @@ export const createPay = async (param: ICreatePayment) => {
   const createPay = await db.payment.create({
     data: {
       memberId: param.memberId,
+      workerId: param?.workerId,
       forYear: Number(param?.forYear),
       forMonth: Number(param?.forMonth),
       paymentDate: formatISODate(param.paymentDate),

@@ -6,6 +6,7 @@ import Modal from "@/component/modal";
 import SalaryDetail from "@/app/(tabBar)/salary/salaryDetail";
 import { WorkerWithMember } from "@/app/(tabBar)/salary/page";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
+import { format } from "date-fns";
 
 const SalaryList = ({ workers }: { workers: WorkerWithMember[] }) => {
   const [openDetailModal, setOpenDetailModal] = useState(false);
@@ -62,53 +63,61 @@ const SalaryList = ({ workers }: { workers: WorkerWithMember[] }) => {
           }
         />
       )}
-      <div className="box mt-3">
-        <div className="w-full">
-          <table className="w-full table-auto">
-            <thead className="sticky top-20">
-              <tr className="text-xs lg:text-lg bg-stone-100 font-semibold text-center *:py-3">
-                <td>이름</td>
-                <td>담당 회원 수</td>
-                <td>회원 수업료</td>
-                <td>수수료</td>
-                <td>부담금</td>
-                <td>예상 임금</td>
-              </tr>
-            </thead>
-            <tbody className="overflow-y-auto">
-              {workers.map((worker) => (
-                <tr
-                  key={`salary_${worker?.id}`}
-                  className="text-xs lg:text-base *:py-3 text-center border-b border-stone-100"
-                >
-                  <Salary
-                    worker={worker}
-                    openDetailModal={openDetailModal}
-                    setOpenDetailModal={setOpenDetailModal}
-                    setClickedWorker={setClickedWorker}
-                  />
-                </tr>
-              ))}
-            </tbody>
-            <tfoot className="sticky bottom-0">
-              <tr className="text-xs lg:text-base *:py-3 text-center border-b border-stone-100 bg-stone-100">
-                <td>합계</td>
-                <td>{totalLessonFee.length} 명</td>
-                <td>{formatCurrency(totalLessonFeeVal)}원</td>
-                <td>-</td>
-                <td>-</td>
-                <td>{formatCurrency(totalSalaryVal)}원</td>
-              </tr>
-              <tr className="text-xs lg:text-base *:bold *:text-lg sticky bottom-0 *:py-3 text-center border-b border-stone-100 bg-orange-100">
-                <td colSpan={4}>예상 수익</td>
+      <div className="box mt-3 flex-col">
+        <>
+          <div className="flex justify-center items-center font-semibold text-2xl mb-7 mt-4">
+            <span className="lg:px-6 px-4">
+              {format(new Date(), "yyyy년 MM월")}
+            </span>
+          </div>
 
-                <td colSpan={2}>
-                  {formatCurrency(totalLessonFeeVal - totalSalaryVal)} 원
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
+          <div className="w-full">
+            <table className="w-full table-auto">
+              <thead className="sticky top-20">
+                <tr className="text-xs lg:text-lg bg-stone-100 font-semibold text-center *:py-3">
+                  <td>이름</td>
+                  <td>담당 회원 수</td>
+                  <td>회원 수업료</td>
+                  <td>수수료</td>
+                  <td>부담금</td>
+                  <td>예상 임금</td>
+                </tr>
+              </thead>
+              <tbody className="overflow-y-auto">
+                {workers.map((worker) => (
+                  <tr
+                    key={`salary_${worker?.id}`}
+                    className="text-xs lg:text-base *:py-3 text-center border-b border-stone-100"
+                  >
+                    <Salary
+                      worker={worker}
+                      openDetailModal={openDetailModal}
+                      setOpenDetailModal={setOpenDetailModal}
+                      setClickedWorker={setClickedWorker}
+                    />
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot className="sticky bottom-0">
+                <tr className="text-xs lg:text-base *:py-3 text-center border-b border-stone-100 bg-stone-100">
+                  <td>합계</td>
+                  <td>{totalLessonFee.length} 명</td>
+                  <td>{formatCurrency(totalLessonFeeVal)}원</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>{formatCurrency(totalSalaryVal)}원</td>
+                </tr>
+                <tr className="text-xs lg:text-base *:bold *:text-lg sticky bottom-0 *:py-3 text-center border-b border-stone-100 bg-orange-100">
+                  <td colSpan={4}>예상 수익</td>
+
+                  <td colSpan={2}>
+                    {formatCurrency(totalLessonFeeVal - totalSalaryVal)} 원
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </>
       </div>
     </>
   );

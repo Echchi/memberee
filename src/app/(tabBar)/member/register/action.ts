@@ -83,6 +83,15 @@ export const createMember = async (prevState: any, formData: FormData) => {
 
     console.log("========== member =========", member);
 
+    const workerChangeLog = await db.workerChangeLog.create({
+      data: {
+        memberId: member.id,
+        workerId: Number(result.data.worker),
+        previousWorkerId: Number(result.data.worker),
+        changedDate: formatISODate(result.data.startDate),
+      },
+    });
+
     const salary = await db.salary.create({
       data: {
         salaryForLesson: Math.round(
