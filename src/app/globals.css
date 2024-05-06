@@ -58,6 +58,15 @@
     .gray_btn{
         @apply !bg-neutral-300 hover:!bg-neutral-200 active:!bg-neutral-400
     }
+
+    .gray_line_btn{
+        @apply rounded-l-lg border border-r-0 border-stone-300 text-stone-400 hover:bg-stone-100 active:bg-stone-200 transition-all
+    }
+
+    .stone_btn{
+        @apply rounded-l-lg border border-r-0 border-stone-300 text-stone-500 bg-stone-200 hover:bg-stone-300 active:bg-stone-400 transition-all
+    }
+
     .red_btn{
         @apply !bg-red-400 hover:!bg-red-300 active:!bg-red-500
     }

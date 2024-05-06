@@ -14,7 +14,7 @@ const Modal = ({ title, content, onClose, className }: ModalProps) => {
   const [animation, setAnimation] = useState("fadeIn"); // 애니메이션 상태 관리
 
   const handleBackdropClick = (event: React.MouseEvent) => {
-    event.preventDefault();
+    // event.preventDefault();
     if (event.target === event.currentTarget) {
       setAnimation("fadeOut");
       setTimeout(() => {
@@ -24,7 +24,7 @@ const Modal = ({ title, content, onClose, className }: ModalProps) => {
     }
   };
   const handleClose = (event: React.MouseEvent) => {
-    event.preventDefault();
+    // event.preventDefault();
     setAnimation("fadeOut");
     setTimeout(() => {
       setIsOpen(false);
@@ -58,6 +58,7 @@ const Modal = ({ title, content, onClose, className }: ModalProps) => {
           &times;
         </button>
         <h2 className="text-lg font-semibold">{title}</h2>
+
         <div className="mt-4">{content}</div>
       </div>
     </div>

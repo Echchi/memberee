@@ -32,6 +32,7 @@ const Worker = ({ workers }: { workers: WorkerWithMember[] }) => {
         data-testid="worker-mainbox"
       >
         <div className="box_title">직원 관리</div>
+
         <div className="flex overflow-x-auto">
           {workers?.length > 0 ? (
             workers.map((worker) => (

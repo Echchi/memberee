@@ -4,13 +4,14 @@ import { cls, dateFormattedtoDot } from "@/libs/client/utils";
 import Tag from "@/component/tag";
 import { useRouter } from "next/navigation";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
+import RegisterWorkers from "@/component/excel/registerWorkers";
 
 const Pay = ({ members }: { members: IMemberWithSchedules[] }) => {
   const router = useRouter();
   return (
     <div
       className="box row-span-2 flex-col hover:shadow-lg cursor-pointer transition-all h-1/3 md:h-full"
-      onClick={() => router.push("/pay")}
+      onClick={() => (members.length > 0 ? router.push("/pay") : undefined)}
       data-testid="member-mainbox"
     >
       <div className="box_title">회원 관리</div>
