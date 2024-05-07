@@ -28,7 +28,7 @@ export default function Button({
       type={type}
       disabled={(type === "submit" && pending) || isButtonDisabled}
       className={cls(
-        "outline-none w-full rounded-lg text-white font-semibold transition-all disabled:bg-gray-300 disabled:cursor-default bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-600 cursor-pointer",
+        "text-sm lg:text-base outline-none w-full rounded-lg text-white font-semibold transition-all disabled:bg-gray-300 disabled:cursor-default bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-600 cursor-pointer",
         large ? "py-4 text-lg" : "py-4 px-3",
         className ? className : "",
       )}

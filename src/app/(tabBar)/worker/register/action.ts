@@ -36,10 +36,14 @@ const formSchema = z.object({
     .string()
     .trim()
     .regex(ONLY_NUMBER_REGEX, ONLY_NUMBER_REGEX_ERROR),
-  content: z.string().optional(),
+  content: z.string().nullable().optional(),
 });
 
-export const createWorker = async (prevState: any, formData: FormData) => {
+export const createWorker = async (
+  bulk: boolean = false,
+  prevState: any,
+  formData: FormData,
+) => {
   console.log("createWorker formData", formData);
   const session = await getSession();
   const data = {
@@ -82,6 +86,6 @@ export const createWorker = async (prevState: any, formData: FormData) => {
         },
       });
     }
-    redirect(`${worker.id}`);
+    !bulk && redirect(`${worker.id}`);
   }
 };

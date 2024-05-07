@@ -36,6 +36,16 @@ export const DAYOFWEEK: Record<number, string> = {
   6: "토",
   7: "일",
 };
+export const DAYOFWEEK_TONUM: Record<string, string> = {
+  월요일: "1",
+  화요일: "2",
+  수요일: "3",
+  목요일: "4",
+  금요일: "5",
+  토요일: "6",
+  일요일: "7",
+};
+
 export const TIME_REGEX = /^(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$/;
 
 export const TIME_REGEX_ERROR = "시간을 올바르게 입력해주세요";

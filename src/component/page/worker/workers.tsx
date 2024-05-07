@@ -8,6 +8,7 @@ import { formatPhone } from "@/libs/client/utils";
 import { DAYOFWEEK } from "@/libs/constants";
 import getSession from "@/libs/client/session";
 import session from "@/libs/client/session";
+import Empty from "@/component/empty";
 export interface Worker {
   id: number;
   name: string;
@@ -39,7 +40,7 @@ const Workers = async ({ query }: { query?: string }) => {
   const workers = await getWorkers(query || "");
   return (
     <>
-      {workers &&
+      {workers.length > 0 ? (
         workers.map((worker, index) => (
           <Link
             href={`/worker/${worker.id}`}
@@ -59,7 +60,10 @@ const Workers = async ({ query }: { query?: string }) => {
               <p>{formatPhone(worker?.phone)}</p>
             </div>
           </Link>
-        ))}
+        ))
+      ) : (
+        <Empty item={"직원"} />
+      )}
     </>
   );
 };

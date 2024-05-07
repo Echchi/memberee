@@ -8,7 +8,7 @@ import {
   parseISO,
   subMonths,
 } from "date-fns";
-import { DAYOFWEEK } from "@/libs/constants";
+import { DAYOFWEEK, DAYOFWEEK_TONUM } from "@/libs/constants";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 
 export function cls(...classnames: string[]) {
@@ -135,4 +135,11 @@ export function isAfterYearMonth(date1: Date, date2: Date) {
   const month2 = getMonth(date2);
 
   return year1 > year2 || (year1 === year2 && month1 > month2);
+}
+
+export function formatDayOfWeekForDatabase(dayOfWeeks: string) {
+  const formatDayOfWeek = dayOfWeeks.replace(/\s+/g, "");
+  const dayOfWeekArr = formatDayOfWeek.split(",");
+
+  return dayOfWeekArr.map((day) => DAYOFWEEK_TONUM[day]).join("");
 }

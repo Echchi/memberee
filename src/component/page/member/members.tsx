@@ -12,6 +12,7 @@ import MemberMb from "./member_mb";
 import { getCompany } from "@/app/(tabBar)/pay/[id]/api";
 import { getMonth, getYear } from "date-fns";
 import { start } from "repl";
+import Empty from "@/component/empty";
 export async function getMembers(
   query: string,
   year?: number,
@@ -202,12 +203,13 @@ const Members = async ({
               </tr>
             </thead>
             <tbody>
-              {members &&
+              {members.length > 0 &&
                 members.map((member, index) => (
                   <Member member={member} key={member.id} />
                 ))}
             </tbody>
           </table>
+          {members.length === 0 && <Empty item={"회원"} />}
         </div>
       </div>
       <div className="lg:hidden flex flex-col space-y-3 mt-5">

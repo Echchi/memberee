@@ -25,7 +25,9 @@ const Page = () => {
   useEffect(() => {
     console.log("selectedDay", selectedDay);
   }, [selectedDay]);
-  const [state, action] = useFormState(createWorker, null);
+
+  const createWorkerWithBulk = createWorker.bind("bulk", false);
+  const [state, action] = useFormState(createWorkerWithBulk, null);
 
   return (
     <div className="max-w-screen-lg mx-auto mt-10">

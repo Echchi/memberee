@@ -7,6 +7,7 @@ import { dateFormattedtoKor } from "@/libs/client/utils";
 import { MemberWithSch } from "@/app/(tabBar)/worker/[id]/page";
 import { DAYOFWEEK } from "@/libs/constants";
 import { useRouter } from "next/navigation";
+import Empty from "@/component/empty";
 
 const Members = ({ members }: { members: MemberWithSch[] }) => {
   const router = useRouter();
@@ -76,7 +77,10 @@ const Members = ({ members }: { members: MemberWithSch[] }) => {
           </table>
         </div>
       ) : (
-        <p>담당회원없잖아</p>
+        <Empty
+          item={"담당회원"}
+          className="border border-neutral-300 rounded-b-lg *:!text-stone-300"
+        />
       )}
     </>
   );

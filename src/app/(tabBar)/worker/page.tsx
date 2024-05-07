@@ -21,23 +21,6 @@ const Page = async ({
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 w-full gap-3 *:cursor-pointer *:transition-all ">
         <Workers query={query} />
-        {/*{workers &&*/}
-        {/*  workers.map((worker, index) => (*/}
-        {/*    <Link*/}
-        {/*      href={`/worker/${worker.id}`}*/}
-        {/*      key={worker.id}*/}
-        {/*      className="bg-white w-full min-h-fit shadow rounded-lg flex flex-col items-center p-4 hover:shadow-lg"*/}
-        {/*    >*/}
-        {/*      <div className="bg-stone-200 rounded-full h-32 w-32" />*/}
-        {/*      <div className="mt-4 flex flex-col items-center space-y-1">*/}
-        {/*        <p className="font-bold text-lg tracking-wider">*/}
-        {/*          {worker.name}*/}
-        {/*        </p>*/}
-        {/*        <p className="space-x-2">{DayOfWeek(worker.dayOfWeek || "")}</p>*/}
-        {/*        <p>{worker.phone}</p>*/}
-        {/*      </div>*/}
-        {/*    </Link>*/}
-        {/*  ))}*/}
       </div>
     </>
   );
