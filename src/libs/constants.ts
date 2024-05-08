@@ -43,6 +43,8 @@ export const TIME_REGEX_ERROR = "시간을 올바르게 입력해주세요";
 export const MONEY_REGEX = /^\d{1,6}$/;
 export const MONEY_REGEX_ERROR = "금액을 올바르게 입력해주세요";
 
+export const COMMISSION_REGEX = /^\d{1,3}$/;
+export const DAYOFWEEK_REGEX = /요일$/;
 export const PAYMENT_METHOD = [
   {
     value: "계좌이체",
