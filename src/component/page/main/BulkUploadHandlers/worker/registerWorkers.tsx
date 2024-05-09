@@ -39,12 +39,6 @@ const RegisterWorkers = () => {
 
   return (
     <>
-      {/*<CSVLink*/}
-      {/*  headers={headers}*/}
-      {/*  data={csvData}*/}
-      {/*  filename={`등록양식_직원`}*/}
-      {/*  target="_blank"*/}
-      {/*>*/}
       <Button
         text="양식 다운"
         className="mt-0 py-3 !bg-emerald-500 hover:!bg-emerald-500/80 active:!bg-emerald-600"
@@ -52,7 +46,6 @@ const RegisterWorkers = () => {
           onClickXLSX({ title: "직원 등록 양식", header, content })
         }
       />
-      {/*</CSVLink>*/}
     </>
   );
 };

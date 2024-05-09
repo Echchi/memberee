@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import RegisterBtn from "@/component/page/member/registerBtn";
 import Button from "@/component/button/button";
 import Input from "@/component/input";
-import RegisterWorkers from "@/component/excel/registerWorkers";
+import RegisterWorkers from "@/component/page/main/BulkUploadHandlers/worker/registerWorkers";
 import { readXlsx } from "@/libs/client/readXlsx";
 import validator from "validator";
 import { cls } from "@/libs/client/utils";
@@ -10,16 +10,22 @@ import {
   BIRTH_REGEX,
   COMMISSION_REGEX,
   DAYOFWEEK_REGEX,
+  MONEY_REGEX,
   ONLY_NUMBER_REGEX,
   STARTDATE_REGEX,
+  TIMEDATA_REGEX,
 } from "@/libs/constants";
-import WorkersUploadBtn from "@/component/page/main/BulkUploadHandlers/workersUploadBtn";
+import WorkersUploadBtn from "@/component/page/main/BulkUploadHandlers/worker/workersUploadBtn";
+import MemberUploadBtn from "@/component/page/main/BulkUploadHandlers/member/memberUploadBtn";
+import RegisterMembers from "@/component/page/main/BulkUploadHandlers/member/registerMembers";
+import { getWorkerList } from "@/app/(tabBar)/worker/register/api";
 
-const ExcelModal = () => {
+const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
   const [selecetdFile, setSelectedFile] = useState<string>();
   const [listData, setListData] = useState<string[][]>([]);
   const [errors, setErrors] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [workers, setWorkers] = useState<string[]>([]);
   const handleFileOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setErrors([]);
     if (event.target.files && event.target.files.length > 0) {
@@ -36,23 +42,45 @@ const ExcelModal = () => {
   };
 
   useEffect(() => {
-    const errorIndexes = listData.reduce((acc: number[], items, idx) => {
-      const validations = [
-        validator.isMobilePhone(items[1] + "", "ko-KR"),
-        BIRTH_REGEX.test(items[2] + ""),
-        STARTDATE_REGEX.test(items[3] + ""),
-        items[4].split(",").every((day) => DAYOFWEEK_REGEX.test(day)),
-        COMMISSION_REGEX.test(items[5]),
-        ONLY_NUMBER_REGEX.test(items[7]),
-      ];
-      console.log("validations", validations);
-      const hasError = validations.some((validation) => !validation);
-      if (hasError) acc.push(idx);
-      return acc;
-    }, []);
+    const fetchWorkerList = async () => {
+      const workerList = await getWorkerList();
+      const workersData = workerList.map((item) => item.name);
+      setWorkers(workersData);
+    };
 
-    if (errorIndexes.length > 0) {
-      setErrors(errorIndexes);
+    fetchWorkerList();
+    try {
+      const errorIndexes = listData.reduce((acc: number[], items, idx) => {
+        const validations = [
+          validator.isMobilePhone(items[1] + "", "ko-KR"), // 연락처
+          BIRTH_REGEX.test(items[2] + ""), // 생년월일
+          items[4]
+            .split(",")
+            .every((day) => DAYOFWEEK_REGEX.test(day.replace(/\s+/g, ""))), // 요일
+          items[5]
+            .split(",")
+            .every((day) => TIMEDATA_REGEX.test(day.replace(/\s+/g, ""))), // 시간
+
+          MONEY_REGEX.test(items[6]), // 수업료
+
+          workers.includes(items[7]), // 담당
+          STARTDATE_REGEX.test(items[8] + ""), // 시작일자
+        ];
+        console.log(
+          '  items[4].split(",").every((day) => DAYOFWEEK_REGEX.test(day)),',
+          items[4].split(",").every((day) => DAYOFWEEK_REGEX.test(day)),
+        );
+        console.log("validations", validations);
+        const hasError = validations.some((validation) => !validation);
+        if (hasError) acc.push(idx);
+        return acc;
+      }, []);
+
+      if (errorIndexes.length > 0) {
+        setErrors(errorIndexes);
+      }
+    } catch (e) {
+      setErrors((prev) => [...prev, 0]);
     }
   }, [listData]);
 
@@ -85,21 +113,22 @@ const ExcelModal = () => {
           />
         </div>
         <div className="w-1/6">
-          <RegisterWorkers />
+          <RegisterMembers />
         </div>
       </div>
-      <div className="h-[500px] my-3 overflow-y-scroll">
+      <div className="h-[500px] my-3 overflow-scroll ">
         <table className="w-full table-auto text-center border-stone-100">
           <thead className="*:text-lg font-semibold bg-stone-100 h-14 sticky top-0">
             <tr>
               <td>이름</td>
               <td>연락처</td>
               <td>생년월일</td>
+              <td>직업</td>
+              <td>요일</td>
+              <td>시간</td>
+              <td>수업료</td>
+              <td>담당</td>
               <td>시작일자</td>
-              <td>근무일</td>
-              <td>수수료</td>
-              <td>은행</td>
-              <td>계좌번호</td>
             </tr>
           </thead>
           <tbody className="*:h-10">
@@ -126,22 +155,17 @@ const ExcelModal = () => {
         <p className="text-orange-500">
           {errors.length > 0 ? "데이터를 확인해주세요" : ""}
         </p>
-        {/*<Button*/}
-        {/*  text={"등록"}*/}
-        {/*  className="py-3 hidden lg:block !w-1/6"*/}
-        {/*  isButtonDisabled={errors.length > 0}*/}
-        {/*  isLoading={isLoading}*/}
-        {/*  setIsLaoding={setIsLoading}*/}
-        {/*/>*/}
-        <WorkersUploadBtn
+
+        <MemberUploadBtn
           listData={listData}
           errors={errors}
           isLoading={isLoading}
           setIsLoading={setIsLoading}
+          onClose={onClose}
         />
       </div>
     </div>
   );
 };
 
-export default ExcelModal;
+export default MemberExcelModal;
