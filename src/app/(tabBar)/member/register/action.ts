@@ -45,7 +45,11 @@ const formSchema = z.object({
   content: z.string().nullable().optional(),
 });
 
-export const createMember = async (prevState: any, formData: FormData) => {
+export const createMember = async (
+  bulk: boolean = false,
+  prevState: any,
+  formData: FormData,
+) => {
   console.log("회원 등록", formData);
   const session = await getSession();
   const companyId = session.company;
@@ -66,69 +70,73 @@ export const createMember = async (prevState: any, formData: FormData) => {
     console.log(result.error.flatten());
     return result.error.flatten();
   } else {
-    const member = await db.member.create({
-      data: {
-        name: result.data.name,
-        phone: result.data.phone,
-        birth: formatISODate(result.data.birth),
-        job: result.data.job,
-        workerId: result.data.worker,
-        startDate: formatISODate(result.data.startDate),
-        companyId: companyId,
-      },
-      include: {
-        worker: true,
-      },
-    });
-
-    console.log("========== member =========", member);
-
-    const workerChangeLog = await db.workerChangeLog.create({
-      data: {
-        memberId: member.id,
-        workerId: Number(result.data.worker),
-        previousWorkerId: Number(result.data.worker),
-        changedDate: formatISODate(result.data.startDate),
-      },
-    });
-
-    const salary = await db.salary.create({
-      data: {
-        salaryForLesson: Math.round(
-          result.data.lessonFee * (member?.worker?.commission || 1 / 100),
-        ),
-      },
-    });
-    console.log("========== salary =========", salary);
-
-    if (data?.times) {
-      const schedulePromises = Object.entries(data?.times).map(
-        // @ts-ignore
-        ([dayOfWeek, { startTime: startTimeVal, endTime: endTimeVal }]) =>
-          db.schedule.create({
-            data: {
-              workerId: member.worker.id,
-              memberId: member.id,
-              lessonFee: result.data.lessonFee,
-              dayOfWeek: parseInt(dayOfWeek, 10),
-              startTime: combineCurrentDateWithTime(startTimeVal),
-              endTime: combineCurrentDateWithTime(endTimeVal),
-              salaryId: salary.id,
-            },
-          }),
-      );
-      const schedules = await db.$transaction(schedulePromises);
-      console.log("========== schedule =========", schedules);
-    }
-
-    if (result.data.content) {
-      const Memo = await db.memo.create({
+    console.log(result.data);
+    const transactionResult = await db.$transaction(async (prisma) => {
+      const member = await db.member.create({
         data: {
-          content: result.data.content,
-          memberId: member.id,
+          name: result.data.name,
+          phone: result.data.phone,
+          birth: formatISODate(result.data.birth),
+          job: result.data.job,
+          workerId: result.data.worker,
+          startDate: formatISODate(result.data.startDate),
+          companyId: companyId,
+        },
+        include: {
+          worker: true,
         },
       });
-    }
-    redirect(`${member.id}`);
+
+      console.log("========== member =========", member);
+
+      const workerChangeLog = await db.workerChangeLog.create({
+        data: {
+          memberId: member.id,
+          workerId: Number(result.data.worker),
+          previousWorkerId: Number(result.data.worker),
+          changedDate: formatISODate(result.data.startDate),
+        },
+      });
+
+      const salary = await db.salary.create({
+        data: {
+          salaryForLesson: Math.round(
+            result.data.lessonFee * (member?.worker?.commission || 1 / 100),
+          ),
+        },
+      });
+      console.log("========== salary =========", salary);
+
+      if (data?.times) {
+        const schedulePromises = Object.entries(data?.times).map(
+          // @ts-ignore
+          ([dayOfWeek, { startTime: startTimeVal, endTime: endTimeVal }]) =>
+            db.schedule.create({
+              data: {
+                workerId: member.worker.id,
+                memberId: member.id,
+                lessonFee: result.data.lessonFee,
+                dayOfWeek: parseInt(dayOfWeek, 10),
+                startTime: combineCurrentDateWithTime(startTimeVal),
+                endTime: combineCurrentDateWithTime(endTimeVal),
+                salaryId: salary.id,
+              },
+            }),
+        );
+        const schedules = await db.$transaction(schedulePromises);
+        console.log("========== schedule =========", schedules);
+      }
+
+      if (result.data.content) {
+        const Memo = await db.memo.create({
+          data: {
+            content: result.data.content,
+            memberId: member.id,
+          },
+        });
+      }
+      return member;
+    });
+    !bulk && redirect(`${transactionResult.id}`);
   }
 };

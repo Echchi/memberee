@@ -99,6 +99,7 @@ export async function getMembers(
         },
       },
     },
+    take: 10,
   });
 
   const membersWithLatestWorkers = await Promise.all(

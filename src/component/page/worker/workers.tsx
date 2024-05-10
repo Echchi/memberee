@@ -16,7 +16,7 @@ export interface Worker {
   dayOfWeek: string | null;
 }
 
-export async function getWorkers(query: string) {
+export async function getWorkers(query?: string) {
   const session = await getSession();
   const companyId = session.company;
 

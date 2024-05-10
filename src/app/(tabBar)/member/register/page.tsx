@@ -11,6 +11,7 @@ import { createMember } from "@/app/(tabBar)/member/register/action";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import WorkerList from "@/component/page/member/register/workerList";
+import { createWorker } from "@/app/(tabBar)/worker/register/action";
 
 const Page = () => {
   const router = useRouter();
@@ -56,8 +57,8 @@ const Page = () => {
       }));
     }
   };
-
-  const [state, action] = useFormState(createMember, null);
+  const createMemberWithBulk = createMember.bind("bulk", false);
+  const [state, action] = useFormState(createMemberWithBulk, null);
   return (
     <div className="max-w-screen-lg mx-auto mt-10">
       <div className="col-span-2 border border-x border-b-0 flex bg-stone-100 text-stone-600 tracking-wider text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg ">

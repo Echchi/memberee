@@ -1,10 +1,15 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Button from "@/component/button/button";
 import { createWorker } from "@/app/(tabBar)/worker/register/action";
 import { useFormState } from "react-dom";
 import { useRouter } from "next/navigation";
 import getSession from "@/libs/client/session";
-import { formatDayOfWeekForDatabase } from "@/libs/client/utils";
+import { formatDayOfWeekForDatabase, getWorkerId } from "@/libs/client/utils";
+import { getWorkerList } from "@/app/(tabBar)/worker/register/api";
+import { getWorkers } from "@/component/page/worker/workers";
+import { createMember } from "@/app/(tabBar)/member/register/action";
+import { forEachEntryModule } from "next/dist/build/webpack/utils";
+import { ITime } from "@/component/page/member/register/selectTime";
 
 const MemberUploadBtn = ({
   listData,
@@ -20,25 +25,52 @@ const MemberUploadBtn = ({
   onClose: () => void;
 }) => {
   const router = useRouter();
+  const [workers, setWorkers] = useState<string[]>([]);
+
   const handleSubmit = useCallback(async () => {
+    console.log("listData", listData);
     setIsLoading(true);
     for (const data of listData) {
       const dayOfWeekData = formatDayOfWeekForDatabase(data[4]);
+      const workerId = await getWorkerId(data[7]);
+
+      const dayOfWeekArr = dayOfWeekData
+        .trim()
+        .replace(/\s+/g, "")
+        .split(",")
+        .filter((item) => item.length > 0);
+      const timesArr = data[5]
+        .trim()
+        .replace(/\s+/g, "")
+        .split(",")
+        .filter((item) => item.length > 0);
+
+      let times: ITime = {};
+
+      dayOfWeekArr.forEach((day, index) => {
+        const timeArr = timesArr[index].split("~");
+        times[day] = {
+          startTime: timeArr[0].trim(),
+          endTime: timeArr[1].trim(),
+        };
+      });
+      console.log("times", JSON.stringify(times));
       const formData = new FormData();
       formData.append("name", data[0]);
       formData.append("phone", data[1]);
       formData.append("birth", data[2]);
-      formData.append("startDate", data[3]);
+      formData.append("job", data[3]);
       formData.append("dayOfWeek", dayOfWeekData);
-      formData.append("commission", data[5]);
-      formData.append("bank", data[6]);
-      formData.append("accountNumber", data[7]);
+      formData.append("times", JSON.stringify(times));
+      formData.append("lessonFee", data[6]);
+      formData.append("worker", workerId);
+      formData.append("startDate", data[8]);
 
-      const response = await createWorker(true, null, formData);
+      const response = await createMember(true, null, formData);
     }
     setIsLoading(false);
     onClose();
-    router.push(`/worker`);
+    router.refresh();
   }, [listData, errors]);
 
   return (

@@ -15,6 +15,7 @@ import {
   TIMEDATA_REGEX,
 } from "@/libs/constants";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
+import { getWorkerList } from "@/app/(tabBar)/worker/register/api";
 
 export function cls(...classnames: string[]) {
   return classnames.join(" ");
@@ -157,10 +158,15 @@ export function scheduleValid(item: string, type: "dayOfWeek" | "time") {
     ?.split(",")
     .map((day) => day.trim().replace(/\s+/g, ""))
     .filter((item) => item.length > 0)
-    .map((day) => day.trim().replace(/\s+/g, ""))
     .every((day) =>
       type === "dayOfWeek"
         ? DAYOFWEEK_REGEX.test(day)
         : TIMEDATA_REGEX.test(day),
     );
+}
+
+export async function getWorkerId(workerName: string) {
+  const workerList = await getWorkerList();
+  const worker = workerList.find((worker) => worker.name === workerName);
+  return worker?.id + "";
 }
