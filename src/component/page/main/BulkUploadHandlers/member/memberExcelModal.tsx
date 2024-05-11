@@ -5,7 +5,7 @@ import Input from "@/component/input";
 import RegisterWorkers from "@/component/page/main/BulkUploadHandlers/worker/registerWorkers";
 import { readXlsx } from "@/libs/client/readXlsx";
 import validator from "validator";
-import { cls } from "@/libs/client/utils";
+import { cls, scheduleValid } from "@/libs/client/utils";
 import {
   BIRTH_REGEX,
   COMMISSION_REGEX,
@@ -54,23 +54,25 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
         const validations = [
           validator.isMobilePhone(items[1] + "", "ko-KR"), // 연락처
           BIRTH_REGEX.test(items[2] + ""), // 생년월일
+          // 요일과 시간 길이
           items[4]
-            .split(",")
-            .every((day) => DAYOFWEEK_REGEX.test(day.replace(/\s+/g, ""))), // 요일
-          items[5]
-            .split(",")
-            .every((day) => TIMEDATA_REGEX.test(day.replace(/\s+/g, ""))), // 시간
+            ?.split(",")
+            .map((day) => day.trim().replace(/\s+/g, ""))
+            .filter((item) => item.length > 0).length ===
+            items[5]
+              .split(",")
+              .map((time) => time.trim().replace(/\s+/g, ""))
+              .filter((item) => item.length > 0).length,
+
+          scheduleValid(items[4], "dayOfWeek"),
+          scheduleValid(items[5], "time"),
 
           MONEY_REGEX.test(items[6]), // 수업료
 
           workers.includes(items[7]), // 담당
           STARTDATE_REGEX.test(items[8] + ""), // 시작일자
         ];
-        console.log(
-          '  items[4].split(",").every((day) => DAYOFWEEK_REGEX.test(day)),',
-          items[4].split(",").every((day) => DAYOFWEEK_REGEX.test(day)),
-        );
-        console.log("validations", validations);
+
         const hasError = validations.some((validation) => !validation);
         if (hasError) acc.push(idx);
         return acc;
@@ -80,7 +82,7 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
         setErrors(errorIndexes);
       }
     } catch (e) {
-      setErrors((prev) => [...prev, 0]);
+      setErrors((prev) => [...prev, -1]);
     }
   }, [listData]);
 
@@ -153,7 +155,11 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
       </div>
       <div className="flex justify-between">
         <p className="text-orange-500">
-          {errors.length > 0 ? "데이터를 확인해주세요" : ""}
+          {errors.length > 0
+            ? errors[0] === -1
+              ? "양식을 확인해주세요"
+              : "데이터를 확인해주세요"
+            : ""}
         </p>
 
         <MemberUploadBtn
