@@ -1,12 +1,15 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { cls, dateFormattedtoDot } from "@/libs/client/utils";
 import Tag from "@/component/tag";
 import { useRouter } from "next/navigation";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
-import RegisterWorkers from "@/component/excel/registerWorkers";
+import RegisterWorkers from "@/component/page/main/BulkUploadHandlers/worker/registerWorkers";
+import Modal from "@/component/modal";
+import WorkerExcelModal from "@/component/page/main/BulkUploadHandlers/worker/workerExcelModal";
+import MemberExcelModal from "@/component/page/main/BulkUploadHandlers/member/memberExcelModal";
 
-const Pay = ({
+const Member = ({
   members,
   registerOpen,
 }: {
@@ -15,14 +18,29 @@ const Pay = ({
 }) => {
   const router = useRouter();
   console.log("registerOpen", registerOpen);
+  const [isMemberModalOpen, setIsMemberModalOpen] = useState(false);
   return (
     <>
+      {isMemberModalOpen && (
+        <Modal
+          title={"회원 엑셀 등록"}
+          content={
+            <MemberExcelModal onClose={() => setIsMemberModalOpen(false)} />
+          }
+          className={"!w-4/5 !h-4/5"}
+          onClose={() => setIsMemberModalOpen(false)}
+        />
+      )}
       <div
         className={cls(
           "box row-span-2 flex-col hover:shadow-lg cursor-pointer transition-all h-1/3 md:h-full",
           registerOpen ? "" : "!cursor-default",
         )}
-        onClick={() => (members.length > 0 ? router.push("/pay") : undefined)}
+        onClick={() =>
+          members.length > 0
+            ? router.push("/pay")
+            : registerOpen && setIsMemberModalOpen(true)
+        }
         data-testid="member-mainbox"
       >
         <div className="box_title">회원 관리</div>
@@ -132,4 +150,4 @@ const Pay = ({
   );
 };
 
-export default Pay;
+export default Member;

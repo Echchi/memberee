@@ -18,8 +18,8 @@ const RegisterWorkers = () => {
     {
       name: "예시",
       phone: "숫자로만 기입해주세요",
-      birth: "생년월일 여덟글자",
-      startDate: "시작일자 여덟글자",
+      birth: "생년월일을 8자리로 기입해주세요",
+      startDate: "시작일자 8자리로 기입해주세요",
       dayOfWeek: ",로 구분",
       commission: "숫자로만 기입해주세요",
       bank: "은행명",

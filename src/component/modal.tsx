@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { cls } from "@/libs/client/utils";
 
 interface ModalProps {
@@ -13,6 +13,16 @@ const Modal = ({ title, content, onClose, className }: ModalProps) => {
   const [isOpen, setIsOpen] = useState(true); // 모달 상태 관리
   const [animation, setAnimation] = useState("fadeIn"); // 애니메이션 상태 관리
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
   const handleBackdropClick = (event: React.MouseEvent) => {
     // event.preventDefault();
     if (event.target === event.currentTarget) {

@@ -25,7 +25,10 @@ const Class = ({ classes }: { classes: classWithMember[] }) => {
   return (
     <>
       <div
-        className="box flex-col row-span-3 hover:shadow-lg transition-all h-1/2 md:h-full cursor-pointer"
+        className={cls(
+          "relative box flex-col row-span-3 hover:shadow-lg transition-all h-1/2 md:h-full",
+          classes.length > 0 ? "cursor-pointer" : "cursor-default",
+        )}
         onClick={() => (classes.length > 0 ? router.push("/class") : undefined)}
         data-testid="class-mainbox"
       >
@@ -37,7 +40,7 @@ const Class = ({ classes }: { classes: classWithMember[] }) => {
             <TimeTable classes={classes} />
           </div>
         ) : (
-          <div className="grow flex flex-col justify-center items-center space-y-3 overflow-y-auto overflow-x-auto mt-3 font-semibold text-xl text-stone-400 hover:text-stone-500 transition-all">
+          <div className="grow flex flex-col justify-center items-center space-y-3 overflow-y-auto overflow-x-auto mt-3 font-semibold text-xl text-stone-400">
             <div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"

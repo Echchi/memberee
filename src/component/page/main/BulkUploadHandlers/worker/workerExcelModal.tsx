@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import RegisterBtn from "@/component/page/member/registerBtn";
 import Button from "@/component/button/button";
 import Input from "@/component/input";
-import RegisterWorkers from "@/component/excel/registerWorkers";
+import RegisterWorkers from "@/component/page/main/BulkUploadHandlers/worker/registerWorkers";
 import { readXlsx } from "@/libs/client/readXlsx";
 import validator from "validator";
-import { cls } from "@/libs/client/utils";
+import { cls, scheduleValid } from "@/libs/client/utils";
 import {
   BIRTH_REGEX,
   COMMISSION_REGEX,
@@ -13,9 +13,9 @@ import {
   ONLY_NUMBER_REGEX,
   STARTDATE_REGEX,
 } from "@/libs/constants";
-import WorkersUploadBtn from "@/component/page/main/BulkUploadHandlers/workersUploadBtn";
+import WorkersUploadBtn from "@/component/page/main/BulkUploadHandlers/worker/workersUploadBtn";
 
-const ExcelModal = () => {
+const WorkerExcelModal = ({ onClose }: { onClose: () => void }) => {
   const [selecetdFile, setSelectedFile] = useState<string>();
   const [listData, setListData] = useState<string[][]>([]);
   const [errors, setErrors] = useState<number[]>([]);
@@ -36,29 +36,30 @@ const ExcelModal = () => {
   };
 
   useEffect(() => {
-    const errorIndexes = listData.reduce((acc: number[], items, idx) => {
-      const validations = [
-        validator.isMobilePhone(items[1] + "", "ko-KR"),
-        BIRTH_REGEX.test(items[2] + ""),
-        STARTDATE_REGEX.test(items[3] + ""),
-        items[4].split(",").every((day) => DAYOFWEEK_REGEX.test(day)),
-        COMMISSION_REGEX.test(items[5]),
-        ONLY_NUMBER_REGEX.test(items[7]),
-      ];
-      console.log("validations", validations);
-      const hasError = validations.some((validation) => !validation);
-      if (hasError) acc.push(idx);
-      return acc;
-    }, []);
+    try {
+      const errorIndexes = listData.reduce((acc: number[], items, idx) => {
+        const validations = [
+          validator.isMobilePhone(items[1] + "", "ko-KR"),
+          BIRTH_REGEX.test(items[2] + ""),
+          STARTDATE_REGEX.test(items[3] + ""),
+          scheduleValid(items[4], "dayOfWeek"),
 
-    if (errorIndexes.length > 0) {
-      setErrors(errorIndexes);
+          COMMISSION_REGEX.test(items[5]),
+          ONLY_NUMBER_REGEX.test(items[7]),
+        ];
+        console.log("validations", validations);
+        const hasError = validations.some((validation) => !validation);
+        if (hasError) acc.push(idx);
+        return acc;
+      }, []);
+
+      if (errorIndexes.length > 0) {
+        setErrors(errorIndexes);
+      }
+    } catch (e) {
+      setErrors((prev) => [...prev, 0]);
     }
   }, [listData]);
-
-  useEffect(() => {
-    console.log("errors", errors);
-  }, [errors]);
 
   return (
     <div className="w-full relative">
@@ -132,10 +133,11 @@ const ExcelModal = () => {
           errors={errors}
           isLoading={isLoading}
           setIsLoading={setIsLoading}
+          onClose={onClose}
         />
       </div>
     </div>
   );
 };
 
-export default ExcelModal;
+export default WorkerExcelModal;

@@ -7,7 +7,7 @@ import Tag from "@/component/tag";
 import Class from "@/component/page/main/class";
 import Alarm from "@/component/page/main/alarm";
 import Worker from "@/component/page/main/worker";
-import Pay from "@/component/page/main/pay";
+import Member from "@/component/page/main/member";
 import { getMembers } from "@/component/page/member/members";
 import { getPaidCnt } from "@/app/(tabBar)/main/api";
 import { getWorkers } from "@/component/page/worker/workers";
@@ -24,6 +24,7 @@ const Page = async () => {
   const workers = await getWorkers("");
   const members = await getMembers("", year, month);
   const classes = await getClasses({ year, month, dayOfWeek });
+
   return (
     <>
       {totalMemCnt.length - paidCnt > 0 && (
@@ -32,7 +33,7 @@ const Page = async () => {
       <div className="md:grid grid-cols-2 grid-rows-3 gap-3 mt-4 lg:mt-12 h-[700px]">
         <Class classes={classes} />
         <Worker workers={workers} />
-        <Pay members={members} />
+        <Member members={members} registerOpen={Boolean(workers.length)} />
       </div>
     </>
   );

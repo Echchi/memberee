@@ -90,7 +90,7 @@ const PayRegister = ({
     }));
   };
   useEffect(() => {
-    console.log("Pay data", data);
+    console.log("Member data", data);
   }, [data]);
   return (
     <>

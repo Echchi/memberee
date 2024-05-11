@@ -8,7 +8,12 @@ import {
   parseISO,
   subMonths,
 } from "date-fns";
-import { DAYOFWEEK, DAYOFWEEK_TONUM } from "@/libs/constants";
+import {
+  DAYOFWEEK,
+  DAYOFWEEK_REGEX,
+  DAYOFWEEK_TONUM,
+  TIMEDATA_REGEX,
+} from "@/libs/constants";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 
 export function cls(...classnames: string[]) {
@@ -141,5 +146,21 @@ export function formatDayOfWeekForDatabase(dayOfWeeks: string) {
   const formatDayOfWeek = dayOfWeeks.replace(/\s+/g, "");
   const dayOfWeekArr = formatDayOfWeek.split(",");
 
-  return dayOfWeekArr.map((day) => DAYOFWEEK_TONUM[day]).join("");
+  return dayOfWeekArr
+    .map((day) => DAYOFWEEK_TONUM[day])
+    .sort((a, b) => Number(a) - Number(b))
+    .join("");
+}
+
+export function scheduleValid(item: string, type: "dayOfWeek" | "time") {
+  return item
+    ?.split(",")
+    .map((day) => day.trim().replace(/\s+/g, ""))
+    .filter((item) => item.length > 0)
+    .map((day) => day.trim().replace(/\s+/g, ""))
+    .every((day) =>
+      type === "dayOfWeek"
+        ? DAYOFWEEK_REGEX.test(day)
+        : TIMEDATA_REGEX.test(day),
+    );
 }

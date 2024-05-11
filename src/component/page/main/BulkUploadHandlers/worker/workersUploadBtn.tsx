@@ -11,11 +11,13 @@ const WorkersUploadBtn = ({
   errors,
   isLoading,
   setIsLoading,
+  onClose,
 }: {
   listData: string[][];
   errors: number[];
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  onClose: () => void;
 }) => {
   const router = useRouter();
   const handleSubmit = useCallback(async () => {
@@ -35,7 +37,8 @@ const WorkersUploadBtn = ({
       const response = await createWorker(true, null, formData);
     }
     setIsLoading(false);
-    router.push(`/worker`);
+    onClose();
+    router.refresh();
   }, [listData, errors]);
 
   return (

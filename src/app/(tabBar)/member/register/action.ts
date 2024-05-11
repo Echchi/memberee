@@ -42,7 +42,7 @@ const formSchema = z.object({
     .trim()
     .transform((val) => parseInt(val, 10)),
   startDate: z.string().trim().regex(STARTDATE_REGEX, STARTDATE_REGEX_ERROR),
-  content: z.string().optional(),
+  content: z.string().nullable().optional(),
 });
 
 export const createMember = async (prevState: any, formData: FormData) => {
@@ -120,16 +120,6 @@ export const createMember = async (prevState: any, formData: FormData) => {
       const schedules = await db.$transaction(schedulePromises);
       console.log("========== schedule =========", schedules);
     }
-    // const payment = await db.payment.create({
-    //   data: {
-    //     memberId: member.id,
-    //     forYear: getYear(new Date()),
-    //     forMonth: getMonth(new Date()) + 1,
-    //     paymentDate: new Date(),
-    //     isPaid: true,
-    //   },
-    // });
-    // console.log("========== payment =========", payment);
 
     if (result.data.content) {
       const Memo = await db.memo.create({

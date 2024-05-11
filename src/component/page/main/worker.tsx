@@ -7,7 +7,7 @@ import Link from "next/link";
 import { DAYOFWEEK } from "@/libs/constants";
 import Modal from "@/component/modal";
 import MemoModal from "@/component/modal/memoModal";
-import ExcelModal from "@/component/page/main/BulkUploadHandlers/excelModal";
+import WorkerExcelModal from "@/component/page/main/BulkUploadHandlers/worker/workerExcelModal";
 
 const Worker = ({ workers }: { workers: WorkerWithMember[] }) => {
   const router = useRouter();
@@ -17,7 +17,9 @@ const Worker = ({ workers }: { workers: WorkerWithMember[] }) => {
       {isWorkerModalOpen && (
         <Modal
           title={"직원 엑셀 등록"}
-          content={<ExcelModal />}
+          content={
+            <WorkerExcelModal onClose={() => setIsWorkerModalOpen(false)} />
+          }
           className={"!w-4/5 !h-4/5"}
           onClose={() => setIsWorkerModalOpen(false)}
         />
@@ -48,6 +50,7 @@ const Worker = ({ workers }: { workers: WorkerWithMember[] }) => {
                 <p className="text-sm md:text-base font-medium whitespace-nowrap">
                   {worker.dayOfWeek
                     ?.split("")
+                    .sort((a, b) => Number(a) - Number(b))
                     .map((day) => DAYOFWEEK[Number(day)])
                     .join("")}
                 </p>
@@ -55,8 +58,8 @@ const Worker = ({ workers }: { workers: WorkerWithMember[] }) => {
             ))
           ) : (
             <div className="grow px-5 py-2">
-              <div className="h-20 mb-4 grow flex flex-col items-center justify-center space-y-3 font-semibold text-xl text-stone-400 hover:text-stone-500 transition-all cursor-pointer">
-                <div>
+              <div className="h-20 mb-4 grow flex flex-col items-center justify-center space-y-3 font-semibold text-xl text-green-700 hover:text-green-700/80 transition-all cursor-pointer ">
+                <div className="animate-bounce">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
