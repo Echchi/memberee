@@ -22,6 +22,7 @@ const checkUserid = async (userid: string) => {
   const user = await db.user.findUnique({
     where: {
       userid,
+      status: -1 || 1,
     },
     select: {
       userid: true,
@@ -33,6 +34,7 @@ const checkPhone = async (phone: string) => {
   const user = await db.user.findUnique({
     where: {
       phone,
+      status: -1 || 1,
     },
     select: {
       userid: true,
@@ -45,6 +47,7 @@ const checkCoNum = async (num: string) => {
   const company = await db.company.findUnique({
     where: {
       num,
+      status: -1 || 1,
     },
     select: {
       id: true,

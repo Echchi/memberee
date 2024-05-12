@@ -18,24 +18,18 @@ export async function getUser() {
   return user;
 }
 
-export async function User(id: number) {
+export async function terminateUser(id: number) {
   const session = await getSession();
   const companyId = session.company;
-  const updateData = {
-    status: status,
-    ...(status < 0 && { suspendedDate: new Date() }),
-    ...(status === 0 && { endDate: new Date() }),
-  };
-  const member = await db.member.update({
+
+  const user = await db.user.update({
     where: {
       id,
-      companyId,
     },
-    data: updateData,
+    data: {
+      status: 0,
+    },
   });
-  if (member.status === 0) {
-    redirect("/member");
-  } else {
-    redirect(`${id}`);
-  }
+
+  session.destroy();
 }
