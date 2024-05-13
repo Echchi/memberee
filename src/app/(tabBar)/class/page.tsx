@@ -87,45 +87,6 @@ const Page = ({
         </div>
         {classes && <Classes classes={classes} />}
       </div>
-      {/*{Array.from({ length: 18 }).map((_, hourIndex) => (*/}
-      {/*  <>*/}
-      {/*    <div>{`${6 + hourIndex}시`}</div>*/}
-      {/*    {Array.from({ length: 7 }).map((_, dayIndex) => (*/}
-      {/*      <div*/}
-      {/*        key={dayIndex}*/}
-      {/*        className="grid grid-rows-3 w-full gap-y-2 pb-4"*/}
-      {/*      >*/}
-      {/*        <div*/}
-      {/*          key={dayIndex}*/}
-      {/*          className="font-medium bg-orange-200 w-full rounded-xl p-2 text-xs min-h-14"*/}
-      {/*        >*/}
-      {/*          <p className="font-medium lg:block lg:text-sm text-xs hidden">*/}
-      {/*            {hourIndex + 6}:00 ~ {hourIndex + 6}:20*/}
-      {/*          </p>*/}
-      {/*          <p className="font-bold text-center">홍길동</p>*/}
-      {/*        </div>*/}
-      {/*        <div*/}
-      {/*          key={dayIndex}*/}
-      {/*          className="font-medium bg-orange-200 w-full rounded-xl p-2 text-xs min-h-14"*/}
-      {/*        >*/}
-      {/*          <p className="font-medium lg:block lg:text-sm text-xs hidden">*/}
-      {/*            {hourIndex + 6}:20 ~ {hourIndex + 6}:40*/}
-      {/*          </p>*/}
-      {/*          <p className="font-bold text-center">홍길동</p>*/}
-      {/*        </div>*/}
-      {/*        <div*/}
-      {/*          key={dayIndex}*/}
-      {/*          className="font-medium  bg-orange-200 w-full rounded-xl p-2 text-xs min-h-14"*/}
-      {/*        >*/}
-      {/*          <p className="font-medium lg:block lg:text-sm text-xs hidden">*/}
-      {/*            {hourIndex + 6}:40 ~ {hourIndex + 6}:60*/}
-      {/*          </p>*/}
-      {/*          <p className="font-bold text-center">홍길동</p>*/}
-      {/*        </div>*/}
-      {/*      </div>*/}
-      {/*    ))}*/}
-      {/*  </>*/}
-      {/*))}*/}
     </>
   );
 };

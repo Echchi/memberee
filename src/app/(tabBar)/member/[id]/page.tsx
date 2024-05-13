@@ -31,6 +31,7 @@ import {
   Schedule,
   Payment,
   Company,
+  WorkerChangeLog,
 } from "@prisma/client";
 import WorkerList from "@/component/page/member/register/workerList";
 import { motion } from "framer-motion";
@@ -49,6 +50,7 @@ export interface IMemberWithSchedules extends Member {
   worker?: Worker | null;
   Payment?: Payment[];
   company?: Company | null;
+  WorkerChangeLog?: WorkerChangeLog[] | null;
 }
 
 const Page = ({ params }: { params: { id: string } }) => {

@@ -17,7 +17,7 @@ const Alarm = ({ overdueCnt }: { overdueCnt: number }) => {
       data-testid="main-alert"
       onClick={() => router.push("/pay")}
       className={cls(
-        "cursor-pointer flex items-center justify-between py-2 md:py-3 w-full bg-gradient-to-r from-orange-200 from-5% to-orange-300 rounded-full px-5 md:px-8 mt-3 font-semibold text-orange-600 animate-pulse hover:scale-110 transition-all",
+        "cursor-pointer flex items-center justify-between py-2 md:py-3 w-full bg-gradient-to-r from-orange-200 from-5% to-orange-300 rounded-full px-5 md:px-8 mt-3 font-semibold text-orange-600 animate-pulse transition-all",
         alarmHide ? "hidden" : "",
       )}
     >

@@ -20,52 +20,84 @@ export async function getClasses(options: {
       company?.payDay,
     ),
   );
-  const members = await db.member.findMany({
-    where: {
-      companyId: companyId,
-      AND: [
-        {
-          Payment: {
-            none: {
-              lessonFee: -1,
-              forYear: options.year,
-              forMonth: options.month,
-            },
-          },
-        },
-        {
-          OR: [
-            {
-              status: 1,
-            },
-            {
-              status: 0,
-              endDate: {
-                gte: payDayDate,
-              },
-            },
-            {
-              status: -1,
-              suspendedDate: {
-                gte: payDayDate,
-              },
-            },
-          ],
-        },
-      ],
-    },
-    // select: {
-    //   id: true,
-    // },
-  });
-  console.log("members", members);
+  console.log("~~~~~~~~~~", options, companyId);
+  // const members = await db.member.findMany({
+  //   where: {
+  //     companyId: companyId,
+  //     AND: [
+  //       {
+  //         Payment: {
+  //           none: {
+  //             lessonFee: -1,
+  //             forYear: options.year,
+  //             forMonth: options.month,
+  //           },
+  //         },
+  //       },
+  //       {
+  //         OR: [
+  //           {
+  //             status: 1,
+  //           },
+  //           {
+  //             status: 0,
+  //             endDate: {
+  //               gte: payDayDate,
+  //             },
+  //           },
+  //           {
+  //             status: -1,
+  //             suspendedDate: {
+  //               gte: payDayDate,
+  //             },
+  //           },
+  //         ],
+  //       },
+  //     ],
+  //   },
+  // });
+  // console.log("members", members);
   const classes = await db.schedule.findMany({
     where: {
       ...(options.id && { workerId: options.id }),
-      ...(options.dayOfWeek && { dayOfWeek: options.dayOfWeek }),
+      // ...(options.dayOfWeek && { dayOfWeek: options.dayOfWeek }),
 
-      memberId: {
-        in: members.map((m) => m.id), // 조회된 memberId 사용
+      // memberId: {
+      //   in: members.map((m) => m.id), // 조회된 memberId 사용
+      // },
+
+      member: {
+        companyId: companyId,
+        // AND: [
+        //   {
+        //     Payment: {
+        //       none: {
+        //         lessonFee: -1,
+        //         forYear: options.year,
+        //         forMonth: options.month,
+        //       },
+        //     },
+        //   },
+        //   {
+        //     OR: [
+        //       {
+        //         status: 1,
+        //       },
+        //       {
+        //         status: 0,
+        //         endDate: {
+        //           gte: payDayDate,
+        //         },
+        //       },
+        //       {
+        //         status: -1,
+        //         suspendedDate: {
+        //           gte: payDayDate,
+        //         },
+        //       },
+        //     ],
+        //   },
+        // ],
       },
     },
     include: {

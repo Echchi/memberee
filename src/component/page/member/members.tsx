@@ -98,51 +98,76 @@ export async function getMembers(
           ...(month && { forMonth: month }),
         },
       },
-    },
-    take: 10,
-  });
-
-  const membersWithLatestWorkers = await Promise.all(
-    members.map(async (member) => {
-      const latestWorkerLog = await db.workerChangeLog.findFirst({
+      WorkerChangeLog: {
         where: {
-          memberId: member.id,
           changedDate: {
             lt: endDate,
           },
         },
-        orderBy: { changedDate: "desc" },
-      });
+        orderBy: {
+          changedDate: "desc",
+        },
+        take: 1,
+      },
+    },
+  });
 
-      console.log("startDate", startDate);
-      console.log(
-        "latestWorkerLog changedDate",
-        latestWorkerLog && latestWorkerLog?.changedDate,
-      );
-      console.log(
-        " latestWorkerLog & isAfterYearMonth(latestWorkerLog.changedDate, startDate)",
-        latestWorkerLog &&
-          isAfterYearMonth(latestWorkerLog.changedDate, startDate),
-      );
-      const workerToUse = latestWorkerLog
-        ? latestWorkerLog &&
-          isAfterYearMonth(latestWorkerLog.changedDate, startDate)
-          ? await db.worker.findUnique({
-              where: { id: latestWorkerLog.previousWorkerId },
-            })
-          : await db.worker.findUnique({
-              where: { id: latestWorkerLog.workerId },
-            })
-        : member.worker;
+  // const membersWithLatestWorkers = await Promise.all(
+  //   members.map(async (member) => {
+  //     const latestWorkerLog = await db.workerChangeLog.findFirst({
+  //       where: {
+  //         memberId: member.id,
+  //         changedDate: {
+  //           lt: endDate,
+  //         },
+  //       },
+  //       orderBy: { changedDate: "desc" },
+  //     });
+  //
+  //     console.log("startDate", startDate);
+  //     console.log(
+  //       "latestWorkerLog changedDate",
+  //       latestWorkerLog && latestWorkerLog?.changedDate,
+  //     );
+  //     console.log(
+  //       " latestWorkerLog & isAfterYearMonth(latestWorkerLog.changedDate, startDate)",
+  //       latestWorkerLog &&
+  //         isAfterYearMonth(latestWorkerLog.changedDate, startDate),
+  //     );
+  //     const workerToUse = latestWorkerLog
+  //       ? latestWorkerLog &&
+  //         isAfterYearMonth(latestWorkerLog.changedDate, startDate)
+  //         ? await db.worker.findUnique({
+  //             where: { id: latestWorkerLog.previousWorkerId },
+  //           })
+  //         : await db.worker.findUnique({
+  //             where: { id: latestWorkerLog.workerId },
+  //           })
+  //       : member.worker;
+  //
+  //     return {
+  //       ...member,
+  //       worker: workerToUse,
+  //     };
+  //   }),
+  // );
 
-      return {
-        ...member,
-        worker: workerToUse,
-      };
-    }),
-  );
-
-  return membersWithLatestWorkers;
+  // return membersWithLatestWorkers;
+  return members.map((member) => {
+    const latestWorkerLog = member.WorkerChangeLog[0];
+    const workerToUse = latestWorkerLog
+      ? isAfterYearMonth(latestWorkerLog.changedDate, startDate)
+        ? {
+            ...member,
+            worker: { ...member.worker, id: latestWorkerLog.previousWorkerId },
+          }
+        : {
+            ...member,
+            worker: { ...member.worker, id: latestWorkerLog.workerId },
+          }
+      : member;
+    return workerToUse;
+  });
 }
 const Members = async ({
   query,

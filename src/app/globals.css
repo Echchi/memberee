@@ -22,7 +22,7 @@
         @apply font-medium appearance-none w-full h-full outline-none pr-3 py-2 focus:outline-none focus:ring-emerald-600 focus:ring-inset focus:ring-[1.5px] transition-all bg-white placeholder:lg:text-lg placeholder:text-base
     }
     .inner_input_res {
-        @apply font-medium appearance-none w-full h-full outline-none pr-3 py-2 flex items-center text-stone-600 border-stone-300
+        @apply font-medium appearance-none w-full h-full outline-none pr-3 py-2 flex items-center text-stone-600 border-stone-300 text-xs lg:text-lg
     }
     .inner_input_error{
         @apply font-medium appearance-none w-full h-full outline-none pr-3 py-2 focus:outline-none focus:ring-orange-500 focus:ring-inset focus:ring-[1.5px] transition-all placeholder:lg:text-lg placeholder:text-base

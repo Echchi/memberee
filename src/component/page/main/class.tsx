@@ -18,6 +18,7 @@ export interface classWithMember extends Schedule {
 }
 
 const Class = ({ classes }: { classes: classWithMember[] }) => {
+  console.log("classes", classes);
   const today = dateFormattedtoKor(new Date());
   const dayOfWeek = getDay(new Date()) === 0 ? 7 : getDay(new Date());
   const router = useRouter();

@@ -18,6 +18,6 @@ export async function getWorkerList() {
       phone: true,
     },
   });
-  console.log("workers", workers);
+  // console.log("workers", workers);
   return workers;
 }

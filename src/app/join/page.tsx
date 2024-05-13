@@ -28,7 +28,7 @@ const Join = () => {
 
       <div className="px-3 mt-4 mb-8">
         {/*  유저 : 이름 아이디 비밀번호 휴대폰 번호 메일*/}
-        <p className="font-semibold tracking-wide text-stone-600 pt-5 pb-3 ">
+        <p className="font-semibold tracking-wide text-stone-600 pt-5 pb-3 lg:text-lg">
           관리자 정보
         </p>
         <Input
@@ -162,7 +162,7 @@ const Join = () => {
           name={"email"}
         />
         {/*  회사  : 이름, 연락처  */}
-        <p className="font-semibold tracking-wide text-stone-600 pt-8 pb-3 ">
+        <p className="font-semibold tracking-wide text-stone-600 pt-8 pb-3 lg:text-lg">
           업체 정보
         </p>
         <Input

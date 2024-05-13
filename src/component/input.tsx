@@ -49,9 +49,9 @@ const Input: React.FC<
   selectDescription,
   onChange,
   onSelectChange,
+
   ...rest
 }) => {
-  type === "select" && console.log("환장하겄네 value", value);
   const [selectedValue, setSelectedValue] = useState(value);
 
   useEffect(() => {
@@ -96,7 +96,12 @@ const Input: React.FC<
             className ? `${className} !h-full` : "",
           )}
         >
-          {value}
+          {value === "password" ? "••••••••" : value}
+          {selectDescription && (
+            <span className="ml-4 relative  font-medium text-xs lg:text-lg">
+              {selectDescription}
+            </span>
+          )}
         </div>
       ) : type === "select" ? (
         <>
@@ -118,7 +123,7 @@ const Input: React.FC<
               ))}
           </select>
           {selectDescription && (
-            <span className="ml-4 relative text-gray-400 font-medium text-xs lg:text-lg">
+            <span className="ml-4 relative font-medium text-xs lg:text-lg">
               {selectDescription}
             </span>
           )}

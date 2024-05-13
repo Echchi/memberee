@@ -68,17 +68,17 @@ const Classes = ({ classes }: { classes: Schedule[] }) => {
           {scheduleByDay.map((sch, index) => (
             <div
               key={`schedule_${index}`}
-              className="grid w-full gap-y-2 pb-4 grid-rows-6 rounded-lg bg-stone-50 *:min-h-14 min-h-[84px]"
+              className="grid w-full gap-y-2 pb-4 grid-rows-6 rounded-lg bg-stone-50 *:min-h-14 max-h-[200px]"
             >
               {sch.map((c: any, index) => {
                 return 6 + hourIndex === Number(c.startTime.slice(0, 2)) ? (
                   <div
                     onClick={() => router.push(`/member/${c.memberId}`)}
                     key={`schedule_${index}`}
-                    className="font-medium bg-amber-200 w-full rounded-xl p-2 text-xs shadow hover:z-10 hover:scale-150 transition-all cursor-pointer"
+                    className="overflow-y-auto font-medium bg-amber-200 w-full rounded-xl p-2 text-xs shadow hover:scale-125 hover:z-30 transition-all cursor-pointer z-20"
                     style={{
                       gridRowStart: c.gridRowStart,
-                      gridRowEnd: `span ${Number(c.gridRowStart) + Number(c.gridRowEnd)}`,
+                      gridRowEnd: `span ${Number(c.gridRowEnd)}`,
                     }}
                   >
                     <p
@@ -98,33 +98,6 @@ const Classes = ({ classes }: { classes: Schedule[] }) => {
           ))}
         </>
       ))}
-      {/*{Array.from({ length: 7 }).map((_, dayIndex) => (*/}
-      {/*  <div*/}
-      {/*    key={`어휴_${dayIndex}`}*/}
-      {/*    className="grid grid-rows-3 w-full gap-y-2 pb-4"*/}
-      {/*  >*/}
-      {/*    <div className="font-medium bg-orange-200 w-full rounded-xl p-2 text-xs min-h-14">*/}
-      {/*      <p className="font-medium lg:block lg:text-sm text-xs hidden">*/}
-      {/*        {hourIndex + 6}:00 ~ {hourIndex + 6}:20*/}
-      {/*      </p>*/}
-      {/*      <p className="font-bold text-center">홍길동</p>*/}
-      {/*    </div>*/}
-      {/*    <div className="font-medium bg-orange-200 w-full rounded-xl p-2 text-xs min-h-14">*/}
-      {/*      <p className="font-medium lg:block lg:text-sm text-xs hidden">*/}
-      {/*        {hourIndex + 6}:20 ~ {hourIndex + 6}:40*/}
-      {/*      </p>*/}
-      {/*      <p className="font-bold text-center">홍길동</p>*/}
-      {/*    </div>*/}
-      {/*    <div className="font-medium  bg-orange-200 w-full rounded-xl p-2 text-xs min-h-14">*/}
-      {/*      <p className="font-medium lg:block lg:text-sm text-xs hidden">*/}
-      {/*        {hourIndex + 6}:40 ~ {hourIndex + 6}:60*/}
-      {/*      </p>*/}
-      {/*      <p className="font-bold text-center">홍길동</p>*/}
-      {/*    </div>*/}
-      {/*  </div>*/}
-      {/*))}*/}
-      {/*</>*/}
-      {/*))}*/}
     </>
   );
 };

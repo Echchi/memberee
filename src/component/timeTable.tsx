@@ -64,16 +64,16 @@ function TimeTable({ classes }: { classes: classWithMember[] }) {
 
   return (
     <div
-      className="mt-3 !grid  justify-items-center *:text-lg *:font-semibold gap-3 overflow-auto min-w-fit"
+      className="relative mt-3 !grid justify-items-center *:text-lg *:font-semibold gap-3 overflow-auto min-w-fit"
       style={{
         gridTemplateColumns: `80px repeat(${Object.keys(scheduleByWorker).length}, minmax(120px, 1fr))`,
       }}
     >
-      <div className="sticky top-0 py-3 bg-white flex justify-center"></div>
+      <div className="py-3 bg-white flex justify-center"></div>
       {Object.entries(scheduleByWorker).map(([id, worker]) => (
         <div
           key={`main_class_worker_${id}`}
-          className="sticky top-0 py-3 bg-white w-full flex justify-center"
+          className="py-3 bg-white w-full flex justify-center"
         >
           {worker.name}
         </div>
@@ -92,10 +92,10 @@ function TimeTable({ classes }: { classes: classWithMember[] }) {
                   <div
                     onClick={() => router.push(`/member/${c.memberId}`)}
                     key={`schedule_${index}`}
-                    className="font-medium bg-amber-200 w-full rounded-xl p-2 text-xs shadow hover:z-10 transition-all cursor-pointer min-h-14"
+                    className="font-medium bg-amber-200 w-full rounded-xl p-2 text-xs shadow hover:z-10 transition-all cursor-pointer min-h-12"
                     style={{
                       gridRowStart: c.gridRowStart,
-                      gridRowEnd: `span ${Number(c.gridRowStart) + Number(c.gridRowEnd)}`,
+                      gridRowEnd: `span ${Number(c.gridRowEnd)}`,
                     }}
                   >
                     <p

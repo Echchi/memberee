@@ -28,7 +28,6 @@ const MemberUploadBtn = ({
   const [workers, setWorkers] = useState<string[]>([]);
 
   const handleSubmit = useCallback(async () => {
-    console.log("listData", listData);
     setIsLoading(true);
     for (const data of listData) {
       const dayOfWeekData = formatDayOfWeekForDatabase(data[4]);
@@ -37,7 +36,7 @@ const MemberUploadBtn = ({
       const dayOfWeekArr = dayOfWeekData
         .trim()
         .replace(/\s+/g, "")
-        .split(",")
+        .split("")
         .filter((item) => item.length > 0);
       const timesArr = data[5]
         .trim()
@@ -49,7 +48,7 @@ const MemberUploadBtn = ({
 
       dayOfWeekArr.forEach((day, index) => {
         const timeArr = timesArr[index].split("~");
-        times[day] = {
+        times[Number(day)] = {
           startTime: timeArr[0].trim(),
           endTime: timeArr[1].trim(),
         };
