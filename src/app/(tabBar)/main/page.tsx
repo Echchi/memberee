@@ -8,11 +8,12 @@ import Class from "@/component/page/main/class";
 import Alarm from "@/component/page/main/alarm";
 import Worker from "@/component/page/main/worker";
 import Member from "@/component/page/main/member";
-import { getMembers } from "@/component/page/member/members";
+
 import { getPaidCnt, getTotalCnt } from "@/app/(tabBar)/main/api";
 import { getWorkers } from "@/component/page/worker/workers";
 import { getClasses } from "@/app/(tabBar)/class/api";
 import { getDay } from "date-fns";
+import { getMembers } from "@/app/(tabBar)/member/api";
 
 const Page = async () => {
   const year = getYear(new Date());
@@ -22,7 +23,9 @@ const Page = async () => {
   const paidCnt = await getPaidCnt(year, month);
   const totalMemCnt = await getTotalCnt(year, month);
   const workers = await getWorkers("");
-  const members = await getMembers("", year, month);
+  const membersWithTotal = await getMembers({
+    params: { query: "", year, month },
+  });
   const classes = await getClasses({ year, month, dayOfWeek });
 
   return (
@@ -33,7 +36,10 @@ const Page = async () => {
       <div className="md:grid grid-cols-2 grid-rows-3 gap-3 mt-4 lg:mt-12 h-[700px]">
         <Class classes={classes} />
         <Worker workers={workers} />
-        <Member members={members} registerOpen={Boolean(workers.length)} />
+        <Member
+          members={membersWithTotal.members}
+          registerOpen={Boolean(workers.length)}
+        />
       </div>
     </>
   );

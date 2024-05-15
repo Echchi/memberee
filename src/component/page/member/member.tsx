@@ -24,7 +24,7 @@ const Member = ({ member }: { member: IMemberWithSchedules }) => {
           <td>
             {member.Schedule?.map((item, index) => DAYOFWEEK[item.dayOfWeek])}
           </td>
-          <td>{dateFormattedtoKor(member?.createdAt)}</td>
+          <td>{dateFormattedtoKor(member?.startDate)}</td>
         </tr>
       )}
     </>

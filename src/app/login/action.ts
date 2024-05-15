@@ -23,7 +23,7 @@ export async function login(prevState: any, formData: FormData) {
   if (!result.success) {
     return result.error.flatten();
   } else {
-    const user = await db.user.findUnique({
+    const user = await db.user.findFirst({
       where: {
         userid: result.data.userid,
       },

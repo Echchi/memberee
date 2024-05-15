@@ -28,7 +28,7 @@ const LineBox = ({
           ? !active
             ? "!bg-stone-200"
             : "!bg-orange-500/20"
-          : "bg-stone-100",
+          : "bg-neutral-100",
       )}
       onClick={onClick}
     >

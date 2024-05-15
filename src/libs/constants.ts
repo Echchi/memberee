@@ -75,3 +75,5 @@ export const PAYMENT_METHOD = [
     label: "기타",
   },
 ];
+
+export const PAGESIZE = 10;

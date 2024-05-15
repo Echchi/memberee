@@ -4,6 +4,7 @@ import getSession from "@/libs/client/session";
 import { getCompany } from "@/app/(tabBar)/pay/[id]/api";
 import { getMonth, getYear } from "date-fns";
 import { isAfterYearMonth } from "@/libs/client/utils";
+import { redirect } from "next/navigation";
 
 export async function getTotalCnt(year?: number, month?: number) {
   const session = await getSession();
@@ -72,4 +73,10 @@ export const getPaidCnt = async (year?: number, month?: number) => {
   });
 
   return paids;
+};
+
+export const logout = async () => {
+  const session = await getSession();
+  session.destroy();
+  redirect("login");
 };

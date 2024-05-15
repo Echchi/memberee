@@ -20,6 +20,7 @@ const PayRegister = ({
   param: IPay | null;
   lessonFee: number;
 }) => {
+  console.log(lessonFee);
   const today = format(new Date(), "yyyyMMdd");
   const [error, setError] = useState({
     paymentDate: "",
@@ -27,11 +28,11 @@ const PayRegister = ({
   });
   const [data, setData] = useState({
     memberId: param?.memberId || -1,
-    workerId: param?.workerId,
+    workerId: param?.workerId || -1,
     forYear: Number(param?.year),
     forMonth: Number(param?.month),
     paymentDate: today,
-    lessonFee: param?.lessonFee,
+    lessonFee: lessonFee,
     paymentMethod: "기타",
     memo: "",
   });

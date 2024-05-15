@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Input from "@/component/input";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
@@ -7,6 +7,13 @@ const Search = ({ placeholder }: { placeholder: string }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams().toString();
   const { replace } = useRouter();
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+    params.delete("query");
+    replace(`${pathname}?${params.toString()}`);
+  }, []);
+
   const handleChange = (searchTerm: string) => {
     const params = new URLSearchParams(searchParams);
     if (searchTerm) {

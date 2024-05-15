@@ -6,6 +6,8 @@ import React, {
 } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 import { cls } from "@/libs/client/utils";
+import { Simulate } from "react-dom/test-utils";
+import error = Simulate.error;
 
 interface IOption {
   value: number | string;
@@ -27,6 +29,7 @@ interface InputFieldProps {
   isLong?: boolean;
   selectDescription?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   onSelectChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
@@ -49,7 +52,7 @@ const Input: React.FC<
   selectDescription,
   onChange,
   onSelectChange,
-
+  onBlur,
   ...rest
 }) => {
   const [selectedValue, setSelectedValue] = useState(value);
@@ -93,10 +96,9 @@ const Input: React.FC<
             label && isLong ? "lg:pl-40 pl-20 pr-2" : "",
             label && !isLong ? "lg:px-40 px-20" : "",
             className ? `${className} !h-full` : "",
-            className ? `${className} !h-full` : "",
           )}
         >
-          {value === "password" ? "••••••••" : value}
+          {value}
           {selectDescription && (
             <span className="ml-4 relative  font-medium text-xs lg:text-lg">
               {selectDescription}
@@ -110,7 +112,7 @@ const Input: React.FC<
             className={cls(
               "outline-none bg-white text-stone-600 font-medium text-xs lg:text-lg",
               icon ? "ml-14 lg:ml-20" : "",
-              label ? "ml-20 lg:ml-40" : "",
+              label ? "ml-20 lg:ml-48" : "",
             )}
             value={selectedValue}
             onChange={handleSelectChange}
@@ -134,8 +136,8 @@ const Input: React.FC<
             errorMessage ? "inner_input_error" : "inner_input",
             icon && isLong ? "lg:pl-20 pl-14 pr-2" : "",
             icon && !isLong ? "lg:px-20 px-14" : "",
-            label && isLong ? "lg:pl-40 pl-20 pr-2" : "",
-            label && !isLong ? "lg:px-40 px-20" : "",
+            label && isLong ? "lg:pl-48 pl-20 pr-2" : "",
+            label && !isLong ? "lg:px-48 px-20" : "",
             className ? `${className} !h-full` : "",
             className ? `${className} !h-full` : "",
           )}
@@ -146,6 +148,7 @@ const Input: React.FC<
           required={required}
           defaultValue={value}
           onChange={onChange}
+          onBlur={onBlur}
         />
       )}
       {errorMessage && (

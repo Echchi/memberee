@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Tag from "@/component/tag";
 import LineBox from "@/component/lineBox";
 import { Member } from "@prisma/client";
@@ -8,31 +8,36 @@ import { DAYOFWEEK } from "@/libs/constants";
 import { formatPhone } from "@/libs/client/utils";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 
-const PayMb = ({ members }: { members: IMemberWithSchedules[] }) => {
+const PayMb = ({
+  members,
+  setPayStatus,
+  payStatus,
+}: {
+  members: IMemberWithSchedules[];
+  setPayStatus: React.Dispatch<React.SetStateAction<number>>;
+  payStatus: number;
+}) => {
   const router = useRouter();
-  const [selectedTag, setSelectedTag] = useState(["미납", "납부완료"]);
-  const selectTag = (tag: string) => {
-    if (selectedTag.includes(tag)) {
-      setSelectedTag((prev) => prev.filter((item) => item != tag));
-    } else {
-      setSelectedTag((prev) => [...prev, tag]);
-    }
-  };
+
+  const selectTag = (tag: number) => {};
+
   return (
     <>
       <div className="flex justify-between">
         <div className="flex space-x-2">
           <Tag
             color={"orange"}
-            noBg={!selectedTag.includes("미납")}
+            noBg={payStatus < 0}
             title={"미납"}
-            onClick={() => selectTag("미납")}
+            onClick={() => selectTag(-1)}
+            className={"cursor-pointer"}
           />
           <Tag
             color={"stone"}
-            noBg={!selectedTag.includes("납부완료")}
+            noBg={payStatus > 0}
             title={"납부완료"}
-            onClick={() => selectTag("납부완료")}
+            onClick={() => selectTag(1)}
+            className={"cursor-pointer"}
           />
         </div>
       </div>

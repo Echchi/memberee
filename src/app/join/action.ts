@@ -19,7 +19,7 @@ interface ICheckPassword {
 }
 
 const checkUserid = async (userid: string) => {
-  const user = await db.user.findUnique({
+  const user = await db.user.findFirst({
     where: {
       userid,
       status: -1 || 1,
@@ -31,7 +31,7 @@ const checkUserid = async (userid: string) => {
   return !user;
 };
 const checkPhone = async (phone: string) => {
-  const user = await db.user.findUnique({
+  const user = await db.user.findFirst({
     where: {
       phone,
       status: -1 || 1,
@@ -44,10 +44,10 @@ const checkPhone = async (phone: string) => {
 };
 
 const checkCoNum = async (num: string) => {
-  const company = await db.company.findUnique({
+  const company = await db.company.findFirst({
     where: {
       num,
-      status: -1 || 1,
+      status: -1 | 1,
     },
     select: {
       id: true,

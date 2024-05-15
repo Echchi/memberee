@@ -3,13 +3,14 @@ import React from "react";
 import Link from "next/link";
 import { cls } from "@/libs/client/utils";
 import { usePathname } from "next/navigation";
+import { logout } from "@/app/(tabBar)/main/api";
 
 const Web = () => {
   const pathname = usePathname();
   return (
-    <div className="hidden md:flex fixed top-0 z-10 h-20 w-full px-4 py-2 items-center space-x-6 bg-white/90">
+    <div className="hidden md:flex fixed top-0 z-10 h-20 w-full px-7 py-2 items-center space-x-6 bg-white/90">
       <Link
-        className="text-3xl font-extrabold ml-3 text-emerald-700 cursor-pointer"
+        className="text-3xl font-extrabold text-emerald-700 cursor-pointer"
         href={"/main"}
       >
         memberee
@@ -83,6 +84,22 @@ const Web = () => {
             계정 관리
           </Link>
         </ul>
+        <div onClick={() => logout()}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-8 h-8 stroke-1.5 hover:text-emerald-700 transition-colors text-stone-800 cursor-pointer"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
+            />
+          </svg>
+        </div>
       </div>
     </div>
   );

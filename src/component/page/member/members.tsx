@@ -1,182 +1,87 @@
-"use server";
-import React from "react";
-import Link from "next/link";
-import db from "@/libs/server/db";
-import { getWorkers } from "@/component/page/worker/workers";
-import { DAYOFWEEK } from "@/libs/constants";
-import { dateFormattedtoKor, isAfterYearMonth } from "@/libs/client/utils";
-import getSession from "@/libs/client/session";
+"use client";
+import React, { useEffect, useState } from "react";
+
 import Member from "./member";
-import LineBox from "@/component/lineBox";
+
 import MemberMb from "./member_mb";
-import { getCompany } from "@/app/(tabBar)/pay/[id]/api";
-import { getMonth, getYear } from "date-fns";
-import { start } from "repl";
+
 import Empty from "@/component/empty";
-export async function getMembers(
-  query: string,
-  year?: number,
-  month?: number,
-  isPay: boolean = false,
-) {
-  const session = await getSession();
-  const companyId = session.company;
-  const company = await getCompany();
-  const thisYear = getYear(new Date());
-  const thisMonth = getMonth(new Date()) + 1;
-  const startDate = new Date(
-    Date.UTC(year || thisYear, (month || thisMonth) - 1, 1),
-  ); // 해당 월의 시작일
-  const endDate = new Date(Date.UTC(year || thisYear, month || thisMonth, 0));
-  const payDayDate = new Date(
-    Date.UTC(
-      year || getYear(new Date()),
-      (month || getMonth(new Date())) - 1,
-      company?.payDay,
-    ),
-  );
+import { getMembers } from "@/app/(tabBar)/member/api";
+import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
+import { getWorkerList } from "@/app/(tabBar)/worker/register/api";
+import Pagination from "@/component/pagination";
+import Mobile from "@/app/(tabBar)/member/mobile";
 
-  const members = await db.member.findMany({
-    where: {
-      companyId: companyId,
-      AND: [
-        ...(query
-          ? [
-              {
-                OR: [
-                  {
-                    name: {
-                      contains: query.toLowerCase(),
-                    },
-                  },
-                  {
-                    phone: {
-                      contains: query.toLowerCase(),
-                    },
-                  },
-                ],
-              },
-            ]
-          : []),
-        ...(year && month
-          ? [
-              {
-                OR: [
-                  {
-                    AND: [
-                      { status: 0 },
-                      {
-                        OR: [
-                          { endDate: null },
-                          {
-                            endDate: {
-                              gte: payDayDate,
-                            },
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                  {
-                    status: {
-                      not: 0,
-                    },
-                  },
-                ],
-              },
-            ]
-          : []),
-      ],
-    },
-    orderBy: [{ status: "desc" }],
-    include: {
-      Schedule: true,
-      worker: true,
-      Payment: {
-        where: {
-          ...(year && { forYear: year }),
-          ...(month && { forMonth: month }),
-        },
-      },
-      WorkerChangeLog: {
-        where: {
-          changedDate: {
-            lt: endDate,
-          },
-        },
-        orderBy: {
-          changedDate: "desc",
-        },
-        take: 1,
-      },
-    },
-  });
-
-  // const membersWithLatestWorkers = await Promise.all(
-  //   members.map(async (member) => {
-  //     const latestWorkerLog = await db.workerChangeLog.findFirst({
-  //       where: {
-  //         memberId: member.id,
-  //         changedDate: {
-  //           lt: endDate,
-  //         },
-  //       },
-  //       orderBy: { changedDate: "desc" },
-  //     });
-  //
-  //     console.log("startDate", startDate);
-  //     console.log(
-  //       "latestWorkerLog changedDate",
-  //       latestWorkerLog && latestWorkerLog?.changedDate,
-  //     );
-  //     console.log(
-  //       " latestWorkerLog & isAfterYearMonth(latestWorkerLog.changedDate, startDate)",
-  //       latestWorkerLog &&
-  //         isAfterYearMonth(latestWorkerLog.changedDate, startDate),
-  //     );
-  //     const workerToUse = latestWorkerLog
-  //       ? latestWorkerLog &&
-  //         isAfterYearMonth(latestWorkerLog.changedDate, startDate)
-  //         ? await db.worker.findUnique({
-  //             where: { id: latestWorkerLog.previousWorkerId },
-  //           })
-  //         : await db.worker.findUnique({
-  //             where: { id: latestWorkerLog.workerId },
-  //           })
-  //       : member.worker;
-  //
-  //     return {
-  //       ...member,
-  //       worker: workerToUse,
-  //     };
-  //   }),
-  // );
-
-  // return membersWithLatestWorkers;
-  return members.map((member) => {
-    const latestWorkerLog = member.WorkerChangeLog[0];
-    const workerToUse = latestWorkerLog
-      ? isAfterYearMonth(latestWorkerLog.changedDate, startDate)
-        ? {
-            ...member,
-            worker: { ...member.worker, id: latestWorkerLog.previousWorkerId },
-          }
-        : {
-            ...member,
-            worker: { ...member.worker, id: latestWorkerLog.workerId },
-          }
-      : member;
-    return workerToUse;
-  });
+export interface IWorker {
+  id: number;
+  name: string;
 }
-const Members = async ({
+
+const Members = ({
   query,
   setDesc,
 }: {
   query?: string;
   setDesc?: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const members = await getMembers(query || "");
+  const [members, setMembers] = useState<IMemberWithSchedules[]>();
+  const [total, setTotal] = useState<number>();
+  const [workers, setWorkers] = useState<IWorker[]>();
+  const [workerId, setWorkerId] = useState<number>();
+  const [dayOfWeek, setDayOfWeek] = useState<number>();
+  const [startDateOrder, setCreateDateOrder] = useState(true);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setLoading(true);
+    const fetchMembers = async () => {
+      try {
+        const response = await getMembers({
+          params: {
+            query: query || "",
+            workerId,
+            dayOfWeek,
+            startDateOrder,
+            page,
+          },
+        });
+        if (response) {
+          console.log(response);
+          setMembers(response.members);
+          setTotal(response.total);
+        }
+      } catch (e) {
+        return new Error("error fetch members");
+      }
+    };
+
+    fetchMembers();
+    setLoading(false);
+  }, [query, workerId, dayOfWeek, startDateOrder, page]);
+
+  useEffect(() => {
+    const fetchWorkerList = async () => {
+      const workerList = await getWorkerList();
+      const workersData = workerList.map((item) => ({
+        id: item.id,
+        name: item.name,
+      }));
+      setWorkers(workersData);
+    };
+
+    fetchWorkerList();
+  }, []);
+  const handleChangeWorkerList = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = e.target;
+    setWorkerId(Number(value));
+  };
+  const handleChangeDayOfWeek = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = e.target;
+    setDayOfWeek(Number(value));
+  };
+  const handleClickCreateDateOrder = () => {
+    setCreateDateOrder((prev) => !prev);
+  };
 
   return (
     <>
@@ -188,62 +93,86 @@ const Members = async ({
                 <td>이름</td>
                 <td>연락처</td>
                 <td>
-                  <select className="bg-transparent outline-none focus:outline-none">
-                    <option>담당</option>
-                    <option>함코치</option>
-                    <option>이코치</option>
-                    <option>장코치</option>
+                  <select
+                    className="bg-transparent outline-none focus:outline-none"
+                    onChange={(e) => handleChangeWorkerList(e)}
+                  >
+                    <option value={-1}>담당</option>
+                    {workers &&
+                      workers.map((worker) => (
+                        <option
+                          key={`members_workerList_${worker.id}`}
+                          value={worker.id}
+                        >
+                          {worker.name}
+                        </option>
+                      ))}
                   </select>
                 </td>
 
                 <td>
-                  <select className="bg-transparent outline-none focus:outline-none">
-                    <option>요일</option>
-                    <option>월</option>
-                    <option>화</option>
-                    <option>수</option>
-                    <option>목</option>
-                    <option>금</option>
-                    <option>토</option>
-                    <option>일</option>
+                  <select
+                    className="bg-transparent outline-none focus:outline-none"
+                    onChange={(e) => handleChangeDayOfWeek(e)}
+                  >
+                    <option value={0}>요일</option>
+                    <option value={1}>월</option>
+                    <option value={2}>화</option>
+                    <option value={3}>수</option>
+                    <option value={4}>목</option>
+                    <option value={5}>금</option>
+                    <option value={6}>토</option>
+                    <option value={7}>일</option>
                   </select>
                 </td>
-                <td className="flex justify-center items-center">
-                  등록일
-                  <svg
-                    // onClick={() => setDesc((prev) => !prev)}
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6 ml-2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
-                    />
-                  </svg>
+                <td
+                  className="flex justify-center items-center cursor-pointer"
+                  onClick={handleClickCreateDateOrder}
+                >
+                  시작일
+                  {startDateOrder ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="w-5 h-5 ml-2"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="w-5 h-5 ml-2"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M9.47 6.47a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 1 1-1.06 1.06L10 8.06l-3.72 3.72a.75.75 0 0 1-1.06-1.06l4.25-4.25Z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  )}
                 </td>
               </tr>
             </thead>
             <tbody>
-              {members.length > 0 &&
-                members.map((member, index) => (
+              {members &&
+                members?.length > 0 &&
+                members?.map((member, index) => (
                   <Member member={member} key={member.id} />
                 ))}
             </tbody>
           </table>
-          {members.length === 0 && <Empty item={"회원"} />}
+          <Pagination total={total || 0} page={page} setPage={setPage} />
+          {members && members.length === 0 && <Empty item={"회원"} />}
         </div>
       </div>
-      <div className="lg:hidden flex flex-col space-y-3 mt-5">
-        {members &&
-          members.map((member, index) => (
-            <MemberMb member={member} key={member.id} />
-          ))}
-      </div>
+      <Mobile members={members || []} setPage={setPage} loading={loading} />
     </>
   );
 };

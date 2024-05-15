@@ -16,10 +16,10 @@ datasource db {
 
 model User {
   id        Int       @id @default(autoincrement())
-  userid    String    @unique
+  userid    String
   password  String
   name      String
-  phone     String    @unique
+  phone     String
   email     String
   mode      Int       @default(1)
   role      Int       @default(1) // 1: 일반 회원, 2: 관리자
@@ -34,7 +34,7 @@ model Company {
   user      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int?
   name      String
-  num       String    @unique
+  num       String
   contact   String?
   startTime DateTime?
   endTime   DateTime?
