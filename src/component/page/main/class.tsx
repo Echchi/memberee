@@ -27,7 +27,7 @@ const Class = ({ classes }: { classes: classWithMember[] }) => {
     <>
       <div
         className={cls(
-          "relative box flex-col row-span-3 hover:shadow-lg transition-all h-1/2 md:h-full",
+          "relative box flex-col row-span-3 hover:shadow-lg transition-all h-1/2 md:h-full ",
           classes.length > 0 ? "cursor-pointer" : "cursor-default",
         )}
         onClick={() => (classes.length > 0 ? router.push("/class") : undefined)}

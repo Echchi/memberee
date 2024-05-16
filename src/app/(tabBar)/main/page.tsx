@@ -1,5 +1,5 @@
 import { format, getMonth, getYear } from "date-fns";
-import React from "react";
+import React, { Suspense } from "react";
 import TimeTable from "@/component/timeTable";
 import { cls } from "@/libs/client/utils";
 import { useRouter } from "next/navigation";
@@ -14,6 +14,7 @@ import { getWorkers } from "@/component/page/worker/workers";
 import { getClasses } from "@/app/(tabBar)/class/api";
 import { getDay } from "date-fns";
 import { getMembers } from "@/app/(tabBar)/member/api";
+import Loading from "@/app/(tabBar)/main/loading";
 
 const Page = async () => {
   const year = getYear(new Date());
