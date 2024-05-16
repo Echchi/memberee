@@ -1,25 +1,18 @@
 import React from "react";
-import { addMonths, format, getMonth, getYear } from "date-fns";
-import MonthChanger from "@/component/monthChanger";
-import Input from "@/component/input";
+import { getMonth, getYear } from "date-fns";
 import Button from "@/component/button/button";
-import Tag from "@/component/tag";
-import { useRouter } from "next/navigation";
-import { formatCurrency, isAfterYearMonth } from "@/libs/client/utils";
-import Modal from "@/component/modal";
-import PayRegister from "@/app/(tabBar)/pay/[id]/payRegister";
-import SalaryDetail from "@/app/(tabBar)/salary/salaryDetail";
+
 import SalaryList from "@/component/page/salary/salaryList";
 import db from "@/libs/server/db";
 import getSession from "@/libs/client/session";
-import { Member, Schedule, Worker } from "@prisma/client";
+import { Worker } from "@prisma/client";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 import { getCompany } from "@/app/(tabBar)/pay/[id]/api";
 
 export interface WorkerWithMember extends Worker {
   Member: IMemberWithSchedules[];
 }
-export async function getWorkersSalarys(year: number, month: number) {
+async function getWorkersSalarys(year: number, month: number) {
   const session = await getSession();
   const companyId = session.company;
   const company = await getCompany();

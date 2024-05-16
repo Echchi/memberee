@@ -63,16 +63,18 @@ const Member = ({
                       const aHasPayment =
                         a.status === 0
                           ? -2
-                          : a.Payment.length > 0
-                            ? a.Payment[0]?.lessonFee < 0
+                          : a.Payment && a.Payment.length > 0
+                            ? a.Payment[0].lessonFee &&
+                              a.Payment[0]?.lessonFee < 0
                               ? -1
                               : 0
                             : 1;
                       const bHasPayment =
                         b.status === 0
                           ? -2
-                          : b.Payment.length > 0
-                            ? b.Payment[0]?.lessonFee < 0
+                          : b.Payment && b.Payment.length > 0
+                            ? b.Payment[0]?.lessonFee &&
+                              b.Payment[0]?.lessonFee < 0
                               ? -1
                               : 0
                             : 1;
@@ -83,12 +85,14 @@ const Member = ({
                         key={`main_member_${index}`}
                         className={cls(
                           "*:font-medium *:py-3 *:text-center",
-                          member?.Payment?.length <= 0 ? "bg-orange-50" : "",
+                          member?.Payment && member?.Payment?.length <= 0
+                            ? "bg-orange-50"
+                            : "",
                         )}
                       >
                         <td>{member.name}</td>
                         <td>{member.phone}</td>
-                        <td>{member.worker.name}</td>
+                        <td>{member.worker?.name}</td>
                         <td className="flex justify-center">
                           {member.status === 0 && member.endDate ? (
                             <span className="text-xs">
@@ -99,6 +103,8 @@ const Member = ({
                             </span>
                           ) : member.status < 0 ||
                             (member?.Payment &&
+                              member?.Payment[0] &&
+                              member?.Payment[0]?.lessonFee &&
                               member?.Payment[0]?.lessonFee < 0) ? (
                             <span className="text-xs">
                               <Tag

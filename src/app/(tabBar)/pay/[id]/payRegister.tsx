@@ -78,7 +78,7 @@ const PayRegister = ({
     } else {
       setData((prev) => ({
         ...prev,
-        lessonFee: value,
+        lessonFee: Number(value),
       }));
     }
   };

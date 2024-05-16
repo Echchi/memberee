@@ -49,7 +49,18 @@ export const createPay = async (param: ICreatePayment) => {
 
   redirect(`${param.memberId}`);
 };
-export const updatePay = async (param: Payment) => {
+
+interface PaymentWithoutWorkerId {
+  id: number;
+  memberId: number;
+  forYear: number | null;
+  forMonth: number | null;
+  paymentDate: string | null;
+  lessonFee: number | null;
+  paymentMethod: string | null;
+  memo: string | null;
+}
+export const updatePay = async (param: PaymentWithoutWorkerId) => {
   const updatePay = await db.payment.update({
     where: { id: param.id },
     data: {
@@ -65,7 +76,7 @@ export const updatePay = async (param: Payment) => {
 
   redirect(`${param.memberId}`);
 };
-export const deletePay = async (param: Payment) => {
+export const deletePay = async (param: PaymentWithoutWorkerId) => {
   const deletePay = await db.payment.delete({
     where: { id: param.id },
   });

@@ -27,14 +27,14 @@ const PayCheck = ({ param }: { param: IPay | null }) => {
     lessonFee: "",
   });
   const [data, setData] = useState({
-    id: param?.id,
-    memberId: param?.memberId,
+    id: Number(param?.id),
+    memberId: Number(param?.memberId),
     forYear: Number(param?.year),
     forMonth: Number(param?.month),
     paymentDate: dateFormattedtoNum(param?.paymentDate),
-    lessonFee: param?.lessonFee,
-    paymentMethod: param?.method,
-    memo: param?.memo,
+    lessonFee: Number(param?.lessonFee),
+    paymentMethod: param?.method || null,
+    memo: param?.memo + "" || "",
   });
 
   const handleChangePaymentDate = (
@@ -78,7 +78,7 @@ const PayCheck = ({ param }: { param: IPay | null }) => {
     } else {
       setData((prev) => ({
         ...prev,
-        lessonFee: value,
+        lessonFee: Number(value),
       }));
     }
   };

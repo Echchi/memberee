@@ -91,7 +91,12 @@ const List = ({
           content={
             <PayRegister
               param={selectedPay}
-              lessonFee={member?.Schedule[0]?.lessonFee}
+              lessonFee={
+                (member?.Schedule &&
+                  member?.Schedule[0] &&
+                  member?.Schedule[0]?.lessonFee) ||
+                0
+              }
             />
           }
         />
