@@ -5,6 +5,9 @@ import Link from "next/link";
 import Web from "@/component/tabs/web";
 import TopBar from "@/component/tabs/mobile/topBar";
 import TabBar from "@/component/tabs/mobile/tabBar";
+import { motion } from "framer-motion";
+import Transition from "@/component/pageTransition";
+import PageTransition from "@/component/pageTransition";
 
 export interface LayoutProps {
   title?: string;
@@ -26,15 +29,18 @@ export default function Template({
       <Web />
 
       {hasTopBar ? <TopBar canGoBack={canGoBack} title={title} /> : null}
-      <div
-        className={cls(
-          "md:pt-28 md:max-w-full md:w-[1400px] md:mx-auto px-3 lg:px-5 text-stone-800",
-          hasTabBar ? "pb-24" : "",
-          hasTopBar ? "pt-12" : "",
-        )}
-      >
-        {children}
-      </div>
+      <PageTransition>
+        <div
+          className={cls(
+            "md:pt-28 md:max-w-full md:w-[1400px] md:mx-auto px-3 lg:px-5 text-stone-800",
+            hasTabBar ? "pb-24" : "",
+            hasTopBar ? "pt-12" : "",
+          )}
+        >
+          {children}
+        </div>
+      </PageTransition>
+
       {hasTabBar ? <TabBar /> : null}
     </div>
   );

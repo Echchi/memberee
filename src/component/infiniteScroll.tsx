@@ -15,6 +15,7 @@ const InfiniteScroll = ({
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
+        console.log("작동되나");
         if (entries[0].isIntersecting && !loading) {
           setPage((prev) => prev + 1);
         }
@@ -35,7 +36,10 @@ const InfiniteScroll = ({
     <>
       {children}
       {!loading && (
-        <div ref={target} className="absolute -bottom-20 h-2 w-full" />
+        <div
+          ref={target}
+          className="absolute -bottom-20 h-2 w-full bg-red-500"
+        />
       )}
     </>
   );

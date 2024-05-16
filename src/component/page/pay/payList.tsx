@@ -151,7 +151,13 @@ const PayList = ({
       </div>
 
       <div className="lg:hidden flex flex-col space-y-3 mt-5">
-        <PayMb members={members || []} payStatus={payStatus} />
+        <PayMb
+          members={members || []}
+          payStatus={payStatus}
+          setPayStatus={setPayStatus}
+          setPage={setPage}
+          loading={loading}
+        />
       </div>
     </>
   );

@@ -13,7 +13,6 @@ const Mobile = ({
   setPage: React.Dispatch<React.SetStateAction<number>>;
   loading: boolean;
 }) => {
-  const target = useRef<HTMLDivElement | null>(null);
   const [data, setData] = useState<IMemberWithSchedules[]>(members);
 
   useEffect(() => {
