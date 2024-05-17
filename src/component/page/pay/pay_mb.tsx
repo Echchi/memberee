@@ -105,6 +105,7 @@ const PayMb = ({
                           </span>
                         ) : member.status < 0 ||
                           (member?.Payment &&
+                            member?.Payment[0]?.lessonFee &&
                             member?.Payment[0]?.lessonFee < 0) ? (
                           <span className="text-xs">
                             <Tag color="yellow" title="중단" />
@@ -113,7 +114,11 @@ const PayMb = ({
                       </span>
                     }
                     phone={formatPhone(member.phone)}
-                    active={member.status > 0 || member?.Payment[0] < 0}
+                    active={
+                      member.status > 0 ||
+                      (member?.Payment && Number(member?.Payment[0]) < 0) ||
+                      false
+                    }
                     isNotPaid={member?.Payment && member?.Payment.length === 0}
                   />
                 ))}

@@ -27,6 +27,7 @@ const Page = ({
   };
 
   useEffect(() => {
+    "use server";
     const fetchWorker = async () => {
       try {
         if (selectedWorker) {
