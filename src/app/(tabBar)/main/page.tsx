@@ -1,5 +1,4 @@
 import { format, getMonth, getYear } from "date-fns";
-import React, { Suspense } from "react";
 import TimeTable from "@/component/timeTable";
 import { cls } from "@/libs/client/utils";
 import { useRouter } from "next/navigation";
@@ -14,7 +13,6 @@ import { getWorkers } from "@/component/page/worker/workers";
 import { getClasses } from "@/app/(tabBar)/class/api";
 import { getDay } from "date-fns";
 import { getMembers } from "@/app/(tabBar)/member/api";
-import Loading from "@/app/(tabBar)/main/loading";
 
 const Page = async () => {
   const year = getYear(new Date());
@@ -24,9 +22,9 @@ const Page = async () => {
   const paidCnt = await getPaidCnt(year, month);
   const totalMemCnt = await getTotalCnt(year, month);
   const workers = await getWorkers("");
-  const membersWithTotal = await getMembers({
-    params: { query: "", year, month },
-  });
+  // const membersWithTotal = await getMembers({
+  //   params: { query: "", year, month },
+  // });
   const classes = await getClasses({ year, month, dayOfWeek });
 
   return (
@@ -36,11 +34,12 @@ const Page = async () => {
       )}
       <div className="md:grid grid-cols-2 grid-rows-3 gap-3 mt-4 lg:mt-12 h-[700px]">
         <Class classes={classes} />
+
         <Worker workers={workers} />
-        <Member
-          members={membersWithTotal.members}
-          registerOpen={Boolean(workers.length)}
-        />
+        {/*<Member*/}
+        {/*  members={membersWithTotal.members}*/}
+        {/*  registerOpen={Boolean(workers.length)}*/}
+        {/*/>*/}
       </div>
     </>
   );

@@ -1,13 +1,8 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import TimeTable from "@/component/timeTable";
 import { useRouter } from "next/navigation";
-import {
-  calculateGridRowEnd,
-  calculateGridRowStart,
-  cls,
-  dateFormattedtoKor,
-} from "@/libs/client/utils";
+import { cls, dateFormattedtoKor } from "@/libs/client/utils";
 import { Member, Schedule, Worker } from "@prisma/client";
 import { getDay } from "date-fns";
 import { DAYOFWEEK } from "@/libs/constants";
@@ -18,7 +13,6 @@ export interface classWithMember extends Schedule {
 }
 
 const Class = ({ classes }: { classes: classWithMember[] }) => {
-  console.log("classes", classes);
   const today = dateFormattedtoKor(new Date());
   const dayOfWeek = getDay(new Date()) === 0 ? 7 : getDay(new Date());
   const router = useRouter();
