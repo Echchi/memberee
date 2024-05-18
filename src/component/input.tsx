@@ -131,7 +131,7 @@ const Input: React.FC<
       ) : (
         <input
           className={cls(
-            errorMessage ? "inner_input_error" : "inner_input",
+            errorMessage[0] ? "inner_input_error" : "inner_input",
             icon && isLong ? "lg:pl-20 pl-14 pr-2" : "",
             icon && !isLong ? "lg:px-20 px-14" : "",
             label && isLong ? "lg:pl-48 pl-20 pr-2" : "",
