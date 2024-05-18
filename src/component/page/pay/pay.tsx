@@ -28,7 +28,8 @@ const Pay = ({ member }: { member: IMemberWithSchedules }) => {
           </span>
         ) : member.status < 0 ||
           (member?.Payment &&
-            member?.Payment[0].lessonFee &&
+            member?.Payment[0] &&
+            member?.Payment[0]?.lessonFee &&
             member?.Payment[0]?.lessonFee < 0) ? (
           <span className="text-xs">
             <Tag
