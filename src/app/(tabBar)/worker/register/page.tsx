@@ -44,7 +44,7 @@ const Page = () => {
           maxLength={6}
           minLength={2}
           required={true}
-          errorMessage={state?.fieldErrors.name}
+          errorMessage={state?.fieldErrors?.name}
         />
         <Input
           isLong={true}
@@ -56,7 +56,7 @@ const Page = () => {
           maxLength={11}
           minLength={10}
           required={true}
-          errorMessage={state?.fieldErrors.phone}
+          errorMessage={state?.fieldErrors?.phone}
         />
         <Input
           isLong={true}
@@ -68,7 +68,7 @@ const Page = () => {
           maxLength={8}
           minLength={8}
           required={true}
-          errorMessage={state?.fieldErrors.birth}
+          errorMessage={state?.fieldErrors?.birth}
         />
         <Input
           type={"text"}
@@ -80,7 +80,7 @@ const Page = () => {
           maxLength={8}
           minLength={8}
           required={true}
-          errorMessage={state?.fieldErrors.startDate}
+          errorMessage={state?.fieldErrors?.startDate}
         />
         <SelectWorkingDay
           selectedDay={selectedDay}
@@ -102,7 +102,7 @@ const Page = () => {
             className="h-14 lg:text-lg border-b-1"
             name={"commission"}
             maxLength={2}
-            errorMessage={state?.fieldErrors.commission}
+            errorMessage={state?.fieldErrors?.commission}
           />
         </div>
         <Input
@@ -121,7 +121,7 @@ const Page = () => {
           className="h-14 lg:text-lg  border-t-0"
           name={"accountNumber"}
           maxLength={15}
-          errorMessage={state?.fieldErrors.accountNumber}
+          errorMessage={state?.fieldErrors?.accountNumber}
         />
         <div className="col-span-2">
           <Input
@@ -131,7 +131,7 @@ const Page = () => {
             isLong={true}
             className="h-14 lg:text-lg rounded-b-lg border-t-0"
             name={"content"}
-            errorMessage={state?.fieldErrors.content}
+            errorMessage={state?.fieldErrors?.content}
           />
         </div>
         <div className="col-span-2 flex justify-end space-x-3 mt-4">

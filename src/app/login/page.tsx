@@ -1,23 +1,17 @@
 "use client";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Input from "@/component/input";
-import Button from "@/component/button/button";
-import { useForm } from "react-hook-form";
-import ic_user from "icons/ic_user.svg";
 import React from "react";
 import FormButton from "@/component/button/formButton";
-import { useFormState } from "react-dom";
 import { login } from "@/app/login/action";
+import { useFormState } from "react-dom";
 
 const Login = () => {
   const [state, action] = useFormState(login, null);
 
-  const router = useRouter();
   console.log("state", state);
   return (
     <div className="w-full max-w-lg mx-auto">
-      {/*<form onSubmit={handleSubmit(onValid)} className="w-full mt-32 px-8">*/}
       <form action={action} className="w-full mt-32 px-8">
         <div className="flex flex-col justify-center items-center space-y-3">
           <h3 className="text-5xl md:text-7xl font-extrabold text-emerald-700">
@@ -27,28 +21,27 @@ const Login = () => {
         </div>
 
         <div className="w-full h-32 mt-16">
-          <Input
-            required={true}
-            type={"text"}
-            icon={
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-6 h-6 text-gray-300"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            }
-            placeholder={"아이디"}
-            className="h-1/2 rounded-t-xl"
-            name="userid"
-            // register={register("id", { required: true })}
-          />
+          {/*<Input*/}
+          {/*  required={true}*/}
+          {/*  type={"text"}*/}
+          {/*  icon={*/}
+          {/*    <svg*/}
+          {/*      xmlns="http://www.w3.org/2000/svg"*/}
+          {/*      viewBox="0 0 24 24"*/}
+          {/*      fill="currentColor"*/}
+          {/*      className="w-6 h-6 text-gray-300"*/}
+          {/*    >*/}
+          {/*      <path*/}
+          {/*        fillRule="evenodd"*/}
+          {/*        d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"*/}
+          {/*        clipRule="evenodd"*/}
+          {/*      />*/}
+          {/*    </svg>*/}
+          {/*  }*/}
+          {/*  placeholder={"아이디"}*/}
+          {/*  className="h-1/2 rounded-t-xl"*/}
+          {/*  name="userid"*/}
+          {/*/>*/}
           <Input
             required={true}
             type={"password"}
@@ -69,13 +62,13 @@ const Login = () => {
             placeholder={"비밀번호"}
             className="h-1/2 rounded-b-xl border-t-0"
             name="password"
-            // register={register("password", { required: true })}
           />
         </div>
         {state?.fieldErrors && (
           <p className="text-orange-500 text-center mt-5">
-            {(state?.fieldErrors.userid && state?.fieldErrors.userid[0]) ||
-              (state?.fieldErrors.password && state?.fieldErrors.password[0])}
+            {(state?.fieldErrors?.userid && state?.fieldErrors?.userid?.[0]) ||
+              (state?.fieldErrors?.password &&
+                state?.fieldErrors?.password?.[0])}
           </p>
         )}
         <FormButton text={"로그인"} className={"mt-5"} />

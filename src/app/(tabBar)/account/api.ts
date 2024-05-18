@@ -15,7 +15,7 @@ export async function getUser() {
       user: true,
     },
   });
-  console.log("user", user);
+
   return user;
 }
 

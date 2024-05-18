@@ -74,7 +74,7 @@ const Page = () => {
           maxLength={6}
           minLength={2}
           required={true}
-          errorMessage={state?.fieldErrors.name}
+          errorMessage={state?.fieldErrors?.name}
         />
         <Input
           isLong={true}
@@ -86,7 +86,7 @@ const Page = () => {
           maxLength={11}
           minLength={10}
           required={true}
-          errorMessage={state?.fieldErrors.phone}
+          errorMessage={state?.fieldErrors?.phone}
         />
         <Input
           isLong={true}
@@ -97,7 +97,7 @@ const Page = () => {
           maxLength={8}
           minLength={8}
           name={"birth"}
-          errorMessage={state?.fieldErrors.birth}
+          errorMessage={state?.fieldErrors?.birth}
         />
         <Input
           type={"text"}
@@ -109,7 +109,7 @@ const Page = () => {
         <div
           className={cls(
             "bg-white py-3 col-span-2 border border-t-0 border-b-1 border-neutral-300 flex flex-col lg:pl-10 pl-4",
-            state?.fieldErrors.dayOfWeek
+            state?.fieldErrors?.dayOfWeek
               ? "!border-2 border-orange-500 animate-pulse"
               : "",
           )}
@@ -193,7 +193,7 @@ const Page = () => {
             maxLength={7}
             minLength={4}
             required={true}
-            errorMessage={state?.fieldErrors.lessonFee}
+            errorMessage={state?.fieldErrors?.lessonFee}
           />
         </div>
         <WorkerList selectedDay={selectedDay} />
@@ -207,7 +207,7 @@ const Page = () => {
           maxLength={8}
           minLength={8}
           required={true}
-          errorMessage={state?.fieldErrors.startDate}
+          errorMessage={state?.fieldErrors?.startDate}
         />
         <div className="col-span-2">
           <Input
@@ -217,7 +217,7 @@ const Page = () => {
             isLong={true}
             className="h-14 lg:text-lg rounded-b border-t-0"
             name={"content"}
-            errorMessage={state?.fieldErrors.content}
+            errorMessage={state?.fieldErrors?.content}
           />
         </div>
         <div className="col-span-2 flex justify-end space-x-3 mt-4">

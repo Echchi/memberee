@@ -106,5 +106,5 @@ export async function getClasses(options: {
     },
   });
 
-  return classes;
+  return classes || [];
 }

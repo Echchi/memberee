@@ -20,14 +20,13 @@ const Page = ({
   const month = Number(searchParams?.month) || getMonth(new Date());
   const [initValue, setInitValue] = useState("");
   const [selectedWorker, setSelectedWorker] = useState("");
-  const [classes, setClasses] = useState<Schedule[]>();
+  const [classes, setClasses] = useState<Schedule[]>([]);
   const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const classes = event.target.value;
+    const classes = event?.target?.value;
     setSelectedWorker(classes);
   };
 
   useEffect(() => {
-    "use server";
     const fetchWorker = async () => {
       try {
         if (selectedWorker) {
@@ -45,6 +44,7 @@ const Page = ({
 
     fetchWorker();
   }, [selectedWorker, year, month]);
+
   useEffect(() => {
     setSelectedWorker(initValue);
   }, [initValue]);
