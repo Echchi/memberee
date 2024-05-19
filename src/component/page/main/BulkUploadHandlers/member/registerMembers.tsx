@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "@/component/button/button";
 import { CSVLink, CSVDownload } from "react-csv";
-import { onClickXLSX } from "@/component/excel/onClickXLSX";
+import { onClickUploadXLSX } from "@/component/excel/builkUpload/onClickUploadXLSX";
 const RegisterMembers = () => {
   const header = [
     { header: "이름", key: "name" },
@@ -46,7 +46,7 @@ const RegisterMembers = () => {
         text="양식 다운"
         className="mt-0 py-3 !bg-emerald-500 hover:!bg-emerald-500/80 active:!bg-emerald-600"
         onClick={() =>
-          onClickXLSX({
+          onClickUploadXLSX({
             title: "회원 등록 양식",
             header,
             content,

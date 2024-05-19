@@ -1,5 +1,5 @@
 import ExcelJS from "exceljs";
-export const onClickXLSX = ({
+export const onClickDownloadXLSX = ({
   title,
   header,
   content,

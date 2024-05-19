@@ -21,16 +21,7 @@ const Page = async () => {
 
   const paidCnt = await getPaidCnt(year, month);
   const totalMemCnt = await getTotalCnt(year, month);
-  // const workers = await getWorkers("");
-  //
-  // const classes = await getClasses({ year, month, dayOfWeek });
 
-  // const [paidCnt, totalMemCnt, workers, classes] = await Promise.all([
-  //   getPaidCnt(year, month),
-  //   getTotalCnt(year, month),
-  //   getWorkers(""),
-  //   getClasses({ year, month, dayOfWeek }),
-  // ]);
   const [workers, classes] = await Promise.all([
     getWorkers(""),
     getClasses({ year, month, dayOfWeek }),
