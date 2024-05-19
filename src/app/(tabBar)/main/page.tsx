@@ -19,11 +19,18 @@ const Page = async () => {
   const month = getMonth(new Date()) + 1;
   const dayOfWeek = getDay(new Date()) === 0 ? 7 : getDay(new Date());
 
-  const paidCnt = await getPaidCnt(year, month);
-  const totalMemCnt = await getTotalCnt(year, month);
-  const workers = await getWorkers("");
+  // const paidCnt = await getPaidCnt(year, month);
+  // const totalMemCnt = await getTotalCnt(year, month);
+  // const workers = await getWorkers("");
+  //
+  // const classes = await getClasses({ year, month, dayOfWeek });
 
-  const classes = await getClasses({ year, month, dayOfWeek });
+  const [paidCnt, totalMemCnt, workers, classes] = await Promise.all([
+    getPaidCnt(year, month),
+    getTotalCnt(year, month),
+    getWorkers(""),
+    getClasses({ year, month, dayOfWeek }),
+  ]);
 
   return (
     <>
