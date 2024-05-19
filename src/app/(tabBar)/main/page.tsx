@@ -22,9 +22,7 @@ const Page = async () => {
   const paidCnt = await getPaidCnt(year, month);
   const totalMemCnt = await getTotalCnt(year, month);
   const workers = await getWorkers("");
-  const membersWithTotal = await getMembers({
-    params: { query: "", year, month },
-  });
+
   const classes = await getClasses({ year, month, dayOfWeek });
 
   return (
@@ -37,8 +35,9 @@ const Page = async () => {
 
         <Worker workers={workers} />
         <Member
-          members={membersWithTotal.members}
           registerOpen={Boolean(workers.length)}
+          year={year}
+          month={month}
         />
       </div>
     </>

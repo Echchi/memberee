@@ -26,25 +26,6 @@ const Mobile = ({
       return [...prevData, ...addData];
     });
   }, [members]);
-  // useEffect(() => {
-  //   const observer = new IntersectionObserver(
-  //     (entries) => {
-  //       entries.forEach((entry) => {
-  //         if (!entry.isIntersecting || loading) return;
-  //         setPage((prev) => prev + 1);
-  //       });
-  //     },
-  //     { threshold: 1.0 },
-  //   );
-  //
-  //   if (target.current) {
-  //     observer.observe(target.current);
-  //   }
-  //
-  //   return () => {
-  //     observer.disconnect();
-  //   };
-  // }, [loading, target, loading]);
 
   return (
     <>

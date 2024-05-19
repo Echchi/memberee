@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { cls, dateFormattedtoDot } from "@/libs/client/utils";
 import Tag from "@/component/tag";
 import { useRouter } from "next/navigation";
@@ -8,17 +8,60 @@ import RegisterWorkers from "@/component/page/main/BulkUploadHandlers/worker/reg
 import Modal from "@/component/modal";
 import WorkerExcelModal from "@/component/page/main/BulkUploadHandlers/worker/workerExcelModal";
 import MemberExcelModal from "@/component/page/main/BulkUploadHandlers/member/memberExcelModal";
+import { getMembers } from "@/app/(tabBar)/member/api";
+import InfiniteScroll from "@/component/infiniteScroll";
 
 const Member = ({
-  members,
+  year,
+  month,
   registerOpen,
 }: {
-  members: IMemberWithSchedules[];
+  year: number;
+  month: number;
   registerOpen: boolean;
 }) => {
   const router = useRouter();
   console.log("registerOpen", registerOpen);
   const [isMemberModalOpen, setIsMemberModalOpen] = useState(false);
+  const [members, setMembers] = useState<IMemberWithSchedules[]>();
+  const [total, setTotal] = useState<number>();
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    const fetchMembers = async () => {
+      try {
+        const response = await getMembers({
+          params: {
+            query: "",
+            year,
+            month,
+            page,
+          },
+        });
+        if (response) {
+          console.log("members response", response);
+          setMembers((prevData) => {
+            const addData = response.members?.filter(
+              (newMembers) =>
+                !prevData?.some(
+                  (existingMember) => existingMember.id === newMembers.id,
+                ),
+            );
+            return [...(prevData || []), ...(addData || [])];
+          });
+          setTotal(response.total);
+        }
+      } catch (e) {
+        return new Error("error fetch members");
+      }
+    };
+
+    fetchMembers();
+    setLoading(false);
+  }, [page]);
+
   return (
     <>
       {isMemberModalOpen && (
@@ -37,7 +80,7 @@ const Member = ({
           registerOpen ? "" : "!cursor-default",
         )}
         onClick={() =>
-          members.length > 0
+          members && members.length > 0
             ? router.push("/pay")
             : registerOpen && setIsMemberModalOpen(true)
         }
@@ -46,9 +89,9 @@ const Member = ({
         <div className="box_title">회원 관리</div>
 
         <div className="flex flex-col grow overflow-y-auto">
-          {members.length > 0 ? (
+          {members && members.length > 0 ? (
             <table className="text-center w-full">
-              <thead className="sticky top-0 bg-white">
+              <thead className="sticky top-0 bg-white z-20">
                 <tr className="*:font-semibold *:py-2">
                   <td>이름</td>
                   <td>연락처</td>
@@ -56,74 +99,79 @@ const Member = ({
                   <td>납부</td>
                 </tr>
               </thead>
-              <tbody>
-                {members &&
-                  members
-                    .sort((a, b) => {
-                      const aHasPayment =
-                        a.status === 0
-                          ? -2
-                          : a.Payment && a.Payment.length > 0
-                            ? a.Payment[0].lessonFee &&
-                              a.Payment[0]?.lessonFee < 0
-                              ? -1
-                              : 0
-                            : 1;
-                      const bHasPayment =
-                        b.status === 0
-                          ? -2
-                          : b.Payment && b.Payment.length > 0
-                            ? b.Payment[0]?.lessonFee &&
-                              b.Payment[0]?.lessonFee < 0
-                              ? -1
-                              : 0
-                            : 1;
-                      return bHasPayment - aHasPayment;
-                    })
-                    .map((member, index) => (
-                      <tr
-                        key={`main_member_${index}`}
-                        className={cls(
-                          "*:font-medium *:py-3 *:text-center",
-                          member?.Payment && member?.Payment?.length <= 0
-                            ? "bg-orange-50"
-                            : "",
-                        )}
-                      >
-                        <td>{member.name}</td>
-                        <td>{member.phone}</td>
-                        <td>{member.worker?.name}</td>
-                        <td className="flex justify-center">
-                          {member.status === 0 && member.endDate ? (
-                            <span className="text-xs">
-                              <Tag
-                                color={"stone"}
-                                title={`${dateFormattedtoDot(member.endDate)} 탈퇴`}
-                              />
-                            </span>
-                          ) : member.status < 0 ||
-                            (member?.Payment &&
-                              member?.Payment[0] &&
-                              member?.Payment[0]?.lessonFee &&
-                              member?.Payment[0]?.lessonFee < 0) ? (
-                            <span className="text-xs">
-                              <Tag
-                                color={"yellow"}
-                                title={`${dateFormattedtoDot(member.suspendedDate)} 중단`}
-                              />
-                            </span>
-                          ) : member?.Payment && member?.Payment?.length > 0 ? (
-                            <span className="text-xs">
-                              <Tag color={"emerald"} title={"납부"} />
-                            </span>
-                          ) : (
-                            <span className="text-xs">
-                              <Tag color={"orange"} title={"미납"} />
-                            </span>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
+              <tbody className="relative">
+                <InfiniteScroll setPage={setPage} loading={loading}>
+                  <>
+                    {members &&
+                      members
+                        .sort((a, b) => {
+                          const aHasPayment =
+                            a.status === 0
+                              ? -2
+                              : a.Payment && a.Payment.length > 0
+                                ? a.Payment[0].lessonFee &&
+                                  a.Payment[0]?.lessonFee < 0
+                                  ? -1
+                                  : 0
+                                : 1;
+                          const bHasPayment =
+                            b.status === 0
+                              ? -2
+                              : b.Payment && b.Payment.length > 0
+                                ? b.Payment[0]?.lessonFee &&
+                                  b.Payment[0]?.lessonFee < 0
+                                  ? -1
+                                  : 0
+                                : 1;
+                          return bHasPayment - aHasPayment;
+                        })
+                        .map((member, index) => (
+                          <tr
+                            key={`main_member_${index}`}
+                            className={cls(
+                              "*:font-medium *:py-3 *:text-center",
+                              member?.Payment && member?.Payment?.length <= 0
+                                ? "bg-orange-50"
+                                : "",
+                            )}
+                          >
+                            <td>{member.name}</td>
+                            <td>{member.phone}</td>
+                            <td>{member.worker?.name}</td>
+                            <td className="flex justify-center">
+                              {member.status === 0 && member.endDate ? (
+                                <span className="text-xs">
+                                  <Tag
+                                    color={"stone"}
+                                    title={`${dateFormattedtoDot(member.endDate)} 탈퇴`}
+                                  />
+                                </span>
+                              ) : member.status < 0 ||
+                                (member?.Payment &&
+                                  member?.Payment[0] &&
+                                  member?.Payment[0]?.lessonFee &&
+                                  member?.Payment[0]?.lessonFee < 0) ? (
+                                <span className="text-xs">
+                                  <Tag
+                                    color={"yellow"}
+                                    title={`${dateFormattedtoDot(member.suspendedDate)} 중단`}
+                                  />
+                                </span>
+                              ) : member?.Payment &&
+                                member?.Payment?.length > 0 ? (
+                                <span className="text-xs">
+                                  <Tag color={"emerald"} title={"납부"} />
+                                </span>
+                              ) : (
+                                <span className="text-xs">
+                                  <Tag color={"orange"} title={"미납"} />
+                                </span>
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                  </>
+                </InfiniteScroll>
               </tbody>
             </table>
           ) : (
