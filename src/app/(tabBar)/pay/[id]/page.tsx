@@ -120,7 +120,6 @@ const Page = ({ params }: { params: { id: string } }) => {
               />
             </div>
             <div>
-              {/*<Button text="출력" className="my-2" />*/}
               <DownloadPayDetailBtn
                 member={member || null}
                 listItem={listItem}
