@@ -22,7 +22,9 @@ const Member = ({ member }: { member: IMemberWithSchedules }) => {
           <td>{member.phone}</td>
           <td>{member.worker?.name}</td>
           <td>
-            {member.Schedule?.map((item, index) => DAYOFWEEK[item.dayOfWeek])}
+            {member.Schedule?.map(
+              (item, index) => DAYOFWEEK[item.dayOfWeek],
+            ).join("  ")}
           </td>
           <td>{dateFormattedtoKor(member?.startDate)}</td>
         </tr>

@@ -1,11 +1,10 @@
 import React from "react";
 
-import Button from "@/component/button/button";
-
 import Search from "@/component/search";
 import Members from "@/component/page/member/members";
 
 import RegisterBtn from "@/component/page/member/registerBtn";
+import DownloadMemberListBtn from "@/component/page/member/excelDownload/downloadMemberListBtn";
 
 const Page = ({ searchParams }: { searchParams?: { query?: string } }) => {
   const today = new Date();
@@ -18,7 +17,7 @@ const Page = ({ searchParams }: { searchParams?: { query?: string } }) => {
         <div className="flex space-x-3 w-1/4">
           <RegisterBtn />
 
-          <Button text={"명단 출력"} className="py-3 hidden lg:block" />
+          <DownloadMemberListBtn />
         </div>
       </div>
 

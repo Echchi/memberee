@@ -20,7 +20,7 @@ const MemberMb = ({ member }: { member: IMemberWithSchedules }) => {
             worker={member.worker?.name}
             day={member.Schedule?.map(
               (item, index) => DAYOFWEEK[item.dayOfWeek],
-            ).join("")}
+            ).join("  ")}
             name={member.name}
             phone={formatPhone(member.phone)}
             active={member.status > 0}

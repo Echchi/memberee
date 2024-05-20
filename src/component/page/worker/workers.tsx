@@ -55,7 +55,8 @@ const Workers = async ({ query }: { query?: string }) => {
                   ?.split("")
                   .map((day, index) => +day)
                   .sort()
-                  .map((day) => `${DAYOFWEEK[+day]} ` || "")}
+                  .map((day) => `${DAYOFWEEK[+day]} ` || "")
+                  .join("  ")}
               </p>
               <p>{formatPhone(worker?.phone)}</p>
             </div>

@@ -52,7 +52,7 @@ const Worker = ({ workers }: { workers: WorkerWithMember[] }) => {
                     ?.split("")
                     .sort((a, b) => Number(a) - Number(b))
                     .map((day) => DAYOFWEEK[Number(day)])
-                    .join("")}
+                    .join("  ")}
                 </p>
               </Link>
             ))

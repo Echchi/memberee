@@ -15,6 +15,7 @@ interface IParams {
   startDateOrder?: boolean;
   page?: number;
   payStatus?: number;
+  isAll?: boolean;
 }
 
 export async function getMembers({ params }: { params: IParams }) {
@@ -27,6 +28,7 @@ export async function getMembers({ params }: { params: IParams }) {
     startDateOrder,
     payStatus,
     page = 1,
+    isAll = false,
   } = params;
   console.log("getMembers params", params);
   const session = await getSession();
@@ -102,8 +104,8 @@ export async function getMembers({ params }: { params: IParams }) {
 
   const members = await db.member.findMany({
     where: whereClause,
-    skip: (page - 1) * PAGESIZE,
-    take: PAGESIZE,
+    skip: isAll ? undefined : (page - 1) * PAGESIZE,
+    take: isAll ? undefined : PAGESIZE,
     orderBy: [{ startDate: startDateOrder ? "desc" : "asc" }],
     include: {
       Schedule: true,
