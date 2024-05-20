@@ -26,7 +26,7 @@ export const downloadPayList = ({
   });
 
   // 셀 병합
-  ws.mergeCells("A1:J2");
+  ws.mergeCells("A1:F2");
 
   ws.getCell("A1").value = {
     richText: [
@@ -52,7 +52,7 @@ export const downloadPayList = ({
   ws.getCell("A1").alignment = { horizontal: "center", vertical: "middle" };
   ws.getRow(1).height = 52;
 
-  ws.mergeCells("A3:E3");
+  ws.mergeCells("A3:C3");
 
   ws.getCell("A3").value = {
     richText: [
@@ -74,7 +74,7 @@ export const downloadPayList = ({
     bottom: { style: "thin" },
   };
 
-  ws.mergeCells("F3:J3");
+  ws.mergeCells("D3:F3");
 
   ws.getCell("F3").value = {
     richText: [
@@ -107,7 +107,7 @@ export const downloadPayList = ({
 
   ws.columns = header.map((col: any, index: number) => ({
     key: col.key,
-    width: index === 5 ? 42 : 20,
+    width: 20,
     height: 30,
   }));
 

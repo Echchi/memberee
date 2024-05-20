@@ -64,11 +64,13 @@ export async function getTotalCnt(year?: number, month?: number) {
 }
 
 export const getPaidCnt = async (year?: number, month?: number) => {
+  const session = await getSession();
+  const companyId = session.company;
   const paids = await db.payment.count({
     where: {
       ...(year && { forYear: year }),
       ...(month && { forMonth: month }),
-      // lessonFee: { not: -1 },
+      lessonFee: { not: -1 },
     },
   });
 

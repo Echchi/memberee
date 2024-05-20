@@ -14,13 +14,20 @@ import {
 } from "@/libs/client/utils";
 import { DAYOFWEEK } from "@/libs/constants";
 import { downloadPayList } from "@/component/page/pay/excelDownload/downloadPayList";
+import { getPaidCnt } from "@/app/(tabBar)/main/api";
 
-const DownloadPayListBtn = () => {
+const DownloadPayListBtn = ({
+  year,
+  month,
+}: {
+  year: number;
+  month: number;
+}) => {
   const [loading, setLoading] = useState(false);
-  const year = getYear(new Date());
-  const month = getMonth(new Date()) + 1;
   const [members, setMembers] = useState<IMemberWithSchedules[]>([]);
   const [total, setTotal] = useState<number>();
+  const [paid, setPaid] = useState<number>();
+
   useEffect(() => {
     setLoading(true);
     const fetchMembers = async () => {
@@ -30,11 +37,12 @@ const DownloadPayListBtn = () => {
             query: "",
             year,
             month,
+            payStatus: 0,
             isAll: true,
           },
         });
         if (response) {
-          console.log("members response", response);
+          console.log("pay response", response);
           setMembers(response.members);
           setTotal(response.total);
         }
@@ -43,39 +51,55 @@ const DownloadPayListBtn = () => {
       }
     };
 
+    const fetchPaidCnt = async () => {
+      try {
+        const response = await getPaidCnt(year, month);
+        if (response) {
+          console.log("paidCnt response", response);
+          setPaid(response);
+        }
+      } catch (e) {
+        return new Error("error fetch paidCnt");
+      }
+    };
+
     fetchMembers();
+    fetchPaidCnt();
     setLoading(false);
-  }, []);
+  }, [year, month]);
 
   const header = [
     { header: "이름", key: "name" },
     { header: "연락처", key: "phone" },
     { header: "담당", key: "worker" },
-    { header: "납부여부", key: "pay" },
+    { header: "수강료", key: "lessonFee" },
+    { header: "납부여부", key: "payment" },
+    { header: "상태", key: "status" },
   ];
 
   const content = members.map((member) => {
-    const formattedDayOfWeek = member?.Schedule?.map(
-      (sch) => DAYOFWEEK[sch.dayOfWeek],
-    ).join(", ");
-    const formattedTimes = member.Schedule?.map(
-      (sch) =>
-        `${format(sch.startTime || "", "HH:mm")} ~ ${format(sch.endTime || "", "HH:mm")}`,
-    ).join(", ");
+    const payment =
+      member.status === 0 && member.endDate
+        ? ""
+        : member.status < 0 ||
+            (member?.Payment &&
+              member?.Payment[0] &&
+              member?.Payment[0]?.lessonFee &&
+              member?.Payment[0]?.lessonFee < 0)
+          ? ""
+          : member?.Payment && member?.Payment?.length > 0
+            ? "납부"
+            : "미납";
     return {
       name: member.name,
       phone: formatPhone(member.phone),
-      birth: dateFormattedtoKor(member?.birth),
-      job: member.job,
-      dayOfWeek: formattedDayOfWeek,
-      times: formattedTimes,
+      worker: member.worker?.name,
       lessonFee:
         formatCurrency(
           (member.Schedule && member.Schedule[0]?.lessonFee) || "",
         ) || "-",
-      worker: member.worker?.name,
-      startDate: dateFormattedtoKor(member?.startDate),
-      status: member.status === 0 ? "중단" : member.status < 0 ? "탈퇴" : "",
+      payment: payment,
+      status: member.status < 0 ? "중단" : member.status === 0 ? "탈퇴" : "",
     };
   });
 
@@ -110,7 +134,9 @@ const DownloadPayListBtn = () => {
       isButtonDisabled={members.length === 0}
       onClick={() => {
         downloadPayList({
-          title: `납부 명단 출력_${format(new Date(), "yyyy년 MM월")}`,
+          title: `납부 명단 출력_${year}년 ${month}월`,
+          total,
+          paid,
           header,
           content,
         });

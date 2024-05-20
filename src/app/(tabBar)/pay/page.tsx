@@ -15,7 +15,7 @@ const Page = ({
 
   return (
     <>
-      <PayHeader />
+      <PayHeader year={year} month={month} />
       <PayList query={query} year={year} month={month} />
     </>
   );

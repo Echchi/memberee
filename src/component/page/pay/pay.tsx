@@ -4,7 +4,11 @@ import Tag from "@/component/tag";
 import { Member } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
-import { dateFormattedtoDot, dateFormattedtoKor } from "@/libs/client/utils";
+import {
+  dateFormattedtoDot,
+  dateFormattedtoKor,
+  formatCurrency,
+} from "@/libs/client/utils";
 
 const Pay = ({ member }: { member: IMemberWithSchedules }) => {
   const router = useRouter();
@@ -17,6 +21,11 @@ const Pay = ({ member }: { member: IMemberWithSchedules }) => {
       <td>{member.name}</td>
       <td>{member.phone}</td>
       <td>{member.worker?.name}</td>
+      <td>
+        {formatCurrency(
+          (member.Schedule && member.Schedule[0]?.lessonFee) || "",
+        ) || "-"}
+      </td>
 
       <td className="flex justify-center items-center">
         {member.status === 0 && member.endDate ? (

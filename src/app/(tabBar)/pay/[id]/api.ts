@@ -34,8 +34,11 @@ export async function getCompany() {
 }
 
 export const createPay = async (param: ICreatePayment) => {
+  const session = await getSession();
+  const companyId = session.company;
   const createPay = await db.payment.create({
     data: {
+      companyId,
       memberId: param.memberId,
       workerId: param?.workerId,
       forYear: Number(param?.forYear),

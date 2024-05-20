@@ -14,12 +14,10 @@ const PayList = ({
   query,
   year,
   month,
-  setDesc,
 }: {
   query?: string;
   year?: number;
   month?: number;
-  setDesc?: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [members, setMembers] = useState<IMemberWithSchedules[]>();
   const [total, setTotal] = useState<number>();
@@ -104,7 +102,7 @@ const PayList = ({
                       ))}
                   </select>
                 </td>
-
+                <td>수강료</td>
                 <td>
                   <select
                     className="bg-transparent outline-none focus:outline-none cursor-pointer"
