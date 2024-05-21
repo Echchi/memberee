@@ -50,6 +50,7 @@ const Page = ({ params }: { params: { id: string } }) => {
 
     fetchMember();
   }, [id]);
+
   useEffect(() => {
     if (payment.length > 0) {
       const stopMonths = payment.filter(
@@ -83,10 +84,6 @@ const Page = ({ params }: { params: { id: string } }) => {
     };
     fetchCompany();
   }, [member]);
-
-  // useEffect(() => {
-  //   console.log("totalPeriod", totalPeriod);
-  // }, [totalPeriod]);
 
   useEffect(() => {
     setPaymentCnt(payment.length);

@@ -92,6 +92,9 @@
     .amber_btn{
         @apply !bg-amber-400 hover:!bg-amber-300 active:!bg-amber-500
     }
+    .orange_btn{
+        @apply !bg-orange-400 hover:!bg-orange-300 active:!bg-orange-500
+    }
 
 }
 

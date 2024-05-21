@@ -7,6 +7,7 @@ import {
   dateFormattedtoKor,
   dateFormattedtoNum,
   formatCurrency,
+  formatKorDate,
   formatPhone,
   generatePaymentDates,
 } from "@/libs/client/utils";
@@ -206,16 +207,21 @@ const Page = ({ params }: { params: { id: string } }) => {
       )}
       <form className="box justify-center flex-col" action={action}>
         <div className="col-span-2 flex justify-end items-center">
-          <div className="hidden md:flex items-center justify-end space-x-4 w-full *:w-32">
-            <div>
+          <div className="relative hidden md:flex items-center justify-end w-full">
+            {member && member?.status < 0 && (
+              <p className="absolute left-0 rounded-full  bg-amber-400 py-2 px-4 text-amber-700 font-semibold">
+                {format(member?.suspendedDate || "", "yyyy년 MM월 dd일")} 부터
+                중단 상태의 회원입니다
+              </p>
+            )}
+            <div className="flex space-x-4 *:w-32">
               <Button
                 onClick={() => router.push("/member")}
                 text={"목록"}
                 type={"button"}
                 className="my-2 !bg-gray-400/80 hover:!bg-gray-400/50 active:!bg-gray-400"
               />
-            </div>
-            <div>
+
               <Button text="출력" type={"button"} className="my-2" />
             </div>
           </div>
@@ -481,7 +487,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 text={member && member?.status < 0 ? "중단 취소" : "중단"}
                 className={cls(
                   "!w-1/6",
-                  member && member?.status < 0 ? "amber_btn" : "gray_btn",
+                  member && member?.status < 0 ? "amber_btn" : "orange_btn",
                 )}
                 type={"button"}
                 onClick={

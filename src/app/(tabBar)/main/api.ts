@@ -68,6 +68,7 @@ export const getPaidCnt = async (year?: number, month?: number) => {
   const companyId = session.company;
   const paids = await db.payment.count({
     where: {
+      companyId: companyId,
       ...(year && { forYear: year }),
       ...(month && { forMonth: month }),
       lessonFee: { not: -1 },

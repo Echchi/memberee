@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { cls, dateFormattedtoKor } from "@/libs/client/utils";
 import Button from "@/component/button/button";
 import Modal from "@/component/modal";
@@ -35,11 +35,15 @@ const List = ({
   const [registerModal, setRegisterModalOpen] = useState(false);
   const [confirmModal, setConfirmModalOpen] = useState(false);
   const [listItem, setListItem] = useState<IPay[]>([]);
+  const [filterlistItem, setFilterListItem] = useState<IPay[]>([]);
   const [selectedPay, setSelectedPay] = useState<IPay | null>(null);
-
+  const [yearList, setYearList] = useState<Set<string>>(new Set());
+  const [year, setYear] = useState("");
   useEffect(() => {
+    const newSet = new Set<string>();
     const items = totalPeriod.map((day, index) => {
       const year = day.slice(0, 4);
+      newSet.add(year);
       const month = day.slice(4);
       const id = payment.find(
         (item) => item.forYear + "" === year && item.forMonth + "" === month,
@@ -69,6 +73,7 @@ const List = ({
         paymentDate: paymentDate,
       };
     });
+    setYearList(newSet);
     setListItem(items);
     console.log("pay Items", items);
   }, [totalPeriod, payment, member]);
@@ -81,6 +86,20 @@ const List = ({
     setSelectedPay(item);
     setConfirmModalOpen(true);
   };
+
+  const handleChangeYear = (event: ChangeEvent<HTMLSelectElement>) => {
+    const { value } = event.target;
+    console.log(value);
+    setYear(value);
+  };
+
+  useEffect(() => {
+    if (year) {
+      setFilterListItem(listItem.filter((item) => item.year === year));
+    } else {
+      setFilterListItem(listItem);
+    }
+  }, [year, listItem]);
 
   return (
     <>
@@ -117,50 +136,31 @@ const List = ({
         <table className="w-full table-auto">
           <thead>
             <tr className="bg-stone-100 font-semibold text-lg text-center *:py-3">
-              <td className="flex justify-center items-center">
-                연도
-                <svg
-                  // onClick={() => setYearDesc((prev) => !prev)}
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6 ml-2"
+              <td>
+                <select
+                  className="bg-transparent cursor-pointer outline-none"
+                  onChange={(event) => handleChangeYear(event)}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
-                  />
-                </svg>
+                  <option value={""}>연도</option>
+                  {yearList &&
+                    Array.from(yearList)
+                      .sort((a, b) => Number(b) - Number(a))
+                      .map((year) => (
+                        <option key={`payList_${year}`} value={year}>
+                          {year}
+                        </option>
+                      ))}
+                </select>
               </td>
               <td>
-                <div className="flex justify-center items-center">
-                  월
-                  <svg
-                    // onClick={() => setMonthDesc((prev) => !prev)}
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6 ml-2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
-                    />
-                  </svg>
-                </div>
+                <div className="flex justify-center items-center">월</div>
               </td>
               <td className="hidden md:block">납부방법</td>
               <td>납부일자</td>
             </tr>
           </thead>
           <tbody>
-            {listItem
+            {filterlistItem
               .sort((a, b) => {
                 if (Number(b.year) !== Number(a.year)) {
                   return Number(b.year) - Number(a.year);

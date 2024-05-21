@@ -86,7 +86,7 @@ const DownloadPayListBtn = ({
               member?.Payment[0] &&
               member?.Payment[0]?.lessonFee &&
               member?.Payment[0]?.lessonFee < 0)
-          ? ""
+          ? "-"
           : member?.Payment && member?.Payment?.length > 0
             ? "납부"
             : "미납";

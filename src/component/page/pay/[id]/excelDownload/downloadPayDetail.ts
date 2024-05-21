@@ -1,7 +1,6 @@
 import ExcelJS from "exceljs";
-import { formatKorDate } from "@/libs/client/utils";
 import { format } from "date-fns";
-export const downloadPayList = ({
+export const downloadPayDetail = ({
   title,
   total,
   paid,
