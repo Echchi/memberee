@@ -13,21 +13,22 @@ import {
 } from "@/libs/client/utils";
 import { Payment } from ".prisma/client";
 import { getCompany } from "@/app/(tabBar)/pay/[id]/api";
-import List from "@/component/page/pay/[id]/list";
+import List, { IPay } from "@/component/page/pay/[id]/list";
 import Tag from "@/component/tag";
+import DownloadPayDetailBtn from "@/component/page/pay/[id]/excelDownload/downloadPayDetailBtn";
+import { format } from "date-fns";
 
 const Page = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
   const [yearDesc, setYearDesc] = useState(true);
   const [monthDesc, setMonthDesc] = useState(true);
-
   const [member, setMember] = useState<IMemberWithSchedules>();
   const [payment, setPayment] = useState<Payment[]>([]);
   const [stopPeriod, setStopPeriod] = useState(0);
   const [paymentCnt, setPaymentCnt] = useState(0);
   const [paymonth, setPayMonth] = useState<string[]>([]);
   const [totalPeriod, setTotalPeriod] = useState<string[]>([]);
-
+  const [listItem, setListItem] = useState<IPay[]>([]);
   const id = params.id;
   useEffect(() => {
     const fetchMember = async () => {
@@ -97,13 +98,19 @@ const Page = ({ params }: { params: { id: string } }) => {
     <>
       <div className="box flex-col">
         <div className="flex justify-end items-center">
-          <div className="hidden md:flex items-center justify-end space-x-4 w-full *:w-32">
+          <div className="relative hidden md:flex items-center justify-end space-x-4 w-full *:w-32">
             {member?.status === 0 && (
               <Tag
                 color={"stone"}
                 title={`${dateFormattedtoKor(member?.endDate)} 탈퇴`}
                 className={"!w-fit !py-4 *:!font-bold !px-4"}
               />
+            )}
+            {member && member?.status < 0 && (
+              <p className="absolute left-0 rounded-full bg-amber-400 py-2 px-4 text-amber-700 font-semibold !w-fit">
+                {format(member?.suspendedDate || "", "yyyy년 MM월 dd일")} 부터
+                중단 상태의 회원입니다
+              </p>
             )}
             <div>
               <Button
@@ -113,7 +120,12 @@ const Page = ({ params }: { params: { id: string } }) => {
               />
             </div>
             <div>
-              <Button text="출력" className="my-2" />
+              {/*<Button text="출력" className="my-2" />*/}
+              <DownloadPayDetailBtn
+                member={member || null}
+                listItem={listItem}
+                record={`${paymentCnt}건 / ${totalPeriod.length - stopPeriod}건`}
+              />
             </div>
           </div>
         </div>
@@ -148,13 +160,19 @@ const Page = ({ params }: { params: { id: string } }) => {
           />
           <Input
             type={"div"}
-            label={"미납/ 총 납부"}
-            value={`${totalPeriod.length - paymentCnt - stopPeriod}건 / ${totalPeriod.length - stopPeriod}건`}
+            label={"납부/ 총 납부"}
+            value={`${paymentCnt}건 / ${totalPeriod.length - stopPeriod}건`}
             className="hidden md:flex h-16 border-t-0 lg:text-lg"
           />
         </div>
         {member && (
-          <List member={member} payment={payment} totalPeriod={totalPeriod} />
+          <List
+            member={member}
+            payment={payment}
+            totalPeriod={totalPeriod}
+            listItem={listItem}
+            setListItem={setListItem}
+          />
         )}
       </div>
     </>

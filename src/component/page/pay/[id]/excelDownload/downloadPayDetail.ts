@@ -2,14 +2,12 @@ import ExcelJS from "exceljs";
 import { format } from "date-fns";
 export const downloadPayDetail = ({
   title,
-  total,
-  paid,
+  memberData,
   header,
   content,
 }: {
   title: string;
-  total?: number;
-  paid?: number;
+  memberData: any;
   header?: any;
   content?: any;
 }) => {
@@ -25,7 +23,7 @@ export const downloadPayDetail = ({
   });
 
   // 셀 병합
-  ws.mergeCells("A1:F2");
+  ws.mergeCells("A1:E2");
 
   ws.getCell("A1").value = {
     richText: [
@@ -50,22 +48,15 @@ export const downloadPayDetail = ({
 
   ws.getCell("A1").alignment = { horizontal: "center", vertical: "middle" };
   ws.getRow(1).height = 52;
-
-  ws.mergeCells("A3:C3");
+  //--------------------------------------------------------
 
   ws.getCell("A3").value = {
     richText: [
       {
-        text: format(new Date(), "yyyy. MM. dd."),
-        font: { size: 12, bold: true },
+        text: "이름",
+        font: { size: 15, bold: true },
       },
     ],
-  };
-
-  ws.getCell("A3").fill = {
-    type: "pattern",
-    pattern: "solid",
-    fgColor: { argb: "f5f5f4" },
   };
 
   ws.getCell("A3").border = {
@@ -73,9 +64,24 @@ export const downloadPayDetail = ({
     bottom: { style: "thin" },
   };
 
-  ws.mergeCells("D3:F3");
+  ws.getCell("B3").value = {
+    richText: [
+      {
+        text: memberData.name,
+        font: { size: 15, bold: true },
+      },
+    ],
+  };
 
-  ws.getCell("F3").value = {
+  ws.getCell("B3").border = {
+    right: { style: "thin" },
+    left: { style: "thin" },
+    bottom: { style: "thin" },
+  };
+
+  ws.mergeCells("D3:E3");
+
+  ws.getCell("E3").value = {
     richText: [
       {
         text: `${paid ? paid : 0} 명 납부 / 총 ${total} 명`,
@@ -84,18 +90,18 @@ export const downloadPayDetail = ({
     ],
   };
 
-  ws.getCell("F3").fill = {
+  ws.getCell("E3").fill = {
     type: "pattern",
     pattern: "solid",
     fgColor: { argb: "f5f5f4" },
   };
 
-  ws.getCell("F3").border = {
+  ws.getCell("E3").border = {
     bottom: { style: "thin" },
     right: { style: "thin" },
   };
 
-  ws.getCell("F3").alignment = {
+  ws.getCell("E3").alignment = {
     horizontal: "right",
     vertical: "middle",
   };
