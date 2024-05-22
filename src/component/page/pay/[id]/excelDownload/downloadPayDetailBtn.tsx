@@ -66,6 +66,7 @@ const DownloadPayDetailBtn = ({
           memberData,
           header,
           content,
+          record,
         });
       }}
     />

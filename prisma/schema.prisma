@@ -109,9 +109,8 @@ model Schedule {
   updatedAt      DateTime         @updatedAt
   Attendance     Attendance?
   ScheduleMember ScheduleMember[]
-
-  Salary   Salary? @relation(fields: [salaryId], references: [id])
-  salaryId Int?
+  Salary         Salary?          @relation(fields: [salaryId], references: [id])
+  salaryId       Int?
 
   @@index([workerId])
   @@index([memberId])

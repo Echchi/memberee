@@ -1,17 +1,23 @@
 import ExcelJS from "exceljs";
 import { format } from "date-fns";
+import { formatPhone } from "@/libs/client/utils";
 export const downloadPayDetail = ({
   title,
   memberData,
   header,
   content,
+  record,
 }: {
   title: string;
   memberData: any;
   header?: any;
-  content?: any;
+  record?: any;
+  content: any;
 }) => {
+  console.log("title", title);
+  console.log("memberData", memberData);
   console.log("content", content);
+  console.log("record", record);
 
   const wb = new ExcelJS.Workbook();
   const ws = wb.addWorksheet(title, {
@@ -61,7 +67,13 @@ export const downloadPayDetail = ({
 
   ws.getCell("A3").border = {
     left: { style: "thin" },
+    right: { style: "thin" },
     bottom: { style: "thin" },
+  };
+
+  ws.getCell("A3").alignment = {
+    horizontal: "left",
+    vertical: "middle",
   };
 
   ws.getCell("B3").value = {
@@ -75,35 +87,122 @@ export const downloadPayDetail = ({
 
   ws.getCell("B3").border = {
     right: { style: "thin" },
-    left: { style: "thin" },
     bottom: { style: "thin" },
   };
 
-  ws.mergeCells("D3:E3");
+  ws.getCell("B3").alignment = {
+    horizontal: "center",
+    vertical: "middle",
+  };
 
-  ws.getCell("E3").value = {
+  ws.getCell("C3").value = {
     richText: [
       {
-        text: `${paid ? paid : 0} 명 납부 / 총 ${total} 명`,
-        font: { size: 12, bold: true },
+        text: "직원",
+        font: { size: 15, bold: true },
       },
     ],
   };
 
-  ws.getCell("E3").fill = {
+  ws.getCell("C3").border = {
+    right: { style: "thin" },
+    bottom: { style: "thin" },
+  };
+
+  ws.getCell("C3").alignment = {
+    horizontal: "left",
+    vertical: "middle",
+  };
+
+  ws.mergeCells("D3:E3");
+
+  ws.getCell("D3").value = {
+    richText: [
+      {
+        text: memberData.worker.name,
+        font: { size: 15, bold: true },
+      },
+    ],
+  };
+
+  ws.getCell("D3").fill = {
     type: "pattern",
     pattern: "solid",
     fgColor: { argb: "f5f5f4" },
   };
-
-  ws.getCell("E3").border = {
-    bottom: { style: "thin" },
-    right: { style: "thin" },
+  ws.getCell("A3").value = {
+    richText: [
+      {
+        text: "연락처",
+        font: { size: 15, bold: true },
+      },
+    ],
   };
 
-  ws.getCell("E3").alignment = {
-    horizontal: "right",
+  ws.getCell("A4").border = {
+    left: { style: "thin" },
+    right: { style: "thin" },
+    bottom: { style: "thin" },
+  };
+
+  ws.getCell("A4").alignment = {
+    horizontal: "left",
     vertical: "middle",
+  };
+
+  ws.getCell("B4").value = {
+    richText: [
+      {
+        text: formatPhone(memberData.phone),
+        font: { size: 15, bold: true },
+      },
+    ],
+  };
+
+  ws.getCell("B4").border = {
+    right: { style: "thin" },
+    bottom: { style: "thin" },
+  };
+
+  ws.getCell("B4").alignment = {
+    horizontal: "center",
+    vertical: "middle",
+  };
+
+  ws.getCell("C4").value = {
+    richText: [
+      {
+        text: "납부 /총 납부",
+        font: { size: 15, bold: true },
+      },
+    ],
+  };
+
+  ws.getCell("C4").border = {
+    right: { style: "thin" },
+    bottom: { style: "thin" },
+  };
+
+  ws.getCell("C4").alignment = {
+    horizontal: "left",
+    vertical: "middle",
+  };
+
+  ws.mergeCells("D4:E4");
+
+  ws.getCell("D4").value = {
+    richText: [
+      {
+        text: record,
+        font: { size: 15, bold: true },
+      },
+    ],
+  };
+
+  ws.getCell("D4").fill = {
+    type: "pattern",
+    pattern: "solid",
+    fgColor: { argb: "f5f5f4" },
   };
 
   ws.getRow(2).height = 20;
@@ -138,8 +237,16 @@ export const downloadPayDetail = ({
   // 데이터 행 추가
   content.forEach((item: any) => {
     const newRow = ws.addRow(header.map((h: any) => item[h.key]));
-    newRow.alignment = { horizontal: "center", vertical: "middle" };
     newRow.height = 32;
+    newRow.eachCell((cell) => {
+      cell.alignment = { horizontal: "center", vertical: "middle" };
+      cell.border = {
+        top: { style: "thin" },
+        left: { style: "thin" },
+        bottom: { style: "thin" },
+        right: { style: "thin" },
+      };
+    });
   });
 
   let promise: any[] = [];
