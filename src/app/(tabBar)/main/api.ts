@@ -3,7 +3,6 @@ import db from "@/libs/server/db";
 import getSession from "@/libs/client/session";
 import { getCompany } from "@/app/(tabBar)/pay/[id]/api";
 import { getMonth, getYear } from "date-fns";
-import { isAfterYearMonth } from "@/libs/client/utils";
 import { redirect } from "next/navigation";
 
 export async function getTotalCnt(year?: number, month?: number) {
@@ -68,10 +67,10 @@ export const getPaidCnt = async (year?: number, month?: number) => {
   const companyId = session.company;
   const paids = await db.payment.count({
     where: {
-      companyId: companyId,
       ...(year && { forYear: year }),
       ...(month && { forMonth: month }),
       lessonFee: { not: -1 },
+      companyId: companyId,
     },
   });
 

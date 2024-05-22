@@ -134,7 +134,7 @@ const DownloadPayListBtn = ({
       isButtonDisabled={members.length === 0}
       onClick={() => {
         downloadPayList({
-          title: `납부 명단 출력_${year}년 ${month}월`,
+          title: `${year}년 ${month}월 납부 명단`,
           total,
           paid,
           header,

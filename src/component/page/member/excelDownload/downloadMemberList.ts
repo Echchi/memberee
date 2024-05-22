@@ -133,6 +133,12 @@ export const downloadMemberList = ({
     const newRow = ws.addRow(header.map((h: any) => item[h.key]));
     newRow.alignment = { horizontal: "center", vertical: "middle" };
     newRow.height = 32;
+    newRow.border = {
+      top: { style: "thin" },
+      left: { style: "thin" },
+      bottom: { style: "thin" },
+      right: { style: "thin" },
+    };
   });
 
   let promise: any[] = [];

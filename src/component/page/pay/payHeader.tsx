@@ -8,7 +8,6 @@ import DownloadPayListBtn from "@/component/page/pay/excelDownload/downloadPayLi
 const PayHeader = ({ year, month }: { year: number; month: number }) => {
   return (
     <>
-      <MonthChanger />
       <div className="my-3 flex justify-between">
         <Search placeholder={"이름,   연락처"} />
         <div className="hidden lg:block w-1/12">

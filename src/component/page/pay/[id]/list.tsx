@@ -1,6 +1,6 @@
 "use client";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { cls, dateFormattedtoKor } from "@/libs/client/utils";
+import { cls, dateFormattedtoKor, formatCurrency } from "@/libs/client/utils";
 import Button from "@/component/button/button";
 import Modal from "@/component/modal";
 
@@ -27,14 +27,18 @@ const List = ({
   payment,
   member,
   totalPeriod,
+  listItem,
+  setListItem,
 }: {
   payment: Payment[];
   member: IMemberWithSchedules;
   totalPeriod: string[];
+  listItem: IPay[];
+  setListItem: React.Dispatch<React.SetStateAction<IPay[]>>;
 }) => {
   const [registerModal, setRegisterModalOpen] = useState(false);
   const [confirmModal, setConfirmModalOpen] = useState(false);
-  const [listItem, setListItem] = useState<IPay[]>([]);
+  // const [listItem, setListItem] = useState<IPay[]>([]);
   const [filterlistItem, setFilterListItem] = useState<IPay[]>([]);
   const [selectedPay, setSelectedPay] = useState<IPay | null>(null);
   const [yearList, setYearList] = useState<Set<string>>(new Set());
@@ -152,10 +156,9 @@ const List = ({
                       ))}
                 </select>
               </td>
-              <td>
-                <div className="flex justify-center items-center">월</div>
-              </td>
-              <td className="hidden md:block">납부방법</td>
+              <td>월</td>
+              <td className="hidden md:table-cell">납부방법</td>
+              <td className="hidden md:table-cell">금액</td>
               <td>납부일자</td>
             </tr>
           </thead>
@@ -185,8 +188,11 @@ const List = ({
                 >
                   <td>{item.year}</td>
                   <td>{item.month}</td>
-                  <td className="hidden md:block">
+                  <td className="hidden md:table-cell">
                     {item.method ? item.method : "-"}
+                  </td>
+                  <td className="hidden md:table-cell">
+                    {item.method ? formatCurrency(item.lessonFee) : "-"}
                   </td>
                   <td>
                     {item.lessonFee < 0 ? (

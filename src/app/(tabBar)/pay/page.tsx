@@ -1,8 +1,10 @@
+"use client";
 import React from "react";
 
 import PayList from "@/component/page/pay/payList";
 import PayHeader from "@/component/page/pay/payHeader";
 import { getMonth, getYear } from "date-fns";
+import MonthChanger from "@/component/monthChanger";
 
 const Page = ({
   searchParams,
@@ -15,6 +17,7 @@ const Page = ({
 
   return (
     <>
+      <MonthChanger />
       <PayHeader year={year} month={month} />
       <PayList query={query} year={year} month={month} />
     </>

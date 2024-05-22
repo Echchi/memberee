@@ -12,13 +12,12 @@ const MonthChanger = () => {
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
-
     const year = getYear(date) + "";
     const month = getMonth(date) + 1 + "";
     params.set("year", year);
     params.set("month", month);
     replace(`${pathname}?${params.toString()}`);
-  }, [date]);
+  }, [date, searchParams]);
 
   return (
     <div className="flex justify-center items-center font-semibold text-2xl mt-3">
