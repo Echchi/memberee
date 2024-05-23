@@ -126,7 +126,7 @@ const Page = async ({
 
       <div className="my-3 flex justify-end">
         <div className="hidden lg:block w-1/12">
-          <Button text={"출력"} className="py-3" />
+          {/*<Button text={"출력"} className="py-3" />*/}
         </div>
       </div>
 

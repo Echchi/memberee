@@ -115,7 +115,7 @@ const DownloadMemberListBtn = () => {
       isButtonDisabled={members.length === 0}
       onClick={() => {
         downloadMemberList({
-          title: `회원 명단 출력_${dateFormattedtoNum(new Date())}`,
+          title: `회원 명단 출력`,
           header,
           total,
           content,

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { DAYOFWEEK } from "@/libs/constants";
-import { cls, dateFormattedtoKor } from "@/libs/client/utils";
+import { cls, dateFormattedtoKor, formatPhone } from "@/libs/client/utils";
 import { useRouter } from "next/navigation";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 const Member = ({ member }: { member: IMemberWithSchedules }) => {
@@ -19,7 +19,7 @@ const Member = ({ member }: { member: IMemberWithSchedules }) => {
           )}
         >
           <td>{member.name}</td>
-          <td>{member.phone}</td>
+          <td>{formatPhone(member.phone)}</td>
           <td>{member.worker?.name}</td>
           <td>
             {member.Schedule?.map(

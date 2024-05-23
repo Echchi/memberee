@@ -1,23 +1,21 @@
 import ExcelJS from "exceljs";
-import { format } from "date-fns";
-import { formatPhone } from "@/libs/client/utils";
+import { dateFormattedtoNum, formatPhone } from "@/libs/client/utils";
 export const downloadPayDetail = ({
   title,
   memberData,
   header,
   content,
-  record,
 }: {
   title: string;
   memberData: any;
   header?: any;
-  record?: any;
+
   content: any;
 }) => {
   console.log("title", title);
   console.log("memberData", memberData);
+  console.log("header,", header);
   console.log("content", content);
-  console.log("record", record);
 
   const wb = new ExcelJS.Workbook();
   const ws = wb.addWorksheet(title, {
@@ -48,19 +46,20 @@ export const downloadPayDetail = ({
 
   ws.getCell("A1").border = {
     top: { style: "thin" },
+    bottom: { style: "thin" },
     left: { style: "thin" },
     right: { style: "thin" },
   };
 
   ws.getCell("A1").alignment = { horizontal: "center", vertical: "middle" };
   ws.getRow(1).height = 52;
-  //--------------------------------------------------------
+  //-------------------------------------------------------- 이름
 
   ws.getCell("A3").value = {
     richText: [
       {
         text: "이름",
-        font: { size: 15, bold: true },
+        font: { size: 12, bold: true },
       },
     ],
   };
@@ -71,16 +70,22 @@ export const downloadPayDetail = ({
     bottom: { style: "thin" },
   };
 
+  ws.getCell("A3").fill = {
+    type: "pattern",
+    pattern: "solid",
+    fgColor: { argb: "f5f5f4" },
+  };
+
   ws.getCell("A3").alignment = {
-    horizontal: "left",
+    horizontal: "center",
     vertical: "middle",
   };
 
   ws.getCell("B3").value = {
     richText: [
       {
-        text: memberData.name,
-        font: { size: 15, bold: true },
+        text: memberData?.name ?? "-",
+        font: { size: 12, bold: true },
       },
     ],
   };
@@ -90,16 +95,24 @@ export const downloadPayDetail = ({
     bottom: { style: "thin" },
   };
 
+  // ws.getCell("B3").fill = {
+  //   type: "pattern",
+  //   pattern: "solid",
+  //   fgColor: { argb: "f5f5f4" },
+  // };
+
   ws.getCell("B3").alignment = {
     horizontal: "center",
     vertical: "middle",
   };
 
+  //-------------------------------------------------------- 담당
+
   ws.getCell("C3").value = {
     richText: [
       {
-        text: "직원",
-        font: { size: 15, bold: true },
+        text: "담당",
+        font: { size: 12, bold: true },
       },
     ],
   };
@@ -110,8 +123,14 @@ export const downloadPayDetail = ({
   };
 
   ws.getCell("C3").alignment = {
-    horizontal: "left",
+    horizontal: "center",
     vertical: "middle",
+  };
+
+  ws.getCell("C3").fill = {
+    type: "pattern",
+    pattern: "solid",
+    fgColor: { argb: "f5f5f4" },
   };
 
   ws.mergeCells("D3:E3");
@@ -119,22 +138,29 @@ export const downloadPayDetail = ({
   ws.getCell("D3").value = {
     richText: [
       {
-        text: memberData.worker.name,
-        font: { size: 15, bold: true },
+        text: memberData?.worker ?? "-",
+        font: { size: 12, bold: true },
       },
     ],
   };
 
-  ws.getCell("D3").fill = {
-    type: "pattern",
-    pattern: "solid",
-    fgColor: { argb: "f5f5f4" },
+  ws.getCell("D3").border = {
+    right: { style: "thin" },
+    bottom: { style: "thin" },
   };
-  ws.getCell("A3").value = {
+
+  ws.getCell("D3").alignment = {
+    horizontal: "center",
+    vertical: "middle",
+  };
+
+  //-------------------------------------------------------- 연락처
+
+  ws.getCell("A4").value = {
     richText: [
       {
         text: "연락처",
-        font: { size: 15, bold: true },
+        font: { size: 12, bold: true },
       },
     ],
   };
@@ -145,16 +171,22 @@ export const downloadPayDetail = ({
     bottom: { style: "thin" },
   };
 
+  ws.getCell("A4").fill = {
+    type: "pattern",
+    pattern: "solid",
+    fgColor: { argb: "f5f5f4" },
+  };
+
   ws.getCell("A4").alignment = {
-    horizontal: "left",
+    horizontal: "center",
     vertical: "middle",
   };
 
   ws.getCell("B4").value = {
     richText: [
       {
-        text: formatPhone(memberData.phone),
-        font: { size: 15, bold: true },
+        text: formatPhone(memberData?.phone ?? "-"),
+        font: { size: 12, bold: true },
       },
     ],
   };
@@ -164,16 +196,24 @@ export const downloadPayDetail = ({
     bottom: { style: "thin" },
   };
 
+  // ws.getCell("B4").fill = {
+  //   type: "pattern",
+  //   pattern: "solid",
+  //   fgColor: { argb: "f5f5f4" },
+  // };
+
   ws.getCell("B4").alignment = {
     horizontal: "center",
     vertical: "middle",
   };
 
+  //-------------------------------------------------------- 납부
+
   ws.getCell("C4").value = {
     richText: [
       {
         text: "납부 /총 납부",
-        font: { size: 15, bold: true },
+        font: { size: 12, bold: true },
       },
     ],
   };
@@ -184,8 +224,14 @@ export const downloadPayDetail = ({
   };
 
   ws.getCell("C4").alignment = {
-    horizontal: "left",
+    horizontal: "center",
     vertical: "middle",
+  };
+
+  ws.getCell("C4").fill = {
+    type: "pattern",
+    pattern: "solid",
+    fgColor: { argb: "f5f5f4" },
   };
 
   ws.mergeCells("D4:E4");
@@ -193,21 +239,32 @@ export const downloadPayDetail = ({
   ws.getCell("D4").value = {
     richText: [
       {
-        text: record,
-        font: { size: 15, bold: true },
+        text: memberData?.record,
+        font: { size: 12, bold: true },
       },
     ],
   };
 
-  ws.getCell("D4").fill = {
-    type: "pattern",
-    pattern: "solid",
-    fgColor: { argb: "f5f5f4" },
+  ws.getCell("D4").border = {
+    right: { style: "thin" },
+    bottom: { style: "thin" },
+  };
+
+  // ws.getCell("D4").fill = {
+  //   type: "pattern",
+  //   pattern: "solid",
+  //   fgColor: { argb: "f5f5f4" },
+  // };
+
+  ws.getCell("D4").alignment = {
+    horizontal: "center",
+    vertical: "middle",
   };
 
   ws.getRow(2).height = 20;
 
   ws.getRow(3).height = 30;
+  ws.getRow(4).height = 30;
 
   ws.columns = header.map((col: any, index: number) => ({
     key: col.key,
@@ -249,17 +306,14 @@ export const downloadPayDetail = ({
     });
   });
 
-  let promise: any[] = [];
-  Promise.all(promise).then(() => {
-    wb.xlsx.writeBuffer().then((b) => {
-      let a = new Blob([b]);
-      let url = window.URL.createObjectURL(a);
+  wb.xlsx.writeBuffer().then((b) => {
+    let a = new Blob([b]);
+    let url = window.URL.createObjectURL(a);
 
-      let elem = document.createElement("a");
-      elem.href = url;
-      elem.download = `${title}.xlsx`;
-      elem.click();
-      elem.remove();
-    });
+    let elem = document.createElement("a");
+    elem.href = url;
+    elem.download = `${title}_${dateFormattedtoNum(new Date())}.xlsx`;
+    elem.click();
+    elem.remove();
   });
 };

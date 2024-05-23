@@ -10,6 +10,7 @@ import Classes from "@/component/page/class/classes";
 import { getClasses } from "@/app/(tabBar)/class/api";
 import { Member, Schedule } from "@prisma/client";
 import { getMonth, getYear } from "date-fns";
+import DownloadClassBtn from "@/component/page/class/excelDownload/downloadClassBtn";
 
 const Page = ({
   searchParams,
@@ -60,7 +61,12 @@ const Page = ({
         />
 
         <div className="hidden lg:block w-1/12">
-          <Button text={"출력"} className="py-3" />
+          {/*<Button text={"출력"} className="py-3" />*/}
+          <DownloadClassBtn
+            classes={classes}
+            sub={`${year}년 ${month}월`}
+            worker={selectedWorker}
+          />
         </div>
       </div>
       <div className="box mt-3 !pt-0 grid grid-cols-8 justify-items-center *:text-lg *:font-semibold gap-3 overflow-y-auto h-[70vh]">

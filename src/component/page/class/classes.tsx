@@ -23,6 +23,7 @@ const Classes = ({ classes }: { classes: Schedule[] }) => {
   const [scheduleByDay, setScheduleByDay] = useState(
     Array.from({ length: 7 }, () => []),
   );
+
   useEffect(() => {
     const newScheduleByDay: any[] = Array.from({ length: 7 }, () => []);
 

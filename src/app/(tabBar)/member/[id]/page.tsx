@@ -249,7 +249,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           />
           <Input
             isLong={true}
-            type={isEdit ? "text" : "div"}
+            type={isEdit ? "text" : "tel"}
             label={"연락처"}
             value={
               !isEdit

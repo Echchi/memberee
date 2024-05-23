@@ -103,6 +103,25 @@ const Input: React.FC<
             </span>
           )}
         </div>
+      ) : type === "tel" ? (
+        <a
+          href={`tel:${typeof value === "string" && value.replaceAll("-", "")}`}
+          className={cls(
+            "inner_input_res",
+            icon && isLong ? "lg:pl-20 pl-14 pr-2" : "",
+            icon && !isLong ? "lg:px-20 px-14" : "",
+            label && isLong ? "lg:pl-40 pl-20 pr-2" : "",
+            label && !isLong ? "lg:px-40 px-20" : "",
+            className ? `${className} !h-full` : "",
+          )}
+        >
+          {value || ""}
+          {selectDescription && (
+            <span className="ml-4 relative  font-medium text-xs lg:text-lg">
+              {selectDescription}
+            </span>
+          )}
+        </a>
       ) : type === "select" ? (
         <>
           <select

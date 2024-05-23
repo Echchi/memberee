@@ -1,17 +1,20 @@
 import ExcelJS from "exceljs";
 import { dateFormattedtoNum, formatKorDate } from "@/libs/client/utils";
 import { format } from "date-fns";
-export const downloadMemberList = ({
+export const downloadClass = ({
   title,
-  total,
+  sub,
   header,
   content,
 }: {
   title: string;
-  total?: number;
+  sub?: string;
   header?: any;
   content?: any;
 }) => {
+  console.log("title", title);
+  console.log("sub", sub);
+  console.log("header", header);
   console.log("content", content);
 
   const wb = new ExcelJS.Workbook();
@@ -24,7 +27,7 @@ export const downloadMemberList = ({
   });
 
   // 셀 병합
-  ws.mergeCells("A1:J2");
+  ws.mergeCells("A1:H2");
 
   ws.getCell("A1").value = {
     richText: [
@@ -50,13 +53,13 @@ export const downloadMemberList = ({
   ws.getCell("A1").alignment = { horizontal: "center", vertical: "middle" };
   ws.getRow(1).height = 52;
 
-  ws.mergeCells("A3:E3");
+  ws.mergeCells("A3:H3");
 
   ws.getCell("A3").value = {
     richText: [
       {
-        text: format(new Date(), "yyyy. MM. dd."),
-        font: { size: 12, bold: true },
+        text: sub || "",
+        font: { size: 14, bold: true },
       },
     ],
   };
@@ -69,34 +72,8 @@ export const downloadMemberList = ({
 
   ws.getCell("A3").border = {
     left: { style: "thin" },
-    bottom: { style: "thin" },
-  };
-
-  ws.mergeCells("F3:J3");
-
-  ws.getCell("F3").value = {
-    richText: [
-      {
-        text: `총 ${total} 명`,
-        font: { size: 12, bold: true },
-      },
-    ],
-  };
-
-  ws.getCell("F3").fill = {
-    type: "pattern",
-    pattern: "solid",
-    fgColor: { argb: "f5f5f4" },
-  };
-
-  ws.getCell("F3").border = {
-    bottom: { style: "thin" },
     right: { style: "thin" },
-  };
-
-  ws.getCell("F3").alignment = {
-    horizontal: "right",
-    vertical: "middle",
+    bottom: { style: "thin" },
   };
 
   ws.getRow(2).height = 20;

@@ -1,5 +1,5 @@
 import ExcelJS from "exceljs";
-import { formatKorDate } from "@/libs/client/utils";
+import { dateFormattedtoNum, formatKorDate } from "@/libs/client/utils";
 import { format } from "date-fns";
 export const downloadPayList = ({
   title,
@@ -145,17 +145,14 @@ export const downloadPayList = ({
     });
   });
 
-  let promise: any[] = [];
-  Promise.all(promise).then(() => {
-    wb.xlsx.writeBuffer().then((b) => {
-      let a = new Blob([b]);
-      let url = window.URL.createObjectURL(a);
+  wb.xlsx.writeBuffer().then((b) => {
+    let a = new Blob([b]);
+    let url = window.URL.createObjectURL(a);
 
-      let elem = document.createElement("a");
-      elem.href = url;
-      elem.download = `${title}.xlsx`;
-      elem.click();
-      elem.remove();
-    });
+    let elem = document.createElement("a");
+    elem.href = url;
+    elem.download = `${title}_${dateFormattedtoNum(new Date())}.xlsx`;
+    elem.click();
+    elem.remove();
   });
 };
