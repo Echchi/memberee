@@ -1,14 +1,32 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { cls } from "@/libs/client/utils";
 import { useRouter } from "next/navigation";
 import { LayoutProps } from "@/app/(tabBar)/template";
-
-const TopBar = ({ canGoBack, title }: LayoutProps) => {
+import { usePathname } from "next/navigation";
+const TopBar = ({ canGoBack }: LayoutProps) => {
   const router = useRouter();
+  const pathname = usePathname();
+  const [title, setTitle] = useState("");
   const onClick = () => {
     router.back();
   };
+  useEffect(() => {
+    if (pathname.includes("pay")) {
+      setTitle("납부 관리");
+    } else if (pathname.includes("member")) {
+      setTitle("회원 관리");
+    } else if (pathname.includes("main")) {
+      setTitle("홈");
+    } else if (pathname.includes("class")) {
+      setTitle("수업 관리");
+    } else if (pathname.includes("salary")) {
+      setTitle("납부 관리");
+    } else if (pathname.includes("account")) {
+      setTitle("계정 관리");
+    }
+  }, [pathname]);
+  console.log();
   return (
     <div className="md:hidden fixed bg-white w-full h-12 max-w-xl justify-center text-lg px-10 font-medium text-stone-800 border-b top-0 flex items-center z-10">
       {canGoBack ? (

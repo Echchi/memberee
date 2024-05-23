@@ -76,7 +76,7 @@ const Member = ({
       )}
       <div
         className={cls(
-          "box row-span-2 flex-col hover:shadow-lg cursor-pointer transition-all h-1/3 md:h-full",
+          "box row-span-2 flex-col hover:shadow-lg cursor-pointer transition-all h-96 md:h-full",
           registerOpen ? "" : "!cursor-default",
         )}
         onClick={() =>

@@ -10,7 +10,6 @@ import Transition from "@/component/pageTransition";
 import PageTransition from "@/component/pageTransition";
 
 export interface LayoutProps {
-  title?: string;
   hasTopBar?: boolean;
   canGoBack?: boolean;
   hasTabBar?: boolean;
@@ -18,7 +17,6 @@ export interface LayoutProps {
 }
 
 export default function Template({
-  title,
   hasTopBar = true,
   canGoBack = true,
   hasTabBar = true,
@@ -28,12 +26,12 @@ export default function Template({
     <div className="flex flex-col md:w-full md:max-w-full max-w-xl mx-auto min-h-screen bg-gradient-to-b from-white from-[1%] to-stone-100">
       <Web />
 
-      {hasTopBar ? <TopBar canGoBack={canGoBack} title={title} /> : null}
+      {hasTopBar ? <TopBar canGoBack={canGoBack} /> : null}
       <PageTransition>
         <div
           className={cls(
-            "md:pt-28 md:max-w-full md:w-[1400px] md:mx-auto px-3 lg:px-5 text-stone-800",
-            hasTabBar ? "pb-24" : "",
+            "md:pt-28 md:max-w-full md:w-[1400px] md:mx-auto px-3 lg:px-5 text-stone-800 min-h-fit",
+            hasTabBar ? "mb-20" : "",
             hasTopBar ? "pt-12" : "",
           )}
         >
