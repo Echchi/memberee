@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Input from "@/component/input";
 import {
   cls,
@@ -33,6 +33,7 @@ import { updateWorker } from "@/app/(tabBar)/worker/[id]/action";
 import ConfirmModal from "@/component/modal/confirmModal";
 import { Memo, Schedule } from "@prisma/client";
 import { getMemos } from "@/app/(tabBar)/member/[id]/api";
+import { PrintPdfBtn } from "@/component/pdf/printPdfBtn";
 
 export interface MemberWithSch extends Member {
   Schedule: Schedule[];
@@ -51,6 +52,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [loading, setLoading] = useState(false);
   const [memSlice, setMemSlice] = useState(1);
   const [memLoading, setMemLoading] = useState(false);
+  const workerRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const fetchWorker = async () => {
       try {
@@ -148,11 +150,15 @@ const Page = ({ params }: { params: { id: string } }) => {
               />
             </div>
             <div>
-              <Button text="출력" type="button" className="my-2" />
+              {/*<Button text="출력" type="button" className="my-2" />*/}
+              <PrintPdfBtn
+                title={`${worker?.name} 상세_${format(new Date(), "yyyyMMdd")}`}
+                content={workerRef}
+              />
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-2">
+        <div ref={workerRef} className="grid grid-cols-2">
           <div className="col-span-2 border border-x border-b-0 hidden md:flex bg-stone-100 text-stone-600 tracking-wider text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg ">
             직원 카드
           </div>

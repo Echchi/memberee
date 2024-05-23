@@ -10,7 +10,9 @@ interface WorkerListProps {
   selectedWorker?: number;
   isOnly?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-  setInitValue?: React.Dispatch<React.SetStateAction<string>>;
+  setInitValue?: React.Dispatch<
+    React.SetStateAction<{ id: string; name: string }>
+  >;
 }
 
 const WorkerList: React.FC<WorkerListProps> = ({
@@ -35,7 +37,9 @@ const WorkerList: React.FC<WorkerListProps> = ({
         }
       });
       const firstWorkerId = filterWorkerList[0]?.id.toString();
-      setInitValue && setInitValue(firstWorkerId);
+      const firstWorkerName = filterWorkerList[0]?.name;
+      setInitValue &&
+        setInitValue({ id: firstWorkerId, name: firstWorkerName });
       setWorkers(filterWorkerList);
     };
 

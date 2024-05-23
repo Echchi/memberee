@@ -199,7 +199,7 @@ enum Status {
 
 model Payment {
   id            Int       @id @default(autoincrement())
-  companyId     Int?      @default(-1)
+  companyId     Int       @default(-1)
   member        Member    @relation(fields: [memberId], references: [id], onDelete: Cascade)
   memberId      Int
   forYear       Int? // 어떤 연도에 대한 납부인지 나타내는 컬럼

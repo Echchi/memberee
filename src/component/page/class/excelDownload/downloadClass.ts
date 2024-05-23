@@ -76,13 +76,9 @@ export const downloadClass = ({
     bottom: { style: "thin" },
   };
 
-  ws.getRow(2).height = 20;
-
-  ws.getRow(3).height = 30;
-
   ws.columns = header.map((col: any, index: number) => ({
     key: col.key,
-    width: index === 5 ? 42 : 20,
+    width: 20,
     height: 30,
   }));
 

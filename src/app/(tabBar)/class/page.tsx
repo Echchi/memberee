@@ -19,12 +19,20 @@ const Page = ({
 }) => {
   const year = Number(searchParams?.year) || getYear(new Date());
   const month = Number(searchParams?.month) || getMonth(new Date());
-  const [initValue, setInitValue] = useState("");
+  const [initValue, setInitValue] = useState<{ id: string; name: string }>({
+    id: "",
+    name: "",
+  });
   const [selectedWorker, setSelectedWorker] = useState("");
+  const [selectedWorkerName, setSelectedWorkerName] = useState("");
   const [classes, setClasses] = useState<Schedule[]>([]);
   const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const classes = event?.target?.value;
-    setSelectedWorker(classes);
+    const workerId = event?.target?.value;
+    const selectedOptionIndex = event.target.selectedIndex;
+    const selectedOptionText = event.target.options[selectedOptionIndex].text;
+
+    setSelectedWorker(workerId);
+    setSelectedWorkerName(selectedOptionText);
   };
 
   useEffect(() => {
@@ -47,7 +55,8 @@ const Page = ({
   }, [selectedWorker, year, month]);
 
   useEffect(() => {
-    setSelectedWorker(initValue);
+    setSelectedWorker(initValue.id);
+    setSelectedWorkerName(initValue.name);
   }, [initValue]);
 
   return (
@@ -62,11 +71,11 @@ const Page = ({
 
         <div className="hidden lg:block w-1/12">
           {/*<Button text={"출력"} className="py-3" />*/}
-          <DownloadClassBtn
-            content={classes}
-            sub={`${year}년 ${month}월`}
-            worker={selectedWorker}
-          />
+          {/*<DownloadClassBtn*/}
+          {/*  content={classes}*/}
+          {/*  sub={`${year}년 ${month}월`}*/}
+          {/*  worker={selectedWorkerName}*/}
+          {/*/>*/}
         </div>
       </div>
       <div className="box mt-3 !pt-0 grid grid-cols-8 justify-items-center *:text-lg *:font-semibold gap-3 overflow-y-auto h-[70vh]">
