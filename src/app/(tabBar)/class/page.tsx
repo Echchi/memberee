@@ -63,7 +63,7 @@ const Page = ({
         <div className="hidden lg:block w-1/12">
           {/*<Button text={"출력"} className="py-3" />*/}
           <DownloadClassBtn
-            classes={classes}
+            content={classes}
             sub={`${year}년 ${month}월`}
             worker={selectedWorker}
           />
