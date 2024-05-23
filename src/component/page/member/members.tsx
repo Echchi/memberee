@@ -172,7 +172,7 @@ const Members = ({
           {members && members.length === 0 && <Empty item={"회원"} />}
         </div>
       </div>
-      <Mobile members={members || []} setPage={setPage} loading={loading} />
+      <Mobile members={members || []} setSlice={setPage} loading={loading} />
     </>
   );
 };

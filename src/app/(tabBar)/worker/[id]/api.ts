@@ -6,8 +6,14 @@ import { formatISODate } from "@/libs/client/utils";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
+import { MEMO_SLICE_SIZE, PAGESIZE } from "@/libs/constants";
 
-export async function getWorker(id: number, month?: string, year?: string) {
+export async function getWorker(
+  id: number,
+  slice?: number,
+  month?: string,
+  year?: string,
+) {
   const session = await getSession();
   const companyId = session.company;
   const worker = await db.worker.findUnique({
@@ -20,6 +26,8 @@ export async function getWorker(id: number, month?: string, year?: string) {
         where: {
           status: { in: [-1, 1] },
         },
+        // take: PAGESIZE,
+        // skip: ((slice || 1) - 1) * PAGESIZE,
         include: {
           Schedule: true,
         },
@@ -54,6 +62,21 @@ export async function terminateWorker(id: number) {
     },
   });
   redirect("/worker");
+}
+
+export async function getWorkerMemos(id: number, slice: number = 1) {
+  const memos = await db.workerMemo.findMany({
+    where: {
+      workerId: id,
+    },
+    take: MEMO_SLICE_SIZE,
+    skip: (slice - 1) * MEMO_SLICE_SIZE,
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  console.log("memos", memos);
+  return memos;
 }
 
 export const createWorkerMemo = async (id: string, content: string) => {

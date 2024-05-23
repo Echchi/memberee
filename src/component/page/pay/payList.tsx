@@ -153,7 +153,7 @@ const PayList = ({
           members={members || []}
           payStatus={payStatus}
           setPayStatus={setPayStatus}
-          setPage={setPage}
+          setSlice={setPage}
           loading={loading}
         />
       </div>

@@ -13,20 +13,20 @@ const PayMb = ({
   members,
   setPayStatus,
   payStatus,
-  setPage,
+  setSlice,
   loading,
 }: {
   members: IMemberWithSchedules[];
   setPayStatus: React.Dispatch<React.SetStateAction<number>>;
   payStatus: number;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
+  setSlice: React.Dispatch<React.SetStateAction<number>>;
   loading: boolean;
 }) => {
   const router = useRouter();
   const [data, setData] = useState<IMemberWithSchedules[]>(members);
   useEffect(() => {
     setData([]);
-    setPage(1);
+    setSlice(1);
   }, [payStatus]);
 
   useEffect(() => {
@@ -65,7 +65,7 @@ const PayMb = ({
         </div>
       </div>
       <div className="relative space-y-3">
-        <InfiniteScroll setPage={setPage} loading={loading}>
+        <InfiniteScroll setSlice={setSlice} loading={loading}>
           <>
             {data &&
               data

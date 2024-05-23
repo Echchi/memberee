@@ -6,11 +6,11 @@ import InfiniteScroll from "@/component/infiniteScroll";
 
 const Mobile = ({
   members,
-  setPage,
+  setSlice,
   loading,
 }: {
   members: IMemberWithSchedules[];
-  setPage: React.Dispatch<React.SetStateAction<number>>;
+  setSlice: React.Dispatch<React.SetStateAction<number>>;
   loading: boolean;
 }) => {
   const [data, setData] = useState<IMemberWithSchedules[]>(members);
@@ -30,7 +30,7 @@ const Mobile = ({
   return (
     <>
       <div className="lg:hidden relative flex flex-col space-y-3 mt-5 overscroll-y-auto">
-        <InfiniteScroll setPage={setPage} loading={loading}>
+        <InfiniteScroll setSlice={setSlice} loading={loading}>
           <>
             {data &&
               data.map((member, index) => (

@@ -21,6 +21,7 @@ import {
   createMemberMemo,
   deleteMemberMemo,
   getMember,
+  getMemos,
   updateMemberMemo,
   updateStopPeriodPayment,
 } from "@/app/(tabBar)/member/[id]/api";
@@ -56,6 +57,9 @@ export interface IMemberWithSchedules extends Member {
 
 const Page = ({ params }: { params: { id: string } }) => {
   const [member, setMember] = useState<IMemberWithSchedules>();
+  const [memos, setMemos] = useState<Memo[]>([]);
+  const [slice, setSlice] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   const id = params.id;
   useEffect(() => {
@@ -87,6 +91,23 @@ const Page = ({ params }: { params: { id: string } }) => {
     };
     fetchMember();
   }, [id]);
+
+  useEffect(() => {
+    const fetchMemo = async () => {
+      try {
+        if (id) {
+          const response = await getMemos(+id, slice);
+          console.log("getMemos", response);
+          if (response) {
+            setMemos(response);
+          }
+        }
+      } catch (error) {
+        return new Error("error fetch memos");
+      }
+    };
+    fetchMemo();
+  }, [id, slice]);
 
   const router = useRouter();
   const today = format(new Date(), "yyyy년 MM월 dd일");
@@ -460,7 +481,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           ) : (
             <motion.div className="col-span-2">
               <Memos
-                memos={member?.Memos?.sort((a, b) => b.id - a.id) || []}
+                memos={memos}
                 id={member?.id + "" || ""}
                 status={member?.status}
                 title={"상담 내역"}
@@ -468,6 +489,8 @@ const Page = ({ params }: { params: { id: string } }) => {
                 createMemo={createMemberMemo}
                 updateMemo={updateMemberMemo}
                 deleteMemo={deleteMemberMemo}
+                setSlice={setSlice}
+                loading={loading}
               />
             </motion.div>
           )}

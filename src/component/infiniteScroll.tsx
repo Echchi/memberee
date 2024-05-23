@@ -3,11 +3,11 @@ import React, { ReactElement, useEffect, useRef, useState } from "react";
 
 const InfiniteScroll = ({
   children,
-  setPage,
+  setSlice,
   loading,
 }: {
   children: ReactElement;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
+  setSlice: React.Dispatch<React.SetStateAction<number>>;
   loading: boolean;
 }) => {
   const target = useRef(null);
@@ -16,7 +16,7 @@ const InfiniteScroll = ({
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && !loading) {
-          setPage((prev) => prev + 1);
+          setSlice((prev) => prev + 1);
         }
       },
       { threshold: 1.0 },
@@ -29,7 +29,7 @@ const InfiniteScroll = ({
     return () => {
       observer.disconnect();
     };
-  }, [loading, setPage]);
+  }, [loading, setSlice]);
 
   return (
     <>
@@ -37,7 +37,8 @@ const InfiniteScroll = ({
       {!loading && (
         <div
           ref={target}
-          className="absolute -bottom-20 h-2 w-full bg-red-500"
+          className="h-2 w-full bg-red-500"
+          // className="absolute -bottom-20 h-2 w-full bg-red-500"
         />
       )}
     </>

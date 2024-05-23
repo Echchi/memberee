@@ -16,6 +16,7 @@ import {
   createWorkerMemo,
   deleteWorkerMemo,
   getWorker,
+  getWorkerMemos,
   terminateWorker,
   updateWorkerMemo,
 } from "@/app/(tabBar)/worker/[id]/api";
@@ -30,7 +31,8 @@ import { useFormState } from "react-dom";
 import { createAccount } from "@/app/join/action";
 import { updateWorker } from "@/app/(tabBar)/worker/[id]/action";
 import ConfirmModal from "@/component/modal/confirmModal";
-import { Schedule } from "@prisma/client";
+import { Memo, Schedule } from "@prisma/client";
+import { getMemos } from "@/app/(tabBar)/member/[id]/api";
 
 export interface MemberWithSch extends Member {
   Schedule: Schedule[];
@@ -44,12 +46,16 @@ export interface IWorkerWithMemos extends Worker {
 const Page = ({ params }: { params: { id: string } }) => {
   const [worker, setWorker] = useState<IWorkerWithMemos>();
   const id = params.id;
-
+  const [memos, setMemos] = useState<WorkerMemo[]>([]);
+  const [slice, setSlice] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [memSlice, setMemSlice] = useState(1);
+  const [memLoading, setMemLoading] = useState(false);
   useEffect(() => {
     const fetchWorker = async () => {
       try {
         if (id) {
-          const response = await getWorker(+id);
+          const response = await getWorker(+id, memSlice);
           console.log(response);
           response && setWorker(response);
         }
@@ -60,6 +66,23 @@ const Page = ({ params }: { params: { id: string } }) => {
 
     fetchWorker();
   }, [id]);
+
+  useEffect(() => {
+    const fetchMemo = async () => {
+      try {
+        if (id) {
+          const response = await getWorkerMemos(+id, slice);
+          console.log("getWorkerMemos", response);
+          if (response) {
+            setMemos(response);
+          }
+        }
+      } catch (error) {
+        return new Error("error fetch memos");
+      }
+    };
+    fetchMemo();
+  }, [id, slice]);
 
   const router = useRouter();
   const today = format(new Date(), "yyyy년 MM월 dd일");
@@ -268,14 +291,20 @@ const Page = ({ params }: { params: { id: string } }) => {
           ) : (
             <motion.div className="col-span-2">
               <Memos
-                memos={worker?.WorkerMemos?.sort((a, b) => b.id - a.id) || []}
+                memos={memos}
+                loading={loading}
+                setSlice={setSlice}
                 id={worker?.id + "" || ""}
                 title={"비고"}
                 createMemo={createWorkerMemo}
                 updateMemo={updateWorkerMemo}
                 deleteMemo={deleteWorkerMemo}
               />
-              <Members members={worker?.Member || []} />
+              <Members
+                members={worker?.Member || []}
+                setMemSlice={setMemSlice}
+                loading={loading}
+              />
             </motion.div>
           )}
         </div>

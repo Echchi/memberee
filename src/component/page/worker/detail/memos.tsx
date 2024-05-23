@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { WorkerMemo } from ".prisma/client";
 import { format } from "date-fns";
 import Modal from "@/component/modal";
@@ -6,6 +6,7 @@ import MemoModal from "@/component/modal/memoModal";
 
 import { Memo } from "@prisma/client";
 import { cls } from "@/libs/client/utils";
+import InfiniteScroll from "@/component/infiniteScroll";
 
 const Memos = ({
   memos,
@@ -16,6 +17,8 @@ const Memos = ({
   createMemo,
   updateMemo,
   deleteMemo,
+  loading,
+  setSlice,
 }: {
   memos: WorkerMemo[] | Memo[];
   id: string;
@@ -25,11 +28,29 @@ const Memos = ({
   createMemo: any;
   updateMemo: any;
   deleteMemo: any;
+  loading: boolean;
+  setSlice: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const [isMemoModalOpen, setIsMemoModalOpen] = useState(false);
   const [memoType, setMemoType] = useState<"create" | "read">("create");
   const [savedMemo, setSavedMemo] = useState("");
   const [memoId, setMemoId] = useState(-1);
+
+  const [data, setData] = useState<any[]>([]);
+
+  useEffect(() => {
+    setData((prevData) => {
+      const addData = memos.filter(
+        (newMemos) =>
+          !prevData.some((existingMemo) => existingMemo.id === newMemos.id),
+      );
+      return [...prevData, ...addData];
+    });
+  }, [memos]);
+
+  useEffect(() => {
+    console.log("data", data);
+  }, [data]);
   const handleClickMemo = (savedMemo: string, memoId: number) => {
     setMemoType("read");
     setSavedMemo(savedMemo);
@@ -85,44 +106,49 @@ const Memos = ({
           </svg>
         </button>
       </div>
-      {memos?.length > 0 && (
+
+      {data?.length > 0 && (
         <div
           className={cls(
             "col-span-2 border border-neutral-300 max-h-[40vh] overflow-x-hidden overflow-y-auto",
             isMember ? "border-b-1 rounded-b-lg" : "",
           )}
         >
-          <table className="w-full">
-            <thead>
-              <tr className="sticky top-0 bg-stone-100 font-semibold text-lg text-center *:py-3 border border-b border-x-0 border-t-0">
-                <td className="w-1/6">작성일</td>
-                <td className="text-center">내용</td>
-              </tr>
-            </thead>
-            <tbody>
-              {memos.map((memo, index) => (
-                <tr
-                  key={index}
-                  className={cls(
-                    "*:py-3 text-center border-stone-100",
-                    status && status > 0
-                      ? "hover:bg-orange-100 cursor-pointer"
-                      : "",
-                  )}
-                  onClick={
-                    status && status > 0
-                      ? () => handleClickMemo(memo.content, memo.id)
-                      : undefined
-                  }
-                >
-                  <td>{format(memo.createdAt + "", "yyyy년 MM월 dd일")}</td>
-                  <td className="p-3 truncate">
-                    {`${memo.content.length > 100 ? memo.content.slice(0, 100) + "..." : memo.content}`}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <InfiniteScroll setSlice={setSlice} loading={loading}>
+            <>
+              <table className="w-full">
+                <thead>
+                  <tr className="sticky top-0 bg-stone-100 font-semibold text-lg text-center *:py-3 border border-b border-x-0 border-t-0">
+                    <td className="w-1/6">작성일</td>
+                    <td className="text-center">내용</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.map((memo, index) => (
+                    <tr
+                      key={index}
+                      className={cls(
+                        "*:py-3 text-center border-stone-100",
+                        status && status > 0
+                          ? "hover:bg-orange-100 cursor-pointer"
+                          : "",
+                      )}
+                      onClick={
+                        status && status > 0
+                          ? () => handleClickMemo(memo.content, memo.id)
+                          : undefined
+                      }
+                    >
+                      <td>{format(memo.createdAt + "", "yyyy년 MM월 dd일")}</td>
+                      <td className="p-3 truncate">
+                        {`${memo.content.length > 100 ? memo.content.slice(0, 100) + "..." : memo.content}`}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </>
+          </InfiniteScroll>
         </div>
       )}
     </>

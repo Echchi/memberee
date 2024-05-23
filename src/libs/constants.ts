@@ -77,3 +77,5 @@ export const PAYMENT_METHOD = [
 ];
 
 export const PAGESIZE = 10;
+
+export const MEMO_SLICE_SIZE = 7;

@@ -8,25 +8,31 @@ import { MemberWithSch } from "@/app/(tabBar)/worker/[id]/page";
 import { DAYOFWEEK } from "@/libs/constants";
 import { useRouter } from "next/navigation";
 import Empty from "@/component/empty";
+import InfiniteScroll from "@/component/infiniteScroll";
 
-const Members = ({ members }: { members: MemberWithSch[] }) => {
+const Members = ({
+  members,
+  setMemSlice,
+  loading,
+}: {
+  members: MemberWithSch[];
+  setMemSlice: React.Dispatch<React.SetStateAction<number>>;
+  loading: boolean;
+}) => {
   const router = useRouter();
-  // const [members, setMembers] = useState<Member[]>([]);
-  // useEffect(() => {
-  //   const fetchMembers = async () => {
-  //     try {
-  //       if (id) {
-  //         const response = await getMembers(+id);
-  //         console.log(response);
-  //         response && setMembers(response);
-  //       }
-  //     } catch (error) {
-  //       return new Error("error fetch worker");
-  //     }
-  //   };
+  // const [data, setData] = useState<MemberWithSch[]>([]);
   //
-  //   fetchMembers();
-  // }, [id]);
+  // useEffect(() => {
+  //   setData((prevData) => {
+  //     const addData = members.filter(
+  //       (newMembers) =>
+  //         !prevData.some(
+  //           (existingMembers) => existingMembers.id === newMembers.id,
+  //         ),
+  //     );
+  //     return [...prevData, ...addData];
+  //   });
+  // }, [members]);
   return (
     <>
       <div className="text-stone-600 font-bold text-sm lg:text-lg flex justify-center items-center h-14 bg-neutral-100 col-span-2 border-x border-t border-neutral-300">
@@ -34,24 +40,26 @@ const Members = ({ members }: { members: MemberWithSch[] }) => {
       </div>
       {members.length > 0 ? (
         <div className="col-span-2 border border-neutral-300 rounded-b-lg h-[40vh] overflow-y-auto">
+          {/*<InfiniteScroll setSlice={setMemSlice} loading={loading}>*/}
           <table className="w-full table-auto">
             <thead>
               <tr className="sticky top-0 bg-stone-100 font-semibold text-lg text-center *:py-3">
                 <td>이름</td>
                 <td>연락처</td>
+                <td>요일</td>
 
-                <td>
-                  <select className="bg-transparent outline-none focus:outline-none">
-                    <option>요일</option>
-                    <option>월</option>
-                    <option>화</option>
-                    <option>수</option>
-                    <option>목</option>
-                    <option>금</option>
-                    <option>토</option>
-                    <option>일</option>
-                  </select>
-                </td>
+                {/*<td>*/}
+                {/*  <select className="bg-transparent outline-none focus:outline-none">*/}
+                {/*    <option>요일</option>*/}
+                {/*    <option>월</option>*/}
+                {/*    <option>화</option>*/}
+                {/*    <option>수</option>*/}
+                {/*    <option>목</option>*/}
+                {/*    <option>금</option>*/}
+                {/*    <option>토</option>*/}
+                {/*    <option>일</option>*/}
+                {/*  </select>*/}
+                {/*</td>*/}
                 <td className="flex justify-center items-center">등록일</td>
               </tr>
             </thead>
@@ -68,13 +76,14 @@ const Members = ({ members }: { members: MemberWithSch[] }) => {
                   <td>
                     {member.Schedule.map(
                       (item, index) => DAYOFWEEK[item.dayOfWeek],
-                    )}
+                    ).join("  ")}
                   </td>
                   <td>{dateFormattedtoKor(member.createdAt)}</td>
                 </tr>
               ))}
             </tbody>
           </table>
+          {/*</InfiniteScroll>*/}
         </div>
       ) : (
         <Empty
