@@ -110,7 +110,7 @@ const Memos = ({
       {data?.length > 0 && (
         <div
           className={cls(
-            "col-span-2 border border-neutral-300 max-h-[40vh] overflow-x-hidden overflow-y-auto print:overflow-visible",
+            "col-span-2 border border-neutral-300 max-h-[40vh] overflow-x-hidden overflow-y-auto",
             isMember ? "border-b-1 rounded-b-lg" : "",
           )}
         >
