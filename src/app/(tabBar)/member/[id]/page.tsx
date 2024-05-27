@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Input from "@/component/input";
 import {
   cls,
@@ -45,6 +45,7 @@ import { updateWorker } from "@/app/(tabBar)/worker/[id]/action";
 import { useFormState } from "react-dom";
 import { updateMember } from "@/app/(tabBar)/member/[id]/action";
 import { revalidatePath } from "next/cache";
+import { PrintPdfBtn } from "@/component/pdf/printPdfBtn";
 
 export interface IMemberWithSchedules extends Member {
   Memos?: Memo[];
@@ -60,6 +61,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [memos, setMemos] = useState<Memo[]>([]);
   const [slice, setSlice] = useState(1);
   const [loading, setLoading] = useState(false);
+  const memberRef = useRef<HTMLDivElement | null>(null);
 
   const id = params.id;
   useEffect(() => {
@@ -243,17 +245,22 @@ const Page = ({ params }: { params: { id: string } }) => {
                 className="my-2 !bg-gray-400/80 hover:!bg-gray-400/50 active:!bg-gray-400"
               />
 
-              <Button text="출력" type={"button"} className="my-2" />
+              {/*<Button text="출력" type={"button"} className="my-2" />*/}
+              <PrintPdfBtn
+                title={`회원 ${member?.name} 상세_${format(new Date(), "yyyyMMdd")}`}
+                content={memberRef}
+              />
             </div>
           </div>
         </div>
         <div
+          ref={memberRef}
           className={cls(
             "grid grid-cols-2 ",
             member && member?.status < 0 ? "*:bg-stone-100" : "",
           )}
         >
-          <div className="relative col-span-2 border border-x border-b-0 hidden md:flex bg-stone-100 text-stone-600 tracking-wider text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg ">
+          <div className="relative col-span-2 border border-x border-b-0 hidden md:flex bg-stone-100 text-stone-600 tracking-wider text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg print:flex">
             회원 카드
           </div>
           <Input
@@ -384,7 +391,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 {/*<div className="hidden lg:flex items-center lg:text-lg flex-nowrap w-24 font-semibold text-stone-600 ">*/}
                 {/*  수업 시간*/}
                 {/*</div>*/}
-                <div className="flex justify-center *: text-center w-full space-y-3 *:lg:text-lg *:font-medium *:text-stone-600 overflow-y-auto h-36">
+                <div className="flex justify-center *: text-center w-full space-y-3 *:lg:text-lg *:font-medium *:text-stone-600 overflow-y-auto h-36 my-5">
                   <div className="w-2/3 grid grid-cols-3 place-items-center gap-3">
                     <div className="!font-semibold">요일</div>
                     <div className="!font-semibold">시작 시간</div>

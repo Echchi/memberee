@@ -110,7 +110,7 @@ export const calculateSalary = (
   commission: number | null,
 ) => {
   const commissionDecimal = (commission || 0) / 100;
-  return lessonFee * (1 - commissionDecimal) * (1 - 0.033);
+  return lessonFee * commissionDecimal * (1 - 0.033);
 };
 
 export const compareDate = (payDay: number) => {

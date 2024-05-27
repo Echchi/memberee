@@ -51,8 +51,35 @@ const Salary = ({
       >
         {formatCurrency(totalLessonFee)} 원
       </td>
-      <td>{worker?.commission} %</td>
-      <td>3.3 %</td>
+      <td className="relative group cursor-pointer">
+        {worker?.commission} %
+        <div className="shadow absolute bg-orange-200 left-3/4 top-1/2 z-10 w-fit space-y-2 rounded p-3 hidden group-hover:block">
+          <p className="text-sm whitespace-pre">
+            수업료 {formatCurrency(totalLessonFee)} * 수수료{" "}
+            {worker?.commission}% =
+          </p>
+          <p className="font-semibold">
+            {formatCurrency(
+              (totalLessonFee * (worker?.commission || 0)) / 100 || 0,
+            )}
+          </p>
+        </div>
+      </td>
+      <td className="relative group cursor-pointer">
+        3.3 %
+        <div className="shadow absolute bg-orange-200 right-3/4 top-1/2 z-10 w-fit space-y-2 rounded p-3 hidden group-hover:block">
+          <p className="text-sm whitespace-pre">
+            수업료 {formatCurrency(totalLessonFee)} * 수수료{" "}
+            {worker?.commission}% * 부담금 3.3% =
+          </p>
+          <p className="font-semibold">
+            {formatCurrency(
+              ((totalLessonFee * (worker?.commission || 0)) / 100 || 0) *
+                (1 - 0.033),
+            )}
+          </p>
+        </div>
+      </td>
       <td>
         {formatCurrency(calculateSalary(totalLessonFee, worker?.commission))}원
       </td>

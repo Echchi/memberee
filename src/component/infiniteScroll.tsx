@@ -37,7 +37,7 @@ const InfiniteScroll = ({
       {!loading && (
         <div
           ref={target}
-          className="h-2 w-full bg-red-500"
+          className="h-2 w-full"
           // className="absolute -bottom-20 h-2 w-full bg-red-500"
         />
       )}
