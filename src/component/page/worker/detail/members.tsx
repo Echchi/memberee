@@ -39,11 +39,11 @@ const Members = ({
         담당 회원
       </div>
       {members.length > 0 ? (
-        <div className="col-span-2 border border-neutral-300 rounded-b-lg h-[40vh] overflow-y-auto print:overflow-visible">
+        <div className="col-span-2 print:border-0 border border-stone-300 rounded-b-lg h-[40vh] overflow-y-auto print:overflow-visible">
           {/*<InfiniteScroll setSlice={setMemSlice} loading={loading}>*/}
           <table className="w-full table-auto">
             <thead>
-              <tr className="sticky top-0 bg-stone-100 font-semibold text-lg text-center *:py-3">
+              <tr className="sticky top-0 bg-stone-100 font-semibold text-lg text-center *:py-3 print:border print:border-stone-300">
                 <td>이름</td>
                 <td>연락처</td>
                 <td>요일</td>
@@ -68,7 +68,7 @@ const Members = ({
                 <tr
                   key={index}
                   onClick={() => router.push(`/member/${member.id}`)}
-                  className="*:py-3 text-center border-b border-stone-100 hover:bg-orange-100 cursor-pointer active:bg-orange-200"
+                  className="*:py-3 text-center border-b print:border-stone-300 hover:bg-orange-100 cursor-pointer active:bg-orange-200 print:border-x"
                 >
                   <td>{member.name}</td>
                   <td>{member.phone}</td>
