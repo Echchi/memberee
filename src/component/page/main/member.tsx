@@ -100,7 +100,7 @@ const Member = ({
                 </tr>
               </thead>
               <tbody className="relative">
-                <InfiniteScroll setPage={setPage} loading={loading}>
+                <InfiniteScroll setSlice={setPage} loading={loading}>
                   <>
                     {members &&
                       members
