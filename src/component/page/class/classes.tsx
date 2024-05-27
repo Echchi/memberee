@@ -83,7 +83,7 @@ const Classes = ({ classes }: { classes: Schedule[] }) => {
                     }}
                   >
                     <p
-                      className={`font-medium lg:block lg:text-sm text-xs hidden`}
+                      className={`font-medium lg:block lg:text-sm text-xs hidden print:block`}
                     >
                       {c.startTime} ~ {c.endTime}
                     </p>

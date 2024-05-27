@@ -1,5 +1,5 @@
 import React from "react";
-import { getMonth, getYear } from "date-fns";
+import { format, getMonth, getYear } from "date-fns";
 import Button from "@/component/button/button";
 
 import SalaryList from "@/component/page/salary/salaryList";
@@ -8,6 +8,7 @@ import getSession from "@/libs/client/session";
 import { Worker } from "@prisma/client";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 import { getCompany } from "@/app/(tabBar)/pay/[id]/api";
+import { PrintPdfBtn } from "@/component/pdf/printPdfBtn";
 
 export interface WorkerWithMember extends Worker {
   Member: IMemberWithSchedules[];
@@ -125,9 +126,7 @@ const Page = async ({
       {/*<MonthChanger />*/}
 
       <div className="my-3 flex justify-end">
-        <div className="hidden lg:block w-1/12">
-          {/*<Button text={"출력"} className="py-3" />*/}
-        </div>
+        <div className="hidden lg:block w-1/12"></div>
       </div>
 
       <SalaryList workers={workers} />

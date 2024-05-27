@@ -150,9 +150,8 @@ const Page = ({ params }: { params: { id: string } }) => {
               />
             </div>
             <div>
-              {/*<Button text="출력" type="button" className="my-2" />*/}
               <PrintPdfBtn
-                title={`${worker?.name} 상세_${format(new Date(), "yyyyMMdd")}`}
+                title={`직원 ${worker?.name} 상세_${format(new Date(), "yyyyMMdd")}`}
                 content={workerRef}
               />
             </div>

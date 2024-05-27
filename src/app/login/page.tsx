@@ -71,7 +71,7 @@ const Login = () => {
                 state?.fieldErrors?.password?.[0])}
           </p>
         )}
-        <FormButton text={"로그인"} className={"mt-5"} />
+        <FormButton text={"로그인"} className="mt-10" />
         <div className="grid grid-cols-3 divide-x divide-gray-300 mt-5 text-gray-400 w-11/12 mx-auto *:text-center">
           <div>
             <Link href={"/"}>아이디 찾기</Link>

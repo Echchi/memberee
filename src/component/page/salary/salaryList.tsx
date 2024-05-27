@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { calculateSalary, formatCurrency } from "@/libs/client/utils";
 import Salary from "@/component/page/salary/salary";
 import Modal from "@/component/modal";
@@ -7,8 +7,10 @@ import SalaryDetail from "@/app/(tabBar)/salary/salaryDetail";
 import { WorkerWithMember } from "@/app/(tabBar)/salary/page";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 import { format } from "date-fns";
+import { PrintPdfBtn } from "@/component/pdf/printPdfBtn";
 
 const SalaryList = ({ workers }: { workers: WorkerWithMember[] }) => {
+  const salaryRef = useRef<HTMLDivElement | null>(null);
   const [openDetailModal, setOpenDetailModal] = useState(false);
   const [totalLessonFee, setTotalLessonFee] = useState<number[]>([]);
   const [clickedWorker, setClickedWorker] = useState<number>(-1);
@@ -66,14 +68,20 @@ const SalaryList = ({ workers }: { workers: WorkerWithMember[] }) => {
       <div className="box mt-3 flex-col">
         <>
           <div className="flex justify-center items-center font-semibold text-2xl mb-7 mt-4">
-            <span className="lg:px-6 px-4">
+            <span className="lg:px-6 px-4 mx-auto">
               {format(new Date(), "yyyy년 MM월")}
             </span>
+            <div className="w-32">
+              <PrintPdfBtn
+                title={`${format(new Date(), "yyyy년 MM월")} 예상 임금_${format(new Date(), "yyyyMMdd")}`}
+                content={salaryRef}
+              />
+            </div>
           </div>
 
-          <div className="w-full">
+          <div ref={salaryRef} className="w-full">
             <table className="w-full table-auto">
-              <thead className="sticky top-20">
+              <thead className="sticky top-20 print:top-0">
                 <tr className="text-xs lg:text-lg bg-stone-100 font-semibold text-center *:py-3">
                   <td>이름</td>
                   <td>담당 회원 수</td>
@@ -83,7 +91,7 @@ const SalaryList = ({ workers }: { workers: WorkerWithMember[] }) => {
                   <td>예상 임금</td>
                 </tr>
               </thead>
-              <tbody className="overflow-y-auto">
+              <tbody className="overflow-y-auto print:overflow-visible">
                 {workers.map((worker) => (
                   <tr
                     key={`salary_${worker?.id}`}
