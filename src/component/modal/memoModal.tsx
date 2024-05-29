@@ -100,7 +100,7 @@ const MemoModal = ({
         <div className="flex justify-end space-x-3">
           <Button
             text="삭제"
-            className="mt-3 red_btn !w-1/6"
+            className="mt-3 red_btn !w-1/6 py-3"
             type="button"
             onClick={handleClickDelete}
           />

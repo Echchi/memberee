@@ -12,15 +12,15 @@ const SelectWorkingDay = (props: IWorkingDayProps) => {
   return (
     <div className="bg-white py-3 col-span-2 border border-t-1 border-b-0 border-neutral-300 flex flex-col justify-center lg:pl-10 pl-4">
       <div className="flex 16">
-        <span className="hidden lg:flex items-center lg:text-lg flex-nowrap w-24 font-semibold text-stone-600">
+        <span className="hidden lg:flex items-center text-sm lg:text-lg flex-nowrap w-24 font-semibold text-stone-600">
           근무일
         </span>
 
-        <div className="grid lg:grid-cols-7 grid-cols-4 justify-items-center py-3 w-full px-4">
+        <div className="grid grid-cols-7 justify-items-center py-3 w-full px-4 gap-x-2">
           {Object.entries(DAYOFWEEK).map(([index, day]) => (
             <div
               key={day}
-              className="relative flex flex-col justify-center items-center text-lg *:py-2 *:px-4 *:trnsition-all py-4 lg:py-0"
+              className="relative flex flex-col justify-center items-center text-sm lg:text-lg *:py-2 *:px-3 lg:*:px-4 *:trnsition-all py-4 lg:py-0"
             >
               <button
                 className={cls(

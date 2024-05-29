@@ -155,6 +155,7 @@ const PayList = ({
           setPayStatus={setPayStatus}
           setSlice={setPage}
           loading={loading}
+          query={query}
         />
       </div>
     </>

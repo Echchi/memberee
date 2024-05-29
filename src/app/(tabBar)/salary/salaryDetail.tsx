@@ -20,25 +20,26 @@ const SalaryDetail = ({
     <div className="w-full border border-neutral-300 rounded-b-lg h-[40vh] overflow-y-auto rounded-t-lg">
       <table className="w-full table-auto">
         <thead>
-          <tr className="sticky top-0 bg-stone-100 font-semibold text-center *:py-3">
+          <tr className="*:text-sm lg:*:text-base sticky top-0 bg-stone-100 font-semibold text-center *:py-3">
             <td>이름</td>
 
             <td>
-              <select className="bg-transparent outline-none focus:outline-none">
-                <option>요일</option>
-                <option>월</option>
-                <option>화</option>
-                <option>수</option>
-                <option>목</option>
-                <option>금</option>
-                <option>토</option>
-                <option>일</option>
-              </select>
+              요일
+              {/*<select className="bg-transparent outline-none focus:outline-none">*/}
+              {/*  <option>요일</option>*/}
+              {/*  <option>월</option>*/}
+              {/*  <option>화</option>*/}
+              {/*  <option>수</option>*/}
+              {/*  <option>목</option>*/}
+              {/*  <option>금</option>*/}
+              {/*  <option>토</option>*/}
+              {/*  <option>일</option>*/}
+              {/*</select>*/}
             </td>
             <td className="flex justify-center items-center">수업료</td>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="*:text-sm lg:*:text-base">
           {members &&
             members.map((member, index) => (
               <tr
@@ -59,7 +60,7 @@ const SalaryDetail = ({
             ))}
         </tbody>
         <tfoot className="sticky bottom-0">
-          <tr className="text-xs lg:text-base font-semibold *:py-3 text-center border-stone-100 bg-stone-100">
+          <tr className="*:text-sm lg:*:text-base font-semibold *:py-3 text-center border-stone-100 bg-stone-100">
             <td>합계</td>
             <td>{members?.length} 명</td>
             <td>{formatCurrency(totalLessonFee)} 원</td>

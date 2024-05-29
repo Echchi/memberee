@@ -81,7 +81,7 @@ const Input: React.FC<
         </span>
       )}
       {label && (
-        <span className="text-sm lg:text-lg text-stone-600 max-w-24 lg:max-w-full absolute inset-y-0 left-0 flex flex-nowrap items-center lg:pl-10 pl-4 whitespace-pre-line font-semibold">
+        <span className="text-sm lg:text-lg text-stone-600 min-w-fit max-w-24 lg:max-w-full absolute inset-y-0 left-0 flex flex-nowrap items-center lg:pl-10 pl-4 whitespace-pre-line font-semibold">
           {label}
         </span>
       )}
@@ -153,7 +153,7 @@ const Input: React.FC<
             errorMessage[0] ? "inner_input_error" : "inner_input",
             icon && isLong ? "lg:pl-20 pl-14 pr-2" : "",
             icon && !isLong ? "lg:px-20 px-14" : "",
-            label && isLong ? "lg:pl-48 pl-20 pr-2" : "",
+            label && isLong ? "lg:pl-48 pl-24 pr-2" : "",
             label && !isLong ? "lg:px-48 px-20" : "",
             className ? `${className} !h-full` : "",
             className ? `${className} !h-full` : "",

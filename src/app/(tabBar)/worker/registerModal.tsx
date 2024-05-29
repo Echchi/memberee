@@ -21,7 +21,7 @@ const RegisterModal = () => {
       <Button
         onClick={() => router.push("/worker/register")}
         text={"직원 등록"}
-        className="mt-0 !w-1/12 !bg-emerald-500 hover:!bg-emerald-500/80 active:!bg-emerald-600"
+        className="mt-0 py-3 !w-1/4 lg:!w-1/12 !bg-emerald-500 hover:!bg-emerald-500/80 active:!bg-emerald-600"
       />
     </>
   );

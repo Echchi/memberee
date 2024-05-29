@@ -15,19 +15,22 @@ const PayMb = ({
   payStatus,
   setSlice,
   loading,
+  query,
 }: {
   members: IMemberWithSchedules[];
   setPayStatus: React.Dispatch<React.SetStateAction<number>>;
   payStatus: number;
   setSlice: React.Dispatch<React.SetStateAction<number>>;
   loading: boolean;
+  query?: string;
 }) => {
   const router = useRouter();
   const [data, setData] = useState<IMemberWithSchedules[]>(members);
+
   useEffect(() => {
-    setData([]);
     setSlice(1);
-  }, [payStatus]);
+    setData([]);
+  }, [payStatus, query]);
 
   useEffect(() => {
     setData((prevData) => {

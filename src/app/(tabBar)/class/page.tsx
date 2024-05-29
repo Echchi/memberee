@@ -86,30 +86,31 @@ const Page = ({
       </div>
       <div
         ref={classRef}
-        className="box mt-3  grid grid-cols-8 justify-items-center *:text-base *:lg:text-lg *:font-semibold gap-3 overflow-y-auto h-[70vh] print:h-fit print:overflow-visible"
+        className="box !pt-0 !px-1 relative bg-white mt-3 grid grid-cols-[_0.5fr,_1fr,_1fr,_1fr,_1fr,_1fr,_1fr,_1fr] justify-items-center *:text-base *:lg:text-lg *:font-semibold gap-1 lg:gap-3 overflow-y-auto h-[70vh] print:h-fit print:overflow-visible"
       >
-        <div className="sticky top-0 py-3 bg-white w-full flex justify-center"></div>
-        <div className="sticky top-0 py-3 bg-white w-full flex justify-center">
+        <div></div>
+        <div className="w-full bg-white sticky top-0 h-14 lg:h-20 flex items-center justify-center z-50 font-semibold">
           월
         </div>
-        <div className="sticky top-0 py-3 bg-white w-full flex justify-center">
+        <div className="w-full bg-white sticky top-0 h-14 lg:h-20 flex items-center justify-center z-50 font-semibold">
           화
         </div>
-        <div className="sticky top-0 py-3 bg-white w-full flex justify-center">
+        <div className="w-full bg-white sticky top-0 h-14 lg:h-20 flex items-center justify-center z-50 font-semibold">
           수
         </div>
-        <div className="sticky top-0 py-3 bg-white w-full flex justify-center">
+        <div className="w-full bg-white sticky top-0 h-14 lg:h-20 flex items-center justify-center z-50 font-semibold">
           목
         </div>
-        <div className="sticky top-0 py-3 bg-white w-full flex justify-center">
+        <div className="w-full bg-white sticky top-0 h-14 lg:h-20 flex items-center justify-center z-50 font-semibold">
           금
         </div>
-        <div className="sticky top-0 py-3 bg-white w-full flex justify-center">
+        <div className="w-full bg-white sticky top-0 h-14 lg:h-20 flex items-center justify-center z-50 font-semibold">
           토
         </div>
-        <div className="sticky top-0 py-3 bg-white w-full flex justify-center">
+        <div className="w-full bg-white sticky top-0 h-14 lg:h-20 flex items-center justify-center z-50 font-semibold">
           일
         </div>
+
         {classes && <Classes classes={classes} />}
       </div>
     </>

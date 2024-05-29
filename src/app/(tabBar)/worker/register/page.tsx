@@ -31,15 +31,15 @@ const Page = () => {
 
   return (
     <div className="max-w-screen-lg mx-auto mt-10">
-      <div className="col-span-2 border border-x border-b-0 flex bg-stone-100 text-stone-600 tracking-wider text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg ">
+      <div className="col-span-2 border border-x border-b-0 flex bg-stone-100 text-stone-600 tracking-wider text-lg lg:text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg ">
         직원 등록
       </div>
-      <form className="grid grid-cols-2" action={action}>
+      <form className="lg:grid grid-cols-2" action={action}>
         <Input
           type={"text"}
           label={"이름"}
           placeholder={"이름"}
-          className="h-16 lg:text-lg border-r-0 border-b-0"
+          className="h-16 lg:text-lg lg:border-r-0 border-b-0"
           name={"name"}
           maxLength={6}
           minLength={2}
@@ -63,7 +63,7 @@ const Page = () => {
           type={"text"}
           label={"생년월일"}
           placeholder={"20000726"}
-          className="h-16 lg:text-lg border-b-0 border-r-0"
+          className="h-16 lg:text-lg border-b-0 lg:border-r-0"
           name={"birth"}
           maxLength={8}
           minLength={8}
@@ -109,7 +109,7 @@ const Page = () => {
           type={"text"}
           label={"은행"}
           placeholder={"국민"}
-          className="h-16 lg:text-lg border-t-0 border-r-0"
+          className="h-16 lg:text-lg border-t-0 lg:border-r-0"
           name={"bank"}
           maxLength={8}
         />

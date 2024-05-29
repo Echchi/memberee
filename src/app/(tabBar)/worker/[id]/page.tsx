@@ -157,8 +157,8 @@ const Page = ({ params }: { params: { id: string } }) => {
             </div>
           </div>
         </div>
-        <div ref={workerRef} className="grid grid-cols-2">
-          <div className="col-span-2 border border-x border-b-0 hidden lg:flex bg-stone-100 text-stone-600 tracking-wider text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg print:flex">
+        <div ref={workerRef} className="lg:grid grid-cols-2">
+          <div className="col-span-2 border border-x border-b-0 flex bg-stone-100 text-stone-600 tracking-wider text-lg lg:text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg print:flex">
             직원 카드
           </div>
 
@@ -167,7 +167,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             label={"이름"}
             value={worker?.name}
             placeholder={worker?.name}
-            className="h-16 lg:text-lg border-r-0 border-b-0"
+            className="h-16 lg:text-lg lg:border-r-0 border-b-0"
             name="name"
             maxLength={6}
             minLength={2}
@@ -203,7 +203,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 : dateFormattedtoKor(worker?.birth)
             }
             placeholder={dateFormattedtoNum(worker?.birth)}
-            className="h-16 lg:text-lg border-b-0 border-r-0"
+            className="h-16 lg:text-lg border-b-0 lg:border-r-0"
             name="birth"
             maxLength={8}
             minLength={8}
@@ -270,8 +270,8 @@ const Page = ({ params }: { params: { id: string } }) => {
             label={"은행"}
             placeholder={worker?.bank || ""}
             className={cls(
-              "h-16 lg:text-lg border-t-0 border-r-0",
-              isEdit ? "rounded-bl-lg" : "",
+              "h-16 lg:text-lg border-t-0 lg:border-r-0",
+              isEdit ? "lg:rounded-bl-lg" : "",
             )}
             value={worker?.bank || ""}
             name={"bank"}
@@ -284,7 +284,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             isLong={true}
             className={cls(
               "h-16 lg:text-lg border-t-0",
-              isEdit ? "rounded-br-lg" : "",
+              isEdit ? "rounded-b-lg lg:rounded-br-lg lg:rounded-bl-none" : "",
             )}
             name={"accountNumber"}
             value={worker?.accountNumber || ""}
@@ -316,7 +316,7 @@ const Page = ({ params }: { params: { id: string } }) => {
         <div className="flex justify-between mt-4">
           <Button
             text={isEdit ? "취소" : "퇴사"}
-            className={cls("!w-1/6", isEdit ? "gray_btn" : "red_btn")}
+            className={cls("py-3 !w-1/6", isEdit ? "gray_btn" : "red_btn")}
             type={"button"}
             onClick={
               isEdit

@@ -32,6 +32,11 @@ const Members = ({
   const [startDateOrder, setCreateDateOrder] = useState(true);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setPage(1);
+  }, [query]);
+
   useEffect(() => {
     setLoading(true);
     const fetchMembers = async () => {
@@ -56,6 +61,7 @@ const Members = ({
     };
 
     fetchMembers();
+
     setLoading(false);
   }, [query, workerId, dayOfWeek, startDateOrder, page]);
 
@@ -172,7 +178,12 @@ const Members = ({
           {members && members.length === 0 && <Empty item={"회원"} />}
         </div>
       </div>
-      <Mobile members={members || []} setSlice={setPage} loading={loading} />
+      <Mobile
+        query={query}
+        members={members || []}
+        setSlice={setPage}
+        loading={loading}
+      />
     </>
   );
 };

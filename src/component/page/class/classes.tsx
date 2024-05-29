@@ -79,7 +79,7 @@ const Classes = ({ classes }: { classes: Schedule[] }) => {
                   <div
                     onClick={() => router.push(`/member/${c.memberId}`)}
                     key={`schedule_${index}`}
-                    className="overflow-y-auto font-medium bg-amber-200 w-full rounded-xl p-2 text-xs shadow hover:scale-125 hover:z-30 transition-all cursor-pointer z-20"
+                    className="overflow-y-auto font-medium bg-amber-200 w-full rounded-xl p-2 text-xs shadow hover:scale-125 hover:z-30 transition-all cursor-pointer z-20 flex justify-center items-center lg:block"
                     style={{
                       gridRowStart: c.gridRowStart,
                       gridRowEnd: `span ${Number(c.gridRowEnd)}`,
@@ -90,7 +90,7 @@ const Classes = ({ classes }: { classes: Schedule[] }) => {
                     >
                       {c.startTime} ~ {c.endTime}
                     </p>
-                    <p className="font-bold text-center text-sm">
+                    <p className="font-bold text-center text-xs lg:text-sm">
                       {c.memberNames}
                     </p>
                   </div>

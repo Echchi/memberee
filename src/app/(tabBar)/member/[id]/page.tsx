@@ -230,14 +230,14 @@ const Page = ({ params }: { params: { id: string } }) => {
       )}
       <form className="box justify-center flex-col" action={action}>
         <div className="col-span-2 flex justify-end items-center">
-          <div className="relative hidden lg:flex items-center justify-end w-full">
+          <div className="relative flex items-center justify-end w-full">
             {member && member?.status < 0 && (
-              <p className="absolute left-0 rounded-full  bg-amber-400 py-2 px-4 text-amber-700 font-semibold">
+              <p className="absolute left-0 rounded-full  bg-amber-400/50 py-2 px-10 text-orange-600 font-semibold text-xs lg:text-base lg:w-fit w-full z-50">
                 {format(member?.suspendedDate || "", "yyyy년 MM월 dd일")} 부터
                 중단 상태의 회원입니다
               </p>
             )}
-            <div className="flex space-x-4 *:w-32">
+            <div className="hidden lg:flex space-x-4 *:w-32">
               <Button
                 onClick={() => router.push("/member")}
                 text={"목록"}
@@ -503,10 +503,10 @@ const Page = ({ params }: { params: { id: string } }) => {
           )}
         </div>
         <div className="flex justify-between mt-4">
-          <div className="w-full space-x-3">
+          <div className="flex w-full space-x-3">
             <Button
               text={isEdit ? "취소" : "탈퇴"}
-              className={cls("!w-1/6", isEdit ? "gray_btn" : "red_btn")}
+              className={cls("!py-3 !w-1/6", isEdit ? "gray_btn" : "red_btn")}
               type={"button"}
               onClick={
                 isEdit ? () => setIsEdit(false) : () => handleTerminateClick()
@@ -516,7 +516,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               <Button
                 text={member && member?.status < 0 ? "중단 취소" : "중단"}
                 className={cls(
-                  "!w-1/6",
+                  "py-3 !w-1/6 min-w-fit",
                   member && member?.status < 0 ? "amber_btn" : "orange_btn",
                 )}
                 type={"button"}

@@ -8,12 +8,18 @@ const Mobile = ({
   members,
   setSlice,
   loading,
+  query,
 }: {
   members: IMemberWithSchedules[];
   setSlice: React.Dispatch<React.SetStateAction<number>>;
   loading: boolean;
+  query?: string;
 }) => {
   const [data, setData] = useState<IMemberWithSchedules[]>(members);
+  useEffect(() => {
+    setSlice(1);
+    setData([]);
+  }, [query]);
 
   useEffect(() => {
     setData((prevData) => {

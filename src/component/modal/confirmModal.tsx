@@ -19,7 +19,7 @@ const ConfirmModal = ({
 }) => {
   return (
     <div className="h-52 mb-3">
-      <div className="h-4/5 flex flex-col justify-center items-center text-lg space-y-2">
+      <div className="h-4/5 flex flex-col justify-center items-center text-base lg:text-lg space-y-2 px-5 lg:px-0 whitespace-pre">
         <p>
           <span className="font-semibold text-red-500">{action}</span> 처리는
           복구되지 않습니다
@@ -46,7 +46,7 @@ const ConfirmModal = ({
       <div className="flex w-full justify-end space-x-3">
         <Button
           text={"취소"}
-          className={"!w-1/6 gray_btn"}
+          className={"!w-1/6 gray_btn py-3"}
           onClick={() => onClose()}
         />
         <Button
