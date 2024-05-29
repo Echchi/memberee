@@ -52,7 +52,7 @@ const WorkerList: React.FC<WorkerListProps> = ({
         <select
           onChange={onChange}
           defaultValue={selectedWorker}
-          className="rounded-xl border-0 h-12 px-6 bg-stone-100 w-full lg:w-fit outline-none"
+          className="rounded-xl border-0 h-14 px-6 bg-stone-100 w-full lg:w-fit outline-none"
         >
           {workers.map((worker) => (
             <option key={`workerList_option_${worker.id}`} value={worker.id}>
@@ -70,7 +70,7 @@ const WorkerList: React.FC<WorkerListProps> = ({
             label: worker.name,
           }))}
           name={"worker"}
-          className="h-14 lg:text-lg border-b-1"
+          className="h-16 lg:text-lg border-b-0 lg:border-b"
         />
       )}
     </>

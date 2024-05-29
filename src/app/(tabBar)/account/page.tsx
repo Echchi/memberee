@@ -80,7 +80,7 @@ const Page = () => {
               type={isEdit ? "text" : "div"}
               value={user?.name}
               placeholder={user?.name}
-              className={"h-14 rounded-t-lg"}
+              className={"h-16 rounded-t-lg"}
               name={"username"}
               errorMessage={state?.fieldErrors?.username}
             />
@@ -90,7 +90,7 @@ const Page = () => {
                 type={isEdit ? "text" : "div"}
                 value={user?.userid}
                 placeholder={user?.userid}
-                className={"h-14 border-t-0 border-b-1"}
+                className={"h-16 border-t-0 border-b-1"}
                 name={"id"}
               />
             )}
@@ -114,7 +114,7 @@ const Page = () => {
                 type={"div"}
                 value={"••••••••"}
                 placeholder={""}
-                className={"h-14 border-t-0 border-b-1"}
+                className={"h-16 border-t-0 border-b-1"}
                 name={"password"}
               />
             )}
@@ -124,7 +124,7 @@ const Page = () => {
               type={isEdit ? "text" : "div"}
               value={isEdit ? user?.phone : formatPhone(user?.phone || "")}
               placeholder={user?.phone}
-              className={"h-14 border-t-0 border-b-1"}
+              className={"h-16 border-t-0 border-b-1"}
               maxLength={11}
               name={"phone"}
               errorMessage={state?.fieldErrors?.phone}
@@ -134,7 +134,7 @@ const Page = () => {
               type={isEdit ? "text" : "div"}
               value={user?.email}
               placeholder={user?.email}
-              className={"h-14 border-t-0 border-b-1 rounded-b-lg"}
+              className={"h-16 border-t-0 border-b-1 rounded-b-lg"}
               name={"email"}
               errorMessage={state?.fieldErrors?.email}
             />
@@ -149,7 +149,7 @@ const Page = () => {
               type={isEdit ? "text" : "div"}
               value={company?.name}
               placeholder={company?.name}
-              className={"h-14 border-t-1 border-b-1 rounded-t-lg"}
+              className={"h-16 border-t-1 border-b-1 rounded-t-lg"}
               name={"co_name"}
               errorMessage={state?.fieldErrors?.co_name}
             />
@@ -157,7 +157,7 @@ const Page = () => {
               label={"납부일"}
               name={"payDay"}
               required={true}
-              className={"h-14 border-t-0"}
+              className={"h-16 border-t-0"}
               type={isEdit ? "select" : "div"}
               selectDescription={"일"}
               value={company?.payDay + ""}
@@ -177,7 +177,7 @@ const Page = () => {
                   : formatPhone(company?.contact || "")
               }
               placeholder={company?.contact || ""}
-              className={"h-14 border-t-0 rounded-b-lg"}
+              className={"h-16 border-t-0 rounded-b-lg"}
               maxLength={11}
               name={"co_contact"}
               errorMessage={state?.fieldErrors?.co_contact}

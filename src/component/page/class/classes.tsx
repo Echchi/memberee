@@ -65,11 +65,14 @@ const Classes = ({ classes }: { classes: Schedule[] }) => {
     <>
       {Array.from({ length: 18 }).map((_, hourIndex) => (
         <>
-          <div key={`hour_${hourIndex}`}>{`${6 + hourIndex}시`}</div>
+          <div key={`hour_${hourIndex}`} className="flex lg:text-base text-xs">
+            {`${6 + hourIndex} `}
+            <span className="hidden lg:block">시</span>
+          </div>
           {scheduleByDay.map((sch, index) => (
             <div
               key={`schedule_${index}`}
-              className="grid w-full gap-y-2 pb-4 grid-rows-6 rounded-lg bg-stone-50 *:min-h-14 max-h-[200px]"
+              className="grid w-full gap-y-2 pb-4 grid-rows-6 rounded-lg bg-stone-50 *:min-h-16 max-h-[200px]"
             >
               {sch.map((c: any, index) => {
                 return 6 + hourIndex === Number(c.startTime.slice(0, 2)) ? (

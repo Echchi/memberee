@@ -1,5 +1,5 @@
 "use client";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import TimeTable from "@/component/timeTable";
 import { useRouter } from "next/navigation";
 import { cls, dateFormattedtoKor } from "@/libs/client/utils";
@@ -16,12 +16,13 @@ const Class = ({ classes }: { classes: classWithMember[] }) => {
   const today = dateFormattedtoKor(new Date());
   const dayOfWeek = getDay(new Date()) === 0 ? 7 : getDay(new Date());
   const router = useRouter();
+  const classRef = useRef<HTMLDivElement | null>(null);
 
   return (
     <>
       <div
         className={cls(
-          "relative box flex-col row-span-3 hover:shadow-lg transition-all h-96 md:h-full",
+          "relative box flex-col row-span-3 hover:shadow-lg transition-all h-96 lg:h-full",
           classes.length > 0 ? "cursor-pointer" : "cursor-default",
         )}
         onClick={() => (classes.length > 0 ? router.push("/class") : undefined)}
@@ -31,7 +32,7 @@ const Class = ({ classes }: { classes: classWithMember[] }) => {
           {today} {DAYOFWEEK[dayOfWeek]}요일 수업
         </span>
         {classes.length > 0 ? (
-          <div className="overflow-y-auto overflow-x-auto mt-3">
+          <div ref={classRef} className="overflow-y-auto overflow-x-auto mt-3">
             <TimeTable classes={classes} />
           </div>
         ) : (

@@ -56,7 +56,7 @@ const Modal = ({ title, content, onClose, className }: ModalProps) => {
       <div
         className={cls(
           "bg-white p-6 w-full min-h-fit relative rounded-lg",
-          className ? className : "md:w-2/5",
+          className ? className : "lg:w-2/5",
         )}
       >
         <button

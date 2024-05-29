@@ -23,16 +23,16 @@ export default function Template({
   children,
 }: LayoutProps) {
   return (
-    <div className="flex flex-col md:w-full md:max-w-full max-w-xl mx-auto min-h-screen bg-gradient-to-b from-white from-[1%] to-stone-100">
+    <div className="flex flex-col lg:w-full lg:max-w-full max-w-xl mx-auto min-h-screen bg-gradient-to-b from-white from-[1%] to-stone-100">
       <Web />
 
       {hasTopBar ? <TopBar canGoBack={canGoBack} /> : null}
       <PageTransition>
         <div
           className={cls(
-            "md:pt-28 md:max-w-full md:w-[1400px] md:mx-auto px-3 lg:px-5 text-stone-800 min-h-fit",
+            "lg:pt-28 lg:max-w-full lg:w-[1400px] lg:mx-auto px-3 lg:px-5 text-stone-800 min-h-fit",
             hasTabBar ? "mb-20" : "",
-            hasTopBar ? "pt-12" : "",
+            hasTopBar ? "pt-16" : "",
           )}
         >
           {children}

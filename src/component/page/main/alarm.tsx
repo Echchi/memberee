@@ -17,11 +17,11 @@ const Alarm = ({ overdueCnt }: { overdueCnt: number }) => {
       data-testid="main-alert"
       onClick={() => router.push("/pay")}
       className={cls(
-        "cursor-pointer flex items-center justify-between py-2 md:py-3 w-full bg-gradient-to-r from-orange-200 from-5% to-orange-300 rounded-full px-5 md:px-8 mt-3 font-semibold text-orange-600 animate-pulse transition-all",
+        "cursor-pointer flex items-center justify-between py-2 lg:py-3 w-full bg-gradient-to-r from-orange-200 from-5% to-orange-300 rounded-full px-5 lg:px-8 mt-3 font-semibold text-orange-600 animate-pulse transition-all",
         alarmHide ? "hidden" : "",
       )}
     >
-      <span className="text-xs md:text-base">
+      <span className="text-xs lg:text-base">
         {`이번 달(${getMonth(new Date()) + 1}월) 납부 내역이 확인되지 않은 회원이 ${overdueCnt}명 있어요`}
       </span>
       <button

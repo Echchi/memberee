@@ -102,7 +102,7 @@ const PayCheck = ({ param }: { param: IPay | null }) => {
             ? dateFormattedtoNum(param?.paymentDate)
             : dateFormattedtoKor(param?.paymentDate)
         }
-        className="h-14 lg:text-lg border-b-0 rounded-t-lg"
+        className="h-16 lg:text-lg border-b-0 rounded-t-lg"
         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
           handleChangePaymentDate(event)
         }
@@ -116,7 +116,7 @@ const PayCheck = ({ param }: { param: IPay | null }) => {
         label={"납부방법"}
         options={PAYMENT_METHOD}
         value={param?.method || "기타"}
-        className="h-14 lg:text-lg border-b-0"
+        className="h-16 lg:text-lg border-b-0"
         onSelectChange={(event) => {
           console.log("납부방법 event.target.value", event.target.value);
           setData((prev) => ({ ...prev, paymentMethod: event.target.value }));
@@ -127,7 +127,7 @@ const PayCheck = ({ param }: { param: IPay | null }) => {
         label={"납부금액"}
         placeholder={formatCurrency(param?.lessonFee)}
         value={isEdit ? param?.lessonFee : formatCurrency(param?.lessonFee)}
-        className="h-14 lg:text-lg border-b-0"
+        className="h-16 lg:text-lg border-b-0"
         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
           handleChangeLessonFee(event)
         }
@@ -141,13 +141,13 @@ const PayCheck = ({ param }: { param: IPay | null }) => {
         label={"메모"}
         placeholder={param?.memo}
         value={param?.memo ? param.memo : isEdit ? "" : "-"}
-        className="h-14 lg:text-lg rounded-b-lg"
+        className="h-16 lg:text-lg rounded-b-lg"
         maxLength={100}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
           handleChangeMemo(event)
         }
       />
-      <div className="md:flex justify-between *:md:w-1/6">
+      <div className="flex justify-between *:w-1/6">
         {isEdit ? (
           <Button
             text={"취소"}
@@ -159,7 +159,7 @@ const PayCheck = ({ param }: { param: IPay | null }) => {
           <Button
             type={"button"}
             text={"미납처리"}
-            className="mt-4 red_btn !w-1/6"
+            className="mt-4 red_btn"
             large={true}
             onClick={() => deletePay(data)}
           />
@@ -168,7 +168,7 @@ const PayCheck = ({ param }: { param: IPay | null }) => {
         <Button
           type={"button"}
           text={isEdit ? "확인" : "수정"}
-          className="mt-4 !w1/6"
+          className="mt-4"
           large={true}
           onClick={isEdit ? () => updatePay(data) : () => setIsEdit(true)}
         />

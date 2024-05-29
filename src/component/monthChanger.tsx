@@ -20,7 +20,7 @@ const MonthChanger = () => {
   }, [date, searchParams]);
 
   return (
-    <div className="flex justify-center items-center font-semibold text-2xl mt-3">
+    <div className="flex justify-center items-center font-semibold text-xl lg:text-2xl my-4 lg:mt-3">
       <button onClick={() => setDate(addMonths(date, -1))}>
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -60,16 +60,16 @@ const Page = () => {
   const createMemberWithBulk = createMember.bind("bulk", false);
   const [state, action] = useFormState(createMemberWithBulk, null);
   return (
-    <div className="max-w-screen-lg mx-auto mt-10">
-      <div className="col-span-2 border border-x border-b-0 flex bg-stone-100 text-stone-600 tracking-wider text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg ">
+    <div className="max-w-screen-lg mx-auto lg:mt-10">
+      <div className="col-span-2 border border-x border-b-0 flex bg-stone-100 text-stone-600 tracking-wider text-lg lg:text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg ">
         회원 등록
       </div>
-      <form className="grid grid-cols-2" action={action}>
+      <form className="lg:grid grid-cols-2" action={action}>
         <Input
           type={"text"}
           label={"이름"}
           placeholder={"이름"}
-          className="h-14 lg:text-lg border-r-0 border-b-0"
+          className="h-16 lg:text-lg lg:border-r-0 border-b-0 "
           name={"name"}
           maxLength={6}
           minLength={2}
@@ -81,7 +81,7 @@ const Page = () => {
           type={"text"}
           label={"연락처"}
           placeholder={"숫자만 입력해주세요"}
-          className="h-14 lg:text-lg border-b-0"
+          className="h-16 lg:text-lg border-b-0"
           name={"phone"}
           maxLength={11}
           minLength={10}
@@ -93,7 +93,7 @@ const Page = () => {
           type={"text"}
           label={"생년월일"}
           placeholder={"20000726"}
-          className="h-14 lg:text-lg border-b-1 border-r-0"
+          className="h-16 lg:text-lg lg:border-b-1 lg:border-r-0"
           maxLength={8}
           minLength={8}
           name={"birth"}
@@ -103,7 +103,7 @@ const Page = () => {
           type={"text"}
           label={"직업"}
           placeholder={"직업"}
-          className="h-14 lg:text-lg border-b-1"
+          className="h-16 lg:text-lg border-b-1"
           name={"job"}
         />
         <div
@@ -114,16 +114,16 @@ const Page = () => {
               : "",
           )}
         >
-          <div className="flex h-14">
+          <div className="flex h-16">
             <span className="hidden lg:flex items-center lg:text-lg flex-nowrap w-24 font-semibold text-stone-600">
               요일 선택
             </span>
 
-            <div className="relative grid grid-cols-7 justify-items-center lg:py-3 w-full px-4 overflow-y-auto">
+            <div className="relative grid grid-cols-7 justify-items-center lg:py-3 w-full px-4 overflow-y-auto lg:h-fit">
               {Object.entries(DAYOFWEEK).map(([index, day]) => (
                 <div
                   key={`select_dayOFWeek_${day}`}
-                  className="relative flex flex-col justify-center items-center text-lg *:lg:py-2 *:lg:px-4 *:transition-all *:py-1 *:px-2.5"
+                  className="relative flex flex-col justify-center items-center text-base lg:text-lg *:lg:py-2 *:lg:px-4 *:transition-all *:py-1 *:px-2.5"
                 >
                   <button
                     type={"button"}
@@ -188,7 +188,7 @@ const Page = () => {
               </span>
             }
             placeholder={formatCurrency("250000")}
-            className="h-14 lg:text-lg border-y-0"
+            className="h-16 lg:text-lg border-y-0"
             name={"lessonFee"}
             maxLength={7}
             minLength={4}
@@ -202,7 +202,7 @@ const Page = () => {
           label={"시작 일자"}
           placeholder={today}
           value={today}
-          className="h-14 lg:text-lg border-b-1 border-l-0"
+          className="h-16 lg:text-lg lg:border-l-0"
           name={"startDate"}
           maxLength={8}
           minLength={8}
@@ -215,7 +215,7 @@ const Page = () => {
             label={"비고"}
             placeholder={"처음 시작하는 회원"}
             isLong={true}
-            className="h-14 lg:text-lg rounded-b border-t-0"
+            className="h-16 lg:text-lg rounded-b-xl border-t-0"
             name={"content"}
             errorMessage={state?.fieldErrors?.content}
           />

@@ -25,7 +25,7 @@ const Worker = ({ workers }: { workers: WorkerWithMember[] }) => {
         />
       )}
       <div
-        className="box flex-col justify-center space-x-2 md:!py-2 cursor-pointer hover:shadow-lg"
+        className="box flex-col justify-center space-x-2 lg:!py-2 cursor-pointer hover:shadow-lg"
         onClick={() =>
           workers.length > 0
             ? router.push("/worker")
@@ -44,10 +44,10 @@ const Worker = ({ workers }: { workers: WorkerWithMember[] }) => {
                 className="flex flex-col justify-evenly items-center rounded-lg min-x-fit px-5 py-2 hover:bg-stone-100 cursor-pointer transition-all"
               >
                 <div className="rounded-full bg-gray-300 mb-4 h-20 w-20" />
-                <p className="text-base md:text-lg font-semibold">
+                <p className="text-base lg:text-lg font-semibold">
                   {worker.name}
                 </p>
-                <p className="text-sm md:text-base font-medium whitespace-nowrap">
+                <p className="text-sm lg:text-base font-medium whitespace-nowrap">
                   {worker.dayOfWeek
                     ?.split("")
                     .sort((a, b) => Number(a) - Number(b))

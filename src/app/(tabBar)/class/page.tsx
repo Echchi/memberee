@@ -64,7 +64,7 @@ const Page = ({
   return (
     <>
       <MonthChanger />
-      <div className="my-3 flex justify-between">
+      <div className="my-3 flex justify-between items-center">
         <WorkerList
           isOnly={true}
           onChange={onChange}
@@ -86,7 +86,7 @@ const Page = ({
       </div>
       <div
         ref={classRef}
-        className="box mt-3 !pt-0 grid grid-cols-8 justify-items-center *:text-lg *:font-semibold gap-3 overflow-y-auto h-[70vh] print:h-fit print:overflow-visible"
+        className="box mt-3  grid grid-cols-8 justify-items-center *:text-base *:lg:text-lg *:font-semibold gap-3 overflow-y-auto h-[70vh] print:h-fit print:overflow-visible"
       >
         <div className="sticky top-0 py-3 bg-white w-full flex justify-center"></div>
         <div className="sticky top-0 py-3 bg-white w-full flex justify-center">

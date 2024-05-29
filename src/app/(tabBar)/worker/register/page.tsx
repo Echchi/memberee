@@ -39,7 +39,7 @@ const Page = () => {
           type={"text"}
           label={"이름"}
           placeholder={"이름"}
-          className="h-14 lg:text-lg border-r-0 border-b-0"
+          className="h-16 lg:text-lg border-r-0 border-b-0"
           name={"name"}
           maxLength={6}
           minLength={2}
@@ -51,7 +51,7 @@ const Page = () => {
           type={"text"}
           label={"연락처"}
           placeholder={"01012341234"}
-          className="h-14 lg:text-lg border-b-0"
+          className="h-16 lg:text-lg border-b-0"
           name={"phone"}
           maxLength={11}
           minLength={10}
@@ -63,7 +63,7 @@ const Page = () => {
           type={"text"}
           label={"생년월일"}
           placeholder={"20000726"}
-          className="h-14 lg:text-lg border-b-0 border-r-0"
+          className="h-16 lg:text-lg border-b-0 border-r-0"
           name={"birth"}
           maxLength={8}
           minLength={8}
@@ -75,7 +75,7 @@ const Page = () => {
           label={"시작일자"}
           value={today}
           placeholder={today}
-          className="h-14 lg:text-lg border-b-0"
+          className="h-16 lg:text-lg border-b-0"
           name={"startDate"}
           maxLength={8}
           minLength={8}
@@ -99,7 +99,7 @@ const Page = () => {
             type={"number"}
             label={"수수료"}
             placeholder={"10"}
-            className="h-14 lg:text-lg border-b-1"
+            className="h-16 lg:text-lg border-b-1"
             name={"commission"}
             maxLength={2}
             errorMessage={state?.fieldErrors?.commission}
@@ -109,7 +109,7 @@ const Page = () => {
           type={"text"}
           label={"은행"}
           placeholder={"국민"}
-          className="h-14 lg:text-lg border-t-0 border-r-0"
+          className="h-16 lg:text-lg border-t-0 border-r-0"
           name={"bank"}
           maxLength={8}
         />
@@ -118,7 +118,7 @@ const Page = () => {
           label={"계좌번호"}
           placeholder={"12312312123123"}
           isLong={true}
-          className="h-14 lg:text-lg  border-t-0"
+          className="h-16 lg:text-lg  border-t-0"
           name={"accountNumber"}
           maxLength={15}
           errorMessage={state?.fieldErrors?.accountNumber}
@@ -129,7 +129,7 @@ const Page = () => {
             label={"비고"}
             placeholder={""}
             isLong={true}
-            className="h-14 lg:text-lg rounded-b-lg border-t-0"
+            className="h-16 lg:text-lg rounded-b-lg border-t-0"
             name={"content"}
             errorMessage={state?.fieldErrors?.content}
           />

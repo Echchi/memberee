@@ -35,7 +35,7 @@ const Members = ({
   // }, [members]);
   return (
     <>
-      <div className="text-stone-600 font-bold text-sm lg:text-lg flex justify-center items-center h-14 bg-neutral-100 col-span-2 border-x border-t border-neutral-300">
+      <div className="text-stone-600 font-bold text-sm lg:text-lg flex justify-center items-center h-16 bg-neutral-100 col-span-2 border-x border-t border-neutral-300">
         담당 회원
       </div>
       {members.length > 0 ? (

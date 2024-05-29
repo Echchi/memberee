@@ -91,7 +91,7 @@ const WorkerExcelModal = ({ onClose }: { onClose: () => void }) => {
       </div>
       <div className="h-[500px] my-3 overflow-y-scroll">
         <table className="w-full table-auto text-center border-stone-100">
-          <thead className="*:text-lg font-semibold bg-stone-100 h-14 sticky top-0">
+          <thead className="*:text-lg font-semibold bg-stone-100 h-16 sticky top-0">
             <tr>
               <td>이름</td>
               <td>연락처</td>

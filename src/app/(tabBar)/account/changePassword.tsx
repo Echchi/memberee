@@ -108,7 +108,7 @@ const ChangePassword = () => {
         type={"password"}
         label={"현재 비밀번호"}
         placeholder={"현재 비밀번호"}
-        className="h-14 lg:text-lg border-b-0 rounded-t-lg"
+        className="h-16 lg:text-lg border-b-0 rounded-t-lg"
         onBlur={handleCheckCurrentPwd}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
           setCurrentPwd(event.target.value)
@@ -123,7 +123,7 @@ const ChangePassword = () => {
         type={"password"}
         label={"새 비밀번호"}
         placeholder={"새 비밀번호"}
-        className="h-14 lg:text-lg border-b-0"
+        className="h-16 lg:text-lg border-b-0"
         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
           handleChangeNewPwd(event)
         }
@@ -135,7 +135,7 @@ const ChangePassword = () => {
         type={"password"}
         label={"새 비밀번호 확인"}
         placeholder={"새 비밀번호 확인"}
-        className="h-14 lg:text-lg rounded-b-lg"
+        className="h-16 lg:text-lg rounded-b-lg"
         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
           handleChangeNewConfirmPwd(event)
         }

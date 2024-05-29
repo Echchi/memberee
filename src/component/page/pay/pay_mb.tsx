@@ -95,7 +95,7 @@ const PayMb = ({
                     worker={member.worker?.name}
                     day={member.Schedule?.map(
                       (item, index) => DAYOFWEEK[item.dayOfWeek],
-                    ).join("")}
+                    ).join("  ")}
                     name={
                       <span className="flex items-center space-x-2">
                         <span>{member.name}</span>

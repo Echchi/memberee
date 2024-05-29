@@ -81,7 +81,7 @@ const Input: React.FC<
         </span>
       )}
       {label && (
-        <span className="text-xs lg:text-lg text-stone-600 max-w-24 lg:max-w-full absolute inset-y-0 left-0 flex flex-nowrap items-center lg:pl-10 pl-4 whitespace-pre-line font-semibold">
+        <span className="text-sm lg:text-lg text-stone-600 max-w-24 lg:max-w-full absolute inset-y-0 left-0 flex flex-nowrap items-center lg:pl-10 pl-4 whitespace-pre-line font-semibold">
           {label}
         </span>
       )}
@@ -98,7 +98,7 @@ const Input: React.FC<
         >
           {value || ""}
           {selectDescription && (
-            <span className="ml-4 relative  font-medium text-xs lg:text-lg">
+            <span className="ml-4 relative  font-medium text-sm lg:text-lg">
               {selectDescription}
             </span>
           )}
@@ -117,7 +117,7 @@ const Input: React.FC<
         >
           {value || ""}
           {selectDescription && (
-            <span className="ml-4 relative  font-medium text-xs lg:text-lg">
+            <span className="ml-4 relative  font-medium text-sm lg:text-lg">
               {selectDescription}
             </span>
           )}
@@ -127,7 +127,7 @@ const Input: React.FC<
           <select
             name={name}
             className={cls(
-              "outline-none bg-white text-stone-600 font-medium text-xs lg:text-lg",
+              "outline-none bg-white text-stone-600 font-medium text-sm lg:text-lg",
               icon ? "ml-14 lg:ml-20" : "",
               label ? "ml-20 lg:ml-48" : "",
             )}
@@ -142,7 +142,7 @@ const Input: React.FC<
               ))}
           </select>
           {selectDescription && (
-            <span className="ml-4 relative font-medium text-xs lg:text-lg">
+            <span className="ml-4 relative font-medium text-sm lg:text-lg">
               {selectDescription}
             </span>
           )}

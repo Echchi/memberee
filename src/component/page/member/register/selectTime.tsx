@@ -120,7 +120,7 @@ const SelectTime = ({
 
   return (
     <>
-      <div className="bg-white py-3 col-span-2 border border-t-0 border-b-1 border-neutral-300 flex flex-col lg:pl-10 pl-4">
+      <div className="bg-white py-3 col-span-2 border border-t-0 border-b-1 border-neutral-300 flex flex-col lg:pl-10">
         <div className="flex">
           <div className="hidden lg:flex items-center lg:text-lg flex-nowrap w-24 font-semibold text-stone-600 ">
             시간 선택
@@ -163,7 +163,7 @@ const SelectTime = ({
           </div>
         </div>
         {timeError && (
-          <div className="col-span-3 text-orange-500 text-xs lg:text-sm w-full text-right lg:pr-10 pt-3">
+          <div className="col-span-3 text-orange-500 text-xs lg:text-sm w-full text-right pr-4 lg:pr-10 pt-3">
             {timeError}
           </div>
         )}

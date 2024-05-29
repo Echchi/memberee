@@ -1,8 +1,5 @@
-import { format, getMonth, getYear } from "date-fns";
-import TimeTable from "@/component/timeTable";
-import { cls } from "@/libs/client/utils";
-import { useRouter } from "next/navigation";
-import Tag from "@/component/tag";
+import { getMonth, getYear } from "date-fns";
+
 import Class from "@/component/page/main/class";
 import Alarm from "@/component/page/main/alarm";
 import Worker from "@/component/page/main/worker";
@@ -12,7 +9,6 @@ import { getPaidCnt, getTotalCnt } from "@/app/(tabBar)/main/api";
 import { getWorkers } from "@/component/page/worker/workers";
 import { getClasses } from "@/app/(tabBar)/class/api";
 import { getDay } from "date-fns";
-import { getMembers } from "@/app/(tabBar)/member/api";
 
 const Page = async () => {
   const year = getYear(new Date());
@@ -32,7 +28,7 @@ const Page = async () => {
       {totalMemCnt - paidCnt > 0 && (
         <Alarm overdueCnt={totalMemCnt - paidCnt} />
       )}
-      <div className="md:grid grid-cols-2 grid-rows-3 gap-3 mt-4 lg:mt-12 md:h-[700px]">
+      <div className="lg:grid grid-cols-2 grid-rows-3 gap-3 mt-4 lg:mt-12 lg:h-[700px]">
         <Class classes={classes} />
 
         <Worker workers={workers} />

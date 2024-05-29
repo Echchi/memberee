@@ -16,7 +16,7 @@ const Join = () => {
   return (
     <form
       action={action}
-      className="md:pt-10 md:max-w-full md:w-[1400px] md:mx-auto px-3 md:px-32 text-stone-800"
+      className="lg:pt-10 lg:max-w-full lg:w-[1400px] lg:mx-auto px-3 lg:px-32 text-stone-800"
       data-testid="join-form"
     >
       <div className="flex flex-col justify-center items-center mt-8">
@@ -49,7 +49,7 @@ const Join = () => {
           type={"text"}
           placeholder={"이름"}
           required={true}
-          className={"h-14 rounded-t-lg"}
+          className={"h-16 rounded-t-lg"}
           name={"username"}
           errorMessage={state?.fieldErrors.username}
         />
@@ -71,7 +71,7 @@ const Join = () => {
           type={"text"}
           placeholder={"아이디"}
           required={true}
-          className={"h-14 border-t-0 border-b-1"}
+          className={"h-16 border-t-0 border-b-1"}
           name={"userid"}
           errorMessage={state?.fieldErrors.userid}
         />
@@ -93,7 +93,7 @@ const Join = () => {
           type={"text"}
           placeholder={"비밀번호"}
           required={true}
-          className={"h-14 border-t-0 border-b-1"}
+          className={"h-16 border-t-0 border-b-1"}
           name={"password"}
           errorMessage={state?.fieldErrors.password}
         />
@@ -115,7 +115,7 @@ const Join = () => {
           type={"text"}
           placeholder={"비밀번호 확인"}
           required={true}
-          className={"h-14 border-t-0 border-b-1"}
+          className={"h-16 border-t-0 border-b-1"}
           name={"confirm_password"}
           errorMessage={state?.fieldErrors.confirm_password}
         />
@@ -137,7 +137,7 @@ const Join = () => {
           type={"text"}
           placeholder={"휴대폰 번호"}
           required={true}
-          className={"h-14 border-t-0 border-b-1"}
+          className={"h-16 border-t-0 border-b-1"}
           maxLength={11}
           errorMessage={state?.fieldErrors.phone}
           name={"phone"}
@@ -157,7 +157,7 @@ const Join = () => {
           type={"text"}
           placeholder={"이메일"}
           required={true}
-          className={"h-14 border-t-0 border-b-1 rounded-b-lg"}
+          className={"h-16 border-t-0 border-b-1 rounded-b-lg"}
           errorMessage={state?.fieldErrors.email}
           name={"email"}
         />
@@ -184,7 +184,7 @@ const Join = () => {
           type={"text"}
           placeholder={"업체명"}
           required={true}
-          className={"h-14 border-t-1 border-b-1 rounded-t-lg"}
+          className={"h-16 border-t-1 border-b-1 rounded-t-lg"}
           name={"co_name"}
           errorMessage={state?.fieldErrors.co_name}
         />
@@ -206,7 +206,7 @@ const Join = () => {
           type={"text"}
           placeholder={"사업자 등록 번호를 숫자로만 입력해주세요"}
           required={true}
-          className={"h-14 border-t-0"}
+          className={"h-16 border-t-0"}
           name={"co_num"}
           maxLength={10}
           errorMessage={state?.fieldErrors.co_num}
@@ -228,7 +228,7 @@ const Join = () => {
           }
           name={"payDay"}
           required={true}
-          className={"h-14 border-t-0"}
+          className={"h-16 border-t-0"}
           type={"select"}
           selectDescription={"일이 납부일이에요"}
           options={Array.from({ length: 31 }, (_, index) => ({
@@ -254,7 +254,7 @@ const Join = () => {
           type={"text"}
           placeholder={"연락처"}
           required={true}
-          className={"h-14 border-t-0 rounded-b-lg"}
+          className={"h-16 border-t-0 rounded-b-lg"}
           name={"co_contact"}
           errorMessage={state?.fieldErrors.co_contact}
         />

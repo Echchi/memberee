@@ -8,7 +8,7 @@ import { logout } from "@/app/(tabBar)/main/api";
 const Web = () => {
   const pathname = usePathname();
   return (
-    <div className="hidden md:flex fixed top-0 z-10 h-20 w-full px-7 py-2 items-center space-x-6 bg-white/90">
+    <div className="hidden lg:flex fixed top-0 z-10 h-20 w-full px-7 py-2 items-center space-x-6 bg-white/90">
       <Link
         className="text-3xl font-extrabold text-emerald-700 cursor-pointer"
         href={"/main"}

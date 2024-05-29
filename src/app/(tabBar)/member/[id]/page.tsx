@@ -230,7 +230,7 @@ const Page = ({ params }: { params: { id: string } }) => {
       )}
       <form className="box justify-center flex-col" action={action}>
         <div className="col-span-2 flex justify-end items-center">
-          <div className="relative hidden md:flex items-center justify-end w-full">
+          <div className="relative hidden lg:flex items-center justify-end w-full">
             {member && member?.status < 0 && (
               <p className="absolute left-0 rounded-full  bg-amber-400 py-2 px-4 text-amber-700 font-semibold">
                 {format(member?.suspendedDate || "", "yyyy년 MM월 dd일")} 부터
@@ -256,11 +256,11 @@ const Page = ({ params }: { params: { id: string } }) => {
         <div
           ref={memberRef}
           className={cls(
-            "grid grid-cols-2 ",
+            "lg:grid grid-cols-2 ",
             member && member?.status < 0 ? "*:bg-stone-100" : "",
           )}
         >
-          <div className="relative col-span-2 border border-x border-b-0 hidden md:flex bg-stone-100 text-stone-600 tracking-wider text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg print:flex">
+          <div className="relative col-span-2 border border-x border-b-0 flex bg-stone-100 text-stone-600 tracking-wider text-lg lg:text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg print:flex">
             회원 카드
           </div>
           <Input
@@ -268,7 +268,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             label={"이름"}
             value={member?.name}
             placeholder={member?.name}
-            className={"h-14 lg:text-lg border-r-0 border-b-0"}
+            className={"h-16 lg:text-lg lg:border-r-0 border-b-0"}
             name={"name"}
             maxLength={6}
             minLength={2}
@@ -289,7 +289,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             placeholder={
               member?.phone ? formatPhone(member?.phone) : "번호 없음"
             }
-            className="h-14 lg:text-lg border-b-0"
+            className="h-16 lg:text-lg border-b-0"
             name={"phone"}
             maxLength={11}
             minLength={10}
@@ -306,7 +306,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 : dateFormattedtoKor(member?.birth)
             }
             placeholder={dateFormattedtoNum(member?.birth)}
-            className="h-14 lg:text-lg border-b-1 border-r-0"
+            className="h-16 lg:text-lg border-b-1 lg:border-r-0"
             name={"birth"}
             errorMessage={state?.fieldErrors.birth}
           />
@@ -315,7 +315,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             label={"직업"}
             value={member?.job || "미등록"}
             placeholder={member?.job || "미등록"}
-            className="h-14 lg:text-lg border-b-1"
+            className="h-16 lg:text-lg border-b-1"
             name={"job"}
           />
 
@@ -329,7 +329,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                     : "",
                 )}
               >
-                <div className="flex h-14">
+                <div className="flex h-16">
                   <span className="hidden lg:flex items-center lg:text-lg flex-nowrap w-24 font-semibold text-stone-600">
                     요일 선택
                   </span>
@@ -338,7 +338,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                     {Object.entries(DAYOFWEEK).map(([index, day]) => (
                       <div
                         key={day}
-                        className="relative flex flex-col justify-center items-center text-lg *:lg:py-2 *:lg:px-4 *:transition-all *:py-1 *:px-2.5"
+                        className="relative flex flex-col justify-center items-center text-base lg:text-lg *:lg:py-2 *:lg:px-4 *:transition-all *:py-1 *:px-2.5"
                       >
                         <button
                           type={"button"}
@@ -427,7 +427,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             }
             placeholder={member?.Schedule?.[0]?.lessonFee + ""}
             className={cls(
-              "h-14 lg:text-lg border-b-0 border-r-0",
+              "h-16 lg:text-lg border-b-0 lg:border-r-0",
               isEdit ? "border-t-0" : "",
             )}
             name={"lessonFee"}
@@ -447,7 +447,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               label={"담당"}
               value={member?.worker?.name}
               placeholder={member?.worker?.name}
-              className="h-14 lg:text-lg border-b-0"
+              className="h-16 lg:text-lg border-b-0"
             />
           )}
 
@@ -465,8 +465,8 @@ const Page = ({ params }: { params: { id: string } }) => {
                 : dateFormattedtoKor(member?.startDate)
             }
             className={cls(
-              "h-14 lg:text-lg border-b-1 ",
-              isEdit ? "col-span-2 rounded-b-lg" : "border-r-0",
+              "h-16 lg:text-lg border-b-1",
+              isEdit ? "col-span-2 rounded-b-lg" : "lg:border-r-0",
             )}
             name={"startDate"}
             maxLength={8}
@@ -479,14 +479,14 @@ const Page = ({ params }: { params: { id: string } }) => {
               type={"div"}
               label={"등록일자"}
               value={dateFormattedtoKor(member?.createdAt)}
-              className="h-14 lg:text-lg border-b-1"
+              className="h-16 lg:text-lg border-b-1 rounded-b-xl lg:rounded-b-none"
             />
           )}
 
           {isEdit ? (
             <></>
           ) : (
-            <motion.div className="col-span-2">
+            <motion.div className="col-span-2 hidden lg:block">
               <Memos
                 memos={memos}
                 id={member?.id + "" || ""}

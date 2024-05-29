@@ -49,39 +49,39 @@
 
     /* input */
     .inner_input {
-        @apply font-medium appearance-none w-full h-full outline-none pr-3 py-2 focus:outline-none focus:ring-emerald-600 focus:ring-inset focus:ring-[1.5px] transition-all bg-white placeholder:lg:text-lg placeholder:text-base
+        @apply text-sm lg:text-lg font-medium appearance-none w-full h-full outline-none pr-3 py-2 focus:outline-none focus:ring-emerald-600 focus:ring-inset focus:ring-[1.5px] transition-all bg-white placeholder:lg:text-lg placeholder:text-sm
     }
     .inner_input_res {
-        @apply font-medium appearance-none w-full h-full outline-none pr-3 py-2 flex items-center text-stone-600 border-stone-300 text-xs lg:text-lg
+        @apply font-medium appearance-none w-full h-full outline-none pr-3 py-2 flex items-center text-stone-600 border-stone-300 text-sm lg:text-lg
     }
     .inner_input_error{
-        @apply font-medium appearance-none w-full h-full outline-none pr-3 py-2 focus:outline-none focus:ring-orange-500 focus:ring-inset focus:ring-[1.5px] transition-all placeholder:lg:text-lg placeholder:text-base
+        @apply text-sm lg:text-lg font-medium appearance-none w-full h-full outline-none pr-3 py-2 focus:outline-none focus:ring-orange-500 focus:ring-inset focus:ring-[1.5px] transition-all placeholder:lg:text-lg placeholder:text-sm
     }
     .inner_select {
-        @apply appearance-none w-full h-full outline-none pl-2 pr-3 py-2
+        @apply appearance-none w-full h-full outline-none pl-2 pr-3 py-2 text-sm lg:text-lg
     }
     .inner_select_error{
-        @apply appearance-none w-full h-full outline-none pl-2 pr-3 py-2
+        @apply appearance-none w-full h-full outline-none pl-2 pr-3 py-2 text-sm lg:text-lg
     }
 
 
 
     /* error */
     .error {
-        @apply absolute inset-y-0 right-2 flex items-center text-orange-500 font-medium m-1 text-xs lg:text-base bg-transparent
+        @apply absolute inset-y-0 right-2 flex items-center text-orange-500 font-medium m-1 text-xs lg:text-sm bg-transparent
     }
 
 
     /* box */
     .box {
-        @apply flex rounded-xl px-4 md:px-10 py-3 md:pt-5 md:pb-8 md:my-0 my-5 shadow font-medium bg-white
+        @apply flex rounded-xl px-4 lg:px-10 py-3 lg:pt-5 lg:pb-8 lg:my-0 my-5 shadow font-medium bg-white
     }
     .box_clickable {
-        @apply rounded-xl px-4 md:px-12 py-3 md:pt-5 md:pb-8 md:my-0 my-5 md:grid grid-cols-2 shadow md:space-y-1 font-medium bg-white cursor-pointer
+        @apply rounded-xl px-4 lg:px-12 py-3 lg:pt-5 lg:pb-8 lg:my-0 my-5 lg:grid grid-cols-2 shadow lg:space-y-1 font-medium bg-white cursor-pointer
     }
 
     .box_title{
-        @apply text-xl font-bold col-span-2 pt-2 pb-4 flex justify-between items-center text-emerald-800
+        @apply text-base lg:text-xl font-bold col-span-2 pt-2 pb-4 flex justify-between items-center text-emerald-800
     }
 
     /* button */

@@ -15,7 +15,7 @@ const RegisterModal = () => {
           title={"직원 등록"}
           content={<Page />}
           onClose={() => setRegisterModalOpen(false)}
-          className={"md:w-2/3"}
+          className={"lg:w-2/3"}
         />
       )}
       <Button

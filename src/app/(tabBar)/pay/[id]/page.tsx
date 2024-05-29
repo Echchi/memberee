@@ -98,7 +98,7 @@ const Page = ({ params }: { params: { id: string } }) => {
     <>
       <div className="box flex-col">
         <div className="flex justify-end items-center">
-          <div className="relative hidden md:flex items-center justify-end space-x-4 w-full *:w-32">
+          <div className="relative hidden lg:flex items-center justify-end space-x-4 w-full *:w-32">
             {member?.status === 0 && (
               <Tag
                 color={"stone"}
@@ -128,12 +128,12 @@ const Page = ({ params }: { params: { id: string } }) => {
             </div>
           </div>
         </div>
-        <div className=" border border-x border-b-0 hidden md:flex bg-stone-100 text-stone-600 tracking-wider text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg ">
+        <div className=" border border-x border-b-0 flex bg-stone-100 text-stone-600 tracking-wider text-lg lg:text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg ">
           납부내역
         </div>
         <div
           className={cls(
-            "grid md:grid-cols-2 w-full cursor-pointer",
+            "grid lg:grid-cols-2 w-full cursor-pointer",
             member && member?.status <= 0 ? "*:bg-stone-100" : "",
           )}
           data-testid={"member-info"}
@@ -143,7 +143,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             type={"div"}
             label={"이름"}
             value={member?.name}
-            className="h-16 md:border-r-0 lg:text-lg md:rounded-none rounded-t-lg"
+            className="h-16 lg:border-r-0 lg:text-lg"
           />
           <Input
             type={"div"}
@@ -155,13 +155,13 @@ const Page = ({ params }: { params: { id: string } }) => {
             type={"div"}
             label={"연락처"}
             value={formatPhone(member?.phone || "미등록")}
-            className="h-16 border-t-0 md:border-r-0 lg:text-lg"
+            className="h-16 border-t-0 lg:border-r-0 lg:text-lg"
           />
           <Input
             type={"div"}
             label={"납부/ 총 납부"}
             value={`${paymentCnt}건 / ${totalPeriod.length - stopPeriod}건`}
-            className="hidden md:flex h-16 border-t-0 lg:text-lg"
+            className="hidden lg:flex h-16 border-t-0 lg:text-lg"
           />
         </div>
         {member && (

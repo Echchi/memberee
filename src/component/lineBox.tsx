@@ -37,8 +37,8 @@ const LineBox = ({
         <span className="flex items-center space-x-1">{day}</span>
       </p>
       <p className="flex items-center justify-between text-gray-950 font-semibold pl-2">
-        <span className="flex items-center text-gray-950 font-semibold space-x-3 py-1">
-          <span className="text-xl">{name}</span>
+        <span className="flex items-center text-gray-950 font-semibold space-x-3 py-1 text-lg">
+          {name}
         </span>
         <span>{phone}</span>
       </p>

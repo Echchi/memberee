@@ -14,7 +14,7 @@ const Login = () => {
     <div className="w-full max-w-lg mx-auto">
       <form action={action} className="w-full mt-32 px-8">
         <div className="flex flex-col justify-center items-center space-y-3">
-          <h3 className="text-5xl md:text-7xl font-extrabold text-emerald-700">
+          <h3 className="text-5xl lg:text-7xl font-extrabold text-emerald-700">
             memberee
           </h3>
           {/*<h3 className="ml-3 text-black">누구나 편하게 쓰기 쉬운 회원관리 </h3>*/}

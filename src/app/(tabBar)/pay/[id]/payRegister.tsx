@@ -99,7 +99,7 @@ const PayRegister = ({
         label={"납부일자"}
         placeholder={today}
         value={data.paymentDate}
-        className="h-14 lg:text-lg border-b-0 rounded-t-lg"
+        className="h-16 lg:text-lg border-b-0 rounded-t-lg"
         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
           handleChangePaymentDate(event)
         }
@@ -112,7 +112,7 @@ const PayRegister = ({
         type={"select"}
         label={"납부방법"}
         options={PAYMENT_METHOD}
-        className="h-14 lg:text-lg border-b-0"
+        className="h-16 lg:text-lg border-b-0"
         onSelectChange={(event) => {
           console.log("납부방법 event.target.value", event.target.value);
           setData((prev) => ({ ...prev, paymentMethod: event.target.value }));
@@ -123,7 +123,7 @@ const PayRegister = ({
         label={"납부금액"}
         placeholder={param?.lessonFee}
         value={lessonFee + ""}
-        className="h-14 lg:text-lg border-b-0"
+        className="h-16 lg:text-lg border-b-0"
         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
           handleChangeLessonFee(event)
         }
@@ -136,7 +136,7 @@ const PayRegister = ({
         type={"text"}
         label={"메모"}
         placeholder={"국민은행 000-000-00-000000"}
-        className="h-14 lg:text-lg rounded-b-lg"
+        className="h-16 lg:text-lg rounded-b-lg"
         maxLength={100}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
           handleChangeMemo(event)
