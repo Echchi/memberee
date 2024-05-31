@@ -41,7 +41,7 @@ const Worker = ({ workers }: { workers: WorkerWithMember[] }) => {
               <Link
                 href={`/worker/${worker.id}`}
                 key={`main_worker_${worker.id}`}
-                className="flex flex-col justify-evenly items-center rounded-lg min-x-fit px-5 py-2 hover:bg-stone-100 cursor-pointer transition-all"
+                className="flex flex-col justify-evenly items-center rounded-lg min-x-fit px-8 py-2 hover:bg-stone-100 cursor-pointer transition-all"
               >
                 {/*<div className="rounded-full bg-gray-300 mb-4 h-32 aspect-square" />*/}
                 <svg
