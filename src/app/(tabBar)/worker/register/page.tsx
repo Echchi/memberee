@@ -23,7 +23,7 @@ const Page = () => {
     }
   };
   useEffect(() => {
-    console.log("selectedDay", selectedDay);
+    // console.log("selectedDay", selectedDay);
   }, [selectedDay]);
 
   const createWorkerWithBulk = createWorker.bind("bulk", false);

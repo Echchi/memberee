@@ -43,7 +43,7 @@ const PayList = ({
         });
 
         if (response) {
-          console.log(response);
+          // // console.log(response);
           setMembers(response.members);
           setTotal(response.total);
         }
@@ -51,7 +51,9 @@ const PayList = ({
         return new Error("error fetch members");
       }
     };
+    console.time("납부 리스트 쿼리");
     fetchMembers();
+    console.timeEnd("납부 리스트 쿼리");
     setLoading(false);
   }, [query, workerId, page, payStatus, year, month]);
 

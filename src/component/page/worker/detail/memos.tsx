@@ -49,7 +49,7 @@ const Memos = ({
   }, [memos]);
 
   useEffect(() => {
-    console.log("data", data);
+    // console.log("data", data);
   }, [data]);
   const handleClickMemo = (savedMemo: string, memoId: number) => {
     setMemoType("read");

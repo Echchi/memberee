@@ -16,10 +16,10 @@ export async function login(prevState: any, formData: FormData) {
     userid: formData.get("userid"),
     password: formData.get("password"),
   };
-  console.log(formData);
+  // console.log(formData);
 
   const result = formSchema.safeParse(data);
-  console.log(result.success);
+  // console.log(result.success);
   if (!result.success) {
     return result.error.flatten();
   } else {
@@ -38,8 +38,9 @@ export async function login(prevState: any, formData: FormData) {
         },
       },
     });
+
     const ok = await bcrypt.compare(result.data.password, user?.password ?? "");
-    console.log("user", user);
+
     if (ok) {
       const isConfirmed = user!.status > 0;
       if (!isConfirmed) {

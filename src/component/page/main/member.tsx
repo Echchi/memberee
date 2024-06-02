@@ -21,7 +21,7 @@ const Member = ({
   registerOpen: boolean;
 }) => {
   const router = useRouter();
-  console.log("registerOpen", registerOpen);
+  // console.log("registerOpen", registerOpen);
   const [isMemberModalOpen, setIsMemberModalOpen] = useState(false);
   const [members, setMembers] = useState<IMemberWithSchedules[]>();
   const [total, setTotal] = useState<number>();
@@ -41,7 +41,7 @@ const Member = ({
           },
         });
         if (response) {
-          console.log("members response", response);
+          // console.log("members response", response);
           setMembers((prevData) => {
             const addData = response.members?.filter(
               (newMembers) =>

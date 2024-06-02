@@ -30,7 +30,7 @@ export async function getMembers({ params }: { params: IParams }) {
     page = 1,
     isAll = false,
   } = params;
-  console.log("getMembers params", params);
+  // // console.log("getMembers params", params);
   const session = await getSession();
   const companyId = session.company;
   const company = await getCompany();
@@ -132,7 +132,7 @@ export async function getMembers({ params }: { params: IParams }) {
       },
     },
   });
-  console.log("members", members);
+  // // console.log("members", members);
   const total = await db.member.count({ where: whereClause });
 
   const formattedMembers = members.map((member) => {
@@ -151,7 +151,7 @@ export async function getMembers({ params }: { params: IParams }) {
     return workerToUse;
   });
 
-  console.log("formattedMembers", formattedMembers);
+  // // console.log("formattedMembers", formattedMembers);
 
   return { members: formattedMembers, total };
 }

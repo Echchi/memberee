@@ -42,7 +42,7 @@ const DownloadPayListBtn = ({
           },
         });
         if (response) {
-          console.log("pay response", response);
+          // console.log("pay response", response);
           setMembers(response.members);
           setTotal(response.total);
         }
@@ -55,7 +55,7 @@ const DownloadPayListBtn = ({
       try {
         const response = await getPaidCnt(year, month);
         if (response) {
-          console.log("paidCnt response", response);
+          // console.log("paidCnt response", response);
           setPaid(response);
         }
       } catch (e) {

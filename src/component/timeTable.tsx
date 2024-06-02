@@ -59,7 +59,7 @@ function TimeTable({ classes }: { classes: classWithMember[] }) {
     setScheduleByWorker(newScheduleByWorker);
   }, [classes]);
   useEffect(() => {
-    console.log("scheduleByWorker", scheduleByWorker);
+    // console.log("scheduleByWorker", scheduleByWorker);
   }, [scheduleByWorker]);
 
   return (

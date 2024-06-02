@@ -10,8 +10,8 @@ const Pagination = ({
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
 }) => {
-  console.log("total", total);
-  console.log("pageNum", page);
+  // // console.log("total", total);
+  // // console.log("pageNum", page);
   const currentPage = page;
   const pageCount = Math.ceil(total / 10);
   const pageNumbers: React.ReactElement[] = [];

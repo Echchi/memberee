@@ -48,7 +48,7 @@ export function formatPhone(phoneNumber: string) {
 }
 
 export function combineCurrentDateWithTime(time: string) {
-  console.log("time", time);
+  // console.log("time", time);
   const currentDate = new Date();
   const timeParts = time.split(":");
   currentDate.setHours(
@@ -75,7 +75,7 @@ export function generatePaymentDates(
   includeThisMonth: boolean = true,
   endDate?: Date,
 ) {
-  // console.log("generatePaymentDates", date, paymentDay);
+  // // console.log("generatePaymentDates", date, paymentDay);
   const currentDate = includeThisMonth ? new Date() : subMonths(new Date(), 1);
   const start = new Date(date);
   const end = endDate ? endDate : new Date(currentDate);

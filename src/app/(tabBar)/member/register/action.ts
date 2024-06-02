@@ -50,7 +50,7 @@ export const createMember = async (
   prevState: any,
   formData: FormData,
 ) => {
-  console.log("회원 등록", formData);
+  // console.log("회원 등록", formData);
   const session = await getSession();
   const companyId = session.company;
   const data = {
@@ -67,10 +67,10 @@ export const createMember = async (
   };
   const result = formSchema.safeParse(data);
   if (!result.success) {
-    console.log(result.error.flatten());
+    // console.log(result.error.flatten());
     return result.error.flatten();
   } else {
-    console.log(result.data);
+    // console.log(result.data);
     const transactionResult = await db.$transaction(async (prisma) => {
       const member = await db.member.create({
         data: {
@@ -87,7 +87,7 @@ export const createMember = async (
         },
       });
 
-      console.log("========== member =========", member);
+      // console.log("========== member =========", member);
 
       const workerChangeLog = await db.workerChangeLog.create({
         data: {
@@ -105,7 +105,7 @@ export const createMember = async (
           ),
         },
       });
-      console.log("========== salary =========", salary);
+      // console.log("========== salary =========", salary);
 
       if (data?.times) {
         const schedulePromises = Object.entries(data?.times).map(
@@ -124,7 +124,7 @@ export const createMember = async (
             }),
         );
         const schedules = await db.$transaction(schedulePromises);
-        console.log("========== schedule =========", schedules);
+        // console.log("========== schedule =========", schedules);
       }
 
       if (result.data.content) {

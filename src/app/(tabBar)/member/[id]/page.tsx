@@ -69,7 +69,7 @@ const Page = ({ params }: { params: { id: string } }) => {
       try {
         if (id) {
           const response = await getMember(+id);
-          console.log("getMember", response);
+          // console.log("getMember", response);
           if (response) {
             setMember(response);
             setSelectedDay(
@@ -99,7 +99,7 @@ const Page = ({ params }: { params: { id: string } }) => {
       try {
         if (id) {
           const response = await getMemos(+id, slice);
-          console.log("getMemos", response);
+          // console.log("getMemos", response);
           if (response) {
             setMemos(response);
           }

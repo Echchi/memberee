@@ -17,7 +17,7 @@ import {
 } from "@/libs/client/utils";
 
 const Classes = ({ classes }: { classes: Schedule[] }) => {
-  console.log("classes worker", classes);
+  // console.log("classes worker", classes);
   const router = useRouter();
 
   const [scheduleByDay, setScheduleByDay] = useState(

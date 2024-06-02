@@ -119,7 +119,7 @@ export const updateMember = async (
       });
     }
 
-    console.log("========== member =========", member);
+    // console.log("========== member =========", member);
 
     if (savedMember && savedMember.Schedule && formData.get("lessonFee")) {
       const salary = savedMember.Schedule.map(async (schedule) => {
@@ -143,7 +143,7 @@ export const updateMember = async (
         }
       });
       const completedUpdates = await Promise.all(salary);
-      console.log("========== salary =========", completedUpdates);
+      // console.log("========== salary =========", completedUpdates);
     }
 
     const existingDays = new Set(

@@ -9,7 +9,7 @@ import { useFormState } from "react-dom";
 const Login = () => {
   const [state, action] = useFormState(login, null);
 
-  console.log("state", state);
+  // console.log("state", state);
   return (
     <div className="w-full max-w-lg mx-auto">
       <form action={action} className="w-full mt-32 px-8">

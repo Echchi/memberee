@@ -58,7 +58,7 @@ const Page = ({ params }: { params: { id: string } }) => {
       try {
         if (id) {
           const response = await getWorker(+id, memSlice);
-          console.log(response);
+          // console.log(response);
           response && setWorker(response);
         }
       } catch (error) {
@@ -74,7 +74,7 @@ const Page = ({ params }: { params: { id: string } }) => {
       try {
         if (id) {
           const response = await getWorkerMemos(+id, slice);
-          console.log("getWorkerMemos", response);
+          // console.log("getWorkerMemos", response);
           if (response) {
             setMemos(response);
           }

@@ -87,7 +87,7 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
   }, [listData]);
 
   useEffect(() => {
-    console.log("errors", errors);
+    // console.log("errors", errors);
   }, [errors]);
 
   return (

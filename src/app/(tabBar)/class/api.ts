@@ -20,7 +20,7 @@ export async function getClasses(options: {
       company?.payDay,
     ),
   );
-  // console.log("~~~~~~~~~~", options, companyId);
+  // // console.log("~~~~~~~~~~", options, companyId);
   // const members = await db.member.findMany({
   //   where: {
   //     companyId: companyId,
@@ -56,7 +56,7 @@ export async function getClasses(options: {
   //     ],
   //   },
   // });
-  // console.log("members", members);
+  // // console.log("members", members);
   const classes = await db.schedule.findMany({
     where: {
       ...(options.id && { workerId: options.id }),

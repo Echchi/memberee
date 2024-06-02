@@ -17,7 +17,7 @@ const ChangePassword = () => {
   const [currentPwd, setCurrentPwd] = useState("");
   const [newPwd, setNewPwd] = useState("");
   useEffect(() => {
-    console.log("error", error);
+    // console.log("error", error);
   }, [error]);
   const handleCheckCurrentPwd = async () => {
     if (currentPwd.length > 0) {

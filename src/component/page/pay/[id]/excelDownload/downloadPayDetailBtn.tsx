@@ -44,7 +44,7 @@ const DownloadPayDetailBtn = ({
     phone: formatPhone(member?.phone || ""),
     record: record,
   };
-  console.log("listItem", listItem);
+  // console.log("listItem", listItem);
 
   const content = listItem.map((item) => ({
     year: item.year,

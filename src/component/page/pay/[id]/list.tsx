@@ -79,7 +79,7 @@ const List = ({
     });
     setYearList(newSet);
     setListItem(items);
-    console.log("pay Items", items);
+    // console.log("pay Items", items);
   }, [totalPeriod, payment, member]);
 
   const handleClickPay = (item: IPay) => {
@@ -93,7 +93,7 @@ const List = ({
 
   const handleChangeYear = (event: ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.target;
-    console.log(value);
+    // console.log(value);
     setYear(value);
   };
 

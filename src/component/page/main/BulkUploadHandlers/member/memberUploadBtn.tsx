@@ -53,7 +53,7 @@ const MemberUploadBtn = ({
           endTime: timeArr[1].trim(),
         };
       });
-      console.log("times", JSON.stringify(times));
+      // // console.log("times", JSON.stringify(times));
       const formData = new FormData();
       formData.append("name", data[0]);
       formData.append("phone", data[1]);

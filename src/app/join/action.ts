@@ -53,7 +53,7 @@ const checkCoNum = async (num: string) => {
       id: true,
     },
   });
-  console.log(company);
+  // console.log(company);
   return !company;
 };
 
@@ -124,7 +124,7 @@ export const createAccount = async (prevState: any, formData: FormData) => {
   if (!result.success) {
     return result.error.flatten();
   } else {
-    console.log(result.data);
+    // console.log(result.data);
     const hashedPassword = await bcrypt.hash(result.data.password, 12);
     const user = await db.user.create({
       data: {

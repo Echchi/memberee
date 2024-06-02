@@ -47,7 +47,7 @@ const WorkerExcelModal = ({ onClose }: { onClose: () => void }) => {
           COMMISSION_REGEX.test(items[5]),
           ONLY_NUMBER_REGEX.test(items[7]),
         ];
-        console.log("validations", validations);
+        // console.log("validations", validations);
         const hasError = validations.some((validation) => !validation);
         if (hasError) acc.push(idx);
         return acc;

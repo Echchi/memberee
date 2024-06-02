@@ -14,10 +14,10 @@ export const readXlsx = (file: File): Promise<any> => {
       const firstWorksheet = workbook.Sheets[workbook.SheetNames[0]];
       const jsonData = XLSX.utils.sheet_to_json(firstWorksheet, { header: 1 });
 
-      console.log(
-        "jsonData",
-        jsonData.filter((item: any) => item.length > 0),
-      );
+      // console.log(
+      //   "jsonData",
+      //   jsonData.filter((item: any) => item.length > 0),
+      // );
       resolve(jsonData.slice(6).filter((item: any) => item.length > 0));
     };
 

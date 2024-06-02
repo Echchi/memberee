@@ -12,7 +12,7 @@ export const downloadMemberList = ({
   header?: any;
   content?: any;
 }) => {
-  console.log("content", content);
+  // console.log("content", content);
 
   const wb = new ExcelJS.Workbook();
   const ws = wb.addWorksheet(title, {

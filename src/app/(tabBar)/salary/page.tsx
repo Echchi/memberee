@@ -83,7 +83,7 @@ async function getWorkersSalarys(year: number, month: number) {
   //           orderBy: { changedDate: "desc" },
   //         });
   //
-  //         console.log("으휴 시발 샐러리", latestWorkerLog);
+  //         // console.log("으휴 시발 샐러리", latestWorkerLog);
   //
   //         const memberToUse = latestWorkerLog
   //           ? latestWorkerLog &&
@@ -95,7 +95,7 @@ async function getWorkersSalarys(year: number, month: number) {
   //                 where: { id: latestWorkerLog.workerId },
   //               })
   //           : member;
-  //         console.log("memberToUse", memberToUse);
+  //         // console.log("memberToUse", memberToUse);
   //         return memberToUse;
   //       }),
   //     );
@@ -105,7 +105,7 @@ async function getWorkersSalarys(year: number, month: number) {
   //     };
   //   }),
   // );
-  // console.log("~~~~~~~~~~~~~~~ workers", workers);
+  // // console.log("~~~~~~~~~~~~~~~ workers", workers);
   return workers;
 }
 
