@@ -10,6 +10,7 @@ import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 import { Payment } from ".prisma/client";
 import PayRegister from "@/app/(tabBar)/pay/[id]/payRegister";
 import Tag from "@/component/tag";
+import { filter } from "lodash";
 
 export interface IPay {
   id?: number;
@@ -43,6 +44,7 @@ const List = ({
   const [selectedPay, setSelectedPay] = useState<IPay | null>(null);
   const [yearList, setYearList] = useState<Set<string>>(new Set());
   const [year, setYear] = useState("");
+
   useEffect(() => {
     const newSet = new Set<string>();
     const items = totalPeriod.map((day, index) => {

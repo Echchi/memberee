@@ -152,6 +152,6 @@ export async function getMembers({ params }: { params: IParams }) {
   });
 
   // // console.log("formattedMembers", formattedMembers);
-
+  await new Promise((resolve) => setTimeout(resolve, 5000));
   return { members: formattedMembers, total };
 }

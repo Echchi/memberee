@@ -10,7 +10,7 @@ import {
   formatCurrency,
 } from "@/libs/client/utils";
 
-const Pay = ({ member }: { member: IMemberWithSchedules }) => {
+const Pay = React.memo(({ member }: { member: IMemberWithSchedules }) => {
   const router = useRouter();
   return (
     <tr
@@ -58,6 +58,8 @@ const Pay = ({ member }: { member: IMemberWithSchedules }) => {
       </td>
     </tr>
   );
-};
+});
+
+Pay.displayName = "Pay";
 
 export default Pay;

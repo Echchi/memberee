@@ -8,13 +8,14 @@ import { format } from "date-fns";
 import { Schedule } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import Classes from "@/component/page/class/classes";
-import { classWithMember } from "@/component/page/main/class";
+import { classWithMember } from "@/component/page/main/class/class";
 
 function TimeTable({ classes }: { classes: classWithMember[] }) {
   const router = useRouter();
   const [scheduleByWorker, setScheduleByWorker] = useState<{
     [key: string]: { schedules: any[]; name: string };
   }>({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const newScheduleByWorker: {
@@ -58,9 +59,6 @@ function TimeTable({ classes }: { classes: classWithMember[] }) {
 
     setScheduleByWorker(newScheduleByWorker);
   }, [classes]);
-  useEffect(() => {
-    // console.log("scheduleByWorker", scheduleByWorker);
-  }, [scheduleByWorker]);
 
   return (
     <div

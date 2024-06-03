@@ -14,7 +14,7 @@ interface IOption {
 interface InputFieldProps {
   name?: string;
   type: string;
-  value?: string | string[];
+  value?: string | string[] | React.ReactElement;
   placeholder?: string;
   label?: string | React.ReactElement;
   register?: UseFormRegisterReturn;
@@ -96,7 +96,7 @@ const Input: React.FC<
             className ? `${className} !h-full` : "",
           )}
         >
-          {value || ""}
+          {value || <div className="skeleton rounded-lg h-10 w-2/3" />}
           {selectDescription && (
             <span className="ml-4 relative  font-medium text-sm lg:text-lg">
               {selectDescription}
@@ -115,7 +115,7 @@ const Input: React.FC<
             className ? `${className} !h-full` : "",
           )}
         >
-          {value || ""}
+          {value || <div className="skeleton rounded-lg h-10 w-2/3" />}
           {selectDescription && (
             <span className="ml-4 relative  font-medium text-sm lg:text-lg">
               {selectDescription}

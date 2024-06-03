@@ -10,6 +10,7 @@ import WorkerExcelModal from "@/component/page/main/BulkUploadHandlers/worker/wo
 import MemberExcelModal from "@/component/page/main/BulkUploadHandlers/member/memberExcelModal";
 import { getMembers } from "@/app/(tabBar)/member/api";
 import InfiniteScroll from "@/component/infiniteScroll";
+import Loading from "./loading";
 
 const Member = ({
   year,
@@ -26,10 +27,9 @@ const Member = ({
   const [members, setMembers] = useState<IMemberWithSchedules[]>();
   const [total, setTotal] = useState<number>();
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
     const fetchMembers = async () => {
       try {
         const response = await getMembers({
@@ -56,10 +56,9 @@ const Member = ({
       } catch (e) {
         return new Error("error fetch members");
       }
+      setLoading(false);
     };
-
     fetchMembers();
-    setLoading(false);
   }, [page]);
 
   return (
@@ -89,7 +88,9 @@ const Member = ({
         <div className="box_title">회원 관리</div>
 
         <div className="flex flex-col grow overflow-y-auto">
-          {members && members.length > 0 ? (
+          {loading ? (
+            <Loading />
+          ) : members && members.length > 0 ? (
             <table className="text-center w-full">
               <thead className="sticky top-0 bg-white z-20">
                 <tr className="*:font-semibold *:py-2">

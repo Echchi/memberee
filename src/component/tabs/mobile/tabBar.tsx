@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 const TabBar = () => {
   const pathname = usePathname();
   return (
-    <nav className="lg:hidden bg-white max-w-xl border-t fixed bottom-0 w-full px-3 pb-2 pt-3 flex justify-between text-xs">
+    <nav className="lg:hidden bg-white max-w-xl border-t fixed bottom-0 w-full px-3 pb-2 pt-3 flex justify-between text-xs z-50">
       <TabItem
         icon={
           <svg

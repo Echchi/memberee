@@ -30,6 +30,7 @@ export async function getMember(id: number, slice: number = 1) {
     },
   });
   // console.log("member", member);
+  // await new Promise((resolve) => setTimeout(resolve, 1000000));
   return member;
 }
 

@@ -1,9 +1,9 @@
 import { getMonth, getYear } from "date-fns";
 
-import Class from "@/component/page/main/class";
+import Class from "@/component/page/main/class/class";
 import Alarm from "@/component/page/main/alarm";
 import Worker from "@/component/page/main/worker";
-import Member from "@/component/page/main/member";
+import Member from "@/component/page/main/member/member";
 
 import { getPaidCnt, getTotalCnt } from "@/app/(tabBar)/main/api";
 import { getWorkers } from "@/component/page/worker/workers";

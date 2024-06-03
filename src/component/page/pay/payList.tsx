@@ -25,10 +25,9 @@ const PayList = ({
   const [workerId, setWorkerId] = useState<number>(-1);
   const [payStatus, setPayStatus] = useState<number>(0);
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
     const fetchMembers = async () => {
       try {
         const response = await getMembers({
@@ -51,9 +50,9 @@ const PayList = ({
         return new Error("error fetch members");
       }
     };
-    console.time("납부 리스트 쿼리");
+
     fetchMembers();
-    console.timeEnd("납부 리스트 쿼리");
+
     setLoading(false);
   }, [query, workerId, page, payStatus, year, month]);
 
@@ -69,6 +68,11 @@ const PayList = ({
 
     fetchWorkerList();
   }, []);
+
+  useEffect(() => {
+    console.log(loading ? "loading" : "end");
+  }, [loading]);
+
   const handleChangeWorkerList = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
     setWorkerId(Number(value));
@@ -119,29 +123,41 @@ const PayList = ({
               </tr>
             </thead>
             <tbody>
-              {members &&
-                members
-                  // .sort((a, b) => {
-                  //   const aHasPayment =
-                  //     a.status === 0
-                  //       ? -2
-                  //       : a.Payment.length > 0
-                  //         ? a.Payment[0]?.lessonFee < 0
-                  //           ? -1
-                  //           : 0
-                  //         : 1;
-                  //   const bHasPayment =
-                  //     b.status === 0
-                  //       ? -2
-                  //       : b.Payment.length > 0
-                  //         ? b.Payment[0]?.lessonFee < 0
-                  //           ? -1
-                  //           : 0
-                  //         : 1;
-                  //   return bHasPayment - aHasPayment;
-                  // })
-                  .map((member, index) => (
+              {!loading && members
+                ? members.map((member, index) => (
                     <Pay key={`pay_${member.id}`} member={member} />
+                  ))
+                : [...Array(10)].map((_, index) => (
+                    <tr
+                      key={`payList_loading_${index}`}
+                      className="w-full *:h-14 *:rounded"
+                    >
+                      <td>
+                        <div className="flex justify-center items-center">
+                          <span className="w-10 skeleton rounded-lg h-8" />
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex justify-center items-center">
+                          <span className="w-full skeleton rounded-lg h-8" />
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex justify-center items-center">
+                          <span className="w-1/2 skeleton rounded-lg h-8" />
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex justify-center items-center">
+                          <span className="w-1/2 skeleton rounded-lg h-8" />
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex justify-center items-center">
+                          <span className="w-1/3 skeleton rounded-lg h-8" />
+                        </div>
+                      </td>
+                    </tr>
                   ))}
             </tbody>
           </table>

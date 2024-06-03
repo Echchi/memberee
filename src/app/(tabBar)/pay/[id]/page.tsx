@@ -8,6 +8,7 @@ import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 import {
   cls,
   dateFormattedtoKor,
+  formatCurrency,
   formatPhone,
   generatePaymentDates,
 } from "@/libs/client/utils";
@@ -29,6 +30,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [paymonth, setPayMonth] = useState<string[]>([]);
   const [totalPeriod, setTotalPeriod] = useState<string[]>([]);
   const [listItem, setListItem] = useState<IPay[]>([]);
+  const [loading, setLoading] = useState(true);
   const id = params.id;
   useEffect(() => {
     const fetchMember = async () => {
@@ -50,6 +52,8 @@ const Page = ({ params }: { params: { id: string } }) => {
     };
 
     fetchMember();
+
+    setLoading(false);
   }, [id]);
 
   useEffect(() => {
@@ -154,7 +158,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           <Input
             type={"div"}
             label={"연락처"}
-            value={formatPhone(member?.phone || "미등록")}
+            value={formatPhone(member?.phone || "")}
             className="h-16 border-t-0 lg:border-r-0 lg:text-lg"
           />
           <Input
@@ -164,7 +168,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             className="hidden lg:flex h-16 border-t-0 lg:text-lg"
           />
         </div>
-        {member && (
+        {!loading && member ? (
           <List
             member={member}
             payment={payment}
@@ -172,6 +176,51 @@ const Page = ({ params }: { params: { id: string } }) => {
             listItem={listItem}
             setListItem={setListItem}
           />
+        ) : (
+          <div className="border border-stone-300 border-t-0 rounded-b-lg w-full h-[73\x20px]">
+            <table className="w-full table-auto">
+              <thead>
+                <tr className="bg-stone-100 font-semibold text-base lg:text-lg text-center *:py-3">
+                  <td>연도</td>
+                  <td>월</td>
+                  <td className="hidden lg:table-cell">납부방법</td>
+                  <td className="hidden lg:table-cell">금액</td>
+                  <td>납부일자</td>
+                </tr>
+              </thead>
+              <tbody>
+                {[...Array(10)].map((_, index) => (
+                  <tr key={`pay_detail_loading_${index}`} className="*:h-14">
+                    <td>
+                      <div className="flex justify-center items-center">
+                        <span className="w-2/3 skeleton rounded-lg h-8" />
+                      </div>
+                    </td>
+                    <td>
+                      <div className="flex justify-center items-center">
+                        <span className="w-2/3 skeleton rounded-lg h-8" />
+                      </div>
+                    </td>
+                    <td className="hidden lg:table-cell">
+                      <div className="flex justify-center items-center">
+                        <span className="w-2/3 skeleton rounded-lg h-8" />
+                      </div>
+                    </td>
+                    <td className="hidden lg:table-cell">
+                      <div className="flex justify-center items-center">
+                        <span className="w-2/3 skeleton rounded-lg h-8" />
+                      </div>
+                    </td>
+                    <td className="hidden lg:table-cell">
+                      <div className="flex justify-center items-center">
+                        <span className="w-2/3 skeleton rounded-lg h-8" />
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
     </>

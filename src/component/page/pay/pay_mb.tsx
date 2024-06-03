@@ -5,7 +5,7 @@ import LineBox from "@/component/lineBox";
 import { Member } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { DAYOFWEEK } from "@/libs/constants";
-import { formatPhone } from "@/libs/client/utils";
+import { cls, formatPhone } from "@/libs/client/utils";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 import InfiniteScroll from "@/component/infiniteScroll";
 
@@ -43,9 +43,6 @@ const PayMb = ({
       return [...prevData, ...addData];
     });
   }, [members]);
-  // const selectTag = (tag: number) => {
-  // setPayStatus(tag)
-  // };
 
   return (
     <>
@@ -68,30 +65,11 @@ const PayMb = ({
         </div>
       </div>
       <div className="relative space-y-3">
-        <InfiniteScroll setSlice={setSlice} loading={loading}>
-          <>
-            {data &&
-              data
-                // .sort((a, b) => {
-                //   const aHasPayment =
-                //     a.status === 0
-                //       ? -2
-                //       : a.Payment.length > 0
-                //         ? a.Payment[0]?.lessonFee < 0
-                //           ? -1
-                //           : 0
-                //         : 1;
-                //   const bHasPayment =
-                //     b.status === 0
-                //       ? -2
-                //       : b.Payment.length > 0
-                //         ? b.Payment[0]?.lessonFee < 0
-                //           ? -1
-                //           : 0
-                //         : 1;
-                //   return bHasPayment - aHasPayment;
-                // })
-                .map((member, index) => (
+        {!loading && data.length > 0 ? (
+          <InfiniteScroll setSlice={setSlice} loading={loading}>
+            <>
+              {data &&
+                data.map((member, index) => (
                   <LineBox
                     key={`pay_mb_${member.id}`}
                     onClick={() => router.push(`/pay/${member.id}`)}
@@ -125,8 +103,18 @@ const PayMb = ({
                     isNotPaid={member?.Payment && member?.Payment.length === 0}
                   />
                 ))}
+            </>
+          </InfiniteScroll>
+        ) : (
+          <>
+            {[...Array(6)].map((_, index) => (
+              <div
+                key={`pay_mb_loading_${index}`}
+                className="rounded-lg p-3 w-full bg-neutral-100 animate-pulse h-20"
+              />
+            ))}
           </>
-        </InfiniteScroll>
+        )}
       </div>
     </>
   );

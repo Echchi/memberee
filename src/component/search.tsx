@@ -10,9 +10,11 @@ const Search = ({ placeholder }: { placeholder: string }) => {
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
-    params.delete("query");
-    replace(`${pathname}?${params.toString()}`);
-  }, []);
+    if (params.has("query")) {
+      params.delete("query");
+      replace(`${pathname}?${params.toString()}`);
+    }
+  }, [pathname, replace]);
 
   const handleChange = (searchTerm: string) => {
     const params = new URLSearchParams(searchParams);

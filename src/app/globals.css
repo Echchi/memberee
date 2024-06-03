@@ -107,5 +107,10 @@
         @apply !bg-orange-400 hover:!bg-orange-300 active:!bg-orange-500
     }
 
+    /* skeleton */
+    .skeleton{
+        @apply bg-gradient-to-b from-neutral-100 from-5% to-neutral-50 animate-pulse
+    }
+
 }
 

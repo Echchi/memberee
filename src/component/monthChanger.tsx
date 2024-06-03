@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { addMonths, format, getMonth, getYear } from "date-fns";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-
+import _ from "lodash";
 const MonthChanger = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams().toString();
@@ -10,14 +10,21 @@ const MonthChanger = () => {
   const today = new Date();
   const [date, setDate] = useState(today);
 
+  const debouncedReplace = React.useCallback(
+    _.debounce((url) => replace(url), 300),
+    [],
+  );
+
   useEffect(() => {
-    const params = new URLSearchParams(searchParams);
-    const year = getYear(date) + "";
-    const month = getMonth(date) + 1 + "";
-    params.set("year", year);
-    params.set("month", month);
-    replace(`${pathname}?${params.toString()}`);
-  }, [date, searchParams]);
+    if (searchParams) {
+      const params = new URLSearchParams(searchParams);
+      const year = getYear(date) + "";
+      const month = getMonth(date) + 1 + "";
+      params.set("year", year);
+      params.set("month", month);
+      debouncedReplace(`${pathname}?${params.toString()}`);
+    }
+  }, [date, searchParams, pathname, debouncedReplace]);
 
   return (
     <div className="flex justify-center items-center font-semibold text-xl lg:text-2xl my-4 lg:mt-3">
