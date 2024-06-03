@@ -3,7 +3,7 @@ import session from "@/libs/client/session";
 import db from "@/libs/server/db";
 import getSession from "@/libs/client/session";
 import { formatISODate } from "@/libs/client/utils";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { MEMO_SLICE_SIZE, PAGESIZE } from "@/libs/constants";
@@ -36,6 +36,9 @@ export async function getWorker(
     },
   });
   // await new Promise((resolve) => setTimeout(resolve, 1000000));
+  if (!worker) {
+    return notFound();
+  }
   return worker;
 }
 

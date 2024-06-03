@@ -63,7 +63,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           setLoading(false);
         }
       } catch (error) {
-        return new Error("error fetch worker");
+        return router.replace("/404");
       }
     };
 

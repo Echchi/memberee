@@ -89,7 +89,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           }
         }
       } catch (error) {
-        return new Error("error fetch member");
+        return router.replace("/404");
       }
     };
     fetchMember();

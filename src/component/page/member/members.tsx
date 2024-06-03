@@ -11,6 +11,8 @@ import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 import { getWorkerList } from "@/app/(tabBar)/worker/register/api";
 import Pagination from "@/component/pagination";
 import Mobile from "@/app/(tabBar)/member/mobile";
+import { getPaidCnt, getTotalCnt } from "@/app/(tabBar)/main/api";
+import { getMonth, getYear } from "date-fns";
 
 export interface IWorker {
   id: number;
@@ -32,6 +34,7 @@ const Members = ({
   const [startDateOrder, setCreateDateOrder] = useState(true);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [totalCnt, setTotalCnt] = useState<number>(0);
 
   useEffect(() => {
     setPage(1);
@@ -75,7 +78,22 @@ const Members = ({
       setWorkers(workersData);
     };
 
+    const fetchCounts = async () => {
+      try {
+        const totalResponse = await getTotalCnt(
+          getYear(new Date()),
+          getMonth(new Date()),
+        );
+        if (totalResponse) {
+          setTotalCnt(totalResponse);
+        }
+      } catch (e) {
+        console.error("error fetch counts", e);
+      }
+    };
+
     fetchWorkerList();
+    fetchCounts();
   }, []);
   const handleChangeWorkerList = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
@@ -93,6 +111,7 @@ const Members = ({
     <>
       <div className="hidden lg:block box mt-3">
         <div className="w-full">
+          <p className="text-right mb-2">{`총 ${totalCnt} 명`}</p>
           <table className="w-full table-auto">
             <thead>
               <tr className="bg-stone-100 font-semibold text-lg text-center *:py-3">

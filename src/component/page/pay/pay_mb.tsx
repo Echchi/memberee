@@ -8,6 +8,8 @@ import { DAYOFWEEK } from "@/libs/constants";
 import { cls, formatPhone } from "@/libs/client/utils";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 import InfiniteScroll from "@/component/infiniteScroll";
+import Link from "next/link";
+import SendMsg from "@/component/page/pay/sendMsg";
 
 const PayMb = ({
   members,
@@ -16,6 +18,9 @@ const PayMb = ({
   setSlice,
   loading,
   query,
+
+  year,
+  month,
 }: {
   members: IMemberWithSchedules[];
   setPayStatus: React.Dispatch<React.SetStateAction<number>>;
@@ -23,6 +28,9 @@ const PayMb = ({
   setSlice: React.Dispatch<React.SetStateAction<number>>;
   loading: boolean;
   query?: string;
+
+  year: number;
+  month: number;
 }) => {
   const router = useRouter();
   const [data, setData] = useState<IMemberWithSchedules[]>(members);
@@ -63,6 +71,7 @@ const PayMb = ({
             className={"cursor-pointer"}
           />
         </div>
+        <SendMsg year={year} month={month} />
       </div>
       <div className="relative space-y-3">
         {!loading && data.length > 0 ? (

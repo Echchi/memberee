@@ -6,7 +6,7 @@ import { getMonth, getYear } from "date-fns";
 import { isAfterYearMonth } from "@/libs/client/utils";
 import { PAGESIZE } from "@/libs/constants";
 
-interface IParams {
+export interface getMembersParams {
   query: string;
   year?: number;
   month?: number;
@@ -18,7 +18,7 @@ interface IParams {
   isAll?: boolean;
 }
 
-export async function getMembers({ params }: { params: IParams }) {
+export async function getMembers({ params }: { params: getMembersParams }) {
   const {
     query,
     year,

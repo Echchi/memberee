@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Input from "@/component/input";
-import { useRouter } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import Button from "@/component/button/button";
 import { getMember } from "@/app/(tabBar)/member/[id]/api";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
@@ -37,7 +37,7 @@ const Page = ({ params }: { params: { id: string } }) => {
       try {
         if (id) {
           const response = await getMember(+id);
-          // console.log("getMember", response);
+          console.log("getMember", response);
           if (response) {
             setMember(response);
             const paymentsArray = Array.isArray(response.Payment)
@@ -48,7 +48,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           }
         }
       } catch (error) {
-        return new Error("error fetch member");
+        return router.replace("/404");
       }
     };
 

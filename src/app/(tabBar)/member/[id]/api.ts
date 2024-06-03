@@ -2,7 +2,7 @@
 
 import db from "@/libs/server/db";
 import getSession from "@/libs/client/session";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { MEMO_SLICE_SIZE } from "@/libs/constants";
 
@@ -29,8 +29,11 @@ export async function getMember(id: number, slice: number = 1) {
       company: true,
     },
   });
-  // console.log("member", member);
-  // await new Promise((resolve) => setTimeout(resolve, 1000000));
+
+  if (!member) {
+    notFound();
+  }
+
   return member;
 }
 

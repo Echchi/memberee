@@ -9,6 +9,7 @@ import { IWorker } from "@/component/page/member/members";
 import { getWorkerList } from "@/app/(tabBar)/worker/register/api";
 import Pagination from "@/component/pagination";
 import Empty from "@/component/empty";
+import { getPaidCnt, getTotalCnt } from "@/app/(tabBar)/main/api";
 
 const PayList = ({
   query,
@@ -22,6 +23,8 @@ const PayList = ({
   const [members, setMembers] = useState<IMemberWithSchedules[]>();
   const [total, setTotal] = useState<number>();
   const [workers, setWorkers] = useState<IWorker[]>();
+  const [totalCnt, setTotalCnt] = useState<number>(0);
+  const [paidCnt, setPaidCnt] = useState<number>(0);
   const [workerId, setWorkerId] = useState<number>(-1);
   const [payStatus, setPayStatus] = useState<number>(0);
   const [page, setPage] = useState(1);
@@ -42,9 +45,7 @@ const PayList = ({
         });
 
         if (response) {
-          // // console.log(response);
           setMembers(response.members);
-          setTotal(response.total);
           setLoading(false);
         }
       } catch (e) {
@@ -65,12 +66,27 @@ const PayList = ({
       setWorkers(workersData);
     };
 
+    const fetchCounts = async () => {
+      try {
+        const paidResponse = await getPaidCnt(year, month);
+        if (paidResponse) {
+          setPaidCnt(paidResponse);
+        }
+
+        const totalResponse = await getTotalCnt(year, month);
+        if (totalResponse) {
+          setTotalCnt(totalResponse);
+        }
+      } catch (e) {
+        console.error("error fetch counts", e);
+      }
+    };
+
     fetchWorkerList();
+    fetchCounts();
   }, []);
 
-  useEffect(() => {
-    console.log(loading ? "loading" : "end");
-  }, [loading]);
+  useEffect(() => {}, [totalCnt, paidCnt]);
 
   const handleChangeWorkerList = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
@@ -85,6 +101,8 @@ const PayList = ({
     <>
       <div className="hidden lg:block box mt-3">
         <div className="w-full">
+          <p className="text-right mb-2">{`${paidCnt} 명 납부 / 총 ${totalCnt} 명`}</p>
+
           <table className="w-full table-auto">
             <thead>
               <tr className="bg-stone-100 font-semibold text-lg text-center *:py-3">
@@ -173,6 +191,8 @@ const PayList = ({
           setSlice={setPage}
           loading={loading}
           query={query}
+          year={year || 0}
+          month={month || 0}
         />
       </div>
     </>
