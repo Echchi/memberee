@@ -60,13 +60,13 @@ export function combineCurrentDateWithTime(time: string) {
 }
 
 export const dateFormattedtoKor = (date?: Date | null) => {
-  return date ? format(date, "yyyy년 MM월 dd일") : "날짜 없음";
+  return date ? format(date, "yyyy년 MM월 dd일") : "";
 };
 export const dateFormattedtoNum = (date?: Date | null) => {
-  return date ? format(date, "yyyyMMdd") : "날짜 없음";
+  return date ? format(date, "yyyyMMdd") : "";
 };
 export const dateFormattedtoDot = (date?: Date | null) => {
-  return date ? format(date, "yyyy.MM.dd.") : "날짜 없음";
+  return date ? format(date, "yyyy.MM.dd.") : "";
 };
 
 export function generatePaymentDates(

@@ -31,14 +31,13 @@ const Members = ({
   const [dayOfWeek, setDayOfWeek] = useState<number>();
   const [startDateOrder, setCreateDateOrder] = useState(true);
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setPage(1);
   }, [query]);
 
   useEffect(() => {
-    setLoading(true);
     const fetchMembers = async () => {
       try {
         const response = await getMembers({
@@ -167,11 +166,47 @@ const Members = ({
               </tr>
             </thead>
             <tbody>
-              {members &&
-                members?.length > 0 &&
-                members?.map((member, index) => (
-                  <Member member={member} key={member.id} />
-                ))}
+              {!loading && members && members?.length > 0
+                ? members?.map((member, index) => (
+                    <Member member={member} key={member.id} />
+                  ))
+                : [...Array(10)].map((_, index) => (
+                    <tr
+                      key={`payList_loading_${index}`}
+                      className="w-full *:h-14 *:rounded"
+                    >
+                      <td>
+                        <div className="flex justify-center items-center">
+                          <span className="w-2/3 skeleton rounded-lg h-8" />
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex justify-center items-center">
+                          <span className="w-full skeleton rounded-lg h-8" />
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex justify-center items-center">
+                          <span className="w-1/2 skeleton rounded-lg h-8" />
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex justify-center items-center">
+                          <span className="w-1/2 skeleton rounded-lg h-8" />
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex justify-center items-center">
+                          <span className="w-1/3 skeleton rounded-lg h-8" />
+                        </div>
+                      </td>{" "}
+                      <td>
+                        <div className="flex justify-center items-center">
+                          <span className="w-1/3 skeleton rounded-lg h-8" />
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
             </tbody>
           </table>
           <Pagination total={total || 0} page={page} setPage={setPage} />

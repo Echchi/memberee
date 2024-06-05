@@ -134,7 +134,7 @@ const PayList = ({
                     >
                       <td>
                         <div className="flex justify-center items-center">
-                          <span className="w-10 skeleton rounded-lg h-8" />
+                          <span className="w-2/3 skeleton rounded-lg h-8" />
                         </div>
                       </td>
                       <td>

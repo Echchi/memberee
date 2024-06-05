@@ -36,14 +36,25 @@ const Mobile = ({
   return (
     <>
       <div className="lg:hidden relative flex flex-col space-y-3 mt-5 overscroll-y-auto">
-        <InfiniteScroll setSlice={setSlice} loading={loading}>
+        {!loading && data.length > 0 ? (
+          <InfiniteScroll setSlice={setSlice} loading={loading}>
+            <>
+              {data &&
+                data.map((member, index) => (
+                  <MemberMb member={member} key={`memberMb_${member.id}`} />
+                ))}
+            </>
+          </InfiniteScroll>
+        ) : (
           <>
-            {data &&
-              data.map((member, index) => (
-                <MemberMb member={member} key={`memberMb_${member.id}`} />
-              ))}
+            {[...Array(6)].map((_, index) => (
+              <div
+                key={`pay_mb_loading_${index}`}
+                className="rounded-lg p-3 w-full bg-neutral-100 animate-pulse h-20"
+              />
+            ))}
           </>
-        </InfiniteScroll>
+        )}
       </div>
     </>
   );

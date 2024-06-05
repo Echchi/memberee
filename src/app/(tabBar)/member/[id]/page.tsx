@@ -60,7 +60,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [member, setMember] = useState<IMemberWithSchedules>();
   const [memos, setMemos] = useState<Memo[]>([]);
   const [slice, setSlice] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const memberRef = useRef<HTMLDivElement | null>(null);
 
   const id = params.id;
@@ -92,6 +92,7 @@ const Page = ({ params }: { params: { id: string } }) => {
       }
     };
     fetchMember();
+    setLoading(false);
   }, [id]);
 
   useEffect(() => {
@@ -283,7 +284,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               !isEdit
                 ? member?.phone
                   ? formatPhone(member?.phone)
-                  : "번호 없음"
+                  : ""
                 : member?.phone
             }
             placeholder={
@@ -313,8 +314,8 @@ const Page = ({ params }: { params: { id: string } }) => {
           <Input
             type={isEdit ? "text" : "div"}
             label={"직업"}
-            value={member?.job || "미등록"}
-            placeholder={member?.job || "미등록"}
+            value={member?.job || ""}
+            placeholder={member?.job || ""}
             className="h-16 lg:text-lg border-b-1"
             name={"job"}
           />
@@ -388,29 +389,37 @@ const Page = ({ params }: { params: { id: string } }) => {
           ) : (
             <div className="bg-white py-3 col-span-2 border border-y-0 border-neutral-300 flex flex-col">
               <div className="flex">
-                {/*<div className="hidden lg:flex items-center lg:text-lg flex-nowrap w-24 font-semibold text-stone-600 ">*/}
-                {/*  수업 시간*/}
-                {/*</div>*/}
                 <div className="flex justify-center *: text-center w-full space-y-3 *:lg:text-lg *:font-medium *:text-stone-600 overflow-y-auto h-36 my-5">
                   <div className="w-2/3 grid grid-cols-3 place-items-center gap-3">
                     <div className="!font-semibold">요일</div>
                     <div className="!font-semibold">시작 시간</div>
                     <div className="!font-semiboldl">종료 시간</div>
-                    {member?.Schedule?.map((item, index) => (
-                      <React.Fragment key={index}>
-                        <div className="self-center">
-                          {DAYOFWEEK[item.dayOfWeek]}요일
-                        </div>
+                    {!loading && member ? (
+                      member?.Schedule?.map((item, index) => (
+                        <React.Fragment key={index}>
+                          <div className="self-center">
+                            {DAYOFWEEK[item.dayOfWeek]}요일
+                          </div>
 
-                        <div className="rounded-lg bg-stone-100 outline-none text-xs xl:text-lg font-medium text-center w-full py-2 px-3">
-                          {format(item.startTime, "HH:mm")}
-                        </div>
+                          <div className="rounded-lg bg-stone-100 outline-none text-xs xl:text-lg font-medium text-center w-full py-2 px-3">
+                            {format(item.startTime, "HH:mm")}
+                          </div>
 
-                        <div className="rounded-lg bg-stone-100 outline-none text-xs xl:text-lg font-medium text-center w-full py-2 px-3">
-                          {format(item.endTime, "HH:mm")}
-                        </div>
-                      </React.Fragment>
-                    ))}
+                          <div className="rounded-lg bg-stone-100 outline-none text-xs xl:text-lg font-medium text-center w-full py-2 px-3">
+                            {format(item.endTime, "HH:mm")}
+                          </div>
+                        </React.Fragment>
+                      ))
+                    ) : (
+                      <>
+                        {[...Array(6)].map((_, index) => (
+                          <div
+                            key={index}
+                            className="self-center skeleton w-full lg:w-2/3 rounded-lg h-9 lg:h-12"
+                          />
+                        ))}
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
@@ -423,7 +432,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             value={
               isEdit
                 ? member?.Schedule?.[0]?.lessonFee + ""
-                : formatCurrency(member?.Schedule?.[0]?.lessonFee || "미등록")
+                : formatCurrency(member?.Schedule?.[0]?.lessonFee || "")
             }
             placeholder={member?.Schedule?.[0]?.lessonFee + ""}
             className={cls(
