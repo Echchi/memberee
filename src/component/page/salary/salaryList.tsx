@@ -65,13 +65,13 @@ const SalaryList = ({ workers }: { workers: WorkerWithMember[] }) => {
           }
         />
       )}
-      <div ref={salaryRef} className="box mt-3 flex-col">
+      <div ref={salaryRef} className="lg:box my-4 lg:mt-3 lg:mb-0 flex-col">
         <>
           <div className="flex justify-center items-center font-semibold text-xl lg:text-2xl mb-3 lg:mb-7 mt-4">
             <span className="lg:px-6 px-4 mx-auto">
               {format(new Date(), "yyyy년 MM월")}
             </span>
-            <div className="w-16 lg:w-32 print:hidden">
+            <div className="w-16 lg:w-32 print:hidden hidden lg:block">
               <PrintPdfBtn
                 title={`${format(new Date(), "yyyy년 MM월")} 예상 임금_${format(new Date(), "yyyyMMdd")}`}
                 content={salaryRef}

@@ -99,7 +99,7 @@ const Page = ({ params }: { params: { id: string } }) => {
 
   return (
     <>
-      <div className="box flex-col">
+      <div className="mt-3 lg:mt-0 lg:box flex-col">
         <div className="flex justify-end items-center">
           <div className="relative hidden lg:flex items-center justify-end space-x-4 w-full *:w-32">
             {member?.status === 0 && (

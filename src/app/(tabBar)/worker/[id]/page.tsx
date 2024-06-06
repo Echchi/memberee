@@ -139,7 +139,10 @@ const Page = ({ params }: { params: { id: string } }) => {
           }
         />
       )}
-      <form className="box justify-center flex-col" action={action}>
+      <form
+        className="mt-3 lg:mt-0 lg:box justify-center flex-col"
+        action={action}
+      >
         <div className="col-span-2 flex justify-end items-center">
           <div className="hidden lg:flex items-center justify-end space-x-4 w-full *:w-32">
             <div>

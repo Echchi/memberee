@@ -27,7 +27,7 @@ const Members = ({
         담당 회원
       </div>
       {members.length > 0 ? (
-        <div className="col-span-2 print:border-0 border border-stone-300 rounded-b-lg h-[40vh] overflow-y-auto print:overflow-visible">
+        <div className="*:bg-white col-span-2 print:border-0 border border-stone-300 rounded-b-lg h-[40vh] overflow-y-auto print:overflow-visible">
           {/*<InfiniteScroll setSlice={setMemSlice} loading={loading}>*/}
           <table className="w-full table-auto">
             <thead>

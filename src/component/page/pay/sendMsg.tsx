@@ -4,6 +4,7 @@ import { getMembers } from "@/app/(tabBar)/member/api";
 import { getPaidCnt } from "@/app/(tabBar)/main/api";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 import Link from "next/link";
+import { cls } from "@/libs/client/utils";
 
 const SendMsg = ({
   year,
@@ -48,7 +49,12 @@ const SendMsg = ({
     <div>
       <Link
         href={`sms:${nums.join(",")}`}
-        className="text-sm lg:text-base outline-none px-3 py-2 rounded-lg text-orange-600 font-semibold transition-all disabled:bg-gray-300 disabled:cursor-default bg-orange-500/30 hover:bg-orange-500/10 active:bg-orange-500/40 cursor-pointer"
+        className={cls(
+          "text-sm lg:text-base outline-none px-3 py-2 rounded-lg font-semibold transition-all disabled:bg-gray-300 disabled:cursor-default  cursor-pointer",
+          isAllMember
+            ? "text-green-600 bg-green-600/30 hover:bg-green-600/10 active:bg-green-600/40"
+            : "text-orange-600 bg-orange-500/30 hover:bg-orange-500/10 active:bg-orange-500/40",
+        )}
       >
         {isAllMember
           ? "전체 회원에게 메세지 보내기"

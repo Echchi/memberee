@@ -68,7 +68,7 @@ const Page = () => {
         />
       )}
 
-      <form className="box overflow-y-auto" action={action}>
+      <form className="mt-3 lg:mt-0 lg:box overflow-y-auto" action={action}>
         <div className="px-3 w-full">
           {/*  유저 : 이름 아이디 비밀번호 휴대폰 번호 메일*/}
           <p className="font-semibold tracking-wide text-stone-600 py-3 lg:pt-5 lg:pb-3 lg:text-lg">

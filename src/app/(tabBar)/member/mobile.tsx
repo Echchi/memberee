@@ -3,6 +3,8 @@ import React, { ReactElement, useEffect, useRef, useState } from "react";
 import MemberMb from "@/component/page/member/member_mb";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 import InfiniteScroll from "@/component/infiniteScroll";
+import SendMsg from "@/component/page/pay/sendMsg";
+import { getMonth, getYear } from "date-fns";
 
 const Mobile = ({
   members,
@@ -36,6 +38,13 @@ const Mobile = ({
   return (
     <>
       <div className="lg:hidden relative flex flex-col space-y-3 mt-5 overscroll-y-auto">
+        <div className="flex mb-2">
+          <SendMsg
+            year={getYear(new Date())}
+            month={getMonth(new Date())}
+            isAllMember={true}
+          />
+        </div>
         {!loading && data.length > 0 ? (
           <InfiniteScroll setSlice={setSlice} loading={loading}>
             <>
