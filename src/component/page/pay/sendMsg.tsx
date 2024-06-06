@@ -5,7 +5,15 @@ import { getPaidCnt } from "@/app/(tabBar)/main/api";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 import Link from "next/link";
 
-const SendMsg = ({ year, month }: { year: number; month: number }) => {
+const SendMsg = ({
+  year,
+  month,
+  isAllMember = false,
+}: {
+  year: number;
+  month: number;
+  isAllMember?: boolean;
+}) => {
   const [nums, setNums] = useState<string[]>([]);
   const [total, setTotal] = useState<number>(0);
   useEffect(() => {
@@ -17,7 +25,7 @@ const SendMsg = ({ year, month }: { year: number; month: number }) => {
             query: "",
             year,
             month,
-            payStatus: -1,
+            payStatus: isAllMember ? 0 : -1,
             isAll: true,
           },
         });
@@ -40,9 +48,11 @@ const SendMsg = ({ year, month }: { year: number; month: number }) => {
     <div>
       <Link
         href={`sms:${nums.join(",")}`}
-        className="text-sm lg:text-base outline-none px-3 py-2 rounded-lg text-white font-semibold transition-all disabled:bg-gray-300 disabled:cursor-default bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-600 cursor-pointer"
+        className="text-sm lg:text-base outline-none px-3 py-2 rounded-lg text-orange-600 font-semibold transition-all disabled:bg-gray-300 disabled:cursor-default bg-orange-500/30 hover:bg-orange-500/10 active:bg-orange-500/40 cursor-pointer"
       >
-        미납자 {total}명 에게 메세지 보내기
+        {isAllMember
+          ? "전체 회원에게 메세지 보내기"
+          : `미납자 ${total}명 에게 메세지 보내기`}
       </Link>
     </div>
   );
