@@ -45,6 +45,7 @@ const PayList = ({
           // // console.log(response);
           setMembers(response.members);
           setTotal(response.total);
+          setLoading(false);
         }
       } catch (e) {
         return new Error("error fetch members");
@@ -52,8 +53,6 @@ const PayList = ({
     };
 
     fetchMembers();
-
-    setLoading(false);
   }, [query, workerId, page, payStatus, year, month]);
 
   useEffect(() => {

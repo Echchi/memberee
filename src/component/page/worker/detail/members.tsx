@@ -20,19 +20,7 @@ const Members = ({
   loading: boolean;
 }) => {
   const router = useRouter();
-  // const [data, setData] = useState<MemberWithSch[]>([]);
-  //
-  // useEffect(() => {
-  //   setData((prevData) => {
-  //     const addData = members.filter(
-  //       (newMembers) =>
-  //         !prevData.some(
-  //           (existingMembers) => existingMembers.id === newMembers.id,
-  //         ),
-  //     );
-  //     return [...prevData, ...addData];
-  //   });
-  // }, [members]);
+
   return (
     <>
       <div className="text-stone-600 font-bold text-base lg:text-lg flex justify-center items-center h-16 bg-neutral-100 col-span-2 border-x border-t border-neutral-300">
@@ -47,19 +35,6 @@ const Members = ({
                 <td>이름</td>
                 <td>연락처</td>
                 <td>요일</td>
-
-                {/*<td>*/}
-                {/*  <select className="bg-transparent outline-none focus:outline-none">*/}
-                {/*    <option>요일</option>*/}
-                {/*    <option>월</option>*/}
-                {/*    <option>화</option>*/}
-                {/*    <option>수</option>*/}
-                {/*    <option>목</option>*/}
-                {/*    <option>금</option>*/}
-                {/*    <option>토</option>*/}
-                {/*    <option>일</option>*/}
-                {/*  </select>*/}
-                {/*</td>*/}
                 <td className="flex justify-center items-center">등록일</td>
               </tr>
             </thead>
@@ -85,11 +60,13 @@ const Members = ({
           </table>
           {/*</InfiniteScroll>*/}
         </div>
-      ) : (
+      ) : !loading ? (
         <Empty
           item={"담당회원"}
           className="border border-neutral-300 rounded-b-lg *:!text-stone-300"
         />
+      ) : (
+        <></>
       )}
     </>
   );

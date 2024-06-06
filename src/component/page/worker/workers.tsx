@@ -34,6 +34,7 @@ export async function getWorkers(query?: string) {
       Member: true,
     },
   });
+  // await new Promise((resolve) => setTimeout(resolve, 1000000));
   return workers || [];
 }
 const Workers = async ({ query }: { query?: string }) => {

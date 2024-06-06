@@ -23,7 +23,10 @@ const WorkerList: React.FC<WorkerListProps> = ({
   setInitValue,
 }) => {
   const [workers, setWorkers] = useState<any[]>([]);
-
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    console.log("loading", loading);
+  }, [loading]);
   useEffect(() => {
     const fetchWorkerList = async () => {
       const workerList = await getWorkerList();
@@ -41,6 +44,7 @@ const WorkerList: React.FC<WorkerListProps> = ({
       setInitValue &&
         setInitValue({ id: firstWorkerId, name: firstWorkerName });
       setWorkers(filterWorkerList);
+      setLoading(false);
     };
 
     fetchWorkerList();
@@ -48,30 +52,34 @@ const WorkerList: React.FC<WorkerListProps> = ({
 
   return (
     <>
-      {isOnly && onChange ? (
-        <select
-          onChange={onChange}
-          defaultValue={selectedWorker}
-          className="rounded-xl border-0 h-14 px-6 bg-stone-100 w-full lg:w-fit outline-none"
-        >
-          {workers.map((worker) => (
-            <option key={`workerList_option_${worker.id}`} value={worker.id}>
-              {worker.name}
-            </option>
-          ))}
-        </select>
+      {!loading ? (
+        isOnly && onChange ? (
+          <select
+            onChange={onChange}
+            defaultValue={selectedWorker}
+            className="rounded-xl border-0 h-14 px-6 bg-stone-100 w-full lg:w-fit outline-none"
+          >
+            {workers.map((worker) => (
+              <option key={`workerList_option_${worker.id}`} value={worker.id}>
+                {worker.name}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <Input
+            type={"select"}
+            label={"담당"}
+            value={selectedWorker + ""}
+            options={workers.map((worker) => ({
+              value: worker.id,
+              label: worker.name,
+            }))}
+            name={"worker"}
+            className="h-16 lg:text-lg border-b-0 lg:border-b"
+          />
+        )
       ) : (
-        <Input
-          type={"select"}
-          label={"담당"}
-          value={selectedWorker + ""}
-          options={workers.map((worker) => ({
-            value: worker.id,
-            label: worker.name,
-          }))}
-          name={"worker"}
-          className="h-16 lg:text-lg border-b-0 lg:border-b"
-        />
+        <div className="h-16 skeleton w-52 rounded-lg" />
       )}
     </>
   );

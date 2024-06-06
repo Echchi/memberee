@@ -35,6 +35,7 @@ export async function getWorker(
       WorkerMemos: true,
     },
   });
+  // await new Promise((resolve) => setTimeout(resolve, 1000000));
   return worker;
 }
 

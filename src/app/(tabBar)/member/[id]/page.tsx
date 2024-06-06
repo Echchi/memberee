@@ -85,6 +85,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 },
               })),
             );
+            setLoading(false);
           }
         }
       } catch (error) {
@@ -92,7 +93,6 @@ const Page = ({ params }: { params: { id: string } }) => {
       }
     };
     fetchMember();
-    setLoading(false);
   }, [id]);
 
   useEffect(() => {

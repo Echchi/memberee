@@ -44,6 +44,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               ? response.Payment
               : [response.Payment].filter(Boolean);
             setPayment(paymentsArray as Payment[]);
+            setLoading(false);
           }
         }
       } catch (error) {
@@ -52,8 +53,6 @@ const Page = ({ params }: { params: { id: string } }) => {
     };
 
     fetchMember();
-
-    setLoading(false);
   }, [id]);
 
   useEffect(() => {

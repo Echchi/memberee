@@ -28,6 +28,7 @@ const Page = ({
   const [selectedWorker, setSelectedWorker] = useState("");
   const [selectedWorkerName, setSelectedWorkerName] = useState("");
   const [classes, setClasses] = useState<Schedule[]>([]);
+  const [loading, setLoading] = useState(true);
   const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const workerId = event?.target?.value;
     const selectedOptionIndex = event.target.selectedIndex;
@@ -46,7 +47,10 @@ const Page = ({
             year,
             month,
           });
-          response && setClasses(response);
+          if (response) {
+            setClasses(response);
+            setLoading(false);
+          }
         }
       } catch (error) {
         return new Error("error fetch classes");
@@ -111,7 +115,7 @@ const Page = ({
           일
         </div>
 
-        {classes && <Classes classes={classes} />}
+        {<Classes classes={classes} loading={loading} />}
       </div>
     </>
   );

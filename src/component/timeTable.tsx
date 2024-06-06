@@ -58,64 +58,83 @@ function TimeTable({ classes }: { classes: classWithMember[] }) {
     });
 
     setScheduleByWorker(newScheduleByWorker);
+    setLoading(false);
   }, [classes]);
 
   return (
     <div
-      className="relative mt-3 !grid justify-items-center *:text-lg *:font-semibold gap-3 overflow-auto min-w-fit"
+      className={cls(
+        `relative mt-3 !grid justify-items-center *:text-lg *:font-semibold gap-3  min-w-fit`,
+        loading ? "!overflow-hidden" : "overflow-auto",
+      )}
       style={{
-        gridTemplateColumns: `80px repeat(${Object.keys(scheduleByWorker).length}, minmax(120px, 1fr))`,
+        gridTemplateColumns: loading
+          ? "80px repeat(5, minmax(120px, 1fr))"
+          : `80px repeat(${Object.keys(scheduleByWorker).length}, minmax(120px, 1fr))`,
       }}
     >
-      <div className="py-3 bg-white flex justify-center"></div>
-      {Object.entries(scheduleByWorker).map(([id, worker]) => (
-        <div
-          key={`main_class_worker_${id}`}
-          className="py-3 bg-white w-full flex justify-center font-semibold text-sm lg:text-base sticky top-0"
-        >
-          {worker.name}
-        </div>
-      ))}
-
-      {Array.from({ length: 18 }).map((_, hourIndex) => (
+      {!loading ? (
         <>
-          <div
-            className="text-sm lg:text-base font-semibold sticky left-0"
-            key={`main_hour_${hourIndex}`}
-          >{`${6 + hourIndex}시`}</div>
-          {Object.values(scheduleByWorker).map((worker, index) => (
+          <div className="py-3 bg-white flex justify-center"></div>
+          {Object.entries(scheduleByWorker).map(([id, worker]) => (
             <div
-              key={`main_schedule_${index}`}
-              className="grid w-full gap-y-2 pb-4 grid-rows-6 rounded-lg bg-stone-50"
+              key={`main_class_worker_${id}`}
+              className="py-3 bg-white w-full flex justify-center font-semibold text-sm lg:text-base sticky top-0"
             >
-              {worker.schedules.map((c: any, index: number) => {
-                return 6 + hourIndex === Number(c.startTime.slice(0, 2)) ? (
-                  <div
-                    onClick={() => router.push(`/member/${c.memberId}`)}
-                    key={`schedule_${index}`}
-                    className="font-medium bg-amber-200 w-full rounded-xl p-2 text-xs shadow hover:z-10 transition-all cursor-pointer min-h-12"
-                    style={{
-                      gridRowStart: c.gridRowStart,
-                      gridRowEnd: `span ${Number(c.gridRowEnd)}`,
-                    }}
-                  >
-                    <p
-                      className={`font-medium lg:block lg:text-sm text-xs hidden`}
-                    >
-                      {c.startTime} ~ {c.endTime}
-                    </p>
-                    <p className="font-bold text-center text-sm">
-                      {c.memberNames}
-                    </p>
-                  </div>
-                ) : (
-                  <></>
-                );
-              })}
+              {worker.name}
             </div>
           ))}
+
+          {Array.from({ length: 18 }).map((_, hourIndex) => (
+            <>
+              <div
+                className="text-sm lg:text-base font-semibold sticky left-0"
+                key={`main_hour_${hourIndex}`}
+              >{`${6 + hourIndex}시`}</div>
+              {Object.values(scheduleByWorker).map((worker, index) => (
+                <div
+                  key={`main_schedule_${index}`}
+                  className="grid w-full gap-y-2 pb-4 grid-rows-6 rounded-lg bg-stone-50"
+                >
+                  {worker.schedules.map((c: any, index: number) => {
+                    return 6 + hourIndex === Number(c.startTime.slice(0, 2)) ? (
+                      <div
+                        onClick={() => router.push(`/member/${c.memberId}`)}
+                        key={`schedule_${index}`}
+                        className="font-medium bg-amber-200 w-full rounded-xl p-2 text-xs shadow hover:z-10 transition-all cursor-pointer min-h-12"
+                        style={{
+                          gridRowStart: c.gridRowStart,
+                          gridRowEnd: `span ${Number(c.gridRowEnd)}`,
+                        }}
+                      >
+                        <p
+                          className={`font-medium lg:block lg:text-sm text-xs hidden`}
+                        >
+                          {c.startTime} ~ {c.endTime}
+                        </p>
+                        <p className="font-bold text-center text-sm ">
+                          {c.memberNames}
+                        </p>
+                      </div>
+                    ) : (
+                      <></>
+                    );
+                  })}
+                </div>
+              ))}
+            </>
+          ))}
         </>
-      ))}
+      ) : (
+        <>
+          {[...Array(35)].map((_, index) => (
+            <div
+              key={`main_class_loading_${index}`}
+              className="skeleton w-32 rounded-lg min-h-20"
+            />
+          ))}
+        </>
+      )}
     </div>
   );
 }

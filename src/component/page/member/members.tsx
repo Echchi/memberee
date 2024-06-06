@@ -53,6 +53,7 @@ const Members = ({
           // console.log(response);
           setMembers(response.members);
           setTotal(response.total);
+          setLoading(false);
         }
       } catch (e) {
         return new Error("error fetch members");

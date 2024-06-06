@@ -16,7 +16,13 @@ import {
   calculateGridRowStart,
 } from "@/libs/client/utils";
 
-const Classes = ({ classes }: { classes: Schedule[] }) => {
+const Classes = ({
+  classes,
+  loading,
+}: {
+  classes: Schedule[];
+  loading: boolean;
+}) => {
   // console.log("classes worker", classes);
   const router = useRouter();
 
@@ -69,37 +75,44 @@ const Classes = ({ classes }: { classes: Schedule[] }) => {
             {`${6 + hourIndex} `}
             <span className="hidden lg:block">시</span>
           </div>
-          {scheduleByDay.map((sch, index) => (
-            <div
-              key={`schedule_${index}`}
-              className="grid w-full gap-y-2 pb-4 grid-rows-6 rounded-lg bg-stone-50 *:min-h-16 max-h-[200px]"
-            >
-              {sch.map((c: any, index) => {
-                return 6 + hourIndex === Number(c.startTime.slice(0, 2)) ? (
-                  <div
-                    onClick={() => router.push(`/member/${c.memberId}`)}
-                    key={`schedule_${index}`}
-                    className="overflow-y-auto font-medium bg-amber-200 w-full rounded-xl p-2 text-xs shadow hover:scale-125 hover:z-30 transition-all cursor-pointer z-20 flex justify-center items-center lg:block"
-                    style={{
-                      gridRowStart: c.gridRowStart,
-                      gridRowEnd: `span ${Number(c.gridRowEnd)}`,
-                    }}
-                  >
-                    <p
-                      className={`font-medium lg:block lg:text-sm text-xs hidden print:block`}
-                    >
-                      {c.startTime} ~ {c.endTime}
-                    </p>
-                    <p className="font-bold text-center text-xs lg:text-sm">
-                      {c.memberNames}
-                    </p>
-                  </div>
-                ) : (
-                  <></>
-                );
-              })}
-            </div>
-          ))}
+          {!loading
+            ? scheduleByDay.map((sch, index) => (
+                <div
+                  key={`schedule_${index}`}
+                  className="grid w-full gap-y-2 pb-4 grid-rows-6 rounded-lg bg-stone-50 *:min-h-16 max-h-[200px]"
+                >
+                  {sch.map((c: any, index) => {
+                    return 6 + hourIndex === Number(c.startTime.slice(0, 2)) ? (
+                      <div
+                        onClick={() => router.push(`/member/${c.memberId}`)}
+                        key={`schedule_${index}`}
+                        className="overflow-y-auto font-medium bg-amber-200 w-full rounded-xl p-2 text-xs shadow hover:scale-125 hover:z-30 transition-all cursor-pointer z-20 flex justify-center items-center lg:block"
+                        style={{
+                          gridRowStart: c.gridRowStart,
+                          gridRowEnd: `span ${Number(c.gridRowEnd)}`,
+                        }}
+                      >
+                        <p
+                          className={`font-medium lg:block lg:text-sm text-xs hidden print:block`}
+                        >
+                          {c.startTime} ~ {c.endTime}
+                        </p>
+                        <p className="font-bold text-center text-xs lg:text-sm">
+                          {c.memberNames}
+                        </p>
+                      </div>
+                    ) : (
+                      <></>
+                    );
+                  })}
+                </div>
+              ))
+            : [...Array(7)].map((_, index) => (
+                <div
+                  key={`class_loading_${index}`}
+                  className="skeleton min-h-16 gap-y-2 w-full rounded-lg"
+                />
+              ))}
         </>
       ))}
     </>

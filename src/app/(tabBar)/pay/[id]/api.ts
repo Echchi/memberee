@@ -29,7 +29,7 @@ export async function getCompany() {
       id: companyId,
     },
   });
-
+  // await new Promise((resolve) => setTimeout(resolve, 100000));
   return company;
 }
 

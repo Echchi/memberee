@@ -49,7 +49,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   const id = params.id;
   const [memos, setMemos] = useState<WorkerMemo[]>([]);
   const [slice, setSlice] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [memSlice, setMemSlice] = useState(1);
   const [memLoading, setMemLoading] = useState(false);
   const workerRef = useRef<HTMLDivElement | null>(null);
@@ -60,6 +60,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           const response = await getWorker(+id, memSlice);
           // console.log(response);
           response && setWorker(response);
+          setLoading(false);
         }
       } catch (error) {
         return new Error("error fetch worker");
@@ -181,12 +182,10 @@ const Page = ({ params }: { params: { id: string } }) => {
               !isEdit
                 ? worker?.phone
                   ? formatPhone(worker?.phone)
-                  : "번호 없음"
+                  : ""
                 : worker?.phone
             }
-            placeholder={
-              worker?.phone ? formatPhone(worker?.phone) : "번호 없음"
-            }
+            placeholder={worker?.phone ? formatPhone(worker?.phone) : ""}
             className="h-16 lg:text-lg border-b-0"
             name="phone"
             maxLength={11}
@@ -228,7 +227,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             {!isEdit ? (
               <Input
                 type={"div"}
-                label={"근무일"}
+                label={"근무요일"}
                 value={worker?.dayOfWeek
                   ?.split("")
                   .map((day, index) => +day)
@@ -255,7 +254,11 @@ const Page = ({ params }: { params: { id: string } }) => {
               type={isEdit ? "text" : "div"}
               label={"수수료"}
               value={
-                isEdit ? worker?.commission + "" : `${worker?.commission} %`
+                isEdit
+                  ? worker?.commission + ""
+                  : worker?.commission
+                    ? `${worker?.commission} %`
+                    : ""
               }
               placeholder={`${worker?.commission} %` || ""}
               className="h-16 lg:text-lg border-b-1"

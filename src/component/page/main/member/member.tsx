@@ -52,11 +52,11 @@ const Member = ({
             return [...(prevData || []), ...(addData || [])];
           });
           setTotal(response.total);
+          setLoading(false);
         }
       } catch (e) {
         return new Error("error fetch members");
       }
-      setLoading(false);
     };
     fetchMembers();
   }, [page]);
