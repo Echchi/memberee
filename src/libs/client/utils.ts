@@ -16,6 +16,7 @@ import {
 } from "@/libs/constants";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 import { getWorkerList } from "@/app/(tabBar)/worker/register/api";
+import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
 
 export function cls(...classnames: string[]) {
   return classnames.join(" ");

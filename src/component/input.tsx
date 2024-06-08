@@ -4,7 +4,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { UseFormRegisterReturn } from "react-hook-form";
+import { FieldErrors, FormState, UseFormRegisterReturn } from "react-hook-form";
 import { cls } from "@/libs/client/utils";
 
 interface IOption {
@@ -21,7 +21,7 @@ interface InputFieldProps {
   required?: boolean;
   icon?: React.ReactElement;
   className?: string;
-  errorMessage?: string[];
+  errorMessage?: string[] | string;
   maxLength?: number;
   options?: IOption[];
   isLong?: boolean;
@@ -166,6 +166,7 @@ const Input: React.FC<
           defaultValue={value || ""}
           onChange={onChange && ((event) => onChange(event))}
           onBlur={onBlur && ((event) => onBlur(event))}
+          {...rest}
         />
       )}
       {errorMessage && errorMessage.length > 0 && (
