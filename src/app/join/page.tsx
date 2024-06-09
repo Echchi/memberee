@@ -55,7 +55,6 @@ const Join = () => {
   };
 
   const onBlurUserid = async (event: React.FocusEvent<HTMLInputElement>) => {
-    console.log("일단 되긴 됨");
     const userId = event.target.value;
     const isUseridUnique = await checkUserid(userId);
     if (!isUseridUnique) {
