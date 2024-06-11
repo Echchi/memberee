@@ -16,7 +16,6 @@ import { redirect } from "next/navigation";
 import { formSchema, JoinType } from "@/app/join/schema";
 
 export const checkUserid = async (userid: string) => {
-  console.log("진심 동작은 함?", userid);
   const user = await db.user.findFirst({
     where: {
       userid,
