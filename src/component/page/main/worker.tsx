@@ -8,19 +8,23 @@ import { DAYOFWEEK } from "@/libs/constants";
 import Modal from "@/component/modal";
 import MemoModal from "@/component/modal/memoModal";
 import WorkerExcelModal from "@/component/page/main/BulkUploadHandlers/worker/workerExcelModal";
+import { cls } from "@/libs/client/utils";
 
 const Worker = ({ workers }: { workers: WorkerWithMember[] }) => {
   const router = useRouter();
   const [isWorkerModalOpen, setIsWorkerModalOpen] = useState(false);
   return (
     <>
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 lg:hidden">
+        <p>엑셀 등록은 웹에서 해주세요</p>
+      </div>
       {isWorkerModalOpen && (
         <Modal
           title={"직원 엑셀 등록"}
           content={
             <WorkerExcelModal onClose={() => setIsWorkerModalOpen(false)} />
           }
-          className={"!w-4/5 !h-4/5"}
+          className={"w-full lg:w-4/5 h-full lg:h-4/5"}
           onClose={() => setIsWorkerModalOpen(false)}
         />
       )}
