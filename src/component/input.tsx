@@ -6,7 +6,12 @@ import React, {
   ForwardedRef,
   forwardRef,
 } from "react";
-import { FieldErrors, FormState, UseFormRegisterReturn } from "react-hook-form";
+import {
+  Field,
+  FieldErrors,
+  FormState,
+  UseFormRegisterReturn,
+} from "react-hook-form";
 import { cls } from "@/libs/client/utils";
 
 interface IOption {
@@ -57,6 +62,7 @@ const Input = forwardRef<
       onChange,
       onSelectChange,
       onBlur,
+
       ...rest
     },
     ref,

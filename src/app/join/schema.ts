@@ -18,28 +18,30 @@ export const checkPassword = ({ password, confirm_password }: ICheckPassword) =>
 export const formSchema = z
   .object({
     username: z.string().trim().min(2, "이름을 올바르게 입력해주세요"),
-
+    userid: z
+      .string()
+      .trim()
+      .min(4, ID_REGEX_ERROR)
+      .regex(ID_REGEX, ID_REGEX_ERROR),
     password: z
       .string()
       .trim()
       .min(4, PASSWORD_REGEX_ERROR)
       .regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR),
     confirm_password: z.string().trim(),
-    // phone: z
-    //   .string()
-    //   .trim()
-    //   .refine(
-    //     (phone) => validator.isMobilePhone(phone, "ko-KR"),
-    //     "숫자로만 올바르게 입력해주세요",
-    //   )
-    //   .refine(async (value) => await checkPhone(value), "이미 가입된 번호예요"),
+    phone: z
+      .string()
+      .trim()
+      .refine(
+        (phone) => validator.isMobilePhone(phone, "ko-KR"),
+        "숫자로만 올바르게 입력해주세요",
+      ),
     email: z.string().trim().email("이메일을 올바르게 입력해주세요"),
     co_name: z.string().trim(),
-    // co_num: z
-    //   .string({ required_error: "사업자등록번호를 올바르게 입력해주세요" })
-    //   .trim()
-    //   .regex(CO_NUM_REGEX, "사업자등록번호를 올바르게 입력해주세요"),
-    payDay: z.string(),
+    co_num: z
+      .string({ required_error: "사업자등록번호를 올바르게 입력해주세요" })
+      .trim(),
+    payDay: z.string().optional(),
     co_contact: z
       .string()
       .trim()

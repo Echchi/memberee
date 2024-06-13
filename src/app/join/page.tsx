@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Input from "@/component/input";
 
@@ -15,7 +15,6 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formSchema, JoinType } from "@/app/join/schema";
 import { useRouter } from "next/navigation";
-import { z } from "zod";
 import {
   ID_REGEX_ERROR,
   ONLY_NUMBER_REGEX,
@@ -26,6 +25,8 @@ import validator from "validator";
 
 export interface JoinFormType extends JoinType {
   userid: string;
+  co_num: string;
+  phone: string;
 }
 
 const Join = () => {
@@ -37,6 +38,7 @@ const Join = () => {
     setError,
     control,
     clearErrors,
+    watch,
   } = useForm({
     resolver: zodResolver(formSchema),
     mode: "onBlur",
@@ -49,20 +51,23 @@ const Join = () => {
       email: "",
       co_name: "",
       co_num: "",
-      payDay: "",
+      payday: "",
       co_contact: "",
     },
   });
 
-  useEffect(() => {
-    console.log("errors", errors);
-  }, [errors]);
+  const userid = watch("userid");
 
-  useEffect(() => {
-    console.log("errors", errors);
-  }, [errors]);
+  const phone = watch("phone");
+
+  const co_num = watch("co_num");
+
   const onSubmit = async (data: JoinFormType) => {
-    console.log("data", data);
+    data.payDay = payday;
+    data.userid = userid;
+    data.phone = phone;
+    data.co_num = co_num;
+
     try {
       await createAccount(data);
     } catch (error) {
@@ -70,9 +75,14 @@ const Join = () => {
     }
   };
 
-  const onBlurUserid = async (event: React.FocusEvent<HTMLInputElement>) => {
+  const [payday, setPayday] = useState("1");
+
+  const onBlurUserid = async (
+    event: React.FocusEvent<HTMLInputElement>,
+    fieldOnBlur: () => void,
+  ) => {
     console.log("onBlurUserid");
-    const userId = event.target.value;
+    const userId = event.target.value.trim();
     if (userId.length === 0) {
       setError("userid", {
         type: "manual",
@@ -96,8 +106,11 @@ const Join = () => {
       }
     }
   };
-  const onBlurPhone = async (event: React.FocusEvent<HTMLInputElement>) => {
-    const phone = event.target.value;
+  const onBlurPhone = async (
+    event: React.FocusEvent<HTMLInputElement>,
+    fieldOnBlur: () => void,
+  ) => {
+    const phone = event.target.value.trim();
     if (phone.length === 0) {
       setError("phone", {
         type: "manual",
@@ -121,8 +134,11 @@ const Join = () => {
       }
     }
   };
-  const onBlurCoNum = async (event: React.FocusEvent<HTMLInputElement>) => {
-    const coNum = event.target.value;
+  const onBlurCoNum = async (
+    event: React.FocusEvent<HTMLInputElement>,
+    fieldOnBlur: () => void,
+  ) => {
+    const coNum = event.target.value.trim();
 
     if (coNum.length === 0) {
       setError("co_num", {
@@ -211,11 +227,11 @@ const Join = () => {
               required={true}
               className={"h-16 border-t-0 border-b-1"}
               {...field}
-              onBlur={onBlurUserid}
+              onBlur={(e) => onBlurUserid(e, field.onBlur)}
               errorMessage={[errors.userid?.message ?? ""]}
             />
           )}
-          name={"userid"}
+          name="userid"
           control={control}
         />
 
@@ -265,7 +281,7 @@ const Join = () => {
         />
         <Controller
           control={control}
-          render={(field) => (
+          render={({ field }) => (
             <Input
               icon={
                 <svg
@@ -286,12 +302,12 @@ const Join = () => {
               required={true}
               className={"h-16 border-t-0 border-b-1"}
               maxLength={11}
-              onBlur={onBlurPhone}
               {...field}
+              onBlur={(e) => onBlurPhone(e, field.onBlur)}
               errorMessage={[errors.phone?.message ?? ""]}
             />
           )}
-          name={"phone"}
+          name="phone"
         />
 
         <Input
@@ -340,7 +356,7 @@ const Join = () => {
           errorMessage={[errors.co_name?.message ?? ""]}
         />
         <Controller
-          render={(field) => (
+          render={({ field }) => (
             <Input
               icon={
                 <svg
@@ -362,11 +378,11 @@ const Join = () => {
               className={"h-16 border-t-0"}
               {...field}
               maxLength={10}
-              onBlur={onBlurCoNum}
+              onBlur={(e) => onBlurCoNum(e, field.onBlur)}
               errorMessage={[errors.co_num?.message ?? ""]}
             />
           )}
-          name={"co_num"}
+          name="co_num"
           control={control}
         />
 
@@ -385,7 +401,8 @@ const Join = () => {
               />
             </svg>
           }
-          {...register("payDay")}
+          onSelectChange={(e) => setPayday(e.target.value)}
+          value={payday}
           required={true}
           className={"h-16 border-t-0"}
           type={"select"}
@@ -418,7 +435,11 @@ const Join = () => {
           maxLength={11}
           errorMessage={[errors.co_contact?.message ?? ""]}
         />
-        <FormButton text={"회원가입"} className={"mt-5"} />
+        <FormButton
+          text={"회원가입"}
+          className={"mt-5"}
+          isButtonDisabled={Object.entries(errors).length > 0}
+        />
       </div>
     </form>
   );
