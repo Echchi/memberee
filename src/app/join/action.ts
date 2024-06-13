@@ -14,44 +14,46 @@ import db from "@/libs/server/db";
 import getSession from "@/libs/client/session";
 import { redirect } from "next/navigation";
 import { formSchema, JoinType } from "@/app/join/schema";
+import { JoinFormType } from "@/app/join/page";
 
 export const checkUserid = async (userid: string) => {
-  const user = await db.user.findFirst({
+  const user = await db.user.findMany({
     where: {
       userid,
-      status: -1 || 1,
+      OR: [{ status: 1 }, { status: -1 }],
     },
     select: {
       userid: true,
     },
   });
-  return !user;
+  console.log("checkUserid", user, user.length);
+  return user.length === 0;
 };
 export const checkPhone = async (phone: string) => {
-  const user = await db.user.findFirst({
+  const user = await db.user.findMany({
     where: {
       phone,
-      status: -1 || 1,
+      OR: [{ status: 1 }, { status: -1 }],
     },
     select: {
       userid: true,
     },
   });
-  return !user;
+  return user.length === 0;
 };
 
 export const checkCoNum = async (num: string) => {
-  const company = await db.company.findFirst({
+  const company = await db.company.findMany({
     where: {
       num,
-      status: -1 | 1,
+      OR: [{ status: 1 }, { status: -1 }],
     },
     select: {
       id: true,
     },
   });
   // console.log(company);
-  return !company;
+  return company.length === 0;
 };
 
 // export const createAccount = async (prevState: any, formData: FormData) => {
@@ -102,7 +104,7 @@ export const checkCoNum = async (num: string) => {
 //     redirect("/main");
 //   }
 // };
-export const createAccount = async (data: JoinType) => {
+export const createAccount = async (data: JoinFormType) => {
   console.log("createAccount 데이터는 잘 오네요", data);
   const result = await formSchema.spa(data);
   if (!result.success) {

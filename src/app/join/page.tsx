@@ -1,16 +1,32 @@
 "use client";
 import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import Input from "@/component/input";
 
 import FormButton from "@/component/button/formButton";
 
-import { checkUserid, createAccount } from "@/app/join/action";
+import {
+  checkCoNum,
+  checkPhone,
+  checkUserid,
+  createAccount,
+} from "@/app/join/action";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formSchema, JoinType } from "@/app/join/schema";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
+import {
+  ID_REGEX_ERROR,
+  ONLY_NUMBER_REGEX,
+  ONLY_NUMBER_REGEX_ERROR,
+  PHONE_REGEX_ERROR,
+} from "@/libs/constants";
+import validator from "validator";
+
+export interface JoinFormType extends JoinType {
+  userid: string;
+}
 
 const Join = () => {
   const router = useRouter();
@@ -19,7 +35,7 @@ const Join = () => {
     formState: { errors },
     handleSubmit,
     setError,
-    trigger,
+    control,
     clearErrors,
   } = useForm({
     resolver: zodResolver(formSchema),
@@ -39,13 +55,13 @@ const Join = () => {
   });
 
   useEffect(() => {
-    console.log("errors.username?.message,", String(errors.username?.message));
-  }, [errors.username?.message]);
+    console.log("errors", errors);
+  }, [errors]);
 
   useEffect(() => {
     console.log("errors", errors);
   }, [errors]);
-  const onSubmit = async (data: JoinType) => {
+  const onSubmit = async (data: JoinFormType) => {
     console.log("data", data);
     try {
       await createAccount(data);
@@ -55,15 +71,80 @@ const Join = () => {
   };
 
   const onBlurUserid = async (event: React.FocusEvent<HTMLInputElement>) => {
+    console.log("onBlurUserid");
     const userId = event.target.value;
-    const isUseridUnique = await checkUserid(userId);
-    if (!isUseridUnique) {
+    if (userId.length === 0) {
       setError("userid", {
         type: "manual",
-        message: "이미 존재하는 아이디예요",
+        message: ID_REGEX_ERROR,
+      });
+    } else if (userId.trim().length < 4) {
+      setError("userid", {
+        type: "manual",
+        message: ID_REGEX_ERROR,
       });
     } else {
-      clearErrors("userid");
+      const isUseridUnique = await checkUserid(userId);
+      // console.log("isUseridUnique", isUseridUnique);
+      if (!isUseridUnique) {
+        setError("userid", {
+          type: "manual",
+          message: "이미 존재하는 아이디예요",
+        });
+      } else {
+        clearErrors("userid");
+      }
+    }
+  };
+  const onBlurPhone = async (event: React.FocusEvent<HTMLInputElement>) => {
+    const phone = event.target.value;
+    if (phone.length === 0) {
+      setError("phone", {
+        type: "manual",
+        message: PHONE_REGEX_ERROR,
+      });
+    } else if (!validator.isMobilePhone(phone, "ko-KR")) {
+      setError("phone", {
+        type: "manual",
+        message: PHONE_REGEX_ERROR,
+      });
+    } else {
+      const isPhoneUnique = await checkPhone(phone);
+      // console.log("isUseridUnique", isUseridUnique);
+      if (!isPhoneUnique) {
+        setError("phone", {
+          type: "manual",
+          message: "이미 가입된 번호예요",
+        });
+      } else {
+        clearErrors("phone");
+      }
+    }
+  };
+  const onBlurCoNum = async (event: React.FocusEvent<HTMLInputElement>) => {
+    const coNum = event.target.value;
+
+    if (coNum.length === 0) {
+      setError("co_num", {
+        type: "manual",
+        message: PHONE_REGEX_ERROR,
+      });
+    } else if (!ONLY_NUMBER_REGEX.test(coNum)) {
+      setError("co_num", {
+        type: "manual",
+        message: ONLY_NUMBER_REGEX_ERROR,
+      });
+    } else {
+      const isCoNumUnique = await checkCoNum(coNum);
+      console.log("isCoNumUnique", isCoNumUnique);
+      if (!isCoNumUnique) {
+        setError("co_num", {
+          type: "manual",
+          message: "이미 가입된 번호예요",
+        });
+      } else {
+        clearErrors("co_num");
+      }
     }
   };
 
@@ -108,28 +189,36 @@ const Join = () => {
           {...register("username")}
           errorMessage={[errors.username?.message ?? ""]}
         />
-        <Input
-          icon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="w-6 h-6 text-gray-300"
-            >
-              <path
-                fillRule="evenodd"
-                d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
-                clipRule="evenodd"
-              />
-            </svg>
-          }
-          type={"text"}
-          placeholder={"아이디"}
-          required={true}
-          className={"h-16 border-t-0 border-b-1"}
-          {...register("userid", { onBlur: onBlurUserid })}
-          errorMessage={[errors.userid?.message ?? ""]}
+        <Controller
+          render={({ field }) => (
+            <Input
+              icon={
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="w-6 h-6 text-gray-300"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              }
+              type={"text"}
+              placeholder={"아이디"}
+              required={true}
+              className={"h-16 border-t-0 border-b-1"}
+              {...field}
+              onBlur={onBlurUserid}
+              errorMessage={[errors.userid?.message ?? ""]}
+            />
+          )}
+          name={"userid"}
+          control={control}
         />
+
         <Input
           icon={
             <svg
@@ -174,29 +263,37 @@ const Join = () => {
           {...register("confirm_password")}
           errorMessage={[errors.confirm_password?.message ?? ""]}
         />
-        <Input
-          icon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="w-6 h-6 text-gray-300"
-            >
-              <path
-                fillRule="evenodd"
-                d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z"
-                clipRule="evenodd"
-              />
-            </svg>
-          }
-          type={"text"}
-          placeholder={"휴대폰 번호"}
-          required={true}
-          className={"h-16 border-t-0 border-b-1"}
-          maxLength={11}
-          {...register("phone")}
-          errorMessage={[errors.phone?.message ?? ""]}
+        <Controller
+          control={control}
+          render={(field) => (
+            <Input
+              icon={
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="w-6 h-6 text-gray-300"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              }
+              type={"text"}
+              placeholder={"휴대폰 번호"}
+              required={true}
+              className={"h-16 border-t-0 border-b-1"}
+              maxLength={11}
+              onBlur={onBlurPhone}
+              {...field}
+              errorMessage={[errors.phone?.message ?? ""]}
+            />
+          )}
+          name={"phone"}
         />
+
         <Input
           icon={
             <svg
@@ -242,29 +339,37 @@ const Join = () => {
           {...register("co_name")}
           errorMessage={[errors.co_name?.message ?? ""]}
         />
-        <Input
-          icon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="w-6 h-6 text-gray-300"
-            >
-              <path
-                fillRule="evenodd"
-                d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
-                clipRule="evenodd"
-              />
-            </svg>
-          }
-          type={"text"}
-          placeholder={"사업자 등록 번호를 숫자로만 입력해주세요"}
-          required={true}
-          className={"h-16 border-t-0"}
-          {...register("co_num")}
-          maxLength={10}
-          errorMessage={[errors.co_num?.message ?? ""]}
+        <Controller
+          render={(field) => (
+            <Input
+              icon={
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="w-6 h-6 text-gray-300"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              }
+              type={"text"}
+              placeholder={"사업자 등록 번호를 숫자로만 입력해주세요"}
+              required={true}
+              className={"h-16 border-t-0"}
+              {...field}
+              maxLength={10}
+              onBlur={onBlurCoNum}
+              errorMessage={[errors.co_num?.message ?? ""]}
+            />
+          )}
+          name={"co_num"}
+          control={control}
         />
+
         <Input
           icon={
             <svg

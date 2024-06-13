@@ -23,6 +23,7 @@ export const PAYDATE_REGEX = new RegExp(
 );
 export const PAYDATE_REGEX_ERROR = "납부일자를 올바르게 입력해주세요";
 
+export const PHONE_REGEX_ERROR = "연락처를 숫자로만 올바르게 입력해주세요";
 export const ONLY_NUMBER_REGEX = new RegExp(/^\d+$/);
 
 export const ONLY_NUMBER_REGEX_ERROR = "숫자로만 입력해주세요";
