@@ -44,6 +44,7 @@ export async function terminateUser(id: number) {
   session.destroy();
   redirect("/login");
 }
+
 export async function updatePassword(password: string) {
   const session = await getSession();
   const id = session.id;
@@ -57,8 +58,9 @@ export async function updatePassword(password: string) {
     },
   });
 
-  redirect("account");
+  return { success: true };
 }
+
 export async function checkPassword(password: string) {
   const session = await getSession();
   const id = session.id;
