@@ -200,7 +200,8 @@ const FindId = ({ onClose }: { onClose: () => void }) => {
             error.name.length > 0 ||
             error.phone.length > 0 ||
             error.coNum.length > 0 ||
-            phone.length === 0
+            phone.length === 0 ||
+            isSuccess
           }
           onClick={handleFindId}
         />

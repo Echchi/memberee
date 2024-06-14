@@ -28,7 +28,7 @@ const Login = () => {
               memberee
             </h3>
             <h3 className="ml-3 text-black">
-              누구나 편하게 쓰기 쉬운 회원관리{" "}
+              누구나 편하게 쓰기 쉬운 회원관리
             </h3>
           </div>
 
