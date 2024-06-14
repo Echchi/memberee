@@ -79,7 +79,7 @@ function TimeTable({ classes }: { classes: classWithMember[] }) {
           {Object.entries(scheduleByWorker).map(([id, worker]) => (
             <div
               key={`main_class_worker_${id}`}
-              className="py-3 bg-white w-full flex justify-center font-semibold text-sm lg:text-base sticky top-0"
+              className="py-3 bg-white w-full flex justify-center font-semibold text-sm xl:text-base sticky top-0"
             >
               {worker.name}
             </div>
@@ -88,7 +88,7 @@ function TimeTable({ classes }: { classes: classWithMember[] }) {
           {Array.from({ length: 18 }).map((_, hourIndex) => (
             <>
               <div
-                className="text-sm lg:text-base font-semibold sticky left-0"
+                className="text-sm xl:text-base font-semibold sticky left-0"
                 key={`main_hour_${hourIndex}`}
               >{`${6 + hourIndex}시`}</div>
               {Object.values(scheduleByWorker).map((worker, index) => (
@@ -108,7 +108,7 @@ function TimeTable({ classes }: { classes: classWithMember[] }) {
                         }}
                       >
                         <p
-                          className={`font-medium lg:block lg:text-sm text-xs hidden`}
+                          className={`font-medium xl:block xl:text-sm text-xs hidden`}
                         >
                           {c.startTime} ~ {c.endTime}
                         </p>

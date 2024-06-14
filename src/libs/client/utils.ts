@@ -171,3 +171,9 @@ export async function getWorkerId(workerName: string) {
   const worker = workerList.find((worker) => worker.name === workerName);
   return worker?.id + "";
 }
+
+export function hideId(id: string) {
+  const visiblePart = id.slice(0, 3);
+  const hiddenPart = "●".repeat(id.length - 3);
+  return visiblePart + hiddenPart;
+}

@@ -30,7 +30,7 @@ const TopBar = ({ canGoBack }: LayoutProps) => {
   }, [pathname]);
   // console.log();
   return (
-    <div className="lg:hidden fixed bg-white w-full h-16 max-w-xl justify-center text-lg px-10 font-medium text-stone-800 border-b top-0 flex items-center z-10">
+    <div className="xl:hidden fixed bg-white w-full h-16 max-w-xl justify-center text-lg px-10 font-medium text-stone-800 border-b top-0 flex items-center z-10">
       {canGoBack ? (
         <button
           onClick={onClick}

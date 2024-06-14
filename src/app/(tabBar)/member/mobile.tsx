@@ -37,7 +37,7 @@ const Mobile = ({
 
   return (
     <>
-      <div className="lg:hidden relative flex flex-col space-y-3 mt-5 overscroll-y-auto">
+      <div className="xl:hidden relative flex flex-col space-y-3 mt-5 overscroll-y-auto">
         <div className="flex mb-2">
           <SendMsg
             year={getYear(new Date())}

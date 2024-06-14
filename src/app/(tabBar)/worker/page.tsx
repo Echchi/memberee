@@ -14,12 +14,12 @@ const Page = async ({
 
   return (
     <>
-      <div className="my-3 flex justify-between items-center lg:space-x-0 space-x-4">
+      <div className="my-3 flex justify-between items-center xl:space-x-0 space-x-4">
         <Search placeholder={"이름"} />
 
         <RegisterModal />
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-3 w-full gap-3 *:cursor-pointer *:transition-all ">
+      <div className="grid grid-cols-1 xl:grid-cols-3 w-full gap-3 *:cursor-pointer *:transition-all ">
         <Workers query={query} />
       </div>
     </>

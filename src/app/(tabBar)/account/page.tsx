@@ -64,14 +64,16 @@ const Page = () => {
         <Modal
           onClose={() => setIsChangePasswordOpen(false)}
           title={"비밀번호 변경"}
-          content={<ChangePassword />}
+          content={
+            <ChangePassword onClose={() => setIsChangePasswordOpen(false)} />
+          }
         />
       )}
 
-      <form className="mt-3 lg:mt-0 lg:box overflow-y-auto" action={action}>
+      <form className="mt-3 xl:mt-0 xl:box overflow-y-auto" action={action}>
         <div className="px-3 w-full">
           {/*  유저 : 이름 아이디 비밀번호 휴대폰 번호 메일*/}
-          <p className="font-semibold tracking-wide text-stone-600 py-3 lg:pt-5 lg:pb-3 lg:text-lg">
+          <p className="font-semibold tracking-wide text-stone-600 py-3 xl:pt-5 xl:pb-3 xl:text-lg">
             관리자 정보
           </p>
           <Input
@@ -94,15 +96,15 @@ const Page = () => {
             />
           )}
           {isEdit ? (
-            <div className="relative hidden lg:flex items-center w-full border border-stone-300 border-t-0 bg-white h-18">
-              <span className="text-sm lg:text-lg text-stone-600 max-w-24 lg:max-w-full absolute inset-y-0 left-0 flex flex-nowrap items-center lg:pl-10 pl-4 whitespace-pre-line font-semibold">
+            <div className="relative hidden xl:flex items-center w-full border border-stone-300 border-t-0 bg-white h-18">
+              <span className="text-sm xl:text-lg text-stone-600 max-w-24 xl:max-w-full absolute inset-y-0 left-0 flex flex-nowrap items-center xl:pl-10 pl-4 whitespace-pre-line font-semibold">
                 비밀번호
               </span>
-              <div className="inner_input_res lg:px-48 px-20 !h-full">
+              <div className="inner_input_res xl:px-48 px-20 !h-full">
                 <Button
                   text={"비밀번호 변경"}
                   type={"button"}
-                  className="w-fit lg:!w-1/6"
+                  className="w-fit xl:!w-1/6"
                   onClick={() => setIsChangePasswordOpen(true)}
                 />
               </div>
@@ -139,7 +141,7 @@ const Page = () => {
           />
 
           {/*  회사  : 이름, 연락처  */}
-          <p className="font-semibold tracking-wide text-stone-600 pt-5 pb-3 lg:pt-8 lg:pb-3 lg:text-lg">
+          <p className="font-semibold tracking-wide text-stone-600 pt-5 pb-3 xl:pt-8 xl:pb-3 xl:text-lg">
             업체 정보
           </p>
 

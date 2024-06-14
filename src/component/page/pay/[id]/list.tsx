@@ -141,7 +141,7 @@ const List = ({
       >
         <table className="w-full table-auto">
           <thead>
-            <tr className="bg-stone-100 font-semibold text-base lg:text-lg text-center *:py-3">
+            <tr className="bg-stone-100 font-semibold text-base xl:text-lg text-center *:py-3">
               <td>
                 <select
                   className="bg-transparent cursor-pointer outline-none"
@@ -159,8 +159,8 @@ const List = ({
                 </select>
               </td>
               <td>월</td>
-              <td className="hidden lg:table-cell">납부방법</td>
-              <td className="hidden lg:table-cell">금액</td>
+              <td className="hidden xl:table-cell">납부방법</td>
+              <td className="hidden xl:table-cell">금액</td>
               <td>납부일자</td>
             </tr>
           </thead>
@@ -190,15 +190,15 @@ const List = ({
                 >
                   <td>{item.year}</td>
                   <td>{item.month}</td>
-                  <td className="hidden lg:table-cell">
+                  <td className="hidden xl:table-cell">
                     {item.method ? item.method : "-"}
                   </td>
-                  <td className="hidden lg:table-cell">
+                  <td className="hidden xl:table-cell">
                     {item.method ? formatCurrency(item.lessonFee) : "-"}
                   </td>
                   <td>
                     {item.lessonFee < 0 ? (
-                      <div className="mx-auto min-w-fit w-1/2 lg:w-1/4">
+                      <div className="mx-auto min-w-fit w-1/2 xl:w-1/4">
                         <Button
                           text={"중단"}
                           className="!bg-neutral-300 hover:!bg-neutral-300 active:!bg-neutral-300 !py-3 !cursor-default"
@@ -208,7 +208,7 @@ const List = ({
                     ) : item.paymentDate ? (
                       <span> {dateFormattedtoKor(item.paymentDate)}</span>
                     ) : (
-                      <div className="mx-auto min-w-fit w-1/2 lg:w-1/4">
+                      <div className="mx-auto min-w-fit w-1/2 xl:w-1/4">
                         <Button
                           text={"납부 등록"}
                           className={cls(

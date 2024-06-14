@@ -7,23 +7,24 @@ import { login } from "@/app/login/action";
 import { useFormState } from "react-dom";
 import Modal from "@/component/modal";
 import ChangePassword from "@/app/(tabBar)/account/changePassword";
+import FindId from "@/app/login/findId";
 
 const Login = () => {
   const [state, action] = useFormState(login, null);
-  const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
+  const [isFindIdOpen, setIsFindIdOpen] = useState(false);
   return (
     <>
-      {isChangePasswordOpen && (
+      {isFindIdOpen && (
         <Modal
-          onClose={() => setIsChangePasswordOpen(false)}
-          title={"비밀번호 변경"}
-          content={<ChangePassword />}
+          onClose={() => setIsFindIdOpen(false)}
+          title={"아이디 찾기"}
+          content={<FindId onClose={() => setIsFindIdOpen(false)} />}
         />
       )}
       <div className="w-full max-w-lg mx-auto">
         <form action={action} className="w-full mt-32 px-8">
           <div className="flex flex-col justify-center items-center space-y-3">
-            <h3 className="text-5xl lg:text-7xl font-extrabold text-emerald-700">
+            <h3 className="text-5xl xl:text-7xl font-extrabold text-emerald-700">
               memberee
             </h3>
             <h3 className="ml-3 text-black">
@@ -85,10 +86,7 @@ const Login = () => {
           )}
           <FormButton text={"로그인"} className="mt-10" />
           <div className="grid grid-cols-3 divide-x divide-gray-300 mt-5 text-gray-400 w-11/12 mx-auto *:text-center">
-            <button
-              onClick={() => setIsChangePasswordOpen(true)}
-              type={"button"}
-            >
+            <button onClick={() => setIsFindIdOpen(true)} type={"button"}>
               아이디 찾기
             </button>
             <div className="text-emerald-600 font-semibold">

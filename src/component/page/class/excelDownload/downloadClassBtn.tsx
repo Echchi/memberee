@@ -51,7 +51,7 @@ const DownloadClassBtn = ({
   return (
     <Button
       text={"출력"}
-      className="py-3 hidden lg:block"
+      className="py-3 hidden xl:block"
       isButtonDisabled={content?.length === 0}
       onClick={() => {
         downloadClass({

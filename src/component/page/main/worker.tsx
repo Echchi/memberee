@@ -15,9 +15,9 @@ const Worker = ({ workers }: { workers: WorkerWithMember[] }) => {
   const [isWorkerModalOpen, setIsWorkerModalOpen] = useState(false);
   return (
     <>
-      <div className="fixed inset-0 bg-black bg-opacity-70 flex flex-col items-center justify-center z-50 lg:hidden space-y-3">
-        <p className="text-7xl lg:text-9xl text-white font-extrabold">앗!</p>
-        <p className="text-2xl lg:text-4xl text-white font-bold">
+      <div className="fixed inset-0 bg-black bg-opacity-70 flex flex-col items-center justify-center z-50 xl:hidden space-y-3">
+        <p className="text-7xl xl:text-9xl text-white font-extrabold">앗!</p>
+        <p className="text-2xl xl:text-4xl text-white font-bold">
           대량 등록은 컴퓨터에서만 가능해요
         </p>
       </div>
@@ -27,12 +27,12 @@ const Worker = ({ workers }: { workers: WorkerWithMember[] }) => {
           content={
             <WorkerExcelModal onClose={() => setIsWorkerModalOpen(false)} />
           }
-          className={"w-full lg:w-4/5 h-full lg:h-4/5"}
+          className={"w-full xl:w-4/5 h-full xl:h-4/5"}
           onClose={() => setIsWorkerModalOpen(false)}
         />
       )}
       <div
-        className="box flex-col justify-center space-x-2 lg:!py-2 cursor-pointer hover:shadow-lg"
+        className="box flex-col justify-center space-x-2 xl:!py-2 cursor-pointer hover:shadow-lg"
         onClick={() =>
           workers.length > 0
             ? router.push("/worker")
@@ -64,10 +64,10 @@ const Worker = ({ workers }: { workers: WorkerWithMember[] }) => {
                   />
                 </svg>
 
-                <p className="text-base lg:text-lg font-semibold">
+                <p className="text-base xl:text-lg font-semibold">
                   {worker.name}
                 </p>
-                <p className="text-sm lg:text-base font-medium whitespace-nowrap">
+                <p className="text-sm xl:text-base font-medium whitespace-nowrap">
                   {worker.dayOfWeek
                     ?.split("")
                     .sort((a, b) => Number(a) - Number(b))

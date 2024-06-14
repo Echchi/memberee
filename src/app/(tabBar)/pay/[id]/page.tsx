@@ -99,9 +99,9 @@ const Page = ({ params }: { params: { id: string } }) => {
 
   return (
     <>
-      <div className="mt-3 lg:mt-0 lg:box flex-col">
+      <div className="mt-3 xl:mt-0 xl:box flex-col">
         <div className="flex justify-end items-center">
-          <div className="relative hidden lg:flex items-center justify-end space-x-4 w-full *:w-32">
+          <div className="relative hidden xl:flex items-center justify-end space-x-4 w-full *:w-32">
             {member?.status === 0 && (
               <Tag
                 color={"stone"}
@@ -131,12 +131,12 @@ const Page = ({ params }: { params: { id: string } }) => {
             </div>
           </div>
         </div>
-        <div className=" border border-x border-b-0 flex bg-stone-100 text-stone-600 tracking-wider text-lg lg:text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg ">
+        <div className=" border border-x border-b-0 flex bg-stone-100 text-stone-600 tracking-wider text-lg xl:text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg ">
           납부내역
         </div>
         <div
           className={cls(
-            "grid lg:grid-cols-2 w-full cursor-pointer",
+            "grid xl:grid-cols-2 w-full cursor-pointer",
             member && member?.status <= 0 ? "*:bg-stone-100" : "",
           )}
           data-testid={"member-info"}
@@ -146,25 +146,25 @@ const Page = ({ params }: { params: { id: string } }) => {
             type={"div"}
             label={"이름"}
             value={member?.name}
-            className="h-16 lg:border-r-0 lg:text-lg"
+            className="h-16 xl:border-r-0 xl:text-lg"
           />
           <Input
             type={"div"}
             label={"담당"}
             value={member?.worker?.name}
-            className="h-16 lg:text-lg"
+            className="h-16 xl:text-lg"
           />
           <Input
             type={"div"}
             label={"연락처"}
             value={formatPhone(member?.phone || "")}
-            className="h-16 border-t-0 lg:border-r-0 lg:text-lg"
+            className="h-16 border-t-0 xl:border-r-0 xl:text-lg"
           />
           <Input
             type={"div"}
             label={"납부/ 총 납부"}
             value={`${paymentCnt}건 / ${totalPeriod.length - stopPeriod}건`}
-            className="hidden lg:flex h-16 border-t-0 lg:text-lg"
+            className="hidden xl:flex h-16 border-t-0 xl:text-lg"
           />
         </div>
         {!loading && member ? (
@@ -179,11 +179,11 @@ const Page = ({ params }: { params: { id: string } }) => {
           <div className="border border-stone-300 border-t-0 rounded-b-lg w-full h-[73\x20px]">
             <table className="w-full table-auto">
               <thead>
-                <tr className="bg-stone-100 font-semibold text-base lg:text-lg text-center *:py-3">
+                <tr className="bg-stone-100 font-semibold text-base xl:text-lg text-center *:py-3">
                   <td>연도</td>
                   <td>월</td>
-                  <td className="hidden lg:table-cell">납부방법</td>
-                  <td className="hidden lg:table-cell">금액</td>
+                  <td className="hidden xl:table-cell">납부방법</td>
+                  <td className="hidden xl:table-cell">금액</td>
                   <td>납부일자</td>
                 </tr>
               </thead>
@@ -200,17 +200,17 @@ const Page = ({ params }: { params: { id: string } }) => {
                         <span className="w-2/3 skeleton rounded-lg h-8" />
                       </div>
                     </td>
-                    <td className="hidden lg:table-cell">
+                    <td className="hidden xl:table-cell">
                       <div className="flex justify-center items-center">
                         <span className="w-2/3 skeleton rounded-lg h-8" />
                       </div>
                     </td>
-                    <td className="hidden lg:table-cell">
+                    <td className="hidden xl:table-cell">
                       <div className="flex justify-center items-center">
                         <span className="w-2/3 skeleton rounded-lg h-8" />
                       </div>
                     </td>
-                    <td className="hidden lg:table-cell">
+                    <td className="hidden xl:table-cell">
                       <div className="flex justify-center items-center">
                         <span className="w-2/3 skeleton rounded-lg h-8" />
                       </div>

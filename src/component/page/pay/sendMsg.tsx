@@ -50,7 +50,7 @@ const SendMsg = ({
       <Link
         href={`sms:${nums.join(",")}`}
         className={cls(
-          "text-sm lg:text-base outline-none px-3 py-2 rounded-lg font-semibold transition-all disabled:bg-gray-300 disabled:cursor-default  cursor-pointer",
+          "text-sm xl:text-base outline-none px-3 py-2 rounded-lg font-semibold transition-all disabled:bg-gray-300 disabled:cursor-default  cursor-pointer",
           isAllMember
             ? "text-green-600 bg-green-600/30 hover:bg-green-600/10 active:bg-green-600/40"
             : "text-orange-600 bg-orange-500/30 hover:bg-orange-500/10 active:bg-orange-500/40",

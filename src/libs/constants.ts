@@ -4,6 +4,9 @@ export const PASSWORD_REGEX = new RegExp(
   /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{4,}$/,
 );
 
+export const NAME_REGEX = new RegExp(/^[a-zA-Z가-힣]{2,}$/);
+export const NAME_REGEX_ERROR = "이름을 올바르게 입력해주세요";
+
 export const CO_NUM_REGEX = new RegExp(/^\d{10}$/);
 
 export const PASSWORD_REGEX_ERROR =
@@ -27,6 +30,7 @@ export const PHONE_REGEX_ERROR = "연락처를 숫자로만 올바르게 입력�
 export const ONLY_NUMBER_REGEX = new RegExp(/^\d+$/);
 
 export const ONLY_NUMBER_REGEX_ERROR = "숫자로만 입력해주세요";
+export const CO_NUM_REGEX_ERROR = "사업자등록번호를 올바르게 입력해주세요";
 
 export const DAYOFWEEK: Record<number, string> = {
   1: "월",

@@ -15,13 +15,13 @@ const RegisterModal = () => {
           title={"직원 등록"}
           content={<Page />}
           onClose={() => setRegisterModalOpen(false)}
-          className={"lg:w-2/3"}
+          className={"xl:w-2/3"}
         />
       )}
       <Button
         onClick={() => router.push("/worker/register")}
         text={"직원 등록"}
-        className="mt-0 py-3 !w-1/4 lg:!w-1/12 !bg-emerald-500 hover:!bg-emerald-500/80 active:!bg-emerald-600"
+        className="mt-0 py-3 !w-1/4 xl:!w-1/12 !bg-emerald-500 hover:!bg-emerald-500/80 active:!bg-emerald-600"
       />
     </>
   );

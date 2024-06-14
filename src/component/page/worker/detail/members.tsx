@@ -23,7 +23,7 @@ const Members = ({
 
   return (
     <>
-      <div className="text-stone-600 font-bold text-base lg:text-lg flex justify-center items-center h-16 bg-neutral-100 col-span-2 border-x border-t border-neutral-300">
+      <div className="text-stone-600 font-bold text-base xl:text-lg flex justify-center items-center h-16 bg-neutral-100 col-span-2 border-x border-t border-neutral-300">
         담당 회원
       </div>
       {members.length > 0 ? (
@@ -31,7 +31,7 @@ const Members = ({
           {/*<InfiniteScroll setSlice={setMemSlice} loading={loading}>*/}
           <table className="w-full table-auto">
             <thead>
-              <tr className="sticky top-0 bg-stone-100 font-semibold *:text-sm lg:*:text-lg text-center *:py-3 print:border print:border-stone-300">
+              <tr className="sticky top-0 bg-stone-100 font-semibold *:text-sm xl:*:text-lg text-center *:py-3 print:border print:border-stone-300">
                 <td>이름</td>
                 <td>연락처</td>
                 <td>요일</td>
@@ -43,7 +43,7 @@ const Members = ({
                 <tr
                   key={index}
                   onClick={() => router.push(`/member/${member.id}`)}
-                  className="*:py-3 text-center border-b print:border-stone-300 hover:bg-orange-100 cursor-pointer active:bg-orange-200 print:border-x *:text-sm lg:*:text-base"
+                  className="*:py-3 text-center border-b print:border-stone-300 hover:bg-orange-100 cursor-pointer active:bg-orange-200 print:border-x *:text-sm xl:*:text-base"
                 >
                   <td>{member.name}</td>
                   <td>{member.phone}</td>

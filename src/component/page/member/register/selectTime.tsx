@@ -120,12 +120,12 @@ const SelectTime = ({
 
   return (
     <>
-      <div className="bg-white py-3 col-span-2 border border-t-0 border-b-1 border-neutral-300 flex flex-col lg:pl-10">
+      <div className="bg-white py-3 col-span-2 border border-t-0 border-b-1 border-neutral-300 flex flex-col xl:pl-10">
         <div className="flex">
-          <div className="hidden lg:flex items-center lg:text-lg flex-nowrap w-24 font-semibold text-stone-600 ">
+          <div className="hidden xl:flex items-center xl:text-lg flex-nowrap w-24 font-semibold text-stone-600 ">
             시간 선택
           </div>
-          <div className="flex justify-center *: text-center w-full space-y-3 *:lg:text-lg *:font-medium *:text-stone-600 overflow-y-auto h-36">
+          <div className="flex justify-center *: text-center w-full space-y-3 *:xl:text-lg *:font-medium *:text-stone-600 overflow-y-auto h-36">
             <div className="w-2/3 grid grid-cols-3 place-items-center gap-3">
               <div className="!font-semibold">요일</div>
               <div className="!font-semibold">시작 시간</div>
@@ -163,7 +163,7 @@ const SelectTime = ({
           </div>
         </div>
         {timeError && (
-          <div className="col-span-3 text-orange-500 text-xs lg:text-sm w-full text-right pr-4 lg:pr-10 pt-3">
+          <div className="col-span-3 text-orange-500 text-xs xl:text-sm w-full text-right pr-4 xl:pr-10 pt-3">
             {timeError}
           </div>
         )}

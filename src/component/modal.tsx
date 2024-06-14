@@ -10,9 +10,26 @@ interface ModalProps {
 }
 
 const Modal = ({ title, content, onClose, className }: ModalProps) => {
+  const [isVisible, setIsVisible] = useState(true);
   const [isOpen, setIsOpen] = useState(true); // 모달 상태 관리
   const [animation, setAnimation] = useState("fadeIn"); // 애니메이션 상태 관리
+  const [isMouseDownOnBackdrop, setIsMouseDownOnBackdrop] = useState(false); // 백드롭에서 mousedown 이벤트가 발생했는지 추적
 
+  const handleBackgroundMouseDown = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      setIsMouseDownOnBackdrop(true);
+    }
+  };
+
+  const handleBackgroundMouseUp = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget && isMouseDownOnBackdrop) {
+      setIsVisible(false);
+      setTimeout(() => {
+        onClose();
+      }, 200);
+    }
+    setIsMouseDownOnBackdrop(false);
+  };
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -50,13 +67,13 @@ const Modal = ({ title, content, onClose, className }: ModalProps) => {
       onClick={(event: React.MouseEvent) => handleBackdropClick(event)}
       className={cls(
         "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20",
-        animation === "fadeIn" ? "animate-fadeIn" : "animate-fadeOut",
+        isVisible ? "animate-fade-in" : "animate-fade-out",
       )}
     >
       <div
         className={cls(
           "bg-white p-6 w-full min-h-fit relative rounded-lg",
-          className ? className : "lg:w-2/5",
+          className ? className : "xl:w-2/5",
         )}
       >
         <button

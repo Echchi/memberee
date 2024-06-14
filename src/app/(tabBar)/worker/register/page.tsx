@@ -31,15 +31,15 @@ const Page = () => {
 
   return (
     <div className="max-w-screen-lg mx-auto mt-10">
-      <div className="col-span-2 border border-x border-b-0 flex bg-stone-100 text-stone-600 tracking-wider text-lg lg:text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg ">
+      <div className="col-span-2 border border-x border-b-0 flex bg-stone-100 text-stone-600 tracking-wider text-lg xl:text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg ">
         직원 등록
       </div>
-      <form className="lg:grid grid-cols-2" action={action}>
+      <form className="xl:grid grid-cols-2" action={action}>
         <Input
           type={"text"}
           label={"이름"}
           placeholder={"이름"}
-          className="h-16 lg:text-lg lg:border-r-0 border-b-0"
+          className="h-16 xl:text-lg xl:border-r-0 border-b-0"
           name={"name"}
           maxLength={6}
           minLength={2}
@@ -51,7 +51,7 @@ const Page = () => {
           type={"text"}
           label={"연락처"}
           placeholder={"01012341234"}
-          className="h-16 lg:text-lg border-b-0"
+          className="h-16 xl:text-lg border-b-0"
           name={"phone"}
           maxLength={11}
           minLength={10}
@@ -63,7 +63,7 @@ const Page = () => {
           type={"text"}
           label={"생년월일"}
           placeholder={"20000726"}
-          className="h-16 lg:text-lg border-b-0 lg:border-r-0"
+          className="h-16 xl:text-lg border-b-0 xl:border-r-0"
           name={"birth"}
           maxLength={8}
           minLength={8}
@@ -75,7 +75,7 @@ const Page = () => {
           label={"시작일자"}
           value={today}
           placeholder={today}
-          className="h-16 lg:text-lg border-b-0"
+          className="h-16 xl:text-lg border-b-0"
           name={"startDate"}
           maxLength={8}
           minLength={8}
@@ -99,7 +99,7 @@ const Page = () => {
             type={"number"}
             label={"수수료"}
             placeholder={"10"}
-            className="h-16 lg:text-lg border-b-1"
+            className="h-16 xl:text-lg border-b-1"
             name={"commission"}
             maxLength={2}
             errorMessage={state?.fieldErrors?.commission}
@@ -109,7 +109,7 @@ const Page = () => {
           type={"text"}
           label={"은행"}
           placeholder={"국민"}
-          className="h-16 lg:text-lg border-t-0 lg:border-r-0"
+          className="h-16 xl:text-lg border-t-0 xl:border-r-0"
           name={"bank"}
           maxLength={8}
         />
@@ -118,7 +118,7 @@ const Page = () => {
           label={"계좌번호"}
           placeholder={"12312312123123"}
           isLong={true}
-          className="h-16 lg:text-lg  border-t-0"
+          className="h-16 xl:text-lg  border-t-0"
           name={"accountNumber"}
           maxLength={15}
           errorMessage={state?.fieldErrors?.accountNumber}
@@ -129,7 +129,7 @@ const Page = () => {
             label={"비고"}
             placeholder={""}
             isLong={true}
-            className="h-16 lg:text-lg rounded-b-lg border-t-0"
+            className="h-16 xl:text-lg rounded-b-lg border-t-0"
             name={"content"}
             errorMessage={state?.fieldErrors?.content}
           />

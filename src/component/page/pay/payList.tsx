@@ -99,7 +99,7 @@ const PayList = ({
   };
   return (
     <>
-      <div className="hidden lg:block box mt-3">
+      <div className="hidden xl:block box mt-3">
         <div className="w-full">
           <p className="text-right mb-2">{`${paidCnt} 명 납부 / 총 ${totalCnt} 명`}</p>
 
@@ -183,7 +183,7 @@ const PayList = ({
         </div>
       </div>
 
-      <div className="lg:hidden flex flex-col space-y-3 mt-5">
+      <div className="xl:hidden flex flex-col space-y-3 mt-5">
         <PayMb
           members={members || []}
           payStatus={payStatus}

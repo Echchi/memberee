@@ -49,7 +49,7 @@ const Search = ({ placeholder }: { placeholder: string }) => {
             </svg>
           </span>
         }
-        className="rounded-xl border-0 h-12 bg-stone-100 w-full lg:w-1/2"
+        className="rounded-xl border-0 h-12 bg-stone-100 w-full xl:w-1/2"
         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
           handleChange(event.target.value)
         }

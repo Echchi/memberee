@@ -60,16 +60,16 @@ const Page = () => {
   const createMemberWithBulk = createMember.bind("bulk", false);
   const [state, action] = useFormState(createMemberWithBulk, null);
   return (
-    <div className="max-w-screen-lg mx-auto lg:mt-10">
-      <div className="col-span-2 border border-x border-b-0 flex bg-stone-100 text-stone-600 tracking-wider text-lg lg:text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg ">
+    <div className="max-w-screen-lg mx-auto xl:mt-10">
+      <div className="col-span-2 border border-x border-b-0 flex bg-stone-100 text-stone-600 tracking-wider text-lg xl:text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg ">
         회원 등록
       </div>
-      <form className="lg:grid grid-cols-2" action={action}>
+      <form className="xl:grid grid-cols-2" action={action}>
         <Input
           type={"text"}
           label={"이름"}
           placeholder={"이름"}
-          className="h-16 lg:text-lg lg:border-r-0 border-b-0 "
+          className="h-16 xl:text-lg xl:border-r-0 border-b-0 "
           name={"name"}
           maxLength={6}
           minLength={2}
@@ -81,7 +81,7 @@ const Page = () => {
           type={"text"}
           label={"연락처"}
           placeholder={"숫자만 입력해주세요"}
-          className="h-16 lg:text-lg border-b-0"
+          className="h-16 xl:text-lg border-b-0"
           name={"phone"}
           maxLength={11}
           minLength={10}
@@ -93,7 +93,7 @@ const Page = () => {
           type={"text"}
           label={"생년월일"}
           placeholder={"20000726"}
-          className="h-16 lg:text-lg lg:border-b-1 lg:border-r-0"
+          className="h-16 xl:text-lg xl:border-b-1 xl:border-r-0"
           maxLength={8}
           minLength={8}
           name={"birth"}
@@ -103,27 +103,27 @@ const Page = () => {
           type={"text"}
           label={"직업"}
           placeholder={"직업"}
-          className="h-16 lg:text-lg border-b-1"
+          className="h-16 xl:text-lg border-b-1"
           name={"job"}
         />
         <div
           className={cls(
-            "bg-white py-3 col-span-2 border border-t-0 border-b-1 border-neutral-300 flex flex-col lg:pl-10 pl-4",
+            "bg-white py-3 col-span-2 border border-t-0 border-b-1 border-neutral-300 flex flex-col xl:pl-10 pl-4",
             state?.fieldErrors?.dayOfWeek
               ? "!border-2 border-orange-500 animate-pulse"
               : "",
           )}
         >
           <div className="flex h-16">
-            <span className="hidden lg:flex items-center lg:text-lg flex-nowrap w-24 font-semibold text-stone-600">
+            <span className="hidden xl:flex items-center xl:text-lg flex-nowrap w-24 font-semibold text-stone-600">
               요일 선택
             </span>
 
-            <div className="relative grid grid-cols-7 justify-items-center lg:py-3 w-full px-4 overflow-y-auto lg:h-fit">
+            <div className="relative grid grid-cols-7 justify-items-center xl:py-3 w-full px-4 overflow-y-auto xl:h-fit">
               {Object.entries(DAYOFWEEK).map(([index, day]) => (
                 <div
                   key={`select_dayOFWeek_${day}`}
-                  className="relative flex flex-col justify-center items-center text-base lg:text-lg *:lg:py-2 *:lg:px-4 *:transition-all *:py-1 *:px-2.5"
+                  className="relative flex flex-col justify-center items-center text-base xl:text-lg *:xl:py-2 *:xl:px-4 *:transition-all *:py-1 *:px-2.5"
                 >
                   <button
                     type={"button"}
@@ -188,7 +188,7 @@ const Page = () => {
               </span>
             }
             placeholder={formatCurrency("250000")}
-            className="h-16 lg:text-lg border-y-0"
+            className="h-16 xl:text-lg border-y-0"
             name={"lessonFee"}
             maxLength={7}
             minLength={4}
@@ -202,7 +202,7 @@ const Page = () => {
           label={"시작 일자"}
           placeholder={today}
           value={today}
-          className="h-16 lg:text-lg lg:border-l-0"
+          className="h-16 xl:text-lg xl:border-l-0"
           name={"startDate"}
           maxLength={8}
           minLength={8}
@@ -215,7 +215,7 @@ const Page = () => {
             label={"비고"}
             placeholder={"처음 시작하는 회원"}
             isLong={true}
-            className="h-16 lg:text-lg rounded-b-xl border-t-0"
+            className="h-16 xl:text-lg rounded-b-xl border-t-0"
             name={"content"}
             errorMessage={state?.fieldErrors?.content}
           />

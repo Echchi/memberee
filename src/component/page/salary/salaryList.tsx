@@ -65,13 +65,13 @@ const SalaryList = ({ workers }: { workers: WorkerWithMember[] }) => {
           }
         />
       )}
-      <div ref={salaryRef} className="lg:box my-4 lg:mt-3 lg:mb-0 flex-col">
+      <div ref={salaryRef} className="xl:box my-4 xl:mt-3 xl:mb-0 flex-col">
         <>
-          <div className="flex justify-center items-center font-semibold text-xl lg:text-2xl mb-3 lg:mb-7 mt-4">
-            <span className="lg:px-6 px-4 mx-auto">
+          <div className="flex justify-center items-center font-semibold text-xl xl:text-2xl mb-3 xl:mb-7 mt-4">
+            <span className="xl:px-6 px-4 mx-auto">
               {format(new Date(), "yyyy년 MM월")}
             </span>
-            <div className="w-16 lg:w-32 print:hidden hidden lg:block">
+            <div className="w-16 xl:w-32 print:hidden hidden xl:block">
               <PrintPdfBtn
                 title={`${format(new Date(), "yyyy년 MM월")} 예상 임금_${format(new Date(), "yyyyMMdd")}`}
                 content={salaryRef}
@@ -82,7 +82,7 @@ const SalaryList = ({ workers }: { workers: WorkerWithMember[] }) => {
           <div ref={salaryRef} className="w-full">
             <table className="w-full table-auto">
               <thead className="sticky top-20 print:top-0">
-                <tr className="*:text-xs lg:*:text-lg bg-stone-100 font-semibold text-center *:py-3">
+                <tr className="*:text-xs xl:*:text-lg bg-stone-100 font-semibold text-center *:py-3">
                   <td>이름</td>
                   <td>담당 회원 수</td>
                   <td>회원 수업료</td>
@@ -95,7 +95,7 @@ const SalaryList = ({ workers }: { workers: WorkerWithMember[] }) => {
                 {workers.map((worker) => (
                   <tr
                     key={`salary_${worker?.id}`}
-                    className="*:text-xs lg:*:text-base *:py-3 text-center border-b border-stone-100"
+                    className="*:text-xs xl:*:text-base *:py-3 text-center border-b border-stone-100"
                   >
                     <Salary
                       worker={worker}
@@ -107,7 +107,7 @@ const SalaryList = ({ workers }: { workers: WorkerWithMember[] }) => {
                 ))}
               </tbody>
               <tfoot className="sticky bottom-0">
-                <tr className="*:text-xs lg:*:text-base *:py-3 text-center border-b border-stone-100 bg-stone-100">
+                <tr className="*:text-xs xl:*:text-base *:py-3 text-center border-b border-stone-100 bg-stone-100">
                   <td>합계</td>
                   <td>{totalLessonFee.length} 명</td>
                   <td>{formatCurrency(totalLessonFeeVal)}원</td>
@@ -115,7 +115,7 @@ const SalaryList = ({ workers }: { workers: WorkerWithMember[] }) => {
                   <td>-</td>
                   <td>{formatCurrency(totalSalaryVal)}원</td>
                 </tr>
-                <tr className="*:text-xs lg:*:text-base *:bold sticky bottom-0 *:py-3 text-center border-b border-stone-100 bg-orange-100">
+                <tr className="*:text-xs xl:*:text-base *:bold sticky bottom-0 *:py-3 text-center border-b border-stone-100 bg-orange-100">
                   <td colSpan={4}>예상 수익</td>
 
                   <td colSpan={2}>

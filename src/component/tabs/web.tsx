@@ -8,7 +8,7 @@ import { logout } from "@/app/(tabBar)/main/api";
 const Web = () => {
   const pathname = usePathname();
   return (
-    <div className="hidden lg:flex fixed top-0 z-10 h-20 w-full px-7 py-2 items-center space-x-6 bg-white/90">
+    <div className="hidden xl:flex fixed top-0 z-10 h-20 w-full px-7 py-2 items-center space-x-6 bg-white/90">
       <Link
         className="text-3xl font-extrabold text-emerald-700 cursor-pointer"
         href={"/main"}
@@ -16,7 +16,7 @@ const Web = () => {
         memberee
       </Link>
       <div className="flex-1 flex justify-center">
-        <ul className="flex items-center mx-auto space-x-8 xl:space-x-20 text-base lg:text-lg font-semibold *:flex-nowrap">
+        <ul className="flex items-center mx-auto space-x-8 xl:space-x-20 text-base xl:text-lg font-semibold *:flex-nowrap">
           <Link
             className={cls(
               "cursor-pointer",

@@ -75,7 +75,7 @@ const Page = ({
           setInitValue={setInitValue}
         />
 
-        <div className="hidden lg:block w-1/12">
+        <div className="hidden xl:block w-1/12">
           <PrintPdfBtn
             title={`${selectedWorkerName} ${year}년${month}월 시간표_${format(new Date(), "yyyyMMdd")}`}
             content={classRef}
@@ -90,28 +90,28 @@ const Page = ({
       </div>
       <div
         ref={classRef}
-        className="box !pt-0 !px-1 relative bg-white mt-3 grid grid-cols-[_0.5fr,_1fr,_1fr,_1fr,_1fr,_1fr,_1fr,_1fr] justify-items-center *:text-base *:lg:text-lg *:font-semibold gap-1 lg:gap-3 overflow-y-auto h-[70vh] print:h-fit print:overflow-visible"
+        className="box !pt-0 !px-1 relative bg-white mt-3 grid grid-cols-[_0.5fr,_1fr,_1fr,_1fr,_1fr,_1fr,_1fr,_1fr] justify-items-center *:text-base *:xl:text-lg *:font-semibold gap-1 xl:gap-3 overflow-y-auto h-[70vh] print:h-fit print:overflow-visible"
       >
         <div></div>
-        <div className="w-full bg-white sticky top-0 h-14 lg:h-20 flex items-center justify-center z-50 font-semibold">
+        <div className="w-full bg-white sticky top-0 h-14 xl:h-20 flex items-center justify-center z-50 font-semibold">
           월
         </div>
-        <div className="w-full bg-white sticky top-0 h-14 lg:h-20 flex items-center justify-center z-50 font-semibold">
+        <div className="w-full bg-white sticky top-0 h-14 xl:h-20 flex items-center justify-center z-50 font-semibold">
           화
         </div>
-        <div className="w-full bg-white sticky top-0 h-14 lg:h-20 flex items-center justify-center z-50 font-semibold">
+        <div className="w-full bg-white sticky top-0 h-14 xl:h-20 flex items-center justify-center z-50 font-semibold">
           수
         </div>
-        <div className="w-full bg-white sticky top-0 h-14 lg:h-20 flex items-center justify-center z-50 font-semibold">
+        <div className="w-full bg-white sticky top-0 h-14 xl:h-20 flex items-center justify-center z-50 font-semibold">
           목
         </div>
-        <div className="w-full bg-white sticky top-0 h-14 lg:h-20 flex items-center justify-center z-50 font-semibold">
+        <div className="w-full bg-white sticky top-0 h-14 xl:h-20 flex items-center justify-center z-50 font-semibold">
           금
         </div>
-        <div className="w-full bg-white sticky top-0 h-14 lg:h-20 flex items-center justify-center z-50 font-semibold">
+        <div className="w-full bg-white sticky top-0 h-14 xl:h-20 flex items-center justify-center z-50 font-semibold">
           토
         </div>
-        <div className="w-full bg-white sticky top-0 h-14 lg:h-20 flex items-center justify-center z-50 font-semibold">
+        <div className="w-full bg-white sticky top-0 h-14 xl:h-20 flex items-center justify-center z-50 font-semibold">
           일
         </div>
 

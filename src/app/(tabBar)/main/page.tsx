@@ -28,7 +28,7 @@ const Page = async () => {
       {totalMemCnt - paidCnt > 0 && (
         <Alarm overdueCnt={totalMemCnt - paidCnt} />
       )}
-      <div className="lg:grid grid-cols-2 grid-rows-3 gap-3 mt-4 lg:mt-12 lg:h-[700px]">
+      <div className="xl:grid grid-cols-2 grid-rows-3 gap-3 mt-4 xl:mt-12 xl:h-[700px]">
         <Class classes={classes} />
 
         <Worker workers={workers} />

@@ -131,7 +131,7 @@ const DownloadPayListBtn = ({
   return (
     <Button
       text={"출력"}
-      className="py-3 hidden lg:block"
+      className="py-3 hidden xl:block"
       isButtonDisabled={members.length === 0}
       onClick={() => {
         downloadPayList({

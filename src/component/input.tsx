@@ -95,7 +95,7 @@ const Input = forwardRef<
           </span>
         )}
         {label && (
-          <span className="text-sm lg:text-lg text-stone-600 min-w-fit max-w-24 lg:max-w-full absolute inset-y-0 left-0 flex flex-nowrap items-center lg:pl-10 pl-4 whitespace-pre-line font-semibold">
+          <span className="text-sm xl:text-lg text-stone-600 min-w-fit max-w-24 xl:max-w-full absolute inset-y-0 left-0 flex flex-nowrap items-center xl:pl-10 pl-4 whitespace-pre-line font-semibold">
             {label}
           </span>
         )}
@@ -103,16 +103,16 @@ const Input = forwardRef<
           <div
             className={cls(
               "inner_input_res",
-              icon && isLong ? "lg:pl-20 pl-14 pr-2" : "",
-              icon && !isLong ? "lg:px-20 px-14" : "",
-              label && isLong ? "lg:pl-40 pl-20 pr-2" : "",
-              label && !isLong ? "lg:px-40 px-20" : "",
+              icon && isLong ? "xl:pl-20 pl-14 pr-2" : "",
+              icon && !isLong ? "xl:px-20 px-14" : "",
+              label && isLong ? "xl:pl-40 pl-20 pr-2" : "",
+              label && !isLong ? "xl:px-40 px-20" : "",
               className ? `${className} !h-full` : "",
             )}
           >
             {value || <div className="skeleton rounded-lg h-10 w-2/3" />}
             {selectDescription && (
-              <span className="ml-4 relative  font-medium text-sm lg:text-lg">
+              <span className="ml-4 relative font-medium text-sm xl:text-lg">
                 {selectDescription}
               </span>
             )}
@@ -122,16 +122,16 @@ const Input = forwardRef<
             href={`tel:${typeof value === "string" && value.replaceAll("-", "")}`}
             className={cls(
               "inner_input_res",
-              icon && isLong ? "lg:pl-20 pl-14 pr-2" : "",
-              icon && !isLong ? "lg:px-20 px-14" : "",
-              label && isLong ? "lg:pl-40 pl-20 pr-2" : "",
-              label && !isLong ? "lg:px-40 px-20" : "",
+              icon && isLong ? "xl:pl-20 pl-14 pr-2" : "",
+              icon && !isLong ? "xl:px-20 px-14" : "",
+              label && isLong ? "xl:pl-40 pl-20 pr-2" : "",
+              label && !isLong ? "xl:px-40 px-20" : "",
               className ? `${className} !h-full` : "",
             )}
           >
             {value || <div className="skeleton rounded-lg h-10 w-2/3" />}
             {selectDescription && (
-              <span className="ml-4 relative  font-medium text-sm lg:text-lg">
+              <span className="ml-4 relative  font-medium text-sm xl:text-lg">
                 {selectDescription}
               </span>
             )}
@@ -141,9 +141,9 @@ const Input = forwardRef<
             <select
               name={name}
               className={cls(
-                "outline-none bg-white text-stone-600 font-medium text-sm lg:text-lg",
-                icon ? "ml-14 lg:ml-20" : "",
-                label ? "ml-20 lg:ml-48" : "",
+                "outline-none bg-white text-stone-600 font-medium text-sm xl:text-lg",
+                icon ? "ml-14 xl:ml-20" : "",
+                label ? "ml-20 xl:ml-48" : "",
               )}
               value={selectedValue}
               onChange={handleSelectChange}
@@ -156,7 +156,7 @@ const Input = forwardRef<
                 ))}
             </select>
             {selectDescription && (
-              <span className="ml-4 relative font-medium text-sm lg:text-lg">
+              <span className="ml-4 relative font-medium text-sm xl:text-lg">
                 {selectDescription}
               </span>
             )}
@@ -165,10 +165,10 @@ const Input = forwardRef<
           <input
             className={cls(
               errorMessage[0] ? "inner_input_error" : "inner_input",
-              icon && isLong ? "lg:pl-20 pl-14 pr-2" : "",
-              icon && !isLong ? "lg:px-20 px-14" : "",
-              label && isLong ? "lg:pl-48 pl-24 pr-2" : "",
-              label && !isLong ? "lg:px-48 px-20" : "",
+              icon && isLong ? "xl:pl-20 pl-14 pr-2" : "",
+              icon && !isLong ? "xl:px-20 px-14" : "",
+              label && isLong ? "xl:pl-48 pl-24 pr-2" : "",
+              label && !isLong ? "xl:px-48 px-20" : "",
               className ? `${className} !h-full` : "",
               className ? `${className} !h-full` : "",
             )}

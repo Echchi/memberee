@@ -109,7 +109,7 @@ const Members = ({
 
   return (
     <>
-      <div className="hidden lg:block box mt-3">
+      <div className="hidden xl:block box mt-3">
         <div className="w-full">
           <p className="text-right mb-2">{`총 ${totalCnt} 명`}</p>
           <table className="w-full table-auto">

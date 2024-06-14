@@ -230,18 +230,18 @@ const Page = ({ params }: { params: { id: string } }) => {
         />
       )}
       <form
-        className="mt-3 lg:mt-0 lg:box justify-center flex-col"
+        className="mt-3 xl:mt-0 xl:box justify-center flex-col"
         action={action}
       >
         <div className="col-span-2 flex justify-end items-center">
           <div className="relative flex items-center justify-end w-full">
             {member && member?.status < 0 && (
-              <p className="absolute left-0 rounded-full  bg-amber-400/50 py-2 px-10 text-orange-600 font-semibold text-xs lg:text-base lg:w-fit w-full z-50">
+              <p className="absolute left-0 rounded-full  bg-amber-400/50 py-2 px-10 text-orange-600 font-semibold text-xs xl:text-base xl:w-fit w-full z-50">
                 {format(member?.suspendedDate || "", "yyyy년 MM월 dd일")} 부터
                 중단 상태의 회원입니다
               </p>
             )}
-            <div className="hidden lg:flex space-x-4 *:w-32">
+            <div className="hidden xl:flex space-x-4 *:w-32">
               <Button
                 onClick={() => router.push("/member")}
                 text={"목록"}
@@ -260,11 +260,11 @@ const Page = ({ params }: { params: { id: string } }) => {
         <div
           ref={memberRef}
           className={cls(
-            "lg:grid grid-cols-2 ",
+            "xl:grid grid-cols-2 ",
             member && member?.status < 0 ? "*:bg-stone-100" : "",
           )}
         >
-          <div className="relative col-span-2 border border-x border-b-0 flex bg-stone-100 text-stone-600 tracking-wider text-lg lg:text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg print:flex">
+          <div className="relative col-span-2 border border-x border-b-0 flex bg-stone-100 text-stone-600 tracking-wider text-lg xl:text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg print:flex">
             회원 카드
           </div>
           <Input
@@ -272,7 +272,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             label={"이름"}
             value={member?.name}
             placeholder={member?.name}
-            className={"h-16 lg:text-lg lg:border-r-0 border-b-0"}
+            className={"h-16 xl:text-lg xl:border-r-0 border-b-0"}
             name={"name"}
             maxLength={6}
             minLength={2}
@@ -293,7 +293,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             placeholder={
               member?.phone ? formatPhone(member?.phone) : "번호 없음"
             }
-            className="h-16 lg:text-lg border-b-0"
+            className="h-16 xl:text-lg border-b-0"
             name={"phone"}
             maxLength={11}
             minLength={10}
@@ -310,7 +310,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 : dateFormattedtoKor(member?.birth)
             }
             placeholder={dateFormattedtoNum(member?.birth)}
-            className="h-16 lg:text-lg border-b-1 lg:border-r-0"
+            className="h-16 xl:text-lg border-b-1 xl:border-r-0"
             name={"birth"}
             errorMessage={state?.fieldErrors.birth}
           />
@@ -319,7 +319,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             label={"직업"}
             value={member?.job || ""}
             placeholder={member?.job || ""}
-            className="h-16 lg:text-lg border-b-1"
+            className="h-16 xl:text-lg border-b-1"
             name={"job"}
           />
 
@@ -327,22 +327,22 @@ const Page = ({ params }: { params: { id: string } }) => {
             <>
               <div
                 className={cls(
-                  "bg-white py-3 col-span-2 border border-t-0 border-b-1 border-neutral-300 flex flex-col lg:pl-10 pl-4",
+                  "bg-white py-3 col-span-2 border border-t-0 border-b-1 border-neutral-300 flex flex-col xl:pl-10 pl-4",
                   state?.fieldErrors.dayOfWeek
                     ? "!border-2 border-orange-500 animate-pulse"
                     : "",
                 )}
               >
                 <div className="flex h-16">
-                  <span className="hidden lg:flex items-center lg:text-lg flex-nowrap w-24 font-semibold text-stone-600">
+                  <span className="hidden xl:flex items-center xl:text-lg flex-nowrap w-24 font-semibold text-stone-600">
                     요일 선택
                   </span>
 
-                  <div className="relative grid grid-cols-7 justify-items-center lg:py-3 w-full px-4 overflow-y-auto">
+                  <div className="relative grid grid-cols-7 justify-items-center xl:py-3 w-full px-4 overflow-y-auto">
                     {Object.entries(DAYOFWEEK).map(([index, day]) => (
                       <div
                         key={day}
-                        className="relative flex flex-col justify-center items-center text-base lg:text-lg *:lg:py-2 *:lg:px-4 *:transition-all *:py-1 *:px-2.5"
+                        className="relative flex flex-col justify-center items-center text-base xl:text-lg *:xl:py-2 *:xl:px-4 *:transition-all *:py-1 *:px-2.5"
                       >
                         <button
                           type={"button"}
@@ -392,7 +392,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           ) : (
             <div className="bg-white py-3 col-span-2 border border-y-0 border-neutral-300 flex flex-col">
               <div className="flex">
-                <div className="flex justify-center *: text-center w-full space-y-3 *:lg:text-lg *:font-medium *:text-stone-600 overflow-y-auto h-36 my-5">
+                <div className="flex justify-center *: text-center w-full space-y-3 *:xl:text-lg *:font-medium *:text-stone-600 overflow-y-auto h-36 my-5">
                   <div className="w-2/3 grid grid-cols-3 place-items-center gap-3">
                     <div className="!font-semibold">요일</div>
                     <div className="!font-semibold">시작 시간</div>
@@ -418,7 +418,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                         {[...Array(6)].map((_, index) => (
                           <div
                             key={index}
-                            className="self-center skeleton w-full lg:w-2/3 rounded-lg h-9 lg:h-12"
+                            className="self-center skeleton w-full xl:w-2/3 rounded-lg h-9 xl:h-12"
                           />
                         ))}
                       </>
@@ -439,7 +439,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             }
             placeholder={member?.Schedule?.[0]?.lessonFee + ""}
             className={cls(
-              "h-16 lg:text-lg border-b-0 lg:border-r-0",
+              "h-16 xl:text-lg border-b-0 xl:border-r-0",
               isEdit ? "border-t-0" : "",
             )}
             name={"lessonFee"}
@@ -459,7 +459,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               label={"담당"}
               value={member?.worker?.name}
               placeholder={member?.worker?.name}
-              className="h-16 lg:text-lg border-b-0"
+              className="h-16 xl:text-lg border-b-0"
             />
           )}
 
@@ -477,8 +477,8 @@ const Page = ({ params }: { params: { id: string } }) => {
                 : dateFormattedtoKor(member?.startDate)
             }
             className={cls(
-              "h-16 lg:text-lg border-b-1",
-              isEdit ? "col-span-2 rounded-b-lg" : "lg:border-r-0",
+              "h-16 xl:text-lg border-b-1",
+              isEdit ? "col-span-2 rounded-b-lg" : "xl:border-r-0",
             )}
             name={"startDate"}
             maxLength={8}
@@ -491,14 +491,14 @@ const Page = ({ params }: { params: { id: string } }) => {
               type={"div"}
               label={"등록일자"}
               value={dateFormattedtoKor(member?.createdAt)}
-              className="h-16 lg:text-lg border-b-1 rounded-b-xl lg:rounded-b-none"
+              className="h-16 xl:text-lg border-b-1 rounded-b-xl xl:rounded-b-none"
             />
           )}
 
           {isEdit ? (
             <></>
           ) : (
-            <motion.div className="col-span-2 hidden lg:block">
+            <motion.div className="col-span-2 hidden xl:block">
               <Memos
                 memos={memos}
                 id={member?.id + "" || ""}

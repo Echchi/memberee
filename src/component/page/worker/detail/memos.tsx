@@ -83,7 +83,7 @@ const Memos = ({
       )}
       <div
         className={cls(
-          "relative text-stone-600 font-bold text-base lg:text-lg flex justify-center items-center h-16 bg-neutral-100 col-span-2 border-x  border-neutral-300 border-b-0",
+          "relative text-stone-600 font-bold text-base xl:text-lg flex justify-center items-center h-16 bg-neutral-100 col-span-2 border-x  border-neutral-300 border-b-0",
         )}
       >
         <span>{title}</span>
@@ -118,7 +118,7 @@ const Memos = ({
             <>
               <table className="w-full">
                 <thead>
-                  <tr className="sticky top-0 bg-stone-100 font-semibold text-sm lg:text-lg text-center *:py-3 border border-b border-x-0 border-t-0">
+                  <tr className="sticky top-0 bg-stone-100 font-semibold text-sm xl:text-lg text-center *:py-3 border border-b border-x-0 border-t-0">
                     <td className="w-1/6 font-semibold">작성일</td>
                     <td className="text-center font-semibold">내용</td>
                   </tr>
@@ -128,7 +128,7 @@ const Memos = ({
                     <tr
                       key={index}
                       className={cls(
-                        "*:py-3 text-center border-stone-100 text-sm lg:text-base",
+                        "*:py-3 text-center border-stone-100 text-sm xl:text-base",
                         status && status > 0
                           ? "hover:bg-orange-100 cursor-pointer"
                           : "",

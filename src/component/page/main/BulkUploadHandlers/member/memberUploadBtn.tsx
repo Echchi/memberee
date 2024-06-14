@@ -75,7 +75,7 @@ const MemberUploadBtn = ({
   return (
     <Button
       text={"등록"}
-      className="py-3 hidden lg:block !w-1/6"
+      className="py-3 hidden xl:block !w-1/6"
       isButtonDisabled={errors.length > 0}
       onClick={handleSubmit}
     />

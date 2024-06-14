@@ -167,7 +167,7 @@ const Join = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="lg:pt-10 lg:max-w-full lg:w-[1400px] lg:mx-auto px-3 lg:px-32 text-stone-800"
+      className="xl:pt-10 xl:max-w-full xl:w-[1400px] xl:mx-auto px-3 xl:px-32 text-stone-800"
       data-testid="join-form"
     >
       <div className="flex flex-col justify-center items-center mt-8">
@@ -180,7 +180,7 @@ const Join = () => {
         <h3 className="text-black py-2">누구나 편하게 쓰기 쉬운 회원관리</h3>
       </div>
       <div className="px-3 mt-4 mb-8">
-        <p className="font-semibold tracking-wide text-stone-600 pt-5 pb-3 lg:text-lg">
+        <p className="font-semibold tracking-wide text-stone-600 pt-5 pb-3 xl:text-lg">
           관리자 정보
         </p>
         <Input
@@ -329,7 +329,7 @@ const Join = () => {
           {...register("email")}
           errorMessage={[errors.email?.message ?? ""]}
         />
-        <p className="font-semibold tracking-wide text-stone-600 pt-8 pb-3 lg:text-lg">
+        <p className="font-semibold tracking-wide text-stone-600 pt-8 pb-3 xl:text-lg">
           업체 정보
         </p>
         <Input

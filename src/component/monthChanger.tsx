@@ -27,7 +27,7 @@ const MonthChanger = () => {
   }, [date, searchParams, pathname, debouncedReplace]);
 
   return (
-    <div className="flex justify-center items-center font-semibold text-2xl py-4 lg:py-0 lg:mt-3">
+    <div className="flex justify-center items-center font-semibold text-2xl py-4 xl:py-0 xl:mt-3">
       <button onClick={() => setDate(addMonths(date, -1))}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +44,7 @@ const MonthChanger = () => {
           />
         </svg>
       </button>
-      <span className="lg:px-6 px-4">{format(date, "yyyy년 MM월")}</span>
+      <span className="xl:px-6 px-4">{format(date, "yyyy년 MM월")}</span>
       <button onClick={() => setDate(addMonths(date, 1))}>
         <svg
           xmlns="http://www.w3.org/2000/svg"

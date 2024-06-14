@@ -126,7 +126,7 @@ const Page = async ({
       {/*<MonthChanger />*/}
 
       {/*<div className="my-3 flex justify-end">*/}
-      {/*  <div className="hidden lg:block w-1/12"></div>*/}
+      {/*  <div className="hidden xl:block w-1/12"></div>*/}
       {/*</div>*/}
 
       <SalaryList workers={workers} />

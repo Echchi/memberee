@@ -19,7 +19,7 @@ const ConfirmModal = ({
 }) => {
   return (
     <div className="h-52 mb-3">
-      <div className="h-4/5 flex flex-col justify-center items-center text-base lg:text-lg space-y-2 px-5 lg:px-0 whitespace-pre">
+      <div className="h-4/5 flex flex-col justify-center items-center text-base xl:text-lg space-y-2 px-5 xl:px-0 whitespace-pre">
         <p>
           <span className="font-semibold text-red-500">{action}</span> 처리는
           복구되지 않습니다

@@ -140,11 +140,11 @@ const Page = ({ params }: { params: { id: string } }) => {
         />
       )}
       <form
-        className="mt-3 lg:mt-0 lg:box justify-center flex-col"
+        className="mt-3 xl:mt-0 xl:box justify-center flex-col"
         action={action}
       >
         <div className="col-span-2 flex justify-end items-center">
-          <div className="hidden lg:flex items-center justify-end space-x-4 w-full *:w-32">
+          <div className="hidden xl:flex items-center justify-end space-x-4 w-full *:w-32">
             <div>
               <Button
                 onClick={() => router.push("/worker")}
@@ -161,8 +161,8 @@ const Page = ({ params }: { params: { id: string } }) => {
             </div>
           </div>
         </div>
-        <div ref={workerRef} className="lg:grid grid-cols-2">
-          <div className="col-span-2 border border-x border-b-0 flex bg-stone-100 text-stone-600 tracking-wider text-lg lg:text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg print:flex">
+        <div ref={workerRef} className="xl:grid grid-cols-2">
+          <div className="col-span-2 border border-x border-b-0 flex bg-stone-100 text-stone-600 tracking-wider text-lg xl:text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg print:flex">
             직원 카드
           </div>
 
@@ -171,7 +171,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             label={"이름"}
             value={worker?.name}
             placeholder={worker?.name}
-            className="h-16 lg:text-lg lg:border-r-0 border-b-0"
+            className="h-16 xl:text-lg xl:border-r-0 border-b-0"
             name="name"
             maxLength={6}
             minLength={2}
@@ -189,7 +189,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 : worker?.phone
             }
             placeholder={worker?.phone ? formatPhone(worker?.phone) : ""}
-            className="h-16 lg:text-lg border-b-0"
+            className="h-16 xl:text-lg border-b-0"
             name="phone"
             maxLength={11}
             minLength={10}
@@ -205,7 +205,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 : dateFormattedtoKor(worker?.birth)
             }
             placeholder={dateFormattedtoNum(worker?.birth)}
-            className="h-16 lg:text-lg border-b-0 lg:border-r-0"
+            className="h-16 xl:text-lg border-b-0 xl:border-r-0"
             name="birth"
             maxLength={8}
             minLength={8}
@@ -220,7 +220,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 : dateFormattedtoKor(worker?.startDate)
             }
             placeholder={dateFormattedtoNum(worker?.startDate)}
-            className="h-16 lg:text-lg border-b-0"
+            className="h-16 xl:text-lg border-b-0"
             name="startDate"
             maxLength={8}
             minLength={8}
@@ -236,7 +236,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                   .map((day, index) => +day)
                   .sort()
                   .map((day) => `${DAYOFWEEK[+day]} ` || "")}
-                className="h-16 lg:text-lg border-b-0"
+                className="h-16 xl:text-lg border-b-0"
               />
             ) : (
               <SelectWorkingDay
@@ -264,7 +264,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                     : ""
               }
               placeholder={`${worker?.commission} %` || ""}
-              className="h-16 lg:text-lg border-b-1"
+              className="h-16 xl:text-lg border-b-1"
               name="commission"
               maxLength={2}
               errorMessage={state?.fieldErrors.commission}
@@ -276,8 +276,8 @@ const Page = ({ params }: { params: { id: string } }) => {
             label={"은행"}
             placeholder={worker?.bank || ""}
             className={cls(
-              "h-16 lg:text-lg border-t-0 lg:border-r-0",
-              isEdit ? "lg:rounded-bl-lg" : "",
+              "h-16 xl:text-lg border-t-0 xl:border-r-0",
+              isEdit ? "xl:rounded-bl-lg" : "",
             )}
             value={worker?.bank || ""}
             name={"bank"}
@@ -289,8 +289,8 @@ const Page = ({ params }: { params: { id: string } }) => {
             placeholder={worker?.accountNumber || ""}
             isLong={true}
             className={cls(
-              "h-16 lg:text-lg border-t-0",
-              isEdit ? "rounded-b-lg lg:rounded-br-lg lg:rounded-bl-none" : "",
+              "h-16 xl:text-lg border-t-0",
+              isEdit ? "rounded-b-lg xl:rounded-br-lg xl:rounded-bl-none" : "",
             )}
             name={"accountNumber"}
             value={worker?.accountNumber || ""}

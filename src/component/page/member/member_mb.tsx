@@ -14,7 +14,7 @@ const MemberMb = ({ member }: { member: IMemberWithSchedules }) => {
       {member.status === 0 ? (
         <></>
       ) : (
-        <div className="lg:hidden flex flex-col space-y-3 mt-5">
+        <div className="xl:hidden flex flex-col space-y-3 mt-5">
           <LineBox
             onClick={() => router.push(`/member/${member.id}`)}
             worker={member.worker?.name}

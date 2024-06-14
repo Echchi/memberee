@@ -71,9 +71,9 @@ const Classes = ({
     <>
       {Array.from({ length: 18 }).map((_, hourIndex) => (
         <>
-          <div key={`hour_${hourIndex}`} className="flex lg:text-base text-xs">
+          <div key={`hour_${hourIndex}`} className="flex xl:text-base text-xs">
             {`${6 + hourIndex} `}
-            <span className="hidden lg:block">시</span>
+            <span className="hidden xl:block">시</span>
           </div>
           {!loading
             ? scheduleByDay.map((sch, index) => (
@@ -86,18 +86,18 @@ const Classes = ({
                       <div
                         onClick={() => router.push(`/member/${c.memberId}`)}
                         key={`schedule_${index}`}
-                        className="overflow-y-auto font-medium bg-amber-200 w-full rounded-xl p-2 text-xs shadow hover:scale-125 hover:z-30 transition-all cursor-pointer z-20 flex justify-center items-center lg:block"
+                        className="overflow-y-auto font-medium bg-amber-200 w-full rounded-xl p-2 text-xs shadow hover:scale-125 hover:z-30 transition-all cursor-pointer z-20 flex justify-center items-center xl:block"
                         style={{
                           gridRowStart: c.gridRowStart,
                           gridRowEnd: `span ${Number(c.gridRowEnd)}`,
                         }}
                       >
                         <p
-                          className={`font-medium lg:block lg:text-sm text-xs hidden print:block`}
+                          className={`font-medium xl:block xl:text-sm text-xs hidden print:block`}
                         >
                           {c.startTime} ~ {c.endTime}
                         </p>
-                        <p className="font-bold text-center text-xs lg:text-sm">
+                        <p className="font-bold text-center text-xs xl:text-sm">
                           {c.memberNames}
                         </p>
                       </div>
