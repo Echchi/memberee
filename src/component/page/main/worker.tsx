@@ -15,8 +15,11 @@ const Worker = ({ workers }: { workers: WorkerWithMember[] }) => {
   const [isWorkerModalOpen, setIsWorkerModalOpen] = useState(false);
   return (
     <>
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 lg:hidden">
-        <p>엑셀 등록은 웹에서 해주세요</p>
+      <div className="fixed inset-0 bg-black bg-opacity-70 flex flex-col items-center justify-center z-50 lg:hidden space-y-3">
+        <p className="text-7xl lg:text-9xl text-white font-extrabold">앗!</p>
+        <p className="text-2xl lg:text-4xl text-white font-bold">
+          대량 등록은 컴퓨터에서만 가능해요
+        </p>
       </div>
       {isWorkerModalOpen && (
         <Modal
