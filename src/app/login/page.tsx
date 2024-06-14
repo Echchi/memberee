@@ -106,7 +106,7 @@ const Login = () => {
             </div>
             <div>
               <button
-                onClick={() => setIsFindPasswordOpen(true)}
+                // onClick={() => setIsFindPasswordOpen(true)}
                 type={"button"}
               >
                 비밀번호 찾기
