@@ -8,10 +8,12 @@ import { useFormState } from "react-dom";
 import Modal from "@/component/modal";
 import ChangePassword from "@/app/(tabBar)/account/changePassword";
 import FindId from "@/app/login/findId";
+import FindPassword from "./findPassword";
 
 const Login = () => {
   const [state, action] = useFormState(login, null);
   const [isFindIdOpen, setIsFindIdOpen] = useState(false);
+  const [isFindPasswordOpen, setIsFindPasswordOpen] = useState(false);
   return (
     <>
       {isFindIdOpen && (
@@ -19,6 +21,15 @@ const Login = () => {
           onClose={() => setIsFindIdOpen(false)}
           title={"아이디 찾기"}
           content={<FindId onClose={() => setIsFindIdOpen(false)} />}
+        />
+      )}
+      {isFindPasswordOpen && (
+        <Modal
+          onClose={() => setIsFindPasswordOpen(false)}
+          title={"비밀번호 찾기"}
+          content={
+            <FindPassword onClose={() => setIsFindPasswordOpen(false)} />
+          }
         />
       )}
       <div className="w-full max-w-lg mx-auto">
@@ -50,6 +61,7 @@ const Login = () => {
                   />
                 </svg>
               }
+              maxLength={10}
               placeholder={"아이디"}
               className="h-1/2 rounded-t-xl"
               name="userid"
@@ -93,7 +105,12 @@ const Login = () => {
               <Link href={"/join"}>회원가입</Link>
             </div>
             <div>
-              <Link href={"/"}>비밀번호 찾기</Link>
+              <button
+                onClick={() => setIsFindPasswordOpen(true)}
+                type={"button"}
+              >
+                비밀번호 찾기
+              </button>
             </div>
           </div>
         </form>

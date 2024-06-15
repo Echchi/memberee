@@ -177,3 +177,7 @@ export function hideId(id: string) {
   const hiddenPart = "●".repeat(id.length - 3);
   return visiblePart + hiddenPart;
 }
+
+export function generateTemporaryPassword() {
+  return Math.floor(10000 + Math.random() * 90000).toString();
+}

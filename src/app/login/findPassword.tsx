@@ -4,63 +4,66 @@ import Button from "@/component/button/button";
 import {
   CO_NUM_REGEX,
   CO_NUM_REGEX_ERROR,
-  NAME_REGEX,
-  NAME_REGEX_ERROR,
   PHONE_REGEX_ERROR,
 } from "@/libs/constants";
-import { getUserWithData } from "@/app/login/api";
+import {
+  getUserWithData,
+  getUserWithId,
+  sendPasswordEmail,
+} from "@/app/login/api";
 import validator from "validator";
-import { format, formatDate } from "date-fns";
+import { generateTemporaryPassword } from "@/libs/client/utils";
+import FindPasswordEmail from "../../../emails/find-password-email";
+import { updatePassword } from "@/app/(tabBar)/account/api";
 
-export interface FindIdRes {
+export interface FindPasswordRes {
+  name: string;
   userid: string;
-  createdAt: Date;
+  email: string;
 }
 
-const FindId = ({ onClose }: { onClose: () => void }) => {
+const FindPassword = ({ onClose }: { onClose: () => void }) => {
   const [error, setError] = useState({
-    name: "",
+    id: "",
     phone: "",
     coNum: "",
     result: "",
   });
-  const [name, setName] = useState("");
+  const [id, setId] = useState("");
   const [phone, setPhone] = useState("");
   const [coNum, setCoNum] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
-  const [result, setResult] = useState<FindIdRes>({
+  const [result, setResult] = useState<FindPasswordRes>({
+    name: "",
     userid: "",
-    createdAt: new Date(),
+    email: "",
   });
   useEffect(() => {
     // console.log("error", error);
   }, [error]);
 
-  const handleCheckName = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCheckId = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     if (value.length > 0) {
       setError((prev) => ({
         ...prev,
-        name: "",
+        id: "",
       }));
-      if (NAME_REGEX.test(name)) {
-        setName(value);
-      } else {
+      const result = await getUserWithId(id);
+      if (!result) {
         setError((prev) => ({
           ...prev,
-          name: NAME_REGEX_ERROR,
+          id: "아이디를 다시 확인해주세요",
         }));
       }
     } else {
       setError((prev) => ({
         ...prev,
-        name: "이름을 입력해주세요",
+        id: "아이디를 입력해주세요",
       }));
     }
   };
-  const handleChangePhone = async (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleChangePhone = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     if (value.length > 0) {
       setError((prev) => ({
@@ -109,20 +112,53 @@ const FindId = ({ onClose }: { onClose: () => void }) => {
     }
   };
 
-  const handleFindId = async () => {
+  const handleFindPassword = async () => {
     const parma = {
-      name,
+      id,
       coNum,
       phone,
     };
     const result = await getUserWithData(parma);
     if (result) {
       setResult(result);
-      setIsSuccess(true);
+
+      // 임시 비밀번호 생성
+      const tmpPassword = generateTemporaryPassword();
+
+      // 임시 비밀번호로 변경
+      const changeResult = await updatePassword(tmpPassword, id);
+      if (changeResult) {
+        // 임시 비밀번호 메일 전송
+        const param = {
+          email: result.email,
+          name: result.name,
+          tmpPassword,
+        };
+
+        const res = await sendPasswordEmail(param);
+        if (res.success) {
+          setIsSuccess(true);
+          setError((prev) => ({
+            ...prev,
+            result: "",
+          }));
+        } else {
+          setIsSuccess(false);
+          setError((prev) => ({
+            ...prev,
+            result: "잠시 뒤에 다시 시도해주세요!",
+          }));
+        }
+      } else {
+        setError((prev) => ({
+          ...prev,
+          result: "잠시 뒤에 다시 시도해주세요!",
+        }));
+      }
     } else {
       setError((prev) => ({
         ...prev,
-        result: "일치하는 계정이 없습니다. 정보를 다시 확인해주세요.",
+        result: "일치하는 계정이 없어요. 다시 확인해주세요.",
       }));
     }
   };
@@ -131,36 +167,31 @@ const FindId = ({ onClose }: { onClose: () => void }) => {
     <>
       <>
         {isSuccess && (
-          <div className="absolute right-0 h-3/4 w-full flex flex-col justify-center items-center bg-white z-20 px-10 pb-10">
-            <p className="text-xl font-medium mb-6">
-              {name} 님의 아이디를 찾았어요!
+          <div className="absolute right-0 h-4/5 w-full flex flex-col justify-center items-center bg-white z-20 px-10 pb-10">
+            <p className="text-lg font-medium">
+              {result.name} 님의 이메일로 임시 비밀번호를 보냈어요!
             </p>
-            <Input
-              type={"div"}
-              label={"아이디"}
-              className="h-16 xl:text-lg border-b-0 rounded-t-lg"
-              value={result.userid}
-            />
-            <Input
-              type={"div"}
-              label={"가입일"}
-              className="h-16 xl:text-lg rounded-b-lg"
-              value={formatDate(result.createdAt, "yyyy년 MM월 dd일")}
-            />
+            <p className="mb-7">
+              스펨 메일함에 있을 수도 있어요. 스펨 메일함도 확인해주세요.
+            </p>
+            <div className="bg-gray-100 rounded-lg w-full py-6 text-lg font-semibold text-center">
+              {result.email}
+            </div>
           </div>
         )}
         <Input
-          type={"name"}
-          label={"이름"}
-          placeholder={"이름"}
+          type={"userid"}
+          label={"아이디"}
+          placeholder={"아이디"}
+          maxLength={10}
           className="h-16 xl:text-lg border-b-0 rounded-t-lg"
-          onBlur={handleCheckName}
+          onBlur={handleCheckId}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            setName(event.target.value)
+            setId(event.target.value)
           }
           isLong={true}
           required={true}
-          errorMessage={error?.name.length > 0 ? [error?.name] : undefined}
+          errorMessage={error?.id.length > 0 ? [error?.id] : undefined}
         />
         <Input
           type={"연락처"}
@@ -190,20 +221,20 @@ const FindId = ({ onClose }: { onClose: () => void }) => {
         />
         <p className="text-orange-500 pt-3 font-semibold">{error.result}</p>
         <Button
-          text={"아이디 찾기"}
+          text={"비밀번호 찾기"}
           className="mt-4"
           large={true}
           isButtonDisabled={
-            error.name.length > 0 ||
+            error.id.length > 0 ||
             error.phone.length > 0 ||
             error.coNum.length > 0 ||
             isSuccess
           }
-          onClick={handleFindId}
+          onClick={handleFindPassword}
         />
       </>
     </>
   );
 };
 
-export default FindId;
+export default FindPassword;

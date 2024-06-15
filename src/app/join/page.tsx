@@ -224,6 +224,7 @@ const Join = () => {
               }
               type={"text"}
               placeholder={"아이디"}
+              maxLength={10}
               required={true}
               className={"h-16 border-t-0 border-b-1"}
               {...field}

@@ -45,20 +45,40 @@ export async function terminateUser(id: number) {
   redirect("/login");
 }
 
-export async function updatePassword(password: string) {
+export async function updatePassword(password: string, userid?: string) {
   const session = await getSession();
-  const id = session.id;
+  const sessionId = session.id;
   const hashedPassword = await bcrypt.hash(password, 12);
+  let userIdToUpdate;
+
+  if (sessionId && !userid) {
+    userIdToUpdate = sessionId;
+  } else if (userid) {
+    const user = await db.user.findFirst({
+      where: { userid: userid },
+    });
+    if (user) {
+      userIdToUpdate = user.id;
+    } else {
+      throw new Error("User not found");
+    }
+  }
+
+  if (!userIdToUpdate) {
+    throw new Error("No valid identifier provided for user update.");
+  }
+
   const user = await db.user.update({
     where: {
-      id,
+      status: { in: [-1, 1] },
+      id: userIdToUpdate,
     },
     data: {
       password: hashedPassword,
     },
   });
 
-  return { success: true };
+  return user ? { success: true } : { success: false };
 }
 
 export async function checkPassword(password: string) {
