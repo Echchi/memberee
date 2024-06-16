@@ -86,7 +86,7 @@ function TimeTable({ classes }: { classes: classWithMember[] }) {
           ))}
 
           {Array.from({ length: 18 }).map((_, hourIndex) => (
-            <>
+            <React.Fragment key={`main_hour_fragment_${hourIndex}`}>
               <div
                 className="text-sm xl:text-base font-semibold sticky left-0"
                 key={`main_hour_${hourIndex}`}
@@ -122,7 +122,7 @@ function TimeTable({ classes }: { classes: classWithMember[] }) {
                   })}
                 </div>
               ))}
-            </>
+            </React.Fragment>
           ))}
         </>
       ) : (
