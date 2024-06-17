@@ -43,6 +43,7 @@ const Members = ({
   useEffect(() => {
     const fetchMembers = async () => {
       try {
+        console.time("member getMembers");
         const response = await getMembers({
           params: {
             query: query || "",
@@ -52,6 +53,7 @@ const Members = ({
             page,
           },
         });
+        console.timeEnd("member getMembers");
         if (response) {
           setMembers(response.members);
           setTotal(response.total);
@@ -69,20 +71,24 @@ const Members = ({
 
   useEffect(() => {
     const fetchWorkerList = async () => {
+      console.time("member getWorkerList");
       const workerList = await getWorkerList();
       const workersData = workerList.map((item) => ({
         id: item.id,
         name: item.name,
       }));
+      console.timeEnd("member getWorkerList");
       setWorkers(workersData);
     };
 
     const fetchCounts = async () => {
       try {
+        console.time("member getTotalCnt");
         const totalResponse = await getTotalCnt(
           getYear(new Date()),
           getMonth(new Date()),
         );
+        console.timeEnd("member getTotalCnt");
         if (totalResponse) {
           setTotalCnt(totalResponse);
         }
@@ -218,7 +224,7 @@ const Members = ({
                         <div className="flex justify-center items-center">
                           <span className="w-1/3 skeleton rounded-lg h-8" />
                         </div>
-                      </td>{" "}
+                      </td>
                       <td>
                         <div className="flex justify-center items-center">
                           <span className="w-1/3 skeleton rounded-lg h-8" />

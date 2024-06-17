@@ -42,11 +42,13 @@ const Page = ({
     const fetchWorker = async () => {
       try {
         if (selectedWorker) {
+          console.time("class getClasses");
           const response = await getClasses({
             id: +selectedWorker,
             year,
             month,
           });
+          console.timeEnd("class getClasses");
           if (response) {
             setClasses(response);
             setLoading(false);

@@ -33,6 +33,7 @@ const PayList = ({
   useEffect(() => {
     const fetchMembers = async () => {
       try {
+        console.time("pay getMembers");
         const response = await getMembers({
           params: {
             query: query || "",
@@ -43,6 +44,7 @@ const PayList = ({
             page,
           },
         });
+        console.timeEnd("pay getMembers");
 
         if (response) {
           setMembers(response.members);
@@ -58,17 +60,23 @@ const PayList = ({
 
   useEffect(() => {
     const fetchWorkerList = async () => {
+      console.time("pay getWorkerList");
       const workerList = await getWorkerList();
+      console.timeEnd("pay getWorkerList");
+      console.time("pay workersData");
       const workersData = workerList.map((item) => ({
         id: item.id,
         name: item.name,
       }));
+      console.timeEnd("pay workersData");
       setWorkers(workersData);
     };
 
     const fetchCounts = async () => {
       try {
+        console.time("pay getPaidCnt");
         const paidResponse = await getPaidCnt(year, month);
+        console.timeEnd("pay getPaidCnt");
         if (paidResponse) {
           setPaidCnt(paidResponse);
         }
