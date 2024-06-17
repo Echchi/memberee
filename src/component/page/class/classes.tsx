@@ -23,7 +23,6 @@ const Classes = ({
   classes: Schedule[];
   loading: boolean;
 }) => {
-  // console.log("classes worker", classes);
   const router = useRouter();
 
   const [scheduleByDay, setScheduleByDay] = useState(

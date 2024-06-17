@@ -12,11 +12,6 @@ export const downloadPayDetail = ({
 
   content: any;
 }) => {
-  // console.log("title", title);
-  // console.log("memberData", memberData);
-  // console.log("header,", header);
-  // console.log("content", content);
-
   const wb = new ExcelJS.Workbook();
   const ws = wb.addWorksheet(title, {
     pageSetup: {

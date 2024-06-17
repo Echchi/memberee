@@ -20,7 +20,6 @@ import { redirect } from "next/navigation";
 // }
 
 const checkPhone = async (phone: string, userId: number) => {
-  // console.log("userId", userId);
   const user = await db.user.findFirst({
     where: {
       phone,
@@ -94,10 +93,9 @@ const formSchema = z.object({
 // );
 
 export const updateUser = async (prevState: any, formData: FormData) => {
-  // console.log("updateUser", formData);
   const session = await getSession();
   const id = session.id;
-  // console.log("id", id);
+
   const savedUser = await db.user.findUnique({
     where: { id: Number(id) },
     include: {
@@ -118,8 +116,6 @@ export const updateUser = async (prevState: any, formData: FormData) => {
   if (!result.success) {
     return result.error.flatten();
   } else {
-    // console.log(result.data);
-
     const user = await db.user.update({
       where: {
         id: Number(id),

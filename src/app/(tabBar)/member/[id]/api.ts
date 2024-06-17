@@ -70,7 +70,7 @@ export async function getMemos(id: number, slice: number = 1) {
       createdAt: "desc",
     },
   });
-  // console.log("memos", memos);
+
   return memos;
 }
 

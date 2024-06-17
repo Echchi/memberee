@@ -24,9 +24,7 @@ const WorkerList: React.FC<WorkerListProps> = ({
 }) => {
   const [workers, setWorkers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    console.log("loading", loading);
-  }, [loading]);
+
   useEffect(() => {
     const fetchWorkerList = async () => {
       const workerList = await getWorkerList();

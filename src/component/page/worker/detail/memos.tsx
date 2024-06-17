@@ -48,9 +48,7 @@ const Memos = ({
     });
   }, [memos]);
 
-  useEffect(() => {
-    // console.log("data", data);
-  }, [data]);
+  useEffect(() => {}, [data]);
   const handleClickMemo = (savedMemo: string, memoId: number) => {
     setMemoType("read");
     setSavedMemo(savedMemo);

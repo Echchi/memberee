@@ -28,7 +28,7 @@ const TopBar = ({ canGoBack }: LayoutProps) => {
       setTitle("직원 관리");
     }
   }, [pathname]);
-  // console.log();
+
   return (
     <div className="xl:hidden fixed bg-white w-full h-16 max-w-xl justify-center text-lg px-10 font-medium text-stone-800 border-b top-0 flex items-center z-10">
       {canGoBack ? (

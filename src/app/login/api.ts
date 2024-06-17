@@ -48,7 +48,6 @@ export async function getUserWithId(id: string) {
     select: { userid: true, email: true },
   });
 
-  console.log("getUserWithId", userId);
   return userId;
 }
 

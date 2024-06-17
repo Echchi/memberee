@@ -18,7 +18,6 @@ const SendMsg = ({
   const [nums, setNums] = useState<string[]>([]);
   const [total, setTotal] = useState<number>(0);
   useEffect(() => {
-    console.log("year", year, "month", month);
     const fetchMembers = async () => {
       try {
         const response = await getMembers({
@@ -32,10 +31,9 @@ const SendMsg = ({
         });
 
         if (response) {
-          console.log("SendMsg", response);
           setTotal(response.total);
           const res = response.members.map((mem) => mem.phone);
-          console.log("res", res);
+
           setNums(res);
         }
       } catch (e) {

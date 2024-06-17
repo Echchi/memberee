@@ -26,7 +26,7 @@ export const checkUserid = async (userid: string) => {
       userid: true,
     },
   });
-  console.log("checkUserid", user, user.length);
+
   return user.length === 0;
 };
 export const checkPhone = async (phone: string) => {
@@ -52,17 +52,15 @@ export const checkCoNum = async (num: string) => {
       id: true,
     },
   });
-  // console.log(company);
+
   return company.length === 0;
 };
 
 export const createAccount = async (data: JoinFormType) => {
-  console.log("createAccount 데이터는 잘 오네요", data);
   const result = await formSchema.spa(data);
   if (!result.success) {
     return result.error.flatten();
   } else {
-    // console.log(result.data);
     const hashedPassword = await bcrypt.hash(result.data.password, 12);
     const user = await db.user.create({
       data: {

@@ -19,7 +19,6 @@ const PayRegister = ({
   param: IPay | null;
   lessonFee: number;
 }) => {
-  // console.log(lessonFee);
   const today = format(new Date(), "yyyyMMdd");
   const [error, setError] = useState({
     paymentDate: "",
@@ -89,9 +88,7 @@ const PayRegister = ({
       memo: value,
     }));
   };
-  useEffect(() => {
-    // console.log("Member data", data);
-  }, [data]);
+
   return (
     <>
       <Input
@@ -114,7 +111,6 @@ const PayRegister = ({
         options={PAYMENT_METHOD}
         className="h-16 xl:text-lg border-b-0"
         onSelectChange={(event) => {
-          // console.log("납부방법 event.target.value", event.target.value);
           setData((prev) => ({ ...prev, paymentMethod: event.target.value }));
         }}
       />

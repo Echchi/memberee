@@ -79,7 +79,7 @@ export async function getWorkerMemos(id: number, slice: number = 1) {
       createdAt: "desc",
     },
   });
-  // console.log("memos", memos);
+
   return memos;
 }
 

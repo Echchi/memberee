@@ -44,7 +44,6 @@ export const createWorker = async (
   prevState: any,
   formData: FormData,
 ) => {
-  // console.log("createWorker formData", formData);
   const session = await getSession();
   const data = {
     name: formData.get("name"),
@@ -60,10 +59,8 @@ export const createWorker = async (
 
   const result = formSchema.safeParse(data);
   if (!result.success) {
-    // console.log(result.error.flatten());
     return result.error.flatten();
   } else {
-    // console.log("worker register ?", result.data);
     const worker = await db.worker.create({
       data: {
         name: result.data.name,

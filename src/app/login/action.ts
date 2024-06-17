@@ -16,10 +16,9 @@ export async function login(prevState: any, formData: FormData) {
     userid: formData.get("userid"),
     password: formData.get("password"),
   };
-  // console.log(formData);
 
   const result = formSchema.safeParse(data);
-  // console.log(result.success);
+
   if (!result.success) {
     return result.error.flatten();
   } else {

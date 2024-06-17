@@ -5,7 +5,6 @@ import { checkPassword, updatePassword } from "@/app/(tabBar)/account/api";
 import { PASSWORD_REGEX, PASSWORD_REGEX_ERROR } from "@/libs/constants";
 
 const ChangePassword = ({ onClose }: { onClose: () => void }) => {
-  console.log("onClose", typeof onClose);
   const [error, setError] = useState({
     currentPwd: "",
     checkCurrentPwd: false,
@@ -16,9 +15,7 @@ const ChangePassword = ({ onClose }: { onClose: () => void }) => {
   const [currentPwd, setCurrentPwd] = useState("");
   const [newPwd, setNewPwd] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
-  useEffect(() => {
-    // console.log("error", error);
-  }, [error]);
+
   const handleCheckCurrentPwd = async () => {
     if (currentPwd.length > 0) {
       setError((prev) => ({

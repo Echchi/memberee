@@ -53,7 +53,6 @@ const Members = ({
           },
         });
         if (response) {
-          // console.log(response);
           setMembers(response.members);
           setTotal(response.total);
           setLoading(false);

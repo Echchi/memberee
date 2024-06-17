@@ -38,9 +38,6 @@ const FindPassword = ({ onClose }: { onClose: () => void }) => {
     userid: "",
     email: "",
   });
-  useEffect(() => {
-    // console.log("error", error);
-  }, [error]);
 
   const handleCheckId = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;

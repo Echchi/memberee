@@ -22,9 +22,6 @@ const Page = () => {
       setSelectedDay((prev) => [...prev, dayIndex]);
     }
   };
-  useEffect(() => {
-    // console.log("selectedDay", selectedDay);
-  }, [selectedDay]);
 
   const createWorkerWithBulk = createWorker.bind("bulk", false);
   const [state, action] = useFormState(createWorkerWithBulk, null);

@@ -18,7 +18,7 @@ export async function getWorkerList() {
       phone: true,
     },
   });
-  // // console.log("workers", workers);
+
   // await new Promise((resolve) => setTimeout(resolve, 1000000));
   return workers;
 }

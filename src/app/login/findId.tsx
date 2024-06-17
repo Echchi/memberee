@@ -32,9 +32,6 @@ const FindId = ({ onClose }: { onClose: () => void }) => {
     userid: "",
     createdAt: new Date(),
   });
-  useEffect(() => {
-    // console.log("error", error);
-  }, [error]);
 
   const handleCheckName = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;

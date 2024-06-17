@@ -12,11 +12,6 @@ export const downloadClass = ({
   header?: any;
   content?: any;
 }) => {
-  // console.log("title", title);
-  // console.log("sub", sub);
-  // console.log("header", header);
-  // console.log("content", content);
-
   const wb = new ExcelJS.Workbook();
   const ws = wb.addWorksheet(title, {
     pageSetup: {

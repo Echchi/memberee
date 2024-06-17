@@ -95,7 +95,6 @@ async function getWorkersSalarys(year: number, month: number) {
   //                 where: { id: latestWorkerLog.workerId },
   //               })
   //           : member;
-  //         // console.log("memberToUse", memberToUse);
   //         return memberToUse;
   //       }),
   //     );
@@ -105,7 +104,7 @@ async function getWorkersSalarys(year: number, month: number) {
   //     };
   //   }),
   // );
-  // // console.log("~~~~~~~~~~~~~~~ workers", workers);
+
   return workers;
 }
 

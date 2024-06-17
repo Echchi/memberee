@@ -81,7 +81,6 @@ const Join = () => {
     event: React.FocusEvent<HTMLInputElement>,
     fieldOnBlur: () => void,
   ) => {
-    console.log("onBlurUserid");
     const userId = event.target.value.trim();
     if (userId.length === 0) {
       setError("userid", {
@@ -95,7 +94,7 @@ const Join = () => {
       });
     } else {
       const isUseridUnique = await checkUserid(userId);
-      // console.log("isUseridUnique", isUseridUnique);
+
       if (!isUseridUnique) {
         setError("userid", {
           type: "manual",
@@ -123,7 +122,7 @@ const Join = () => {
       });
     } else {
       const isPhoneUnique = await checkPhone(phone);
-      // console.log("isUseridUnique", isUseridUnique);
+
       if (!isPhoneUnique) {
         setError("phone", {
           type: "manual",
@@ -152,7 +151,7 @@ const Join = () => {
       });
     } else {
       const isCoNumUnique = await checkCoNum(coNum);
-      console.log("isCoNumUnique", isCoNumUnique);
+
       if (!isCoNumUnique) {
         setError("co_num", {
           type: "manual",

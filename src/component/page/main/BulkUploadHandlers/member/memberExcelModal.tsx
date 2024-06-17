@@ -86,10 +86,6 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
     }
   }, [listData]);
 
-  useEffect(() => {
-    // console.log("errors", errors);
-  }, [errors]);
-
   return (
     <div className="w-full relative">
       {isLoading && (

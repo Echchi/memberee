@@ -33,7 +33,6 @@ const DownloadMemberListBtn = () => {
           },
         });
         if (response) {
-          // console.log("members response", response);
           setMembers(response.members);
           setTotal(response.total);
         }

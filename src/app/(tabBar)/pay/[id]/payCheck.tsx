@@ -19,7 +19,6 @@ import {
 import { createPay, deletePay, updatePay } from "@/app/(tabBar)/pay/[id]/api";
 
 const PayCheck = ({ param }: { param: IPay | null }) => {
-  // console.log("PayCheck param", param);
   const today = format(new Date(), "yyyy. MM. dd");
   const [isEdit, setIsEdit] = useState(false);
   const [error, setError] = useState({
@@ -118,7 +117,6 @@ const PayCheck = ({ param }: { param: IPay | null }) => {
         value={param?.method || "기타"}
         className="h-16 xl:text-lg border-b-0"
         onSelectChange={(event) => {
-          // console.log("납부방법 event.target.value", event.target.value);
           setData((prev) => ({ ...prev, paymentMethod: event.target.value }));
         }}
       />
