@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 import Pay from "./pay";
 import PayMb from "@/component/page/pay/pay_mb";
-import { getMembers } from "@/app/(tabBar)/member/api";
+import { getMembers } from "@/app/(tabBar)/pay/api";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 import { IWorker } from "@/component/page/member/members";
 import { getWorkerList } from "@/app/(tabBar)/worker/register/api";

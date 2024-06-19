@@ -60,7 +60,7 @@ interface Email {
 export const sendEmail = async (payload: Email) => {
   const resend = new Resend(process.env.RESEND_API_KEY);
   const { error } = await resend.emails.send({
-    from: "memberee <memberee@memberee.com>",
+    from: "memberee <support@memberee.com>",
     ...payload,
   });
 

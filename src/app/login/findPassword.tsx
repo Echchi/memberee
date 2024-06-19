@@ -38,7 +38,7 @@ const FindPassword = ({ onClose }: { onClose: () => void }) => {
     userid: "",
     email: "",
   });
-
+  const [isLoading, setIsLoading] = useState(false);
   const handleCheckId = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     if (value.length > 0) {
@@ -110,12 +110,15 @@ const FindPassword = ({ onClose }: { onClose: () => void }) => {
   };
 
   const handleFindPassword = async () => {
+    setIsLoading(true);
     const parma = {
       id,
       coNum,
       phone,
     };
+
     const result = await getUserWithData(parma);
+
     if (result) {
       setResult(result);
 
@@ -158,6 +161,7 @@ const FindPassword = ({ onClose }: { onClose: () => void }) => {
         result: "일치하는 계정이 없어요. 다시 확인해주세요.",
       }));
     }
+    setIsLoading(false);
   };
 
   return (
@@ -218,14 +222,15 @@ const FindPassword = ({ onClose }: { onClose: () => void }) => {
         />
         <p className="text-orange-500 pt-3 font-semibold">{error.result}</p>
         <Button
-          text={"비밀번호 찾기"}
+          text={isLoading ? "찾는 중" : "비밀번호 찾기"}
           className="mt-4"
           large={true}
           isButtonDisabled={
             error.id.length > 0 ||
             error.phone.length > 0 ||
             error.coNum.length > 0 ||
-            isSuccess
+            isSuccess ||
+            isLoading
           }
           onClick={handleFindPassword}
         />

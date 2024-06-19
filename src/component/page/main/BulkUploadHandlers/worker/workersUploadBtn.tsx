@@ -12,17 +12,20 @@ const WorkersUploadBtn = ({
   isLoading,
   setIsLoading,
   onClose,
+  setProgress,
 }: {
   listData: string[][];
   errors: number[];
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   onClose: () => void;
+  setProgress: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const router = useRouter();
   const handleSubmit = useCallback(async () => {
     setIsLoading(true);
-    for (const data of listData) {
+    for (let i = 0; i < listData.length; i++) {
+      const data = listData[i];
       const dayOfWeekData = formatDayOfWeekForDatabase(data[4]);
       const formData = new FormData();
       formData.append("name", data[0]);
@@ -35,6 +38,7 @@ const WorkersUploadBtn = ({
       formData.append("accountNumber", data[7]);
 
       const response = await createWorker(true, null, formData);
+      setProgress(((i + 1) / listData.length) * 100);
     }
     setIsLoading(false);
     onClose();

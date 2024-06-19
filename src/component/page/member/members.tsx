@@ -191,7 +191,7 @@ const Members = ({
               </tr>
             </thead>
             <tbody>
-              {!loading && members && members?.length > 0
+              {!loading && members
                 ? members?.map((member, index) => (
                     <Member member={member} key={member.id} />
                   ))

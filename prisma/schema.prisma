@@ -2,12 +2,6 @@ generator db {
   provider = "prisma-client-js"
 }
 
-// datasource db {
-//   provider     = "mysql"
-//   url          = env("DATABASE_URL")
-//   relationMode = "prisma"
-// }
-
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
@@ -27,6 +21,10 @@ model User {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   Company   Company[]
+
+  @@index([userid])
+  @@index([name])
+  @@index([phone])
 }
 
 model Company {
@@ -46,6 +44,8 @@ model Company {
   Member    Member[]
 
   @@index([userId])
+  @@index([name])
+  @@index([num])
 }
 
 model Worker {
@@ -70,11 +70,13 @@ model Worker {
   WorkerChangeLog WorkerChangeLog[]
 
   @@index([companyId])
+  @@index([name])
+  @@index([phone])
 }
 
 model WorkerMemo {
   id        Int      @id @default(autoincrement())
-  content   String   @db.Text
+  content   String
   workerId  Int
   worker    Worker   @relation(fields: [workerId], references: [id])
   createdAt DateTime @default(now())
@@ -89,7 +91,7 @@ model LessonFee {
   frequency Int // 주중 또는 주말 수업의 빈도 (예: 1, 2, 3)
   amount    Int // 해당 수업 유형 및 빈도에 대한 수업료 금액
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @default(now())
 
   // Schedule  Schedule[]
   @@unique([type, frequency])
@@ -115,6 +117,7 @@ model Schedule {
   @@index([workerId])
   @@index([memberId])
   @@index([salaryId])
+  @@index([dayOfWeek])
 }
 
 model ScheduleMember {
@@ -165,11 +168,13 @@ model Member {
 
   @@index([workerId])
   @@index([companyId])
+  @@index([name])
+  @@index([phone])
 }
 
 model Memo {
   id        Int      @id @default(autoincrement())
-  content   String   @db.Text
+  content   String
   memberId  Int
   member    Member   @relation(fields: [memberId], references: [id])
   createdAt DateTime @default(now())
@@ -211,6 +216,7 @@ model Payment {
   workerId      Int
 
   @@index([memberId])
+  @@index([forYear, forMonth])
 }
 
 model WorkerChangeLog {
@@ -225,4 +231,5 @@ model WorkerChangeLog {
 
   @@index([workerId])
   @@index([memberId])
+  @@index([changedDate])
 }
