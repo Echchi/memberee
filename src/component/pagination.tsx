@@ -18,7 +18,7 @@ const Pagination = ({
     Math.floor((currentPage - 1) / visiblePageCount) * visiblePageCount + 1;
   const pageEnd = Math.min(pageStart + visiblePageCount - 1, pageCount);
   const isEmpty = total <= 10;
-
+  console.log("앵", isEmpty);
   const handlePageClick = (pageIndex: number) => {
     if (pageIndex < 1) {
       setPage(1);

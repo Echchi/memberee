@@ -48,6 +48,7 @@ const PayList = ({
 
         if (response) {
           setMembers(response.members);
+          setTotal(response.total);
           setLoading(false);
         }
       } catch (e) {
