@@ -22,6 +22,7 @@ const Page = () => {
   const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
   useEffect(() => {
     const fetchUser = async () => {
+      console.time("account getUser");
       try {
         const response = await getUser();
         if (response) {
