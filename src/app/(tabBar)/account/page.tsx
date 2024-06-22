@@ -22,9 +22,10 @@ const Page = () => {
   const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
   useEffect(() => {
     const fetchUser = async () => {
-      console.time("account getUser");
       try {
+        console.time("account getUser");
         const response = await getUser();
+        console.timeEnd("account getUser");
         if (response) {
           const { user, ...company } = response;
           user && setUser(user);
