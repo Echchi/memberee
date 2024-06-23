@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import Pay from "./pay";
 import PayMb from "@/component/page/pay/pay_mb";
@@ -10,6 +10,7 @@ import { getWorkerList } from "@/app/(tabBar)/worker/register/api";
 import Pagination from "@/component/pagination";
 import Empty from "@/component/empty";
 import { getPaidCnt, getTotalCnt } from "@/app/(tabBar)/main/api";
+import { getYear } from "date-fns";
 
 const PayList = ({
   query,
@@ -30,54 +31,58 @@ const PayList = ({
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchMembers = async () => {
-      try {
-        console.time("pay getMembers");
-        const response = await getMembers({
-          params: {
-            query: query || "",
-            year,
-            month,
-            workerId,
-            payStatus,
-            page,
-          },
-        });
-        console.timeEnd("pay getMembers");
+  const fetchMembers = useCallback(async () => {
+    try {
+      console.time("client fetchMembers start");
+      const startNetworkTime = performance.now();
+      const response = await getMembers({
+        params: {
+          query: query || "",
+          year,
+          month,
+          workerId,
+          payStatus,
+          page,
+        },
+      });
+      const endNetworkTime = performance.now();
+      console.log(`Network time: ${endNetworkTime - startNetworkTime} ms`);
 
-        if (response) {
-          setMembers(response.members);
-          setTotal(response.total);
-          setLoading(false);
-        }
-      } catch (e) {
-        return new Error("error fetch members");
+      console.timeEnd("client fetchMembers start");
+
+      if (response) {
+        setMembers(response.members);
+        setTotal(response.total);
+        setLoading(false);
       }
-    };
+    } catch (e) {
+      return new Error("error fetch members");
+    }
+  }, [query, workerId, page, payStatus, year, month]);
 
+  useEffect(() => {
     fetchMembers();
   }, [query, workerId, page, payStatus, year, month]);
 
   useEffect(() => {
     const fetchWorkerList = async () => {
-      console.time("pay getWorkerList");
+      // console.time("pay getWorkerList");
       const workerList = await getWorkerList();
-      console.timeEnd("pay getWorkerList");
-      console.time("pay workersData");
+      // console.timeEnd("pay getWorkerList");
+      // console.time("pay workersData");
       const workersData = workerList.map((item) => ({
         id: item.id,
         name: item.name,
       }));
-      console.timeEnd("pay workersData");
+      // console.timeEnd("pay workersData");
       setWorkers(workersData);
     };
 
     const fetchCounts = async () => {
       try {
-        console.time("pay getPaidCnt");
+        // console.time("pay getPaidCnt");
         const paidResponse = await getPaidCnt(year, month);
-        console.timeEnd("pay getPaidCnt");
+        // console.timeEnd("pay getPaidCnt");
         if (paidResponse) {
           setPaidCnt(paidResponse);
         }
@@ -94,8 +99,6 @@ const PayList = ({
     fetchWorkerList();
     fetchCounts();
   }, []);
-
-  useEffect(() => {}, [totalCnt, paidCnt]);
 
   const handleChangeWorkerList = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;

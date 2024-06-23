@@ -68,9 +68,9 @@ const Page = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     const fetchCompany = async () => {
       try {
-        console.time("pay getCompany");
+        // console.time("pay getCompany");
         const response = await getCompany();
-        console.timeEnd("pay getCompany");
+        // console.timeEnd("pay getCompany");
         if (response) {
           const total =
             member?.startDate &&

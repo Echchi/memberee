@@ -23,9 +23,9 @@ const Page = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        console.time("account getUser");
+        // console.time("account getUser");
         const response = await getUser();
-        console.timeEnd("account getUser");
+        // console.timeEnd("account getUser");
         if (response) {
           const { user, ...company } = response;
           user && setUser(user);

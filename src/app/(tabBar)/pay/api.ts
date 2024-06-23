@@ -8,6 +8,7 @@ import { isAfterYearMonth } from "@/libs/client/utils";
 import { getMembersParams } from "@/app/(tabBar)/member/api";
 
 export async function getMembers({ params }: { params: getMembersParams }) {
+  console.time("Server: getMembers total time");
   const {
     query,
     year,
@@ -90,7 +91,7 @@ export async function getMembers({ params }: { params: getMembersParams }) {
             ]),
     ],
   };
-
+  console.time("pay query");
   const [members, total] = await Promise.all([
     db.member.findMany({
       where: whereClause,
@@ -124,7 +125,7 @@ export async function getMembers({ params }: { params: getMembersParams }) {
     }),
     db.member.count({ where: whereClause }),
   ]);
-
+  console.timeEnd("pay query");
   const formattedMembers = members.map((member) => {
     const latestWorkerLog = member.WorkerChangeLog[0];
     if (latestWorkerLog) {
@@ -136,6 +137,8 @@ export async function getMembers({ params }: { params: getMembersParams }) {
     }
     return member;
   });
+
+  console.timeEnd("Server: getMembers total time");
 
   return { members: formattedMembers, total };
 }

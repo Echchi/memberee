@@ -19,6 +19,19 @@ export async function getUser() {
   return user;
 }
 
+// const user = await db.company.findUnique({
+//   where: {
+//     id: companyId,
+//   },
+//   include: {
+//     user: true,
+//   },
+//
+//   EXPLAIN ANALYZE
+//   select * from "User" where id='2'
+//
+//   둘이 같은 쿼리지?
+
 export async function terminateUser(id: number) {
   const session = await getSession();
   const companyId = session.company;

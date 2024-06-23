@@ -15,19 +15,19 @@ const Page = async () => {
   const month = getMonth(new Date()) + 1;
   const dayOfWeek = getDay(new Date()) === 0 ? 7 : getDay(new Date());
 
-  console.time("main getPaidCnt");
+  // console.time("main getPaidCnt");
   const paidCnt = await getPaidCnt(year, month);
-  console.timeEnd("main getPaidCnt");
-  console.time("main getTotalCnt");
+  // console.timeEnd("main getPaidCnt");
+  // console.time("main getTotalCnt");
   const totalMemCnt = await getTotalCnt(year, month);
-  console.timeEnd("main getTotalCnt");
+  // console.timeEnd("main getTotalCnt");
 
-  console.time("main getWorkers,getClasses");
+  // console.time("main getWorkers,getClasses");
   const [workers, classes] = await Promise.all([
     getWorkers(""),
     getClasses({ year, month, dayOfWeek }),
   ]);
-  console.timeEnd("main getWorkers,getClasses");
+  // console.timeEnd("main getWorkers,getClasses");
 
   return (
     <>

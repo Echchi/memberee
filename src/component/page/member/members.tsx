@@ -43,7 +43,7 @@ const Members = ({
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        console.time("member getMembers");
+        // console.time("member getMembers");
         const response = await getMembers({
           params: {
             query: query || "",
@@ -71,24 +71,24 @@ const Members = ({
 
   useEffect(() => {
     const fetchWorkerList = async () => {
-      console.time("member getWorkerList");
+      // console.time("member getWorkerList");
       const workerList = await getWorkerList();
       const workersData = workerList.map((item) => ({
         id: item.id,
         name: item.name,
       }));
-      console.timeEnd("member getWorkerList");
+      // console.timeEnd("member getWorkerList");
       setWorkers(workersData);
     };
 
     const fetchCounts = async () => {
       try {
-        console.time("member getTotalCnt");
+        // console.time("member getTotalCnt");
         const totalResponse = await getTotalCnt(
           getYear(new Date()),
           getMonth(new Date()),
         );
-        console.timeEnd("member getTotalCnt");
+        // console.timeEnd("member getTotalCnt");
         if (totalResponse) {
           setTotalCnt(totalResponse);
         }

@@ -68,9 +68,9 @@ const Page = ({ params }: { params: { id: string } }) => {
     const fetchMember = async () => {
       try {
         if (id) {
-          console.time("member detail getMember");
+          // console.time("member detail getMember");
           const response = await getMember(+id);
-          console.timeEnd("member detail getMember");
+          // console.timeEnd("member detail getMember");
           if (response) {
             setMember(response);
             setSelectedDay(
@@ -100,9 +100,9 @@ const Page = ({ params }: { params: { id: string } }) => {
     const fetchMemo = async () => {
       try {
         if (id) {
-          console.time("member detail getMemos");
+          // console.time("member detail getMemos");
           const response = await getMemos(+id, slice);
-          console.timeEnd("member detail getMemos");
+          // console.timeEnd("member detail getMemos");
           if (response) {
             setMemos(response);
           }
