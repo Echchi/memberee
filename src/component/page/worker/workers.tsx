@@ -38,7 +38,9 @@ export async function getWorkers(query?: string) {
   return workers || [];
 }
 const Workers = async ({ query }: { query?: string }) => {
+  console.time("getWorkers");
   const workers = await getWorkers(query || "");
+  console.timeEnd("getWorkers");
   return (
     <>
       {workers.length > 0 ? (
