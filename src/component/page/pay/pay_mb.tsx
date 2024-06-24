@@ -26,7 +26,7 @@ const PayMb = ({
   setPayStatus: React.Dispatch<React.SetStateAction<number>>;
   payStatus: number;
   setSlice: React.Dispatch<React.SetStateAction<number>>;
-  loading: boolean;
+  loading?: boolean;
   query?: string;
 
   year: number;
