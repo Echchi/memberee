@@ -1,0 +1,12 @@
+User-agent: *
+Disallow: /pay/*
+Disallow: /member/*
+Disallow: /worker/*
+Disallow: /account/*
+Disallow: /class/*
+Disallow: /main/*
+Disallow: /salary/*
+
+Allow: /$
+Allow: /login
+Allow: /join

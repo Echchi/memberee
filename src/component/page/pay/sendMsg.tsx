@@ -9,11 +9,13 @@ import { cls } from "@/libs/client/utils";
 const SendMsg = ({
   year,
   month,
+  loading,
   isAllMember = false,
 }: {
   year: number;
   month: number;
   isAllMember?: boolean;
+  loading?: boolean;
 }) => {
   const [nums, setNums] = useState<string[]>([]);
   const [total, setTotal] = useState<number>(0);
@@ -41,8 +43,8 @@ const SendMsg = ({
       }
     };
 
-    fetchMembers();
-  }, [year, month]);
+    if (!loading) fetchMembers();
+  }, [year, month, loading]);
   return (
     <div>
       <Link
