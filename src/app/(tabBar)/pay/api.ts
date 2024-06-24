@@ -126,6 +126,7 @@ export async function getMembers({ params }: { params: getMembersParams }) {
     db.member.count({ where: whereClause }),
   ]);
   console.timeEnd("pay query");
+  console.time("pay data format");
   const formattedMembers = members.map((member) => {
     const latestWorkerLog = member.WorkerChangeLog[0];
     if (latestWorkerLog) {
@@ -137,7 +138,7 @@ export async function getMembers({ params }: { params: getMembersParams }) {
     }
     return member;
   });
-
+  console.timeEnd("pay data format");
   console.timeEnd("Server: getMembers total time");
 
   return { members: formattedMembers, total };
