@@ -71,7 +71,7 @@ const PayMb = ({
             className={"cursor-pointer"}
           />
         </div>
-        <SendMsg year={year} month={month} loading={loading} />
+        {/*<SendMsg year={year} month={month} loading={loading} />*/}
       </div>
       <div className="relative space-y-3">
         {!loading && data.length > 0 ? (
