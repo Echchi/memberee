@@ -8,7 +8,7 @@ import { isAfterYearMonth } from "@/libs/client/utils";
 import { getMembersParams } from "@/app/(tabBar)/member/api";
 
 export async function getMembers({ params }: { params: getMembersParams }) {
-  console.time("Server: getMembers total time");
+  // console.time("Server: getMembers total time");
 
   const {
     query,
@@ -22,14 +22,14 @@ export async function getMembers({ params }: { params: getMembersParams }) {
     isAll = false,
   } = params;
 
-  console.time("Server: getSession");
+  // console.time("Server: getSession");
   const session = await getSession();
-  console.timeEnd("Server: getSession");
+  // console.timeEnd("Server: getSession");
 
-  console.time("Server: getCompany");
+  // console.time("Server: getCompany");
   const companyId = session.company;
   const company = await getCompany();
-  console.timeEnd("Server: getCompany");
+  // console.timeEnd("Server: getCompany");
 
   const thisYear = getYear(new Date());
   const thisMonth = getMonth(new Date()) + 1;
@@ -99,7 +99,7 @@ export async function getMembers({ params }: { params: getMembersParams }) {
     ],
   };
 
-  console.time("pay query");
+  // console.time("pay query");
   const [members, total] = await Promise.all([
     db.member.findMany({
       where: whereClause,
@@ -133,9 +133,9 @@ export async function getMembers({ params }: { params: getMembersParams }) {
     }),
     db.member.count({ where: whereClause }),
   ]);
-  console.timeEnd("pay query");
+  // console.timeEnd("pay query");
 
-  console.time("pay data format");
+  // console.time("pay data format");
   const formattedMembers = members.map((member) => {
     const latestWorkerLog = member.WorkerChangeLog[0];
     if (latestWorkerLog) {
@@ -147,9 +147,9 @@ export async function getMembers({ params }: { params: getMembersParams }) {
     }
     return member;
   });
-  console.timeEnd("pay data format");
+  // console.timeEnd("pay data format");
 
-  console.timeEnd("Server: getMembers total time");
+  // console.timeEnd("Server: getMembers total time");
 
   return { members: formattedMembers, total };
 }

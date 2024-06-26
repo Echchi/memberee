@@ -7,12 +7,20 @@ import bcrypt from "bcrypt";
 export async function getUser() {
   const session = await getSession();
   const companyId = session.company;
+  const userId = session.id;
+  console.log("getUser session", session);
+  console.log("getUser companyId", companyId);
+  console.log("getUser userId", userId);
   const user = await db.company.findUnique({
     where: {
       id: companyId,
     },
     include: {
-      user: true,
+      user: {
+        where: {
+          id: userId,
+        },
+      },
     },
   });
   // await new Promise((resolve) => setTimeout(resolve, 1000000));

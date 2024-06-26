@@ -36,9 +36,9 @@ const Page = ({ params }: { params: { id: string } }) => {
     const fetchMember = async () => {
       try {
         if (id) {
-          console.time("pay getMember");
+          // console.time("pay getMember");
           const response = await getMember(+id);
-          console.timeEnd("pay getMember");
+          // console.timeEnd("pay getMember");
           if (response) {
             setMember(response);
             const paymentsArray = Array.isArray(response.Payment)
