@@ -1,23 +1,16 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "@/component/input";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const Search = ({ placeholder }: { placeholder: string }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams().toString();
+  const params = new URLSearchParams(searchParams.toString());
+  const serchedTerm = params.get("query");
   const { replace } = useRouter();
 
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams);
-    if (params.has("query")) {
-      params.delete("query");
-      replace(`${pathname}?${params.toString()}`);
-    }
-  }, [pathname, replace]);
-
   const handleChange = (searchTerm: string) => {
-    const params = new URLSearchParams(searchParams);
     if (searchTerm) {
       params.set("query", searchTerm.trim());
     } else {
@@ -25,12 +18,14 @@ const Search = ({ placeholder }: { placeholder: string }) => {
     }
     replace(`${pathname}?${params.toString()}`);
   };
+
   return (
     <div className="w-full">
       <Input
         type="text"
         name={"searchWord"}
         placeholder={placeholder}
+        value={serchedTerm || ""}
         icon={
           <span className="text-gray-300">
             <svg

@@ -30,11 +30,18 @@ const PayList = ({
   const [payStatus, setPayStatus] = useState<number>(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
-
   const fetchMembers = useCallback(async () => {
+    console.log("query", query);
+    console.log(
+      "query, workerId, page, payStatus, year, month",
+      query,
+      workerId,
+      page,
+      payStatus,
+      year,
+      month,
+    );
     try {
-      console.time("client fetchMembers start");
-      const startNetworkTime = performance.now();
       const response = await getMembers({
         params: {
           query: query || "",
@@ -45,10 +52,6 @@ const PayList = ({
           page,
         },
       });
-      const endNetworkTime = performance.now();
-      console.log(`Network time: ${endNetworkTime - startNetworkTime} ms`);
-
-      console.timeEnd("client fetchMembers start");
 
       if (response) {
         setMembers(response.members);
@@ -60,45 +63,56 @@ const PayList = ({
     }
   }, [query, workerId, page, payStatus, year, month]);
 
+  const fetchPaidCounts = useCallback(async () => {
+    try {
+      const paidResponse = await getPaidCnt(year, month);
+      console.log("paidResponse", paidResponse);
+
+      setPaidCnt(paidResponse);
+    } catch (e) {
+      console.error("error fetch counts", e);
+    }
+  }, [year, month]);
+  const fetchtotalCounts = useCallback(async () => {
+    try {
+      const totalResponse = await getTotalCnt(year, month);
+
+      setTotalCnt(totalResponse);
+    } catch (e) {
+      console.error("error fetch counts", e);
+    }
+  }, [year, month]);
+
+  const fetchWorkerList = useCallback(async () => {
+    const workerList = await getWorkerList(year, month);
+    console.log("workerList", workerList);
+    const workersData = workerList.map((item) => ({
+      id: item.id,
+      name: item.name,
+    }));
+    setWorkers(workersData);
+  }, [year, month]);
+
+  useEffect(() => {
+    fetchPaidCounts();
+    fetchtotalCounts();
+  }, [year, month]);
+
   useEffect(() => {
     fetchMembers();
-  }, [query, workerId, page, payStatus, year, month]);
-
-  useEffect(() => {
-    const fetchWorkerList = async () => {
-      // console.time("pay getWorkerList");
-      const workerList = await getWorkerList();
-      // console.timeEnd("pay getWorkerList");
-      // console.time("pay workersData");
-      const workersData = workerList.map((item) => ({
-        id: item.id,
-        name: item.name,
-      }));
-      // console.timeEnd("pay workersData");
-      setWorkers(workersData);
-    };
-
-    const fetchCounts = async () => {
-      try {
-        // console.time("pay getPaidCnt");
-        const paidResponse = await getPaidCnt(year, month);
-        // console.timeEnd("pay getPaidCnt");
-        if (paidResponse) {
-          setPaidCnt(paidResponse);
-        }
-
-        const totalResponse = await getTotalCnt(year, month);
-        if (totalResponse) {
-          setTotalCnt(totalResponse);
-        }
-      } catch (e) {
-        console.error("error fetch counts", e);
-      }
-    };
-
     fetchWorkerList();
-    fetchCounts();
-  }, []);
+  }, [
+    query,
+    workerId,
+    page,
+    payStatus,
+    year,
+    month,
+    fetchMembers,
+    fetchPaidCounts,
+    fetchtotalCounts,
+    fetchWorkerList,
+  ]);
 
   const handleChangeWorkerList = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
@@ -201,6 +215,7 @@ const PayList = ({
           payStatus={payStatus}
           setPayStatus={setPayStatus}
           setSlice={setPage}
+          slice={page}
           loading={loading}
           query={query}
           year={year || 0}

@@ -16,14 +16,14 @@ const MonthChanger = () => {
   );
 
   useEffect(() => {
-    if (searchParams) {
-      const params = new URLSearchParams(searchParams);
-      const year = getYear(date) + "";
-      const month = getMonth(date) + 1 + "";
-      params.set("year", year);
-      params.set("month", month);
-      debouncedReplace(`${pathname}?${params.toString()}`);
-    }
+    console.log("searchParams", searchParams);
+    const params = new URLSearchParams(searchParams);
+    const year = getYear(date) + "";
+    const month = getMonth(date) + 1 + "";
+    params.set("year", year);
+    params.set("month", month);
+
+    debouncedReplace(`${pathname}?${params.toString()}`);
   }, [date, searchParams, pathname, debouncedReplace]);
 
   return (

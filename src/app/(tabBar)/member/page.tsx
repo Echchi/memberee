@@ -16,7 +16,6 @@ const Page = ({ searchParams }: { searchParams?: { query?: string } }) => {
         <Search placeholder={"이름,   연락처"} />
         <div className="flex space-x-3 w-1/4">
           <RegisterBtn />
-
           <DownloadMemberListBtn />
         </div>
       </div>

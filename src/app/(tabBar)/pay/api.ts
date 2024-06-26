@@ -21,7 +21,7 @@ export async function getMembers({ params }: { params: getMembersParams }) {
     page = 1,
     isAll = false,
   } = params;
-
+  console.log("query~~~~~~~~~~~", query);
   // console.time("Server: getSession");
   const session = await getSession();
   // console.timeEnd("Server: getSession");

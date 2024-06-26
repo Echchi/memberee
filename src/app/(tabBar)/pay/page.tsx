@@ -14,7 +14,7 @@ const Page = async ({
   const query = searchParams?.query || "";
   const year = Number(searchParams?.year || getYear(new Date()));
   const month = Number(searchParams?.month || getMonth(new Date()) + 1);
-
+  console.log("searchParams", query, year, month);
   return (
     <>
       <MonthChanger />
