@@ -75,7 +75,7 @@ const PayMb = ({
       </div>
       <div className="relative space-y-3">
         {!loading && data.length > 0 ? (
-          <InfiniteScroll setSlice={setSlice} loading={loading}>
+          <InfiniteScroll setSlice={setSlice} loading={loading || false}>
             <>
               {data &&
                 data.map((member, index) => (
