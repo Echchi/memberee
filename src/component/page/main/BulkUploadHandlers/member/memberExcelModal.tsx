@@ -14,7 +14,7 @@ import {
   ONLY_NUMBER_REGEX,
   STARTDATE_REGEX,
   TIMEDATA_REGEX,
-} from "@/libs/constants";
+} from "@/libs/regex";
 import WorkersUploadBtn from "@/component/page/main/BulkUploadHandlers/worker/workersUploadBtn";
 import MemberUploadBtn from "@/component/page/main/BulkUploadHandlers/member/memberUploadBtn";
 import RegisterMembers from "@/component/page/main/BulkUploadHandlers/member/registerMembers";

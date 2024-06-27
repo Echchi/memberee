@@ -5,7 +5,7 @@ import {
   ID_REGEX_ERROR,
   PASSWORD_REGEX,
   PASSWORD_REGEX_ERROR,
-} from "@/libs/constants";
+} from "@/libs/regex";
 import validator from "validator";
 import { checkCoNum, checkPhone, checkUserid } from "@/app/join/action";
 interface ICheckPassword {

@@ -25,7 +25,7 @@ import {
   updateMemberMemo,
   updateStopPeriodPayment,
 } from "@/app/(tabBar)/member/[id]/api";
-import { DAYOFWEEK, TIME_REGEX, TIME_REGEX_ERROR } from "@/libs/constants";
+import { TIME_REGEX, TIME_REGEX_ERROR } from "@/libs/regex";
 import {
   Memo,
   Member,
@@ -46,6 +46,7 @@ import { useFormState } from "react-dom";
 import { updateMember } from "@/app/(tabBar)/member/[id]/action";
 import { revalidatePath } from "next/cache";
 import { PrintPdfBtn } from "@/component/pdf/printPdfBtn";
+import { DAYOFWEEK } from "@/libs/constants";
 
 export interface IMemberWithSchedules extends Member {
   Memos?: Memo[];

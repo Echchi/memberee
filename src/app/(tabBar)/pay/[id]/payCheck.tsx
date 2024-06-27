@@ -14,9 +14,9 @@ import {
   MONEY_REGEX_ERROR,
   PAYDATE_REGEX,
   PAYDATE_REGEX_ERROR,
-  PAYMENT_METHOD,
-} from "@/libs/constants";
+} from "@/libs/regex";
 import { createPay, deletePay, updatePay } from "@/app/(tabBar)/pay/[id]/api";
+import { PAYMENT_METHOD } from "@/libs/constants";
 
 const PayCheck = ({ param }: { param: IPay | null }) => {
   const today = format(new Date(), "yyyy. MM. dd");

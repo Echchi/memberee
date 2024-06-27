@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Input from "@/component/input";
 import Button from "@/component/button/button";
 import { checkPassword, updatePassword } from "@/app/(tabBar)/account/api";
-import { PASSWORD_REGEX, PASSWORD_REGEX_ERROR } from "@/libs/constants";
+import { PASSWORD_REGEX, PASSWORD_REGEX_ERROR } from "@/libs/regex";
 
 const ChangePassword = ({ onClose }: { onClose: () => void }) => {
   const [error, setError] = useState({

@@ -97,8 +97,8 @@ const PayList = ({
       }
     };
 
-    // fetchWorkerList();
-    // fetchCounts();
+    fetchWorkerList();
+    fetchCounts();
   }, []);
 
   const handleChangeWorkerList = (e: React.ChangeEvent<HTMLSelectElement>) => {

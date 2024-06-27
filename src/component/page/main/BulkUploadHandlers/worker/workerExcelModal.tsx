@@ -12,7 +12,7 @@ import {
   DAYOFWEEK_REGEX,
   ONLY_NUMBER_REGEX,
   STARTDATE_REGEX,
-} from "@/libs/constants";
+} from "@/libs/regex";
 import WorkersUploadBtn from "@/component/page/main/BulkUploadHandlers/worker/workersUploadBtn";
 import ProgressBar from "@/component/progressbar";
 import BulkLoading from "@/component/excel/builkUpload/bulkLoading";

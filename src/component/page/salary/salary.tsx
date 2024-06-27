@@ -53,7 +53,7 @@ const Salary = ({
       </td>
       <td className="relative group cursor-pointer hover:text-orange-500 transition-all">
         {worker?.commission} %
-        <div className="*:text-xs xl:*:text-base text-gray-700 shadow absolute bg-orange-200 right-3/4 xl:left-3/4 top-1/2 z-10 w-fit space-y-2 rounded p-3 hidden group-hover:block">
+        <div className="*:text-xs xl:*:text-base text-gray-700 shadow-md absolute bg-slate-50 right-3/4 xl:left-3/4 top-1/2 z-10 w-fit space-y-2 rounded p-3 hidden group-hover:block">
           <p className="text-sm whitespace-pre">
             수업료 {formatCurrency(totalLessonFee)} * 수수료{" "}
             {worker?.commission}% =
@@ -67,7 +67,7 @@ const Salary = ({
       </td>
       <td className="relative group cursor-pointer hover:text-orange-500 transition-all">
         3.3 %
-        <div className="*:text-xs xl:*:text-base text-gray-700 shadow absolute bg-orange-200 right-3/4 top-1/2 z-10 w-fit space-y-2 rounded p-3 hidden group-hover:block">
+        <div className="*:text-xs xl:*:text-base text-gray-700 shadow-md absolute bg-slate-50 right-1/2 z-10 w-fit space-y-2 rounded p-3 hidden group-hover:block">
           <p className="text-sm whitespace-pre">
             수업료 {formatCurrency(totalLessonFee)} * 수수료{" "}
             {worker?.commission}% * 부담금 3.3% =

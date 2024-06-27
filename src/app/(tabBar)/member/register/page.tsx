@@ -5,13 +5,14 @@ import { cls, formatCurrency } from "@/libs/client/utils";
 import Button from "@/component/button/button";
 import { format } from "date-fns";
 import SelectTime, { ITime } from "@/component/page/member/register/selectTime";
-import { DAYOFWEEK, TIME_REGEX, TIME_REGEX_ERROR } from "@/libs/constants";
+import { TIME_REGEX, TIME_REGEX_ERROR } from "@/libs/regex";
 import { useFormState } from "react-dom";
 import { createMember } from "@/app/(tabBar)/member/register/action";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import WorkerList from "@/component/page/member/register/workerList";
 import { createWorker } from "@/app/(tabBar)/worker/register/action";
+import { DAYOFWEEK } from "@/libs/constants";
 
 const Page = () => {
   const router = useRouter();

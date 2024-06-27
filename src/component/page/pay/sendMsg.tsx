@@ -1,10 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { getMembers } from "@/app/(tabBar)/member/api";
 import { getPaidCnt } from "@/app/(tabBar)/main/api";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 import Link from "next/link";
 import { cls } from "@/libs/client/utils";
+import { MEDIAQUERY } from "@/libs/constants";
 
 const SendMsg = ({
   year,
@@ -43,7 +44,22 @@ const SendMsg = ({
       }
     };
 
-    if (!loading) fetchMembers();
+    const mediaQuery = window.matchMedia(`(min-width : 1280px)`);
+
+    const handleMediaQuery = (e: MediaQueryListEvent) => {
+      if (!e.matches) {
+        fetchMembers();
+      }
+    };
+    mediaQuery.addEventListener("change", handleMediaQuery);
+
+    if (!mediaQuery.matches) {
+      fetchMembers();
+    }
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleMediaQuery);
+    };
   }, [year, month, loading]);
   return (
     <div>

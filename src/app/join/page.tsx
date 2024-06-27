@@ -20,7 +20,7 @@ import {
   ONLY_NUMBER_REGEX,
   ONLY_NUMBER_REGEX_ERROR,
   PHONE_REGEX_ERROR,
-} from "@/libs/constants";
+} from "@/libs/regex";
 import validator from "validator";
 
 export interface JoinFormType extends JoinType {

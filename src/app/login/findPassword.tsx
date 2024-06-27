@@ -5,7 +5,7 @@ import {
   CO_NUM_REGEX,
   CO_NUM_REGEX_ERROR,
   PHONE_REGEX_ERROR,
-} from "@/libs/constants";
+} from "@/libs/regex";
 import {
   getUserWithData,
   getUserWithId,

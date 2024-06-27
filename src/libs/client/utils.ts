@@ -8,15 +8,11 @@ import {
   parseISO,
   subMonths,
 } from "date-fns";
-import {
-  DAYOFWEEK,
-  DAYOFWEEK_REGEX,
-  DAYOFWEEK_TONUM,
-  TIMEDATA_REGEX,
-} from "@/libs/constants";
+import { DAYOFWEEK_REGEX, TIMEDATA_REGEX } from "@/libs/regex";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 import { getWorkerList } from "@/app/(tabBar)/worker/register/api";
 import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
+import { DAYOFWEEK_TONUM } from "@/libs/constants";
 
 export function cls(...classnames: string[]) {
   return classnames.join(" ");

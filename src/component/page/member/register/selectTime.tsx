@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { DAYOFWEEK, TIME_REGEX, TIME_REGEX_ERROR } from "@/libs/constants";
+import { TIME_REGEX, TIME_REGEX_ERROR } from "@/libs/regex";
+import { DAYOFWEEK } from "@/libs/constants";
 
 export interface ITime {
   [key: number]: { startTime: string; endTime: string };

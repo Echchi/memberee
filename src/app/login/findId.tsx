@@ -7,7 +7,7 @@ import {
   NAME_REGEX,
   NAME_REGEX_ERROR,
   PHONE_REGEX_ERROR,
-} from "@/libs/constants";
+} from "@/libs/regex";
 import { getUserWithData } from "@/app/login/api";
 import validator from "validator";
 import { format, formatDate } from "date-fns";

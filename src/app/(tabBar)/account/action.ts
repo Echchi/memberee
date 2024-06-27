@@ -9,7 +9,7 @@ import {
   ID_REGEX_ERROR,
   PASSWORD_REGEX,
   PASSWORD_REGEX_ERROR,
-} from "@/libs/constants";
+} from "@/libs/regex";
 import db from "@/libs/server/db";
 import getSession from "@/libs/client/session";
 import { redirect } from "next/navigation";
