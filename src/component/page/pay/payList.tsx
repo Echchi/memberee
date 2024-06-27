@@ -62,7 +62,6 @@ const PayList = ({
 
   useEffect(() => {
     fetchMembers();
-    // }, []);
   }, [query, workerId, page, payStatus, year, month]);
 
   useEffect(() => {
