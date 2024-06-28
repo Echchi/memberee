@@ -20,29 +20,32 @@ const DownloadMemberListBtn = () => {
   const month = getMonth(new Date()) + 1;
   const [members, setMembers] = useState<IMemberWithSchedules[]>([]);
   const [total, setTotal] = useState<number>();
-  useEffect(() => {
-    setLoading(true);
-    const fetchMembers = async () => {
-      try {
-        const response = await getMembers({
-          params: {
-            query: "",
-            year,
-            month,
-            isAll: true,
-          },
-        });
-        if (response) {
-          setMembers(response.members);
-          setTotal(response.total);
-        }
-      } catch (e) {
-        return new Error("error fetch members");
+  const [clicked, setClicked] = useState(false);
+  const fetchMembers = async () => {
+    try {
+      const response = await getMembers({
+        params: {
+          query: "",
+          year,
+          month,
+          isAll: true,
+        },
+      });
+      if (response) {
+        setMembers(response.members);
+        setTotal(response.total);
       }
-    };
+    } catch (e) {
+      return new Error("error fetch members");
+    }
+  };
+  useEffect(() => {
+    if (clicked) {
+      setLoading(true);
 
-    fetchMembers();
-    setLoading(false);
+      fetchMembers();
+      setLoading(false);
+    }
   }, []);
 
   const header = [
@@ -107,9 +110,16 @@ const DownloadMemberListBtn = () => {
       startDate: "20240405",
     },
   ];
+
+  const handleOnClick = () => {
+    if (!loading) {
+      setClicked(true);
+    }
+  };
+
   return (
     <Button
-      text={"명단 출력"}
+      text={loading ? "로딩중" : "출력"}
       className="py-3 hidden xl:block"
       isButtonDisabled={members.length === 0}
       onClick={() => {

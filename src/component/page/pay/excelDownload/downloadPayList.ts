@@ -14,6 +14,7 @@ export const downloadPayList = ({
   header?: any;
   content?: any;
 }) => {
+  console.log("downloadPayList", content);
   const wb = new ExcelJS.Workbook();
   const ws = wb.addWorksheet(title, {
     pageSetup: {

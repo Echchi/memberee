@@ -6,6 +6,7 @@ import { getMembers } from "@/app/(tabBar)/member/api";
 import { format, getMonth, getYear } from "date-fns";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 import {
+  cls,
   dateFormattedtoKor,
   dateFormattedtoNum,
   formatCurrency,
@@ -27,45 +28,51 @@ const DownloadPayListBtn = ({
   const [members, setMembers] = useState<IMemberWithSchedules[]>([]);
   const [total, setTotal] = useState<number>();
   const [paid, setPaid] = useState<number>();
+  const [clicked, setClicked] = useState(false);
+  const fetchMembers = async () => {
+    try {
+      const response = await getMembers({
+        params: {
+          query: "",
+          year,
+          month,
+          payStatus: 0,
+          isAll: true,
+        },
+      });
+
+      if (response) {
+        setMembers(response.members);
+        setTotal(response.total);
+      }
+    } catch (e) {
+      return new Error("error fetch members");
+    }
+  };
+
+  const fetchPaidCnt = async () => {
+    try {
+      const response = await getPaidCnt(year, month);
+      if (response) {
+        console.log("paid", response);
+        setPaid(response);
+      }
+    } catch (e) {
+      return new Error("error fetch paidCnt");
+    }
+  };
 
   useEffect(() => {
-    setLoading(true);
-    const fetchMembers = async () => {
-      try {
-        const response = await getMembers({
-          params: {
-            query: "",
-            year,
-            month,
-            payStatus: 0,
-            isAll: true,
-          },
-        });
-
-        if (response) {
-          setMembers(response.members);
-          setTotal(response.total);
-        }
-      } catch (e) {
-        return new Error("error fetch members");
+    const handleDownload = async () => {
+      if (clicked) {
+        setLoading(true);
+        await fetchMembers();
+        await fetchPaidCnt();
+        setLoading(false);
       }
     };
-
-    const fetchPaidCnt = async () => {
-      try {
-        const response = await getPaidCnt(year, month);
-        if (response) {
-          setPaid(response);
-        }
-      } catch (e) {
-        return new Error("error fetch paidCnt");
-      }
-    };
-
-    fetchMembers();
-    fetchPaidCnt();
-    setLoading(false);
-  }, [year, month]);
+    handleDownload();
+  }, [clicked, year, month]);
 
   const header = [
     { header: "이름", key: "name" },
@@ -75,32 +82,6 @@ const DownloadPayListBtn = ({
     { header: "납부여부", key: "payment" },
     { header: "상태", key: "status" },
   ];
-
-  const content = members.map((member) => {
-    const payment =
-      member.status === 0 && member.endDate
-        ? ""
-        : member.status < 0 ||
-            (member?.Payment &&
-              member?.Payment[0] &&
-              member?.Payment[0]?.lessonFee &&
-              member?.Payment[0]?.lessonFee < 0)
-          ? "-"
-          : member?.Payment && member?.Payment?.length > 0
-            ? "납부"
-            : "미납";
-    return {
-      name: member.name,
-      phone: formatPhone(member.phone),
-      worker: member.worker?.name,
-      lessonFee:
-        formatCurrency(
-          (member.Schedule && member.Schedule[0]?.lessonFee) || "",
-        ) || "-",
-      payment: payment,
-      status: member.status < 0 ? "중단" : member.status === 0 ? "탈퇴" : "",
-    };
-  });
 
   const tmp = [
     {
@@ -126,20 +107,59 @@ const DownloadPayListBtn = ({
       startDate: "20240405",
     },
   ];
+
+  useEffect(() => {
+    console.log(!loading, members.length > 0);
+    if (!loading && members.length > 0) {
+      const content = members.map((member) => {
+        const payment =
+          member.status === 0 && member.endDate
+            ? ""
+            : member.status < 0 ||
+                (member?.Payment &&
+                  member?.Payment[0] &&
+                  member?.Payment[0]?.lessonFee &&
+                  member?.Payment[0]?.lessonFee < 0)
+              ? "-"
+              : member?.Payment && member?.Payment?.length > 0
+                ? "납부"
+                : "미납";
+        return {
+          name: member.name,
+          phone: formatPhone(member.phone),
+          worker: member.worker?.name,
+          lessonFee:
+            formatCurrency(
+              (member.Schedule && member.Schedule[0]?.lessonFee) || "",
+            ) || "-",
+          payment: payment,
+          status:
+            member.status < 0 ? "중단" : member.status === 0 ? "탈퇴" : "",
+        };
+      });
+      downloadPayList({
+        title: `${year}년 ${month}월 납부 명단`,
+        total,
+        paid,
+        header,
+        content,
+      });
+      setClicked(false);
+    }
+  }, [loading, total, paid, members, year, month]);
+
+  const handleOnClick = () => {
+    if (!loading) {
+      setClicked(true);
+    }
+  };
+
   return (
     <Button
-      text={"출력"}
-      className="py-3 hidden xl:block"
-      isButtonDisabled={members.length === 0}
-      onClick={() => {
-        downloadPayList({
-          title: `${year}년 ${month}월 납부 명단`,
-          total,
-          paid,
-          header,
-          content,
-        });
-      }}
+      text={loading ? "로딩중" : "출력"}
+      className={cls("py-3 hidden xl:block")}
+      isButtonDisabled={loading}
+      onClick={handleOnClick}
     />
   );
 };
