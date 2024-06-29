@@ -40,13 +40,16 @@ const DownloadMemberListBtn = () => {
     }
   };
   useEffect(() => {
-    if (clicked) {
-      setLoading(true);
+    const handleDownload = async () => {
+      if (clicked) {
+        setLoading(true);
+        await fetchMembers();
 
-      fetchMembers();
-      setLoading(false);
-    }
-  }, []);
+        setLoading(false);
+      }
+    };
+    handleDownload();
+  }, [clicked]);
 
   const header = [
     { header: "이름", key: "name" },
@@ -61,30 +64,42 @@ const DownloadMemberListBtn = () => {
     { header: "상태", key: "stauts" },
   ];
 
-  const content = members.map((member) => {
-    const formattedDayOfWeek = member?.Schedule?.map(
-      (sch) => DAYOFWEEK[sch.dayOfWeek],
-    ).join(", ");
-    const formattedTimes = member.Schedule?.map(
-      (sch) =>
-        `${format(sch.startTime || "", "HH:mm")} ~ ${format(sch.endTime || "", "HH:mm")}`,
-    ).join(", ");
-    return {
-      name: member.name,
-      phone: formatPhone(member.phone),
-      birth: dateFormattedtoKor(member?.birth),
-      job: member.job,
-      dayOfWeek: formattedDayOfWeek,
-      times: formattedTimes,
-      lessonFee:
-        formatCurrency(
-          (member.Schedule && member.Schedule[0]?.lessonFee) || "",
-        ) || "-",
-      worker: member.worker?.name,
-      startDate: dateFormattedtoKor(member?.startDate),
-      status: member.status === 0 ? "중단" : member.status < 0 ? "탈퇴" : "",
-    };
-  });
+  useEffect(() => {
+    if (!loading && members.length > 0) {
+      const content = members.map((member) => {
+        const formattedDayOfWeek = member?.Schedule?.map(
+          (sch) => DAYOFWEEK[sch.dayOfWeek],
+        ).join(", ");
+        const formattedTimes = member.Schedule?.map(
+          (sch) =>
+            `${format(sch.startTime || "", "HH:mm")} ~ ${format(sch.endTime || "", "HH:mm")}`,
+        ).join(", ");
+        return {
+          name: member.name,
+          phone: formatPhone(member.phone),
+          birth: dateFormattedtoKor(member?.birth),
+          job: member.job,
+          dayOfWeek: formattedDayOfWeek,
+          times: formattedTimes,
+          lessonFee:
+            formatCurrency(
+              (member.Schedule && member.Schedule[0]?.lessonFee) || "",
+            ) || "-",
+          worker: member.worker?.name,
+          startDate: dateFormattedtoKor(member?.startDate),
+          status:
+            member.status === 0 ? "중단" : member.status < 0 ? "탈퇴" : "",
+        };
+      });
+      downloadMemberList({
+        title: `회원 명단 출력`,
+        header,
+        total,
+        content,
+      });
+      setClicked(false);
+    }
+  }, [members, total]);
 
   const tmp = [
     {
@@ -121,15 +136,8 @@ const DownloadMemberListBtn = () => {
     <Button
       text={loading ? "로딩중" : "출력"}
       className="py-3 hidden xl:block"
-      isButtonDisabled={members.length === 0}
-      onClick={() => {
-        downloadMemberList({
-          title: `회원 명단 출력`,
-          header,
-          total,
-          content,
-        });
-      }}
+      isButtonDisabled={loading}
+      onClick={handleOnClick}
     />
   );
 };
