@@ -31,6 +31,7 @@ const PayList = ({
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const fetchMembers = useCallback(async () => {
+    console.log("fetchMembers");
     console.log("query", query);
     console.log(
       "query, workerId, page, payStatus, year, month",
@@ -54,7 +55,6 @@ const PayList = ({
       });
 
       if (response) {
-        console.log("어라..");
         setMembers(response.members);
         setTotal(response.total);
         setLoading(false);
