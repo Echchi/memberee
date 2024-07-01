@@ -66,7 +66,6 @@ const PayList = ({
   const fetchPaidCounts = useCallback(async () => {
     try {
       const paidResponse = await getPaidCnt(year, month);
-      console.log("paidResponse", paidResponse);
 
       setPaidCnt(paidResponse);
     } catch (e) {
@@ -113,6 +112,9 @@ const PayList = ({
     fetchtotalCounts,
     fetchWorkerList,
   ]);
+  useEffect(() => {
+    console.log("payList members", members);
+  }, [members]);
 
   const handleChangeWorkerList = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
