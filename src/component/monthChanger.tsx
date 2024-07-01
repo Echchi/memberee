@@ -16,7 +16,6 @@ const MonthChanger = () => {
   );
 
   useEffect(() => {
-    console.log("searchParams", searchParams);
     const params = new URLSearchParams(searchParams);
     const year = getYear(date) + "";
     const month = getMonth(date) + 1 + "";

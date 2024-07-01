@@ -54,6 +54,7 @@ const PayList = ({
       });
 
       if (response) {
+        console.log("어라..");
         setMembers(response.members);
         setTotal(response.total);
         setLoading(false);
@@ -72,6 +73,7 @@ const PayList = ({
       console.error("error fetch counts", e);
     }
   }, [year, month]);
+
   const fetchtotalCounts = useCallback(async () => {
     try {
       const totalResponse = await getTotalCnt(year, month);
@@ -84,7 +86,7 @@ const PayList = ({
 
   const fetchWorkerList = useCallback(async () => {
     const workerList = await getWorkerList(year, month);
-    console.log("workerList", workerList);
+
     const workersData = workerList.map((item) => ({
       id: item.id,
       name: item.name,

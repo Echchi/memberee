@@ -10,6 +10,7 @@ import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 import InfiniteScroll from "@/component/infiniteScroll";
 import Link from "next/link";
 import SendMsg from "@/component/page/pay/sendMsg";
+import Empty from "@/component/empty";
 
 const PayMb = ({
   members,
@@ -58,9 +59,12 @@ const PayMb = ({
   }, [members, slice]);
 
   useEffect(() => {
-    setSlice(1);
     setData(members);
   }, [members, year, month]);
+
+  useEffect(() => {
+    setSlice(1);
+  }, [year, month]);
 
   return (
     <>
@@ -84,46 +88,54 @@ const PayMb = ({
         <SendMsg year={year} month={month} loading={loading} />
       </div>
       <div className="relative space-y-3">
-        {!loading && data.length > 0 ? (
-          <InfiniteScroll setSlice={setSlice} loading={loading || false}>
+        {!loading ? (
+          data.length > 0 ? (
+            <InfiniteScroll setSlice={setSlice} loading={loading || false}>
+              <>
+                {data &&
+                  data.map((member, index) => (
+                    <LineBox
+                      key={`pay_mb_${member.id}`}
+                      onClick={() => router.push(`/pay/${member.id}`)}
+                      worker={member.worker?.name}
+                      day={member.Schedule?.map(
+                        (item, index) => DAYOFWEEK[item.dayOfWeek],
+                      ).join("  ")}
+                      name={
+                        <span className="flex items-center space-x-2">
+                          <span>{member.name}</span>
+                          {member.status === 0 && member.endDate ? (
+                            <span className="text-xs">
+                              <Tag color="stone" title="탈퇴" />
+                            </span>
+                          ) : member.status < 0 ||
+                            (member?.Payment &&
+                              member?.Payment[0]?.lessonFee &&
+                              member?.Payment[0]?.lessonFee < 0) ? (
+                            <span className="text-xs">
+                              <Tag color="yellow" title="중단" />
+                            </span>
+                          ) : null}
+                        </span>
+                      }
+                      phone={formatPhone(member.phone)}
+                      active={
+                        member.status > 0 ||
+                        (member?.Payment && Number(member?.Payment[0]) < 0) ||
+                        false
+                      }
+                      isNotPaid={
+                        member?.Payment && member?.Payment.length === 0
+                      }
+                    />
+                  ))}
+              </>
+            </InfiniteScroll>
+          ) : (
             <>
-              {data &&
-                data.map((member, index) => (
-                  <LineBox
-                    key={`pay_mb_${member.id}`}
-                    onClick={() => router.push(`/pay/${member.id}`)}
-                    worker={member.worker?.name}
-                    day={member.Schedule?.map(
-                      (item, index) => DAYOFWEEK[item.dayOfWeek],
-                    ).join("  ")}
-                    name={
-                      <span className="flex items-center space-x-2">
-                        <span>{member.name}</span>
-                        {member.status === 0 && member.endDate ? (
-                          <span className="text-xs">
-                            <Tag color="stone" title="탈퇴" />
-                          </span>
-                        ) : member.status < 0 ||
-                          (member?.Payment &&
-                            member?.Payment[0]?.lessonFee &&
-                            member?.Payment[0]?.lessonFee < 0) ? (
-                          <span className="text-xs">
-                            <Tag color="yellow" title="중단" />
-                          </span>
-                        ) : null}
-                      </span>
-                    }
-                    phone={formatPhone(member.phone)}
-                    active={
-                      member.status > 0 ||
-                      (member?.Payment && Number(member?.Payment[0]) < 0) ||
-                      false
-                    }
-                    isNotPaid={member?.Payment && member?.Payment.length === 0}
-                  />
-                ))}
+              <Empty msg={"내역이 없습니다"} className="!my-auto" />
             </>
-          </InfiniteScroll>
+          )
         ) : (
           <>
             {[...Array(6)].map((_, index) => (

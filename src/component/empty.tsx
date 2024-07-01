@@ -1,7 +1,15 @@
 import React from "react";
 import { cls } from "@/libs/client/utils";
 
-const Empty = ({ item, className }: { item: string; className?: string }) => {
+const Empty = ({
+  item,
+  className,
+  msg,
+}: {
+  item?: string;
+  className?: string;
+  msg?: string;
+}) => {
   return (
     <div
       className={cls(
@@ -19,7 +27,7 @@ const Empty = ({ item, className }: { item: string; className?: string }) => {
       </svg>
 
       <p className="text-gray-300 font-semibold text-lg xl:text-2xl">
-        등록된 {item}이 없습니다
+        {msg ? msg : item ? `등록된 ${item}이 없습니다` : ``}
       </p>
     </div>
   );
