@@ -34,6 +34,7 @@ export async function login(prevState: any, formData: FormData) {
           select: {
             id: true,
             payDay: true,
+            paymentType: true,
           },
         },
       },
@@ -55,6 +56,7 @@ export async function login(prevState: any, formData: FormData) {
         session.id = user!.id;
         session.company = user!.Company[0].id;
         session.payday = user!.Company[0].payDay;
+        session.paymentType = user!.Company[0].paymentType;
         await session.save();
         redirect("/main");
       }

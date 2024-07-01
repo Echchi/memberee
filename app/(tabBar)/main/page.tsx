@@ -10,13 +10,20 @@ import { getWorkers } from "../../../component/page/worker/workers";
 import { getClasses } from "../class/api";
 import { getDay } from "date-fns";
 import getSession from "../../../libs/client/session";
+import { PaymentType } from "../../../libs/constants";
 
 const Page = async () => {
   const session = await getSession();
   const payDay = session.payday;
+  const paymentType = session.paymentType;
+  const isPayDiff = paymentType === PaymentType.DIFFERENT;
   const year = getYear(new Date());
   const isAfterPayDay = getDay(new Date()) >= payDay!!;
-  const month = isAfterPayDay ? getMonth(new Date()) + 1 : getMonth(new Date());
+  const month = isPayDiff
+    ? getMonth(new Date())
+    : isAfterPayDay
+      ? getMonth(new Date()) + 1
+      : getMonth(new Date());
   const dayOfWeek = getDay(new Date()) === 0 ? 7 : getDay(new Date());
 
   const paidCnt = await getPaidCnt(year, month);
