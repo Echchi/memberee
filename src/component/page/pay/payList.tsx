@@ -10,7 +10,7 @@ import { getWorkerList } from "@/app/(tabBar)/worker/register/api";
 import Pagination from "@/component/pagination";
 import Empty from "@/component/empty";
 import { getPaidCnt, getTotalCnt } from "@/app/(tabBar)/main/api";
-import { getYear } from "date-fns";
+import { getMonth, getYear } from "date-fns";
 
 const PayList = ({
   query,
@@ -29,40 +29,44 @@ const PayList = ({
   const [workerId, setWorkerId] = useState<number>(-1);
   const [payStatus, setPayStatus] = useState<number>(0);
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const fetchMembers = useCallback(async () => {
-    console.log("fetchMembers");
-    console.log("query", query);
-    console.log(
-      "query, workerId, page, payStatus, year, month",
-      query,
-      workerId,
-      page,
-      payStatus,
-      year,
-      month,
-    );
-    try {
-      const response = await getMembers({
-        params: {
-          query: query || "",
-          year,
-          month,
-          workerId,
-          payStatus,
-          page,
-        },
-      });
-
-      if (response) {
-        setMembers(response.members);
-        setTotal(response.total);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    console.log("순수 year month 값 확인", year, month);
+  }, [year, month]);
+  const fetchMembers = useCallback(
+    async (year, month, shouldSetLoading = false) => {
+      if (shouldSetLoading) {
+        setLoading(true);
+      }
+      console.log(
+        "2. fetchMembers (query, workerId, payStatus, page, year, month)",
+        query,
+        workerId,
+        payStatus,
+        page,
+        year,
+        month,
+      );
+      try {
+        const response = await getMembers({
+          params: { query: query ?? "", workerId, payStatus, page },
+          year: year ?? getYear(new Date()),
+          month: month ?? getMonth(new Date()) + 1,
+        });
+        if (response) {
+          console.log("3. fetchMembers response");
+          setMembers(response.members);
+          setTotal(response.total);
+        }
+      } catch (e) {
+        console.error("Error fetching members:", e);
+      } finally {
+        console.log("도저히 모르겠네");
         setLoading(false);
       }
-    } catch (e) {
-      return new Error("error fetch members");
-    }
-  }, [query, workerId, page, payStatus, year, month]);
+    },
+    [query, workerId, payStatus, page],
+  );
 
   const fetchPaidCounts = useCallback(async () => {
     try {
@@ -95,27 +99,20 @@ const PayList = ({
   }, [year, month]);
 
   useEffect(() => {
-    fetchPaidCounts();
-    fetchtotalCounts();
+    // fetchPaidCounts();
+    // fetchtotalCounts();
+    fetchMembers(year, month, true);
+    fetchWorkerList();
+    setWorkerId(-1);
+    setPayStatus(0);
   }, [year, month]);
 
   useEffect(() => {
-    fetchMembers();
-    fetchWorkerList();
-  }, [
-    query,
-    workerId,
-    page,
-    payStatus,
-    year,
-    month,
-    fetchMembers,
-    fetchPaidCounts,
-    fetchtotalCounts,
-    fetchWorkerList,
-  ]);
+    fetchMembers(year, month);
+  }, [query, workerId, payStatus, page, fetchMembers]);
+
   useEffect(() => {
-    console.log("payList members", members);
+    console.log("4. payList members", members);
   }, [members]);
 
   const handleChangeWorkerList = (e: React.ChangeEvent<HTMLSelectElement>) => {

@@ -7,13 +7,20 @@ import { PAGESIZE } from "@/libs/constants";
 import { isAfterYearMonth } from "@/libs/client/utils";
 import { getMembersParams } from "@/app/(tabBar)/member/api";
 
-export async function getMembers({ params }: { params: getMembersParams }) {
+export async function getMembers({
+  params,
+  year,
+  month,
+}: {
+  params: getMembersParams;
+  year: number;
+  month: number;
+}) {
   // console.time("Server: getMembers total time");
-
+  console.log("getMembers params ", params);
+  console.log("year month ", year, month);
   const {
     query,
-    year,
-    month,
     workerId,
     dayOfWeek,
     startDateOrder,
@@ -21,7 +28,7 @@ export async function getMembers({ params }: { params: getMembersParams }) {
     page = 1,
     isAll = false,
   } = params;
-  console.log("query~~~~~~~~~~~", query);
+
   // console.time("Server: getSession");
   const session = await getSession();
   // console.timeEnd("Server: getSession");

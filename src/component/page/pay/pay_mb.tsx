@@ -35,15 +35,15 @@ const PayMb = ({
 }) => {
   const router = useRouter();
   const [data, setData] = useState<IMemberWithSchedules[]>(members);
-  console.log("members", members);
+  // console.log("members", members);
   useEffect(() => {
     setSlice(1);
     setData([]);
   }, [payStatus, query]);
 
-  console.log("year, month", year, month);
+  // console.log("year, month", year, month);
   useEffect(() => {
-    console.log("data", data);
+    // console.log("data", data);
   }, [data]);
 
   useEffect(() => {
