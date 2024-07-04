@@ -19,21 +19,21 @@ import { redirect } from "next/navigation";
 //   confirm_password: string | null | undefined;
 // }
 
-const checkPhone = async (phone: string, userId: number) => {
-  const user = await db.user.findFirst({
-    where: {
-      phone,
-      id: {
-        not: userId,
-      },
-      status: { in: [-1, 1] },
-    },
-    select: {
-      userid: true,
-    },
-  });
-  return !user;
-};
+// const checkPhone = async (phone: string, userId: number) => {
+//   const user = await db.user.findFirst({
+//     where: {
+//       phone,
+//       id: {
+//         not: userId,
+//       },
+//       status: { in: [-1, 1] },
+//     },
+//     select: {
+//       userid: true,
+//     },
+//   });
+//   return !user;
+// };
 
 // const checkPassword = ({ password, confirm_password }: ICheckPassword) => {
 //   if (password == null || confirm_password == null) {
@@ -58,17 +58,17 @@ const formSchema = z.object({
   //   .trim()
   //   .nullable()
   //   .optional(),
-  phone: z
-    .string()
-    .trim()
-    .refine(
-      (phone) => validator.isMobilePhone(phone, "ko-KR"),
-      "연락처를 올바르게 입력해주세요",
-    )
-    .refine(async (phone) => {
-      const session = await getSession();
-      return await checkPhone(phone, Number(session.id));
-    }, "이미 가입된 번호예요"),
+  // phone: z
+  //   .string()
+  //   .trim()
+  //   .refine(
+  //     (phone) => validator.isMobilePhone(phone, "ko-KR"),
+  //     "연락처를 올바르게 입력해주세요",
+  //   )
+  //   .refine(async (phone) => {
+  //     const session = await getSession();
+  //     return await checkPhone(phone, Number(session.id));
+  //   }, "이미 가입된 번호예요"),
   email: z.string().trim().email("이메일을 올바르게 입력해주세요"),
   co_name: z.string().trim(),
   payDay: z.string(),
@@ -105,11 +105,11 @@ export const updateUser = async (prevState: any, formData: FormData) => {
 
   const data = {
     username: formData.get("username") || savedUser?.name,
-    phone: formData.get("phone") || savedUser?.phone,
+    // phone: formData.get("phone") || savedUser?.phone,
     email: formData.get("email") || savedUser?.email,
     co_name: formData.get("co_name") || savedUser?.Company[0].name,
     payDay: formData.get("payDay") || savedUser?.Company[0].payDay,
-    co_contact: formData.get("co_contact") || savedUser?.Company[0].contact,
+    // co_contact: formData.get("co_contact") || savedUser?.Company[0].contact,
   };
 
   const result = await formSchema.spa(data);
@@ -122,7 +122,7 @@ export const updateUser = async (prevState: any, formData: FormData) => {
       },
       data: {
         name: result.data.username,
-        phone: result.data.phone,
+        // phone: result.data.phone,
         email: result.data.email,
       },
     });
@@ -133,7 +133,7 @@ export const updateUser = async (prevState: any, formData: FormData) => {
       data: {
         name: result.data.co_name,
         payDay: +result.data.payDay,
-        contact: result.data.co_contact,
+        // contact: result.data.co_contact,
       },
     });
 
