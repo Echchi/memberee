@@ -35,7 +35,7 @@ const PayMb = ({
 }) => {
   const router = useRouter();
   const [data, setData] = useState<IMemberWithSchedules[]>(members);
-  // console.log("members", members);
+  console.log("members", members);
   useEffect(() => {
     setSlice(1);
     setData([]);

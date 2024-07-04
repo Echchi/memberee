@@ -17,6 +17,7 @@ import getSession from "@/libs/client/session";
 import { combineCurrentDateWithTime, formatISODate } from "@/libs/client/utils";
 import { redirect, useSearchParams } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { isAfter, parseISO } from "date-fns";
 
 const formSchema = z.object({
   name: z.string().min(2, "이름을 올바르게 입력해주세요").trim(),
@@ -39,7 +40,17 @@ const formSchema = z.object({
     .string()
     .trim()
     .transform((val) => parseInt(val, 10)),
-  startDate: z.string().trim().regex(STARTDATE_REGEX, STARTDATE_REGEX_ERROR),
+  startDate: z
+    .string()
+    .trim()
+    .regex(STARTDATE_REGEX, STARTDATE_REGEX_ERROR)
+    .refine(
+      (date) => {
+        const parsedDate = parseISO(date);
+        return !isAfter(parsedDate, new Date());
+      },
+      { message: "시작일을 올바르게 입력해주세요" },
+    ),
 });
 
 export const updateMember = async (

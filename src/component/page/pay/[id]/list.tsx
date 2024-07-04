@@ -11,6 +11,7 @@ import { Payment } from ".prisma/client";
 import PayRegister from "@/app/(tabBar)/pay/[id]/payRegister";
 import Tag from "@/component/tag";
 import { filter } from "lodash";
+import { getYear } from "date-fns";
 
 export interface IPay {
   id?: number;
@@ -43,7 +44,8 @@ const List = ({
   const [filterlistItem, setFilterListItem] = useState<IPay[]>([]);
   const [selectedPay, setSelectedPay] = useState<IPay | null>(null);
   const [yearList, setYearList] = useState<Set<string>>(new Set());
-  const [year, setYear] = useState("");
+  const thisYear = getYear(new Date());
+  const [year, setYear] = useState(thisYear + "");
 
   useEffect(() => {
     const newSet = new Set<string>();

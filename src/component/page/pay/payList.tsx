@@ -30,23 +30,15 @@ const PayList = ({
   const [payStatus, setPayStatus] = useState<number>(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    console.log("순수 year month 값 확인", year, month);
-  }, [year, month]);
+  const initYear = getYear(new Date());
+  const initMonth = getMonth(new Date());
   const fetchMembers = useCallback(
-    async (year, month, shouldSetLoading = false) => {
+    async (year: number, month: number, shouldSetLoading = false) => {
+      console.log("1. fetchMembers");
       if (shouldSetLoading) {
         setLoading(true);
       }
-      console.log(
-        "2. fetchMembers (query, workerId, payStatus, page, year, month)",
-        query,
-        workerId,
-        payStatus,
-        page,
-        year,
-        month,
-      );
+      console.log(query, workerId, payStatus, page, year, month);
       try {
         const response = await getMembers({
           params: { query: query ?? "", workerId, payStatus, page },
@@ -54,41 +46,42 @@ const PayList = ({
           month: month ?? getMonth(new Date()) + 1,
         });
         if (response) {
-          console.log("3. fetchMembers response");
           setMembers(response.members);
           setTotal(response.total);
         }
       } catch (e) {
         console.error("Error fetching members:", e);
       } finally {
-        console.log("도저히 모르겠네");
         setLoading(false);
       }
     },
     [query, workerId, payStatus, page],
   );
 
-  const fetchPaidCounts = useCallback(async () => {
+  const fetchPaidCounts = async (year: number, month: number) => {
+    console.log("2. fetchPaidCounts");
     try {
       const paidResponse = await getPaidCnt(year, month);
-
+      console.log("2-1. fetchPaidCounts result", paidResponse);
       setPaidCnt(paidResponse);
     } catch (e) {
       console.error("error fetch counts", e);
     }
-  }, [year, month]);
+  };
 
-  const fetchtotalCounts = useCallback(async () => {
+  const fetchtotalCounts = async (year: number, month: number) => {
+    console.log("3. fetchtotalCounts");
     try {
       const totalResponse = await getTotalCnt(year, month);
-
+      console.log("3-1. fetchtotalCounts result", totalResponse);
       setTotalCnt(totalResponse);
     } catch (e) {
       console.error("error fetch counts", e);
     }
-  }, [year, month]);
+  };
 
-  const fetchWorkerList = useCallback(async () => {
+  const fetchWorkerList = async (year: number, month: number) => {
+    console.log("4. fetchWorkerList");
     const workerList = await getWorkerList(year, month);
 
     const workersData = workerList.map((item) => ({
@@ -96,24 +89,37 @@ const PayList = ({
       name: item.name,
     }));
     setWorkers(workersData);
-  }, [year, month]);
+  };
 
   useEffect(() => {
-    // fetchPaidCounts();
-    // fetchtotalCounts();
-    fetchMembers(year, month, true);
-    fetchWorkerList();
-    setWorkerId(-1);
-    setPayStatus(0);
+    const fetchData = async () => {
+      await Promise.all([
+        fetchMembers(year ?? initYear, month ?? initMonth, true),
+        fetchWorkerList(year ?? initYear, month ?? initMonth),
+        fetchtotalCounts(year ?? initYear, month ?? initMonth),
+        fetchPaidCounts(year ?? initYear, month ?? initMonth),
+      ]);
+      setWorkerId(-1);
+      setPayStatus(0);
+    };
+    fetchData();
   }, [year, month]);
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     await fetchMembers(year ?? initYear, month ?? initMonth, true);
+  //     await fetchWorkerList(year ?? initYear, month ?? initMonth);
+  //     await fetchtotalCounts(year ?? initYear, month ?? initMonth);
+  //     await fetchPaidCounts(year ?? initYear, month ?? initMonth);
+  //     setWorkerId(-1);
+  //     setPayStatus(0);
+  //   };
+  //   fetchData();
+  // }, [year, month]);
+
   useEffect(() => {
-    fetchMembers(year, month);
+    fetchMembers(year ?? initYear, month ?? initMonth);
   }, [query, workerId, payStatus, page, fetchMembers]);
-
-  useEffect(() => {
-    console.log("4. payList members", members);
-  }, [members]);
 
   const handleChangeWorkerList = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;

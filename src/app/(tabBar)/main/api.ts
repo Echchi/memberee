@@ -6,6 +6,7 @@ import { getMonth, getYear } from "date-fns";
 import { redirect } from "next/navigation";
 
 export async function getTotalCnt(year?: number, month?: number) {
+  console.log("~~~~~~~~~ getTotalCnt", year, month);
   const session = await getSession();
   const companyId = session.company;
   const company = await getCompany();
@@ -58,11 +59,12 @@ export async function getTotalCnt(year?: number, month?: number) {
       ],
     },
   });
-
+  console.log("~~~~~~~~~ getTotalCnt Result", totalCnt);
   return totalCnt;
 }
 
 export const getPaidCnt = async (year?: number, month?: number) => {
+  console.log("~~~~~~~~~ getPaidCnt", year, month);
   const session = await getSession();
   const companyId = session.company;
   const paids = await db.payment.count({
@@ -73,7 +75,7 @@ export const getPaidCnt = async (year?: number, month?: number) => {
       companyId: companyId,
     },
   });
-
+  console.log("~~~~~~~~~ getPaidCnt Result", paids);
   return paids;
 };
 

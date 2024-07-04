@@ -71,7 +71,9 @@ export function generatePaymentDates(
   includeThisMonth: boolean = true,
   endDate?: Date,
 ) {
-  const currentDate = includeThisMonth ? new Date() : subMonths(new Date(), 1);
+  const currentDate = includeThisMonth
+    ? addMonths(new Date(), 1)
+    : subMonths(new Date(), 1);
   const start = new Date(date);
   const end = endDate ? endDate : new Date(currentDate);
 

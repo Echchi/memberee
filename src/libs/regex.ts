@@ -15,16 +15,17 @@ export const PASSWORD_REGEX_ERROR =
 export const BIRTH_REGEX = new RegExp(
   /^\d{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$/,
 );
-export const BIRTH_REGEX_ERROR = "생년월일을 올바르게 입력해주세요";
+export const BIRTH_REGEX_ERROR = "생년월일을 숫자로만 올바르게 입력해주세요";
 
 export const STARTDATE_REGEX = new RegExp(
   /^\d{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$/,
 );
-export const STARTDATE_REGEX_ERROR = "시작일자를 올바르게 입력해주세요";
+export const STARTDATE_REGEX_ERROR =
+  "시작일자를 숫자로만 올바르게 입력해주세요";
 export const PAYDATE_REGEX = new RegExp(
   /^\d{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$/,
 );
-export const PAYDATE_REGEX_ERROR = "납부일자를 올바르게 입력해주세요";
+export const PAYDATE_REGEX_ERROR = "납부일자를 숫자로만 올바르게 입력해주세요";
 
 export const PHONE_REGEX_ERROR = "연락처를 숫자로만 올바르게 입력해주세요";
 export const ONLY_NUMBER_REGEX = new RegExp(/^\d+$/);
