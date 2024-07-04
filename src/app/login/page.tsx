@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import FormButton from "@/component/button/formButton";
 import { login } from "@/app/login/action";
 import { useFormState } from "react-dom";
-import Modal from "@/component/modal";
+import Modal from "@/component/modal/modal";
 import ChangePassword from "@/app/(tabBar)/account/changePassword";
 import FindId from "@/app/login/findId";
 import FindPassword from "./findPassword";

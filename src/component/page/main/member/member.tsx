@@ -5,7 +5,7 @@ import Tag from "@/component/tag";
 import { useRouter } from "next/navigation";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
 import RegisterWorkers from "@/component/page/main/BulkUploadHandlers/worker/registerWorkers";
-import Modal from "@/component/modal";
+import Modal from "@/component/modal/modal";
 import WorkerExcelModal from "@/component/page/main/BulkUploadHandlers/worker/workerExcelModal";
 import MemberExcelModal from "@/component/page/main/BulkUploadHandlers/member/memberExcelModal";
 import { getMembers } from "@/app/(tabBar)/member/api";

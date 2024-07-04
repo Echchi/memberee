@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import Modal from "@/component/modal";
+import Modal from "@/component/modal/modal";
 import Page from "@/app/(tabBar)/worker/register/page";
 import Button from "@/component/button/button";
 import { useRouter } from "next/navigation";

@@ -5,7 +5,7 @@ import Workers from "@/component/page/worker/workers";
 import { WorkerWithMember } from "@/app/(tabBar)/salary/page";
 import Link from "next/link";
 import { DAYOFWEEK } from "@/libs/constants";
-import Modal from "@/component/modal";
+import Modal from "@/component/modal/modal";
 import MemoModal from "@/component/modal/memoModal";
 import WorkerExcelModal from "@/component/page/main/BulkUploadHandlers/worker/workerExcelModal";
 import { cls } from "@/libs/client/utils";

@@ -9,7 +9,7 @@ import { getUser, terminateUser } from "@/app/(tabBar)/account/api";
 import { User } from ".prisma/client";
 import { cls, formatPhone } from "@/libs/client/utils";
 import { Company } from "@prisma/client";
-import Modal from "@/component/modal";
+import Modal from "@/component/modal/modal";
 import ConfirmModal from "@/component/modal/confirmModal";
 import { useFormState } from "react-dom";
 import { updateUser } from "@/app/(tabBar)/account/action";

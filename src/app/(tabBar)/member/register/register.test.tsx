@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { useRouter } from "next/navigation";
 import { userEvent } from "@testing-library/user-event";
-import Modal from "@/component/modal";
+import Modal from "@/component/modal/modal";
 import Register from "./page";
 
 describe("회원등록 모달", () => {

@@ -2,7 +2,7 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { cls, dateFormattedtoKor, formatCurrency } from "@/libs/client/utils";
 import Button from "@/component/button/button";
-import Modal from "@/component/modal";
+import Modal from "@/component/modal/modal";
 
 import PayCheck from "@/app/(tabBar)/pay/[id]/payCheck";
 import { Member } from "@prisma/client";

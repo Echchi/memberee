@@ -21,7 +21,7 @@ import {
   updateWorkerMemo,
 } from "@/app/(tabBar)/worker/[id]/api";
 import { Worker, WorkerMemo, Member } from ".prisma/client";
-import Modal from "@/component/modal";
+import Modal from "@/component/modal/modal";
 import { DAYOFWEEK } from "@/libs/constants";
 import Members from "@/component/page/worker/detail/members";
 import Memos from "@/component/page/worker/detail/memos";

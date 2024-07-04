@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Detail from "../page";
 
-import Modal from "@/component/modal";
+import Modal from "@/component/modal/modal";
 import { usePathname, useRouter } from "next/navigation";
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),

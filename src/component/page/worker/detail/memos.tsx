@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { WorkerMemo } from ".prisma/client";
 import { format } from "date-fns";
-import Modal from "@/component/modal";
+import Modal from "@/component/modal/modal";
 import MemoModal from "@/component/modal/memoModal";
 
 import { Memo } from "@prisma/client";

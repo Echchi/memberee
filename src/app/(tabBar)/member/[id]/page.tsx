@@ -14,7 +14,7 @@ import {
 import Button from "@/component/button/button";
 import { format, getTime } from "date-fns";
 import { useRouter } from "next/navigation";
-import Modal from "@/component/modal";
+import Modal from "@/component/modal/modal";
 
 import {
   changeStatusMember,

@@ -10,26 +10,41 @@ interface ModalProps {
 }
 
 const Modal = ({ title, content, onClose, className }: ModalProps) => {
-  const [isVisible, setIsVisible] = useState(true);
   const [isOpen, setIsOpen] = useState(true); // 모달 상태 관리
-  const [animation, setAnimation] = useState("fadeIn"); // 애니메이션 상태 관리
+
   const [isMouseDownOnBackdrop, setIsMouseDownOnBackdrop] = useState(false); // 백드롭에서 mousedown 이벤트가 발생했는지 추적
 
   const handleBackgroundMouseDown = (e: React.MouseEvent) => {
+    console.log("handleBackgroundMouseDown");
+
     if (e.target === e.currentTarget) {
       setIsMouseDownOnBackdrop(true);
     }
   };
 
   const handleBackgroundMouseUp = (e: React.MouseEvent) => {
+    console.log("handleBackgroundMouseUp");
+    console.log("e.target", e.target);
+    console.log("e.currentTarget", e.currentTarget);
+    console.log("isMouseDownOnBackdrop", isMouseDownOnBackdrop);
     if (e.target === e.currentTarget && isMouseDownOnBackdrop) {
-      setIsVisible(false);
-      setTimeout(() => {
-        onClose();
-      }, 200);
+      setIsOpen(false);
+      setTimeout(onClose, 200);
     }
     setIsMouseDownOnBackdrop(false);
   };
+
+  const handleMouseUp = () => {
+    setIsMouseDownOnBackdrop(false);
+  };
+
+  useEffect(() => {
+    window.addEventListener("mouseup", handleMouseUp);
+    return () => {
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, []);
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -40,19 +55,10 @@ const Modal = ({ title, content, onClose, className }: ModalProps) => {
       document.body.style.overflow = "unset";
     };
   }, [isOpen]);
-  const handleBackdropClick = (event: React.MouseEvent) => {
-    // event.preventDefault();
-    if (event.target === event.currentTarget) {
-      setAnimation("fadeOut");
-      setTimeout(() => {
-        setIsOpen(false);
-        onClose();
-      }, 200);
-    }
-  };
+
   const handleClose = (event: React.MouseEvent) => {
     // event.preventDefault();
-    setAnimation("fadeOut");
+
     setTimeout(() => {
       setIsOpen(false);
       onClose();
@@ -64,10 +70,11 @@ const Modal = ({ title, content, onClose, className }: ModalProps) => {
   return (
     <div
       data-testid={"modal-backdrop"}
-      onClick={(event: React.MouseEvent) => handleBackdropClick(event)}
+      onMouseDown={handleBackgroundMouseDown}
+      onMouseUp={handleBackgroundMouseUp}
       className={cls(
         "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20",
-        isVisible ? "animate-fade-in" : "animate-fade-out",
+        isOpen ? " animate-fadeIn" : "animate-fadeOut",
       )}
     >
       <div

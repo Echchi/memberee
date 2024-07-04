@@ -7,7 +7,7 @@ import {
   waitFor,
 } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import Modal from "@/component/modal";
+import Modal from "@/component/modal/modal";
 
 describe("모달 컴포넌트", () => {
   test("배경 선택 시 onClose 콜백 호출", async () => {

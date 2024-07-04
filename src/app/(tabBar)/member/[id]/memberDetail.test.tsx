@@ -3,7 +3,7 @@ import "@testing-library/jest-dom";
 import { useRouter } from "next/navigation";
 import Detail from "./page";
 
-import Modal from "@/component/modal";
+import Modal from "@/component/modal/modal";
 
 describe("회원관리 상세 페이지", () => {
   const mockPush = jest.fn();

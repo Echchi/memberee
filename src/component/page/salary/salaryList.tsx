@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { calculateSalary, formatCurrency } from "@/libs/client/utils";
 import Salary from "@/component/page/salary/salary";
-import Modal from "@/component/modal";
+import Modal from "@/component/modal/modal";
 import SalaryDetail from "@/app/(tabBar)/salary/salaryDetail";
 import { WorkerWithMember } from "@/app/(tabBar)/salary/page";
 import { IMemberWithSchedules } from "@/app/(tabBar)/member/[id]/page";
