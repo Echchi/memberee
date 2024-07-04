@@ -33,6 +33,7 @@ export async function login(prevState: any, formData: FormData) {
         Company: {
           select: {
             id: true,
+            payDay: true,
           },
         },
       },
@@ -53,6 +54,7 @@ export async function login(prevState: any, formData: FormData) {
         const session = await getSession();
         session.id = user!.id;
         session.company = user!.Company[0].id;
+        session.payday = user!.Company[0].payDay;
         await session.save();
         redirect("/main");
       }

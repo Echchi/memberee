@@ -9,30 +9,29 @@ import { getPaidCnt, getTotalCnt } from "@/app/(tabBar)/main/api";
 import { getWorkers } from "@/component/page/worker/workers";
 import { getClasses } from "@/app/(tabBar)/class/api";
 import { getDay } from "date-fns";
+import getSession from "@/libs/client/session";
 
 const Page = async () => {
+  const session = await getSession();
+  const payDay = session.payday;
   const year = getYear(new Date());
-  const month = getMonth(new Date()) + 1;
+  const isAfterPayDay = getDay(new Date()) >= payDay!!;
+  const month = isAfterPayDay ? getMonth(new Date()) + 1 : getMonth(new Date());
   const dayOfWeek = getDay(new Date()) === 0 ? 7 : getDay(new Date());
 
-  // console.time("main getPaidCnt");
   const paidCnt = await getPaidCnt(year, month);
-  // console.timeEnd("main getPaidCnt");
-  // console.time("main getTotalCnt");
-  const totalMemCnt = await getTotalCnt(year, month);
-  // console.timeEnd("main getTotalCnt");
 
-  // console.time("main getWorkers,getClasses");
+  const totalMemCnt = await getTotalCnt(year, month);
+
   const [workers, classes] = await Promise.all([
     getWorkers(""),
     getClasses({ year, month, dayOfWeek }),
   ]);
-  // console.timeEnd("main getWorkers,getClasses");
 
   return (
     <>
       {totalMemCnt - paidCnt > 0 && (
-        <Alarm overdueCnt={totalMemCnt - paidCnt} />
+        <Alarm overdueCnt={totalMemCnt - paidCnt} month={month} />
       )}
       <div className="xl:grid grid-cols-2 grid-rows-3 gap-3 mt-4 xl:mt-5 xl:h-[700px]">
         <Class classes={classes} />

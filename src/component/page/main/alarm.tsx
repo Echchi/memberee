@@ -4,7 +4,13 @@ import { cls, dateFormattedtoKor } from "@/libs/client/utils";
 import { useRouter } from "next/navigation";
 import { getMonth } from "date-fns";
 
-const Alarm = ({ overdueCnt }: { overdueCnt: number }) => {
+const Alarm = ({
+  month,
+  overdueCnt,
+}: {
+  month: number;
+  overdueCnt: number;
+}) => {
   const router = useRouter();
   const today = dateFormattedtoKor(new Date());
   const [alarmHide, setAlramHide] = useState(false);
@@ -22,7 +28,7 @@ const Alarm = ({ overdueCnt }: { overdueCnt: number }) => {
       )}
     >
       <span className="text-xs xl:text-base">
-        {`이번 달(${getMonth(new Date()) + 1}월) 납부 내역이 확인되지 않은 회원이 ${overdueCnt}명 있어요`}
+        {`${month}월 납부 내역이 확인되지 않은 회원이 ${overdueCnt}명 있어요`}
       </span>
       <button
         className="rounded-full"
