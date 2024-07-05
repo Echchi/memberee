@@ -9,11 +9,13 @@ import Modal from "@/component/modal/modal";
 import ChangePassword from "@/app/(tabBar)/account/changePassword";
 import FindId from "@/app/login/findId";
 import FindPassword from "./findPassword";
+import Join from "@/app/login/join";
 
 const Login = () => {
   const [state, action] = useFormState(login, null);
   const [isFindIdOpen, setIsFindIdOpen] = useState(false);
   const [isFindPasswordOpen, setIsFindPasswordOpen] = useState(false);
+  const [isJoinOpen, setIsJoinOpen] = useState(false);
   return (
     <>
       {isFindIdOpen && (
@@ -29,6 +31,18 @@ const Login = () => {
           title={"비밀번호 찾기"}
           content={
             <FindPassword onClose={() => setIsFindPasswordOpen(false)} />
+          }
+        />
+      )}
+      {isJoinOpen && (
+        <Modal
+          onClose={() => setIsJoinOpen(false)}
+          title={"이메일 인증"}
+          content={
+            <Join
+              onClose={() => setIsJoinOpen(false)}
+              findId={() => setIsFindIdOpen(true)}
+            />
           }
         />
       )}
@@ -102,7 +116,10 @@ const Login = () => {
               아이디 찾기
             </button>
             <div className="text-emerald-600 font-semibold">
-              <Link href={"/join"}>회원가입</Link>
+              {/*<Link href={"/join_v.1.0"}>회원가입</Link>*/}
+              <button onClick={() => setIsJoinOpen(true)} type={"button"}>
+                회원가입
+              </button>
             </div>
             <div>
               <button

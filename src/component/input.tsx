@@ -167,7 +167,7 @@ const Input = forwardRef<
               errorMessage[0] ? "inner_input_error" : "inner_input",
               icon && isLong ? "xl:pl-20 pl-14 pr-2" : "",
               icon && !isLong ? "xl:px-20 px-14" : "",
-              label && isLong ? "xl:pl-48 pl-24 pr-2" : "",
+              label && isLong ? "xl:pl-48 pl-32 pr-2" : "",
               label && !isLong ? "xl:px-48 px-20" : "",
               className ? `${className} !h-full` : "",
               className ? `${className} !h-full` : "",

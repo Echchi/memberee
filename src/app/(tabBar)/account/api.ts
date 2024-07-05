@@ -3,14 +3,13 @@ import getSession from "@/libs/client/session";
 import db from "@/libs/server/db";
 import { redirect } from "next/navigation";
 import bcrypt from "bcrypt";
+import { ITmpEmail } from "@/app/login/join";
 
 export async function getUser() {
   const session = await getSession();
   const companyId = session.company;
   const userId = session.id;
-  console.log("getUser session", session);
-  console.log("getUser companyId", companyId);
-  console.log("getUser userId", userId);
+
   const user = await db.company.findUnique({
     where: {
       id: companyId,
@@ -26,19 +25,6 @@ export async function getUser() {
   // await new Promise((resolve) => setTimeout(resolve, 1000000));
   return user;
 }
-
-// const user = await db.company.findUnique({
-//   where: {
-//     id: companyId,
-//   },
-//   include: {
-//     user: true,
-//   },
-//
-//   EXPLAIN ANALYZE
-//   select * from "User" where id='2'
-//
-//   둘이 같은 쿼리지?
 
 export async function terminateUser(id: number) {
   const session = await getSession();
@@ -114,4 +100,56 @@ export async function checkPassword(password: string) {
   const ok = await bcrypt.compare(password, user?.password ?? "");
 
   return ok;
+}
+
+export async function checkEmail(email: string) {
+  const user = await db.user.findFirst({
+    where: {
+      email,
+    },
+  });
+
+  return user;
+}
+
+export async function checkTmpEmail(email: string) {
+  const tmpEmail = await db.tmpEmail.findFirst({
+    where: {
+      email,
+    },
+    select: {
+      id,
+      email,
+      expiresAt,
+    },
+  });
+
+  return tmpEmail;
+}
+
+export async function updateTmpEmail(params: ITmpEmail) {
+  const { id, email, token, expiresAt } = params;
+  const tmpEmail = await db.tmpEmail.update({
+    where: {
+      id,
+    },
+    data: {
+      token,
+      expiresAt,
+    },
+  });
+
+  return tmpEmail;
+}
+export async function createTmpEmail(params: ITmpEmail) {
+  const { email, token, expiresAt } = params;
+  const tmpEmail = await db.tmpEmail.create({
+    data: {
+      email,
+      token,
+      expiresAt,
+    },
+  });
+
+  return tmpEmail;
 }

@@ -10,10 +10,10 @@ import {
   checkPhone,
   checkUserid,
   createAccount,
-} from "@/app/join/action";
+} from "@/app/join_v.1.0/action";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { formSchema, JoinType } from "@/app/join/schema";
+import { joinFormSchema, JoinType } from "@/app/join_v.1.0/schema";
 import { useRouter } from "next/navigation";
 import {
   ID_REGEX_ERROR,
@@ -40,7 +40,7 @@ const Join = () => {
     clearErrors,
     watch,
   } = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(joinFormSchema),
     mode: "onBlur",
     defaultValues: {
       username: "",

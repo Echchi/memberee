@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import Detail from "./page";
-import Accout from "@/app/join/page";
+import Accout from "@/app/join_v.1.0/page";
 import React from "react";
 
 describe("직원 상세 페이지", () => {

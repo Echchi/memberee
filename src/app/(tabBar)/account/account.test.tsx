@@ -1,7 +1,7 @@
 import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import Accout from "@/app/join/page";
+import Accout from "@/app/join_v.1.0/page";
 import { userEvent } from "@testing-library/user-event";
 
 describe("계정 관리 페이지", () => {

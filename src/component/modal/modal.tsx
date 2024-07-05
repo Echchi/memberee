@@ -4,12 +4,19 @@ import { cls } from "@/libs/client/utils";
 
 interface ModalProps {
   title: string;
-  content: React.ReactElement;
+  content?: React.ReactElement;
+  children?: React.ReactElement;
   onClose: () => void;
   className?: string;
 }
 
-const Modal = ({ title, content, onClose, className }: ModalProps) => {
+const Modal = ({
+  title,
+  content,
+  onClose,
+  className,
+  children,
+}: ModalProps) => {
   const [isOpen, setIsOpen] = useState(true); // 모달 상태 관리
 
   const [isMouseDownOnBackdrop, setIsMouseDownOnBackdrop] = useState(false); // 백드롭에서 mousedown 이벤트가 발생했는지 추적
@@ -23,10 +30,6 @@ const Modal = ({ title, content, onClose, className }: ModalProps) => {
   };
 
   const handleBackgroundMouseUp = (e: React.MouseEvent) => {
-    console.log("handleBackgroundMouseUp");
-    console.log("e.target", e.target);
-    console.log("e.currentTarget", e.currentTarget);
-    console.log("isMouseDownOnBackdrop", isMouseDownOnBackdrop);
     if (e.target === e.currentTarget && isMouseDownOnBackdrop) {
       setIsOpen(false);
       setTimeout(onClose, 200);
@@ -79,7 +82,7 @@ const Modal = ({ title, content, onClose, className }: ModalProps) => {
     >
       <div
         className={cls(
-          "bg-white p-6 w-full min-h-fit relative rounded-lg",
+          "bg-white p-4 xl:p-6 w-full min-h-fit relative rounded-lg",
           className ? className : "xl:w-2/5",
         )}
       >
@@ -93,7 +96,7 @@ const Modal = ({ title, content, onClose, className }: ModalProps) => {
         </button>
         <h2 className="text-lg font-semibold">{title}</h2>
 
-        <div className="mt-4">{content}</div>
+        <div className="mt-4">{content || children}</div>
       </div>
     </div>
   );

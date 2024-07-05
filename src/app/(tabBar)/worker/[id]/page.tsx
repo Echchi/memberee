@@ -28,7 +28,7 @@ import Memos from "@/component/page/worker/detail/memos";
 import { motion } from "framer-motion";
 import SelectWorkingDay from "@/component/page/worker/workingDay";
 import { useFormState } from "react-dom";
-import { createAccount } from "@/app/join/action";
+import { createAccount } from "@/app/join_v.1.0/action";
 import { updateWorker } from "@/app/(tabBar)/worker/[id]/action";
 import ConfirmModal from "@/component/modal/confirmModal";
 import { Memo, Schedule } from "@prisma/client";

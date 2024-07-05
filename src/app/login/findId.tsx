@@ -128,7 +128,8 @@ const FindId = ({ onClose }: { onClose: () => void }) => {
     <>
       <>
         {isSuccess && (
-          <div className="absolute right-0 h-3/4 w-full flex flex-col justify-center items-center bg-white z-20 px-10 pb-10">
+          // <div className="absolute right-0 h-3/4 w-full flex flex-col justify-center items-center bg-white z-20 px-10 pb-10">
+          <div className="h-full w-full flex flex-col justify-center items-center bg-white z-20 px-4 pb-10">
             <p className="text-xl font-medium mb-6">
               {name} 님의 아이디를 찾았어요!
             </p>
@@ -146,58 +147,64 @@ const FindId = ({ onClose }: { onClose: () => void }) => {
             />
           </div>
         )}
-        <Input
-          type={"name"}
-          label={"이름"}
-          placeholder={"이름"}
-          className="h-16 xl:text-lg border-b-0 rounded-t-lg"
-          onBlur={handleCheckName}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            setName(event.target.value)
-          }
-          isLong={true}
-          required={true}
-          errorMessage={error?.name.length > 0 ? [error?.name] : undefined}
-        />
-        <Input
-          type={"연락처"}
-          label={"연락처"}
-          placeholder={"연락처"}
-          className="h-16 xl:text-lg border-b-0"
-          onBlur={(event: React.ChangeEvent<HTMLInputElement>) =>
-            handleChangePhone(event)
-          }
-          isLong={true}
-          required={true}
-          maxLength={11}
-          errorMessage={error?.phone.length > 0 ? [error?.phone] : undefined}
-        />
-        <Input
-          type={"사업자등록번호"}
-          label={"사업자등록번호"}
-          placeholder={"사업자등록번호"}
-          className="h-16 xl:text-lg rounded-b-lg"
-          onBlur={(event: React.ChangeEvent<HTMLInputElement>) =>
-            handleChangeCoNum(event)
-          }
-          isLong={true}
-          required={true}
-          maxLength={10}
-          errorMessage={error.coNum.length > 0 ? [error?.coNum] : undefined}
-        />
-        <p className="text-orange-500 pt-3 font-semibold">{error.result}</p>
-        <Button
-          text={"아이디 찾기"}
-          className="mt-4"
-          large={true}
-          isButtonDisabled={
-            error.name.length > 0 ||
-            error.phone.length > 0 ||
-            error.coNum.length > 0 ||
-            isSuccess
-          }
-          onClick={handleFindId}
-        />
+        {!isSuccess && (
+          <>
+            <Input
+              type={"name"}
+              label={"이름"}
+              placeholder={"이름"}
+              className="h-16 xl:text-lg border-b-0 rounded-t-lg"
+              onBlur={handleCheckName}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                setName(event.target.value)
+              }
+              isLong={true}
+              required={true}
+              errorMessage={error?.name.length > 0 ? [error?.name] : undefined}
+            />
+            <Input
+              type={"연락처"}
+              label={"연락처"}
+              placeholder={"연락처"}
+              className="h-16 xl:text-lg border-b-0"
+              onBlur={(event: React.ChangeEvent<HTMLInputElement>) =>
+                handleChangePhone(event)
+              }
+              isLong={true}
+              required={true}
+              maxLength={11}
+              errorMessage={
+                error?.phone.length > 0 ? [error?.phone] : undefined
+              }
+            />
+            <Input
+              type={"사업자등록번호"}
+              label={"사업자등록번호"}
+              placeholder={"사업자등록번호"}
+              className="h-16 xl:text-lg rounded-b-lg"
+              onBlur={(event: React.ChangeEvent<HTMLInputElement>) =>
+                handleChangeCoNum(event)
+              }
+              isLong={true}
+              required={true}
+              maxLength={10}
+              errorMessage={error.coNum.length > 0 ? [error?.coNum] : undefined}
+            />
+            <p className="text-orange-500 pt-3 font-semibold">{error.result}</p>
+            <Button
+              text={"아이디 찾기"}
+              className="mt-4"
+              large={true}
+              isButtonDisabled={
+                error.name.length > 0 ||
+                error.phone.length > 0 ||
+                error.coNum.length > 0 ||
+                isSuccess
+              }
+              onClick={handleFindId}
+            />
+          </>
+        )}
       </>
     </>
   );

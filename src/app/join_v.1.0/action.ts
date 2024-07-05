@@ -13,8 +13,8 @@ import {
 import db from "@/libs/server/db";
 import getSession from "@/libs/client/session";
 import { redirect } from "next/navigation";
-import { formSchema, JoinType } from "@/app/join/schema";
-import { JoinFormType } from "@/app/join/page";
+import { joinFormSchema, JoinType } from "@/app/join_v.1.0/schema";
+import { JoinFormType } from "@/app/join_v.1.0/page";
 
 export const checkUserid = async (userid: string) => {
   const user = await db.user.findMany({
@@ -57,7 +57,7 @@ export const checkCoNum = async (num: string) => {
 };
 
 export const createAccount = async (data: JoinFormType) => {
-  const result = await formSchema.spa(data);
+  const result = await joinFormSchema.spa(data);
   if (!result.success) {
     return result.error.flatten();
   } else {

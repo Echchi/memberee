@@ -121,7 +121,8 @@ const ChangePassword = ({ onClose }: { onClose: () => void }) => {
     <>
       <>
         {isSuccess && (
-          <div className="absolute right-0 h-3/4 w-full flex flex-col justify-center items-center bg-white z-20 space-y-4">
+          // <div className="absolute right-0 h-3/4 w-full flex flex-col justify-center items-center bg-white z-20 space-y-4">
+          <div className="h-full w-full flex flex-col justify-center items-center bg-white z-20 space-y-4">
             <svg width="50" height="50" viewBox="0 0 100 100">
               <circle
                 cx="50"
@@ -153,61 +154,69 @@ const ChangePassword = ({ onClose }: { onClose: () => void }) => {
             </p>
           </div>
         )}
-        <Input
-          type={"password"}
-          label={"현재 비밀번호"}
-          placeholder={"현재 비밀번호"}
-          className="h-16 xl:text-lg border-b-0 rounded-t-lg"
-          onBlur={handleCheckCurrentPwd}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            setCurrentPwd(event.target.value)
-          }
-          isLong={true}
-          required={true}
-          errorMessage={
-            error?.currentPwd.length > 0 ? [error?.currentPwd] : undefined
-          }
-        />
-        <Input
-          type={"password"}
-          label={"새 비밀번호"}
-          placeholder={"새 비밀번호"}
-          className="h-16 xl:text-lg border-b-0"
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            handleChangeNewPwd(event)
-          }
-          isLong={true}
-          required={true}
-          errorMessage={error?.newPwd.length > 0 ? [error?.newPwd] : undefined}
-        />
-        <Input
-          type={"password"}
-          label={"새 비밀번호 확인"}
-          placeholder={"새 비밀번호 확인"}
-          className="h-16 xl:text-lg rounded-b-lg"
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            handleChangeNewConfirmPwd(event)
-          }
-          isLong={true}
-          required={true}
-          errorMessage={
-            error.confirmNewPwd.length > 0 ? [error?.confirmNewPwd] : undefined
-          }
-        />
-        <Button
-          text={"등록"}
-          className="mt-4"
-          large={true}
-          isButtonDisabled={
-            !error.checkCurrentPwd ||
-            !error.checkConfirmCurrentPwd ||
-            error.currentPwd.length > 0 ||
-            error.newPwd.length > 0 ||
-            error.confirmNewPwd.length > 0 ||
-            newPwd.length === 0
-          }
-          onClick={handleUpdatePassword}
-        />
+        {!isSuccess && (
+          <>
+            <Input
+              type={"password"}
+              label={"현재 비밀번호"}
+              placeholder={"현재 비밀번호"}
+              className="h-16 xl:text-lg border-b-0 rounded-t-lg"
+              onBlur={handleCheckCurrentPwd}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                setCurrentPwd(event.target.value)
+              }
+              isLong={true}
+              required={true}
+              errorMessage={
+                error?.currentPwd.length > 0 ? [error?.currentPwd] : undefined
+              }
+            />
+            <Input
+              type={"password"}
+              label={"새 비밀번호"}
+              placeholder={"새 비밀번호"}
+              className="h-16 xl:text-lg border-b-0"
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                handleChangeNewPwd(event)
+              }
+              isLong={true}
+              required={true}
+              errorMessage={
+                error?.newPwd.length > 0 ? [error?.newPwd] : undefined
+              }
+            />
+            <Input
+              type={"password"}
+              label={"새 비밀번호 확인"}
+              placeholder={"새 비밀번호 확인"}
+              className="h-16 xl:text-lg rounded-b-lg"
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                handleChangeNewConfirmPwd(event)
+              }
+              isLong={true}
+              required={true}
+              errorMessage={
+                error.confirmNewPwd.length > 0
+                  ? [error?.confirmNewPwd]
+                  : undefined
+              }
+            />
+            <Button
+              text={"등록"}
+              className="mt-4"
+              large={true}
+              isButtonDisabled={
+                !error.checkCurrentPwd ||
+                !error.checkConfirmCurrentPwd ||
+                error.currentPwd.length > 0 ||
+                error.newPwd.length > 0 ||
+                error.confirmNewPwd.length > 0 ||
+                newPwd.length === 0
+              }
+              onClick={handleUpdatePassword}
+            />
+          </>
+        )}
       </>
     </>
   );

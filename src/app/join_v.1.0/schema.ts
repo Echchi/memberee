@@ -7,7 +7,8 @@ import {
   PASSWORD_REGEX_ERROR,
 } from "@/libs/regex";
 import validator from "validator";
-import { checkCoNum, checkPhone, checkUserid } from "@/app/join/action";
+import { checkCoNum, checkPhone, checkUserid } from "@/app/join_v.1.0/action";
+
 interface ICheckPassword {
   password: string;
   confirm_password: string;
@@ -15,7 +16,7 @@ interface ICheckPassword {
 export const checkPassword = ({ password, confirm_password }: ICheckPassword) =>
   password === confirm_password;
 
-export const formSchema = z
+export const joinFormSchema = z
   .object({
     username: z.string().trim().min(2, "이름을 올바르게 입력해주세요"),
     userid: z
@@ -91,4 +92,4 @@ export const formSchema = z
     //   }
   });
 
-export type JoinType = z.infer<typeof formSchema>;
+export type JoinType = z.infer<typeof joinFormSchema>;
