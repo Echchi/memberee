@@ -122,16 +122,16 @@ const Page = () => {
             />
           )}
 
-          <Input
-            label={"연락처"}
-            type={isEdit ? "text" : "div"}
-            value={isEdit ? user?.phone : formatPhone(user?.phone || "")}
-            placeholder={user?.phone}
-            className={"h-16 border-t-0 border-b-1"}
-            maxLength={11}
-            name={"phone"}
-            errorMessage={state?.fieldErrors?.phone}
-          />
+          {/*<Input*/}
+          {/*  label={"연락처"}*/}
+          {/*  type={isEdit ? "text" : "div"}*/}
+          {/*  value={isEdit ? user?.phone : formatPhone(user?.phone || "")}*/}
+          {/*  placeholder={user?.phone}*/}
+          {/*  className={"h-16 border-t-0 border-b-1"}*/}
+          {/*  maxLength={11}*/}
+          {/*  name={"phone"}*/}
+          {/*  errorMessage={state?.fieldErrors?.phone}*/}
+          {/*/>*/}
           <Input
             label={"이메일"}
             type={isEdit ? "text" : "div"}
@@ -160,7 +160,7 @@ const Page = () => {
             label={"납부일"}
             name={"payDay"}
             required={true}
-            className={"h-16 border-t-0"}
+            className={"h-16 border-t-0 rounded-b-lg"}
             type={isEdit ? "select" : "div"}
             selectDescription={company?.payDay ? "일" : ""}
             value={company?.payDay ? company?.payDay + "" : ""}
@@ -171,20 +171,20 @@ const Page = () => {
             errorMessage={state?.fieldErrors?.payDay}
           />
 
-          <Input
-            label={"연락처"}
-            type={isEdit ? "text" : "div"}
-            value={
-              isEdit
-                ? (company?.contact as string)
-                : formatPhone(company?.contact || "")
-            }
-            placeholder={company?.contact || ""}
-            className={"h-16 border-t-0 rounded-b-lg"}
-            maxLength={11}
-            name={"co_contact"}
-            errorMessage={state?.fieldErrors?.co_contact}
-          />
+          {/*<Input*/}
+          {/*  label={"연락처"}*/}
+          {/*  type={isEdit ? "text" : "div"}*/}
+          {/*  value={*/}
+          {/*    isEdit*/}
+          {/*      ? (company?.contact as string)*/}
+          {/*      : formatPhone(company?.contact || "")*/}
+          {/*  }*/}
+          {/*  placeholder={company?.contact || ""}*/}
+          {/*  className={"h-16 border-t-0 rounded-b-lg"}*/}
+          {/*  maxLength={11}*/}
+          {/*  name={"co_contact"}*/}
+          {/*  errorMessage={state?.fieldErrors?.co_contact}*/}
+          {/*/>*/}
           <div className="flex justify-between mt-4">
             <div className="flex w-full space-x-4">
               <Button
