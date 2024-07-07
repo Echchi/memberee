@@ -41,8 +41,12 @@ const Join = ({ searchParams }: { searchParams?: { token: string } }) => {
   };
 
   useEffect(() => {
-    const { token } = searchParams;
-    checkTokenExpires(token);
+    const token = searchParams?.token || "";
+    if (token) {
+      checkTokenExpires(token);
+    } else {
+      setErrorPage(true);
+    }
   }, [searchParams]);
 
   const router = useRouter();
