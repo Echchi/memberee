@@ -44,8 +44,6 @@ const Join = ({ searchParams }: { searchParams?: { token: string } }) => {
     const token = searchParams?.token || "";
     if (token) {
       checkTokenExpires(token);
-    } else {
-      setErrorPage(true);
     }
   }, [searchParams]);
 

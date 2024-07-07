@@ -46,8 +46,10 @@ const TokenError = () => {
                 인증이 완료되었거나 유효시간이 만료되었어요
               </p>
               <p className="text-sm xl:text-lg font-bold">
-                멤버리 서비스를 이용하시려면, 아래 버튼을 눌러 이메일을 다시
-                인증해 주세요
+                멤버리 서비스를 이용하시려면,
+              </p>
+              <p className="text-sm xl:text-lg font-bold">
+                아래 버튼을 눌러 이메일을 다시 인증해 주세요
               </p>
 
               <div className="flex xl:flex-row flex-col justify-center items-center w-2/3 xl:w-1/3 pt-2 xl:pt-4">
