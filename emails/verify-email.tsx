@@ -67,7 +67,11 @@ export const VerifyEmail = ({ token }: IVerifyEmail) => {
                 <Link
                   className="px-32 py-4 text-white font-bold text-lg bg-emerald-700 border-0 rounded-lg cursor-pointer"
                   // href={`https://www.memberee.com/join?token=${token}`}
-                  href={`http://localhost:3000/join?token=${token}`}
+                  href={
+                    process.env.NODE_ENV === "production"
+                      ? `https://www.memberee.com/join?token=${token}`
+                      : `http://localhost:3000/join?token=${token}`
+                  }
                 >
                   인증하기
                 </Link>
