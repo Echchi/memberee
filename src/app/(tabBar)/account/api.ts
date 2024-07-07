@@ -4,6 +4,9 @@ import db from "@/libs/server/db";
 import { redirect } from "next/navigation";
 import bcrypt from "bcrypt";
 import { ITmpEmail } from "@/app/login/join";
+import React from "react";
+import FindPasswordEmail from "../../../../emails/find-password-email";
+import { sendEmail } from "@/app/login/api";
 
 export async function getUser() {
   const session = await getSession();

@@ -4,6 +4,8 @@ import { Resend } from "resend";
 import React from "react";
 import FindPasswordEmail from "../../../emails/find-password-email";
 import { ITmpEmail } from "@/app/login/join";
+import VerifyEmail from "../../../emails/verify-email";
+import jwt from "jsonwebtoken";
 
 export interface FindParam {
   phone: string;
@@ -108,9 +110,10 @@ export async function checkTmpEmail(email: string) {
       email,
     },
     select: {
-      id,
-      email,
-      expiresAt,
+      id: true,
+      email: true,
+      token: true,
+      expiresAt: true,
     },
   });
 
@@ -118,7 +121,10 @@ export async function checkTmpEmail(email: string) {
 }
 
 export async function updateTmpEmail(params: ITmpEmail) {
-  const { id, email, token, expiresAt } = params;
+  const { id, email, expiresAt } = params;
+  const token = jwt.sign({ email }, process.env.JWT_SECRET!, {
+    expiresIn: "1h",
+  });
   const tmpEmail = await db.tmpEmail.update({
     where: {
       id,
@@ -132,10 +138,14 @@ export async function updateTmpEmail(params: ITmpEmail) {
   return tmpEmail;
 }
 export async function createTmpEmail(params: ITmpEmail) {
-  const { email, token, expiresAt } = params;
+  const { email, expiresAt } = params;
+  console.log("createTmpEmail secrete", process.env.JWT_SECRET);
+  const token = jwt.sign({ email }, process.env.JWT_SECRET!, {
+    expiresIn: "1h",
+  });
   const tmpEmail = await db.tmpEmail.create({
     data: {
-      email,
+      email: email ?? "",
       token,
       expiresAt,
     },
@@ -143,3 +153,18 @@ export async function createTmpEmail(params: ITmpEmail) {
 
   return tmpEmail;
 }
+
+export const sendVerifyEmail = async (param: {
+  email: string;
+  token: string;
+}) => {
+  const { email, token } = param;
+  const res = await sendEmail({
+    to: [email],
+    subject: `memberee 이메일 인증`,
+    react: React.createElement(VerifyEmail, {
+      token,
+    }),
+  });
+  return res ? { success: true } : { success: false };
+};

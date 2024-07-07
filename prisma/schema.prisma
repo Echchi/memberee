@@ -21,7 +21,6 @@ model User {
   userid    String
   password  String
   name      String
-  phone     String
   email     String
   mode      Int       @default(1)
   role      Int       @default(1) // 1: 일반 회원, 2: 관리자
@@ -32,7 +31,6 @@ model User {
 
   @@index([userid])
   @@index([name])
-  @@index([phone])
 }
 
 model Company {
@@ -41,7 +39,6 @@ model Company {
   userId    Int?
   name      String
   num       String
-  contact   String?
   startTime DateTime?
   endTime   DateTime?
   payDay    Int       @default(1) // 납부 일자 (매 월 00 일 1 ~ 31)

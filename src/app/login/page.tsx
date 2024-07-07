@@ -116,7 +116,7 @@ const Login = () => {
               아이디 찾기
             </button>
             <div className="text-emerald-600 font-semibold">
-              {/*<Link href={"/join_v.1.0"}>회원가입</Link>*/}
+              {/*<Link href={"/join"}>회원가입</Link>*/}
               <button onClick={() => setIsJoinOpen(true)} type={"button"}>
                 회원가입
               </button>

@@ -13,8 +13,9 @@ import {
 import db from "@/libs/server/db";
 import getSession from "@/libs/client/session";
 import { redirect } from "next/navigation";
-import { joinFormSchema, JoinType } from "@/app/join_v.1.0/schema";
-import { JoinFormType } from "@/app/join_v.1.0/page";
+import { joinFormSchema, JoinType } from "@/app/join/schema";
+import { JoinFormType } from "@/app/join/page";
+import jwt from "jsonwebtoken";
 
 export const checkUserid = async (userid: string) => {
   const user = await db.user.findMany({
@@ -29,18 +30,18 @@ export const checkUserid = async (userid: string) => {
 
   return user.length === 0;
 };
-export const checkPhone = async (phone: string) => {
-  const user = await db.user.findMany({
-    where: {
-      phone,
-      OR: [{ status: 1 }, { status: -1 }],
-    },
-    select: {
-      userid: true,
-    },
-  });
-  return user.length === 0;
-};
+// export const checkPhone = async (phone: string) => {
+//   const user = await db.user.findMany({
+//     where: {
+//       phone,
+//       OR: [{ status: 1 }, { status: -1 }],
+//     },
+//     select: {
+//       userid: true,
+//     },
+//   });
+//   return user.length === 0;
+// };
 
 export const checkCoNum = async (num: string) => {
   const company = await db.company.findMany({
@@ -67,7 +68,7 @@ export const createAccount = async (data: JoinFormType) => {
         userid: result.data.userid,
         password: hashedPassword,
         name: result.data.username,
-        phone: result.data.phone,
+        // phone: result.data.phone,
         email: result.data.email,
       },
     });
@@ -75,11 +76,16 @@ export const createAccount = async (data: JoinFormType) => {
       data: {
         name: result.data.co_name,
         num: result.data.co_num,
-        contact: result.data.co_contact,
+        // contact: result.data.co_contact,
         startTime: new Date(),
         endTime: new Date(),
         payDay: Number(result.data.payDay),
         userId: user.id,
+      },
+    });
+    const deleteTmp = await db.tmpEmail.delete({
+      where: {
+        email: result.data.email,
       },
     });
     // 로그인

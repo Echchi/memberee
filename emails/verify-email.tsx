@@ -61,12 +61,13 @@ export const VerifyEmail = ({ token }: IVerifyEmail) => {
                 멤버리에 오신 것을 환영합니다!
               </Text>
               <Text className="text-base text-center font-medium">
-                아래 버튼을 눌러서 인증을 완료해 주세요
+                아래 버튼을 눌러 회원가입을 완료해 주세요
               </Text>
               <Section className="mx-auto my-10 text-center">
                 <Link
                   className="px-32 py-4 text-white font-bold text-lg bg-emerald-700 border-0 rounded-lg cursor-pointer"
-                  href={"https://www.memberee.com/main?id=123"}
+                  // href={`https://www.memberee.com/join?token=${token}`}
+                  href={`http://localhost:3000/join?token=${token}`}
                 >
                   인증하기
                 </Link>

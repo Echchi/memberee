@@ -1,6 +1,7 @@
 "use client";
 import { cls } from "@/libs/client/utils";
 import { useFormStatus } from "react-dom";
+import { useEffect } from "react";
 
 export interface ButtonProps {
   text: string;
@@ -16,6 +17,9 @@ export default function FormButton({
   ...rest
 }: ButtonProps) {
   const { pending } = useFormStatus();
+  useEffect(() => {
+    console.log("pending", pending);
+  }, [pending]);
   return (
     <button
       {...rest}

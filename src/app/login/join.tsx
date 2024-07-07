@@ -1,29 +1,20 @@
 import React, { useEffect, useState } from "react";
 import Input from "@/component/input";
 import Button from "@/component/button/button";
-import {
-  CO_NUM_REGEX,
-  CO_NUM_REGEX_ERROR,
-  PHONE_REGEX_ERROR,
-} from "@/libs/regex";
-import {
-  getUserWithData,
-  getUserWithId,
-  sendPasswordEmail,
-} from "@/app/login/api";
+import jwt from "jsonwebtoken";
 import validator from "validator";
-import { generateTemporaryPassword } from "@/libs/client/utils";
-import FindPasswordEmail from "../../../emails/find-password-email";
 import {
   checkEmail,
   checkTmpEmail,
-  updatePassword,
-} from "@/app/(tabBar)/account/api";
+  createTmpEmail,
+  sendVerifyEmail,
+  updateTmpEmail,
+} from "@/app/login/api";
+
 export interface ITmpEmail {
   id?: number;
-  email: string;
-  token: string;
-  expiresAt: number;
+  email?: string;
+  expiresAt: Date;
 }
 const Join = ({
   onClose,
@@ -71,66 +62,52 @@ const Join = ({
     const isExist = await checkEmail(email);
     // 있음 -> serError result -> 아이디 찾기로 이동
     if (isExist) {
-      setError((prev) => ({ ...prev, result: "이미 존재하는 이메일이에요" }));
+      setError((prev) => ({
+        ...prev,
+        result: "이미 가입되어 있는 이메일이에요",
+      }));
       setIsLoading(false);
       return;
     }
 
-    // 없음
-    // 임시 이메일 테이블에 해당 이메일이 있는지 확인
-    const tmpEmail = await checkTmpEmail(email);
-    // 있음 -> 유효기간 확인
+    let tmpEmail = await checkTmpEmail(email);
 
-    // 유효기간 지남 -> 새 토큰 생성 update -> 이메일 전송
+    if (tmpEmail) {
+      if (new Date() > tmpEmail.expiresAt) {
+        const updateParam = {
+          id: tmpEmail.id,
+          email,
+          expiresAt: new Date(Date.now() + 3600000),
+        };
+        tmpEmail = await updateTmpEmail(updateParam);
+      }
+    } else {
+      const createParam = {
+        email,
+        expiresAt: new Date(Date.now() + 3600000),
+      };
+      tmpEmail = await createTmpEmail(createParam);
+    }
+    const verifyEmailParam = {
+      email: tmpEmail.email,
+      token: tmpEmail.token,
+    };
 
-    // 유효기간 안지남 -> 이메일 전송
+    const result = await sendVerifyEmail(verifyEmailParam);
+    if (result.success) {
+      setIsSuccess(true);
+      setError((prev) => ({
+        ...prev,
+        result: "",
+      }));
+    } else {
+      setIsSuccess(false);
+      setError((prev) => ({
+        ...prev,
+        result: "잠시 뒤에 다시 시도해주세요!",
+      }));
+    }
 
-    // 없음 -> 이메일, 토큰, 유효기간 삽입
-
-    // const result = await getUserWithData(parma);
-    //
-    // if (result) {
-    //   setResult(result);
-    //
-    //   // 임시 비밀번호 생성
-    //   const tmpPassword = generateTemporaryPassword();
-    //
-    //   // 임시 비밀번호로 변경
-    //   const changeResult = await updatePassword(tmpPassword, id);
-    //   if (changeResult) {
-    //     // 임시 비밀번호 메일 전송
-    //     const param = {
-    //       email: result.email,
-    //       name: result.name,
-    //       tmpPassword,
-    //     };
-    //
-    //     const res = await sendPasswordEmail(param);
-    //     if (res.success) {
-    //       setIsSuccess(true);
-    //       setError((prev) => ({
-    //         ...prev,
-    //         result: "",
-    //       }));
-    //     } else {
-    //       setIsSuccess(false);
-    //       setError((prev) => ({
-    //         ...prev,
-    //         result: "잠시 뒤에 다시 시도해주세요!",
-    //       }));
-    //     }
-    //   } else {
-    //     setError((prev) => ({
-    //       ...prev,
-    //       result: "잠시 뒤에 다시 시도해주세요!",
-    //     }));
-    //   }
-    // } else {
-    //   setError((prev) => ({
-    //     ...prev,
-    //     result: "일치하는 계정이 없어요. 다시 확인해주세요.",
-    //   }));
-    // }
     setIsLoading(false);
   };
   const handleClickFindId = () => {
@@ -141,7 +118,7 @@ const Join = ({
     <>
       <>
         {isSuccess && (
-          <div className="absolute right-0 h-4/5 w-full flex flex-col justify-center items-center bg-white z-20 px-10 pb-10">
+          <div className="h-full w-full flex flex-col justify-center items-center bg-white z-20 px-10 pb-10">
             <p className="text-lg font-medium">
               아래의 이메일로 인증 메일을 보냈어요!
             </p>
@@ -149,16 +126,16 @@ const Join = ({
               스펨 메일함에 있을 수도 있어요. 스펨 메일함도 확인해주세요.
             </p>
             <div className="bg-gray-100 rounded-lg w-full py-6 text-lg font-semibold text-center">
-              {result}
+              {email}
             </div>
           </div>
         )}
         {!isSuccess && (
-          <>
-            <p className="text-lg font-medium text-center">
+          <div className="xl:px-8 xl:pb-5">
+            <p className="text-lg font-medium text-center xl:pt-3">
               인증 메일을 받을 이메일을 입력해주세요
             </p>
-            <p className="text-sm font-medium text-center pb-3">
+            <p className="text-sm font-medium text-center pb-3 xl:pb-5">
               비밀번호 찾기나 중요 정보를 전달할 때 쓰기 때문에 확인이 필요해요
             </p>
             <Input
@@ -209,7 +186,7 @@ const Join = ({
               }
               onClick={handleClickSendBtn}
             />
-          </>
+          </div>
         )}
       </>
     </>

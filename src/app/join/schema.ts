@@ -6,8 +6,6 @@ import {
   PASSWORD_REGEX,
   PASSWORD_REGEX_ERROR,
 } from "@/libs/regex";
-import validator from "validator";
-import { checkCoNum, checkPhone, checkUserid } from "@/app/join_v.1.0/action";
 
 interface ICheckPassword {
   password: string;
@@ -30,26 +28,26 @@ export const joinFormSchema = z
       .min(4, PASSWORD_REGEX_ERROR)
       .regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR),
     confirm_password: z.string().trim(),
-    phone: z
-      .string()
-      .trim()
-      .refine(
-        (phone) => validator.isMobilePhone(phone, "ko-KR"),
-        "숫자로만 올바르게 입력해주세요",
-      ),
+    // phone: z
+    //   .string()
+    //   .trim()
+    //   .refine(
+    //     (phone) => validator.isMobilePhone(phone, "ko-KR"),
+    //     "숫자로만 올바르게 입력해주세요",
+    //   ),
     email: z.string().trim().email("이메일을 올바르게 입력해주세요"),
     co_name: z.string().trim(),
     co_num: z
       .string({ required_error: "사업자등록번호를 올바르게 입력해주세요" })
       .trim(),
     payDay: z.string().optional(),
-    co_contact: z
-      .string()
-      .trim()
-      .refine(
-        (phone) => validator.isMobilePhone(phone, "ko-KR"),
-        "연락처를 올바르게 입력해주세요",
-      ),
+    // co_contact: z
+    //   .string()
+    //   .trim()
+    //   .refine(
+    //     (phone) => validator.isMobilePhone(phone, "ko-KR"),
+    //     "연락처를 올바르게 입력해주세요",
+    //   ),
   })
   .superRefine(async (data, ctx) => {
     if (

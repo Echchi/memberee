@@ -18,10 +18,10 @@ const NotFound = () => {
       <PageTransition>
         <div className="xl:pt-28 xl:max-w-full xl:w-[1400px] xl:mx-auto px-3 xl:px-5 text-stone-800 min-h-fit mb-20 pt-16">
           <div className="flex flex-col justify-center items-center h-[500px] xl:h-[700px] my-auto space-y-4">
-            <p className="text-7xl xl:text-9xl text-green-700 font-extrabold">
-              앗!
-            </p>
-            <p className="text-2xl xl:text-4xl text-green-700 font-bold">
+            {/*<p className="text-7xl xl:text-9xl text-green-700 font-extrabold">*/}
+            {/*  앗!*/}
+            {/*</p>*/}
+            <p className="text-3xl xl:text-5xl text-green-700 font-extrabold">
               해당 페이지를 찾을 수 없어요
             </p>
             <div className="flex xl:flex-row flex-col justify-center items-center">
