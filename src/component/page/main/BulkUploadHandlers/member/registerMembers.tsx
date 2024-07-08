@@ -28,14 +28,14 @@ const RegisterMembers = () => {
       startDate: "시작일자를 8자리로 기입해주세요",
     },
     {
-      name: "한상훈",
-      phone: "01030252195",
+      name: "이멤버 (예시)",
+      phone: "01012341234",
       birth: "19950517",
-      job: "개발자",
+      job: "직장인",
       dayOfWeek: "월요일, 화요일",
       times: "10:00 ~ 10:20, 09:00 ~ 09:20",
       lessonFee: "250000",
-      worker: "직원1",
+      worker: "김직원",
       startDate: "20240405",
     },
   ];

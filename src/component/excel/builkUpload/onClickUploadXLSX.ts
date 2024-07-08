@@ -51,7 +51,7 @@ export const onClickUploadXLSX = ({
   ws.getCell("A3").value = {
     richText: [
       {
-        text: "예시 삭제 금지! 데이터는 7열부터 입력됩니다!",
+        text: "예시를 삭제하지 말아주세요! 데이터는 7번째 줄부터 등록됩니다!",
 
         font: { size: 12, bold: true, color: { argb: "D1180B" } },
       },
@@ -97,10 +97,17 @@ export const onClickUploadXLSX = ({
   headerRow.height = 20;
 
   // 데이터 행 추가
-  content.forEach((item: any) => {
+  content.forEach((item: any, index: number) => {
     const newRow = ws.addRow(header.map((h: any) => item[h.key]));
-    newRow.eachCell((cell) => {
-      cell.font = { color: { argb: "666666" } };
+    newRow.eachCell((cell, colNumber) => {
+      if (colNumber === 2) {
+        cell.numFmt = "@";
+      }
+      if (index === 0 || index === 1) {
+        cell.font = { color: { argb: "D1180B" } }; // 첫 줄은 빨간색
+      } else {
+        cell.font = { color: { argb: "666666" } }; // 나머지 줄은 회색
+      }
     });
     newRow.height = 32;
   });

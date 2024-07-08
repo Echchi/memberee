@@ -1,3 +1,4 @@
+"use client";
 import React, { useCallback, useEffect, useState } from "react";
 import Button from "@/component/button/button";
 import { createWorker } from "@/app/(tabBar)/worker/register/action";
@@ -10,6 +11,7 @@ import { getWorkers } from "@/component/page/worker/workers";
 import { createMember } from "@/app/(tabBar)/member/register/action";
 import { forEachEntryModule } from "next/dist/build/webpack/utils";
 import { ITime } from "@/component/page/member/register/selectTime";
+import { requireOrImportModule } from "jest-util";
 
 const MemberUploadBtn = ({
   listData,
@@ -73,7 +75,7 @@ const MemberUploadBtn = ({
     }
     setIsLoading(false);
     onClose();
-    router.refresh();
+    location.reload();
   }, [listData, errors]);
 
   return (

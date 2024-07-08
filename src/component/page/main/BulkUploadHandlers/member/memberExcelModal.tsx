@@ -40,6 +40,7 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
         .catch((error) => {
           console.error("Error reading file: ", error);
         });
+      event.target.value = "";
     }
   };
 
@@ -97,7 +98,7 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
           <div className="h-20 flex justify-between space-x-3 py-3 w-full">
             <div className="flex w-1/2">
               <label className="w-32 stone_btn font-semibold text-center flex justify-center items-center px-3 py-2 cursor-pointer">
-                파일 선택
+                파일 등록
                 <input
                   type="file"
                   className="hidden"
@@ -111,28 +112,31 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
                 className="rounded-r-lg px-3"
               />
             </div>
-            <div className="w-1/6">
-              <RegisterMembers />
-            </div>
+            {listData.length > 0 && selecetdFile && (
+              <div className="w-1/6">
+                <RegisterMembers />
+              </div>
+            )}
           </div>
-          <div className="h-[500px] my-3 overflow-scroll ">
-            <table className="w-full table-auto text-center border-stone-100">
-              <thead className="*:text-lg font-semibold bg-stone-100 h-16 sticky top-0">
-                <tr>
-                  <td>이름</td>
-                  <td>연락처</td>
-                  <td>생년월일</td>
-                  <td>직업</td>
-                  <td>요일</td>
-                  <td>시간</td>
-                  <td>수업료</td>
-                  <td>담당</td>
-                  <td>시작일자</td>
-                </tr>
-              </thead>
-              <tbody className="*:h-10">
-                {listData &&
-                  listData?.map((items: string[], idx) => (
+          <div className="h-[495px] my-3 overflow-scroll ">
+            {listData.length > 0 && selecetdFile ? (
+              <table className="w-full table-auto text-center border-stone-100">
+                <thead className="*:text-lg font-semibold bg-stone-100 h-16 sticky top-0">
+                  <tr>
+                    <td>이름</td>
+                    <td>연락처</td>
+                    <td>생년월일</td>
+                    <td>직업</td>
+                    <td>요일</td>
+                    <td>시간</td>
+                    <td>수업료</td>
+                    <td>담당</td>
+                    <td>시작일자</td>
+                  </tr>
+                </thead>
+
+                <tbody className="*:h-10">
+                  {listData?.map((items: string[], idx) => (
                     <tr
                       key={`register_workers_${idx}`}
                       className={cls(
@@ -147,8 +151,23 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
                       ))}
                     </tr>
                   ))}
-              </tbody>
-            </table>
+                </tbody>
+              </table>
+            ) : (
+              <div className="w-full h-full flex flex-col justify-center items-center text-sm xl:text-lg xl:space-y-2 space-y-1">
+                <p>
+                  양식을 다운로드하시고,
+                  <span className="text-red-600"> 빨간 글씨</span>에 맞게 회원
+                  정보를 입력해주세요
+                </p>
+                <p>
+                  그 다음, 왼쪽 위에 파일을 등록해주시면 등록을 도와드릴게요!
+                </p>
+                <div className="w-1/2 xl:w-1/4 pt-3">
+                  <RegisterMembers />
+                </div>
+              </div>
+            )}
           </div>
           <div className="flex justify-between">
             <p
@@ -157,21 +176,24 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
                 errors.length > 0 ? "text-orange-500" : "text-emerald-700",
               )}
             >
-              {errors.length > 0
-                ? errors[0] === -1
-                  ? "양식을 확인해주세요"
-                  : `${errors.length}개의 데이터를 확인해주세요`
-                : `총 ${listData.length} 명`}
+              {listData.length > 0 &&
+                selecetdFile &&
+                (errors.length > 0
+                  ? errors[0] === -1
+                    ? "양식을 확인해주세요"
+                    : `${errors.length}개의 데이터를 확인해주세요`
+                  : `총 ${listData.length} 명`)}
             </p>
-
-            <MemberUploadBtn
-              listData={listData}
-              errors={errors}
-              isLoading={isLoading}
-              setIsLoading={setIsLoading}
-              onClose={onClose}
-              setProgress={setProgress}
-            />
+            {listData.length > 0 && selecetdFile && (
+              <MemberUploadBtn
+                listData={listData}
+                errors={errors}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
+                onClose={onClose}
+                setProgress={setProgress}
+              />
+            )}
           </div>
         </>
       )}

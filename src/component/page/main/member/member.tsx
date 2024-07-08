@@ -30,6 +30,7 @@ const Member = ({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log("다시 fetchMembers ??? ");
     const fetchMembers = async () => {
       try {
         const response = await getMembers({
@@ -58,7 +59,7 @@ const Member = ({
       }
     };
     fetchMembers();
-  }, [page]);
+  }, [page, year, month]);
 
   return (
     <>
@@ -68,7 +69,7 @@ const Member = ({
           content={
             <MemberExcelModal onClose={() => setIsMemberModalOpen(false)} />
           }
-          className={"!w-4/5 !h-4/5"}
+          className={"w-full h-full xl:!w-4/5 xl:!h-4/5"}
           onClose={() => setIsMemberModalOpen(false)}
         />
       )}

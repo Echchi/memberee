@@ -34,6 +34,7 @@ import ConfirmModal from "@/component/modal/confirmModal";
 import { Memo, Schedule } from "@prisma/client";
 import { getMemos } from "@/app/(tabBar)/member/[id]/api";
 import { PrintPdfBtn } from "@/component/pdf/printPdfBtn";
+import WarningContent from "@/app/(tabBar)/worker/[id]/warningContent";
 
 export interface MemberWithSch extends Member {
   Schedule: Schedule[];
@@ -123,6 +124,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   };
 
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [isWarningOpen, setIsWarningOpen] = useState(false);
   return (
     <>
       {isConfirmOpen && (
@@ -135,6 +137,24 @@ const Page = ({ params }: { params: { id: string } }) => {
               action={"퇴사 처리"}
               onClose={() => setIsConfirmOpen(false)}
               onConfirm={() => terminateWorker(+id)}
+            />
+          }
+        />
+      )}{" "}
+      {isWarningOpen && (
+        <Modal
+          title={""}
+          onClose={() => setIsWarningOpen(false)}
+          content={
+            <Modal
+              title={""}
+              content={
+                <WarningContent
+                  memberCnt={worker?.Member?.length || 0}
+                  onClose={() => setIsWarningOpen(false)}
+                />
+              }
+              onClose={() => setIsWarningOpen(false)}
             />
           }
         />
@@ -327,7 +347,10 @@ const Page = ({ params }: { params: { id: string } }) => {
             onClick={
               isEdit
                 ? (event: MouseEvent) => handleCancelBtn(event)
-                : () => setIsConfirmOpen(true)
+                : () =>
+                    worker?.Member && worker?.Member?.length > 0
+                      ? setIsWarningOpen(true)
+                      : setIsConfirmOpen(true)
             }
           />
 

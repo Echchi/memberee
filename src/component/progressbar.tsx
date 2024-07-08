@@ -17,7 +17,7 @@ const ProgressBar = ({ progress }: { progress: number }) => {
     },
   };
   return (
-    <div className="h-6 bg-gray-200 rounded-full w-3/5 overflow-hidden">
+    <div className="h-4 xl:h-6 bg-gray-200 rounded-full w-3/5 overflow-hidden">
       <motion.div
         className={`bg-emerald-600 h-full rounded-full w-full animate-pulse`}
         variants={variants}

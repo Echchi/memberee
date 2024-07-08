@@ -27,7 +27,7 @@ const Page = () => {
   const [state, action] = useFormState(createWorkerWithBulk, null);
 
   return (
-    <div className="max-w-screen-lg mx-auto mt-10">
+    <div className="max-w-screen-lg mx-auto xl:mt-7 xl:p-4 rounded-lg bg-white">
       <div className="col-span-2 border border-x border-b-0 flex bg-stone-100 text-stone-600 tracking-wider text-lg xl:text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg ">
         직원 등록
       </div>

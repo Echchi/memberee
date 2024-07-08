@@ -82,7 +82,7 @@ const Modal = ({
     >
       <div
         className={cls(
-          "bg-white p-4 xl:p-6 w-full min-h-fit relative rounded-lg",
+          "bg-white p-4 xl:p-6 w-full min-h-fit relative rounded-lg overflow-y-auto",
           className ? className : "xl:w-2/5",
         )}
       >

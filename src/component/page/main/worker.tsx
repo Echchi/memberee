@@ -21,7 +21,7 @@ const Worker = ({ workers }: { workers: WorkerWithMember[] }) => {
           content={
             <WorkerExcelModal onClose={() => setIsWorkerModalOpen(false)} />
           }
-          className={"w-full xl:w-4/5 h-full xl:h-4/5"}
+          className={"w-full h-full xl:!w-4/5 xl:!h-4/5"}
           onClose={() => setIsWorkerModalOpen(false)}
         />
       )}

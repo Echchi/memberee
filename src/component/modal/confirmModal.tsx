@@ -22,24 +22,24 @@ const ConfirmModal = ({
       <div className="h-4/5 flex flex-col justify-center items-center text-base xl:text-lg space-y-2 px-5 xl:px-0 whitespace-pre">
         <p>
           <span className="font-semibold text-red-500">{action}</span> 처리는
-          복구되지 않습니다
+          복구하기 어려워요
         </p>
         {!terminate && (
           <p>
             {action} 처리는 납부일을 기준으로{" "}
-            {`${includeThismonth ? "이번 달" : "다음 달"}`}부터 적용됩니다.
+            {`${includeThismonth ? "이번 달" : "다음 달"}`}부터 적용돼요.
           </p>
         )}
         {terminate ? (
           <p>
             정말 <span className="font-semibold text-red-500">{action}</span>
-            하시겠습니까?
+            할까요?
           </p>
         ) : (
           <p>
             <span className="font-semibold">{rest.name}</span> 님을 정말{" "}
             {action}
-            하시겠습니까?
+            할까요?
           </p>
         )}
       </div>
