@@ -98,7 +98,7 @@ const Page = () => {
             />
           )}
           {isEdit ? (
-            <div className="relative hidden xl:flex items-center w-full border border-stone-300 border-t-0 bg-white h-18">
+            <div className="relative hidden xl:flex items-center w-full border border-stone-300 border-t-0 bg-white h-18 rounded-b-lg">
               <span className="text-sm xl:text-lg text-stone-600 max-w-24 xl:max-w-full absolute inset-y-0 left-0 flex flex-nowrap items-center xl:pl-10 pl-4 whitespace-pre-line font-semibold">
                 비밀번호
               </span>
@@ -117,7 +117,7 @@ const Page = () => {
               type={"div"}
               value={user?.userid ? "••••••••" : ""}
               placeholder={""}
-              className={"h-16 border-t-0 border-b-1"}
+              className={"h-16 border-t-0 border-b-1 rounded-b-lg"}
               name={"password"}
             />
           )}
@@ -132,17 +132,19 @@ const Page = () => {
           {/*  name={"phone"}*/}
           {/*  errorMessage={state?.fieldErrors?.phone}*/}
           {/*/>*/}
-          <Input
-            label={"이메일"}
-            type={isEdit ? "text" : "div"}
-            value={user?.email}
-            placeholder={user?.email}
-            className={"h-16 border-t-0 border-b-1 rounded-b-lg"}
-            name={"email"}
-            errorMessage={state?.fieldErrors?.email}
-          />
+          {/*{!isEdit && (*/}
+          {/*  <Input*/}
+          {/*    label={"이메일"}*/}
+          {/*    type={"div"}*/}
+          {/*    value={user?.email}*/}
+          {/*    placeholder={user?.email}*/}
+          {/*    className={"h-16 border-t-0 border-b-1 rounded-b-lg"}*/}
+          {/*    name={"email"}*/}
+          {/*    errorMessage={state?.fieldErrors?.email}*/}
+          {/*  />*/}
+          {/*)}*/}
 
-          {/*  회사  : 이름, 연락처  */}
+          {/*  회사  : 이름, 납부일  */}
           <p className="font-semibold tracking-wide text-stone-600 pt-5 pb-3 xl:pt-8 xl:pb-3 xl:text-lg">
             업체 정보
           </p>

@@ -70,10 +70,11 @@ const Input = forwardRef<
     const [selectedValue, setSelectedValue] = useState(value || "");
 
     useEffect(() => {
+      console.log("value", value);
       if (value && type === "select") {
         setSelectedValue(value);
       }
-    }, [value]);
+    }, [value, type]);
 
     const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
       setSelectedValue(event.target.value);

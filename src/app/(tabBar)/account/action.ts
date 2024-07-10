@@ -69,16 +69,16 @@ const formSchema = z.object({
   //     const session = await getSession();
   //     return await checkPhone(phone, Number(session.id));
   //   }, "이미 가입된 번호예요"),
-  email: z.string().trim().email("이메일을 올바르게 입력해주세요"),
+  // email: z.string().trim().email("이메일을 올바르게 입력해주세요"),
   co_name: z.string().trim(),
   payDay: z.string(),
-  co_contact: z
-    .string()
-    .trim()
-    .refine(
-      (phone) => validator.isMobilePhone(phone, "ko-KR"),
-      "연락처를 올바르게 입력해주세요",
-    ),
+  // co_contact: z
+  //   .string()
+  //   .trim()
+  //   .refine(
+  //     (phone) => validator.isMobilePhone(phone, "ko-KR"),
+  //     "연락처를 올바르게 입력해주세요",
+  //   ),
 });
 // .refine(
 //   (data) =>
@@ -93,6 +93,7 @@ const formSchema = z.object({
 // );
 
 export const updateUser = async (prevState: any, formData: FormData) => {
+  console.log("formData", formData);
   const session = await getSession();
   const id = session.id;
 
@@ -106,7 +107,7 @@ export const updateUser = async (prevState: any, formData: FormData) => {
   const data = {
     username: formData.get("username") || savedUser?.name,
     // phone: formData.get("phone") || savedUser?.phone,
-    email: formData.get("email") || savedUser?.email,
+    // email: formData.get("email") || savedUser?.email,
     co_name: formData.get("co_name") || savedUser?.Company[0].name,
     payDay: formData.get("payDay") || savedUser?.Company[0].payDay,
     // co_contact: formData.get("co_contact") || savedUser?.Company[0].contact,
@@ -123,7 +124,7 @@ export const updateUser = async (prevState: any, formData: FormData) => {
       data: {
         name: result.data.username,
         // phone: result.data.phone,
-        email: result.data.email,
+        // email: result.data.email,
       },
     });
     const company = await db.company.update({
