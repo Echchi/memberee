@@ -1,13 +1,22 @@
 import React from "react";
-
+import { AnimatePresence, motion } from "framer-motion";
 const Introduction = () => {
   return (
-    <div className="w-full flex flex-col justify-center items-center text-6xl md:text-9xl space-y-3 pt-24 md:pt-48">
-      <p>소개</p>
-      <p>어쩌구 저쩌구</p>
-      <p>어쩌구 저쩌구</p>
-      <p>어쩌구 저쩌구</p>
-    </div>
+    <AnimatePresence mode="wait">
+      <motion.div
+        initial={{ x: "100%", opacity: "0" }}
+        animate={{ x: 0, opacity: "1" }}
+        exit={{ x: "-100%", opacity: "1" }}
+        transition={{ ease: "easeInOut", duration: 1 }}
+      >
+        <div className="w-full flex flex-col md:text-lg font-semibold space-y-3">
+          아주 간단한 회원관리를 위한 테니스 관장님을 위해 만들었어요
+          <div className="w-full flex justify-between space-x-3">
+            <div className="w-full bg-orange-500"></div>
+          </div>
+        </div>
+      </motion.div>
+    </AnimatePresence>
   );
 };
 
