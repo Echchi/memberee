@@ -5,7 +5,7 @@ import Input from "../../component/input";
 import FormButton from "../../component/button/formButton";
 import { checkCoNum, checkUserid, createAccount } from "./action";
 import { joinFormSchema, JoinType } from "./schema";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   ID_REGEX_ERROR,
   ONLY_NUMBER_REGEX,
@@ -24,7 +24,8 @@ export interface JoinFormType extends JoinType {
   email: string;
 }
 
-const Join = ({ searchParams }: { searchParams?: { token: string } }) => {
+const Join = () => {
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [errorPage, setErrorPage] = useState(true);
   const checkTokenExpires = async (token: string) => {
@@ -41,7 +42,7 @@ const Join = ({ searchParams }: { searchParams?: { token: string } }) => {
   };
 
   useEffect(() => {
-    const token = searchParams?.token || "";
+    const token = searchParams.get("token") || "";
     if (token) {
       checkTokenExpires(token);
     }
@@ -190,7 +191,7 @@ const Join = ({ searchParams }: { searchParams?: { token: string } }) => {
   }, [errors]);
 
   return (
-    <Suspense>
+    <>
       {errorPage ? (
         <TokenError />
       ) : (
@@ -404,7 +405,7 @@ const Join = ({ searchParams }: { searchParams?: { token: string } }) => {
           </div>
         </form>
       )}
-    </Suspense>
+    </>
   );
 };
 
