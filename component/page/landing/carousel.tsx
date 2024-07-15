@@ -37,9 +37,9 @@ const Carousel = () => {
         <AnimatePresence mode="popLayout">
           <motion.div
             key={imageIndex}
-            initial={{ x: "100%", opacity: "0" }}
-            animate={{ x: 0, opacity: "1" }}
-            exit={{ x: "-100%", opacity: "1" }}
+            initial={{ x: "100%", opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: "-100%", opacity: 0 }}
             transition={{ ease: "easeInOut", duration: 1 }}
           >
             <Image
