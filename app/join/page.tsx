@@ -13,33 +13,9 @@ export interface JoinFormType {
 }
 
 const Join = () => {
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token") || "";
-
-  const [isValidToken, setIsValidToken] = useState(true);
-
-  useEffect(() => {
-    const checkTokenExpires = async (token: string) => {
-      try {
-        const result = await checkExpiresAt(token);
-        if (!result.email) {
-          setIsValidToken(false);
-        }
-      } catch {
-        setIsValidToken(false);
-      }
-    };
-
-    if (token) {
-      checkTokenExpires(token);
-    } else {
-      setIsValidToken(false);
-    }
-  }, [token]);
-
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      {isValidToken ? <JoinForm /> : <TokenError />}
+    <Suspense>
+      <JoinForm />
     </Suspense>
   );
 };
