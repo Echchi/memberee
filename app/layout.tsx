@@ -49,8 +49,8 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <SpeedInsights />
       <html lang="en">
+        <SpeedInsights />
         <body className={`${poppins.variable} font-sans`}>{children}</body>
       </html>
     </>
