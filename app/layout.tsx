@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import localFont from "@next/font/local";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const poppins = localFont({
   src: [
@@ -47,8 +48,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${poppins.variable} font-sans`}>{children}</body>
-    </html>
+    <>
+      <SpeedInsights />
+      <html lang="en">
+        <body className={`${poppins.variable} font-sans`}>{children}</body>
+      </html>
+    </>
   );
 }
