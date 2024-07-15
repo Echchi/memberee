@@ -22,11 +22,7 @@ export const joinFormSchema = z
       .trim()
       .min(4, ID_REGEX_ERROR)
       .regex(ID_REGEX, ID_REGEX_ERROR),
-    password: z
-      .string()
-      .trim()
-      .min(4, PASSWORD_REGEX_ERROR)
-      .regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR),
+    password: z.string().trim().regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR),
     confirm_password: z.string().trim(),
     // phone: z
     //   .string()

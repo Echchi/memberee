@@ -12,6 +12,8 @@ import {
   ID_REGEX_ERROR,
   ONLY_NUMBER_REGEX,
   ONLY_NUMBER_REGEX_ERROR,
+  PASSWORD_REGEX,
+  PASSWORD_REGEX_ERROR,
   PHONE_REGEX_ERROR,
 } from "../../../libs/regex";
 
@@ -25,7 +27,7 @@ const JoinForm = () => {
   const token = searchParams.get("token") || "";
   const [email, setEmail] = useState("");
   const [errorPage, setErrorPage] = useState(true);
-
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const {
     register,
@@ -53,14 +55,52 @@ const JoinForm = () => {
     },
   });
 
+  const checkTokenExpires = async (token: string) => {
+    try {
+      const result = await checkExpiresAt(token);
+      console.log("checkTokenExpires result", result);
+      if (result.email) {
+        setErrorPage(false);
+        setEmail(result.email);
+      }
+    } catch {
+      setErrorPage(true);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      checkTokenExpires(token);
+    }
+  }, [token]);
+
   const userid = watch("userid");
 
   // const phone = watch("phone");
 
   const co_num = watch("co_num");
+  const password = watch("password");
+  const confirm_password = watch("confirm_password");
+
+  useEffect(() => {
+    if (confirm_password.length > 0 && password !== confirm_password) {
+      setError("confirm_password", {
+        type: "manual",
+        message: "비밀번호가 일치하지 않아요",
+      });
+    } else {
+      clearErrors("confirm_password");
+    }
+  }, [password, confirm_password, setError, clearErrors]);
 
   const onSubmit = async (data: JoinFormType) => {
-    // console.log("onSubmit data", data);
+    console.log("onSubmit data", data);
+    if (password !== confirm_password) {
+      setError("confirm_password", {
+        type: "manual",
+        message: "비밀번호가 일치하지 않아요",
+      });
+    }
     data.payDay = payday;
     data.userid = userid;
     // data.phone = phone;
@@ -68,8 +108,10 @@ const JoinForm = () => {
     data.email = email;
 
     // console.log("onSubmit 제출 잘 되었는가", data);
+    setLoading(true);
     try {
       await createAccount(data);
+      setLoading(false);
     } catch (error) {
       console.error("Failed to create account", error);
     }
@@ -106,6 +148,7 @@ const JoinForm = () => {
       }
     }
   };
+
   // const onBlurPhone = async (
   //   event: React.FocusEvent<HTMLInputElement>,
   //   fieldOnBlur: () => void,
@@ -163,24 +206,6 @@ const JoinForm = () => {
       }
     }
   };
-  const checkTokenExpires = async (token: string) => {
-    try {
-      const result = await checkExpiresAt(token);
-      console.log("checkTokenExpires result", result);
-      if (result.email) {
-        setErrorPage(false);
-        setEmail(result.email);
-      }
-    } catch {
-      setErrorPage(true);
-    }
-  };
-
-  useEffect(() => {
-    if (token) {
-      checkTokenExpires(token);
-    }
-  }, [token]);
 
   return (
     <>
@@ -229,6 +254,7 @@ const JoinForm = () => {
               {...register("username")}
               errorMessage={[errors.username?.message ?? ""]}
             />
+
             <Controller
               render={({ field }) => (
                 <Input
@@ -275,13 +301,19 @@ const JoinForm = () => {
                   />
                 </svg>
               }
-              type={"text"}
+              type={"password"}
               placeholder={"비밀번호"}
               required={true}
               className={"h-16 border-t-0 border-b-1"}
-              {...register("password")}
+              {...register("password", {
+                pattern: {
+                  value: PASSWORD_REGEX,
+                  message: PASSWORD_REGEX_ERROR,
+                },
+              })}
               errorMessage={[errors.password?.message ?? ""]}
             />
+
             <Input
               icon={
                 <svg
@@ -297,11 +329,16 @@ const JoinForm = () => {
                   />
                 </svg>
               }
-              type={"text"}
+              type={"password"}
               placeholder={"비밀번호 확인"}
               required={true}
               className={"h-16 border-t-0 border-b-1 rounded-b-lg"}
-              {...register("confirm_password")}
+              {...register("confirm_password", {
+                pattern: {
+                  value: PASSWORD_REGEX,
+                  message: PASSWORD_REGEX_ERROR,
+                },
+              })}
               errorMessage={[errors.confirm_password?.message ?? ""]}
             />
 
@@ -390,9 +427,9 @@ const JoinForm = () => {
             />
 
             <FormButton
-              text={"회원가입"}
+              text={loading ? "가입중" : "회원가입"}
               className={"mt-5"}
-              isButtonDisabled={Object.entries(errors).length > 0}
+              isButtonDisabled={Object.entries(errors).length > 0 || loading}
             />
           </div>
         </form>

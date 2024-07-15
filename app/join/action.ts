@@ -50,8 +50,10 @@ export const checkCoNum = async (num: string) => {
 
 export const createAccount = async (data: JoinFormType) => {
   const result = await joinFormSchema.spa(data);
+  console.log("createAccount result", result);
   if (!result.success) {
-    return result.error.flatten();
+    console.log("errors", result.error.flatten());
+    return result.error.flatten().fieldErrors;
   } else {
     const hashedPassword = await bcrypt.hash(result.data.password, 12);
     const user = await db.user.create({
