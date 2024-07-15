@@ -17,6 +17,12 @@ import Error from "../error";
 import TokenError from "../tokenError";
 import JoinForm from "../../component/page/join/joinForm";
 import { Suspense } from "react";
+export interface JoinFormType extends JoinType {
+  userid: string;
+  co_num: string;
+  // phone: string;
+  email: string;
+}
 
 const Join = () => {
   const searchParams = useSearchParams();

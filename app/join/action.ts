@@ -6,7 +6,7 @@ import db from "../../libs/server/db";
 import getSession from "../../libs/client/session";
 import { redirect } from "next/navigation";
 import { joinFormSchema, JoinType } from "./schema";
-import { JoinFormType } from "../../component/page/join/joinForm";
+import { JoinFormType } from "./page";
 
 export const checkUserid = async (userid: string) => {
   const user = await db.user.findMany({
