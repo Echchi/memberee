@@ -191,7 +191,7 @@ const Join = () => {
   }, [errors]);
 
   return (
-    <>
+    <Suspense>
       {errorPage ? (
         <TokenError />
       ) : (
@@ -405,7 +405,7 @@ const Join = () => {
           </div>
         </form>
       )}
-    </>
+    </Suspense>
   );
 };
 
