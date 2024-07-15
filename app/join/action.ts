@@ -1,21 +1,12 @@
 "use server";
 
-import { z } from "zod";
-import validator from "validator";
 import bcrypt from "bcrypt";
-import {
-  CO_NUM_REGEX,
-  ID_REGEX,
-  ID_REGEX_ERROR,
-  PASSWORD_REGEX,
-  PASSWORD_REGEX_ERROR,
-} from "../../libs/regex";
+
 import db from "../../libs/server/db";
 import getSession from "../../libs/client/session";
 import { redirect } from "next/navigation";
 import { joinFormSchema, JoinType } from "./schema";
-import { JoinFormType } from "./page";
-import jwt from "jsonwebtoken";
+import { JoinFormType } from "../../component/page/join/joinForm";
 
 export const checkUserid = async (userid: string) => {
   const user = await db.user.findMany({
