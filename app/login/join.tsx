@@ -181,6 +181,7 @@ const Join = ({
               isButtonDisabled={
                 error.email.length > 0 ||
                 error.result.length > 0 ||
+                email.length === 0 ||
                 isSuccess ||
                 isLoading
               }
