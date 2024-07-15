@@ -1,20 +1,8 @@
 "use client";
-import { Controller, useForm } from "react-hook-form";
-import Input from "../../component/input";
-import FormButton from "../../component/button/formButton";
-import { checkCoNum, checkUserid, createAccount } from "./action";
-import { joinFormSchema, JoinType } from "./schema";
-import { useRouter, useSearchParams } from "next/navigation";
-import {
-  ID_REGEX_ERROR,
-  ONLY_NUMBER_REGEX,
-  ONLY_NUMBER_REGEX_ERROR,
-  PHONE_REGEX_ERROR,
-} from "../../libs/regex";
-import validator from "validator";
-import { checkExpiresAt } from "./api";
-import Error from "../error";
-import TokenError from "../tokenError";
+
+import { JoinType } from "./schema";
+import { useSearchParams } from "next/navigation";
+
 import JoinForm from "../../component/page/join/joinForm";
 import { Suspense } from "react";
 export interface JoinFormType extends JoinType {
