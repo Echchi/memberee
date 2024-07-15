@@ -30,7 +30,7 @@ const Join = ({ searchParams }: { searchParams?: { token: string } }) => {
   const checkTokenExpires = async (token: string) => {
     try {
       const result = await checkExpiresAt(token);
-
+      console.log("checkTokenExpires result", result);
       if (result.email) {
         setErrorPage(false);
         setEmail(result.email);
@@ -88,7 +88,7 @@ const Join = ({ searchParams }: { searchParams?: { token: string } }) => {
     data.co_num = co_num;
     data.email = email;
 
-    console.log("onSubmit 제출 잘 되었는가", data);
+    // console.log("onSubmit 제출 잘 되었는가", data);
     try {
       await createAccount(data);
     } catch (error) {
