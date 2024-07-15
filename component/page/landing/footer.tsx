@@ -3,7 +3,8 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <div className="border-t h-24 px-3 md:h-32 py-2 md:py-4 space-y-2 md:space-y-3 mt-24 md:mt-48">
+    // <div className="border-t h-24 px-3 md:h-32 py-2 md:py-4 space-y-2 md:space-y-3 mt-24 md:mt-48">
+    <div className="border-t h-24 px-3 md:h-32 py-2 md:py-4 space-y-2 md:space-y-3">
       <span className="text-xl md:text-3xl font-extrabold text-green-800">
         Memeberee
       </span>

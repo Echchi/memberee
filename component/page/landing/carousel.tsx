@@ -32,9 +32,9 @@ const Carousel = () => {
     console.log("imageIndex", imageIndex);
   }, [imageIndex]);
   return (
-    <div className="flex items-end mb-4 md:mb-10 md:h-32 h-10">
-      <div className="relative overflow-hidden">
-        <AnimatePresence mode="wait">
+    <div className="flex items-end mb-4 md:mb-10 md:h-32">
+      <div className="relative overflow-hidden h-full">
+        <AnimatePresence mode="popLayout">
           <motion.div
             key={imageIndex}
             initial={{ x: "100%", opacity: "0" }}
