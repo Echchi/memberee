@@ -9,6 +9,7 @@ import {
   createAccount,
 } from "../../../app/join/action";
 import {
+  ID_REGEX,
   ID_REGEX_ERROR,
   ONLY_NUMBER_REGEX,
   ONLY_NUMBER_REGEX_ERROR,
@@ -125,27 +126,15 @@ const JoinForm = () => {
   ) => {
     const userId = event.target.value.trim();
 
-    if (userId.length === 0) {
-      setError("userid", {
-        type: "manual",
-        message: ID_REGEX_ERROR,
-      });
-    } else if (userId.length < 4) {
-      setError("userid", {
-        type: "manual",
-        message: ID_REGEX_ERROR,
-      });
-    } else if (userId.length >= 4) {
-      const isUseridUnique = await checkUserid(userId);
+    const isUseridUnique = await checkUserid(userId);
 
-      if (!isUseridUnique) {
-        setError("userid", {
-          type: "manual",
-          message: "이미 존재하는 아이디예요",
-        });
-      } else {
-        clearErrors("userid");
-      }
+    if (!isUseridUnique) {
+      setError("userid", {
+        type: "manual",
+        message: "이미 존재하는 아이디예요",
+      });
+    } else {
+      clearErrors("userid");
     }
   };
 
@@ -183,28 +172,28 @@ const JoinForm = () => {
   ) => {
     const coNum = event.target.value.trim();
 
-    if (coNum.length === 0) {
+    // if (coNum.length === 0) {
+    //   setError("co_num", {
+    //     type: "manual",
+    //     message: PHONE_REGEX_ERROR,
+    //   });
+    // } else if (!ONLY_NUMBER_REGEX.test(coNum)) {
+    //   setError("co_num", {
+    //     type: "manual",
+    //     message: ONLY_NUMBER_REGEX_ERROR,
+    //   });
+    // } else {
+    const isCoNumUnique = await checkCoNum(coNum);
+
+    if (!isCoNumUnique) {
       setError("co_num", {
         type: "manual",
-        message: PHONE_REGEX_ERROR,
-      });
-    } else if (!ONLY_NUMBER_REGEX.test(coNum)) {
-      setError("co_num", {
-        type: "manual",
-        message: ONLY_NUMBER_REGEX_ERROR,
+        message: "이미 가입된 번호예요",
       });
     } else {
-      const isCoNumUnique = await checkCoNum(coNum);
-
-      if (!isCoNumUnique) {
-        setError("co_num", {
-          type: "manual",
-          message: "이미 가입된 번호예요",
-        });
-      } else {
-        clearErrors("co_num");
-      }
+      clearErrors("co_num");
     }
+    // }
   };
 
   return (
@@ -251,11 +240,20 @@ const JoinForm = () => {
               placeholder={"이름"}
               required={true}
               className={"h-16 rounded-t-lg"}
-              {...register("username")}
+              {...register("username", {
+                required: "이름을 입력해주세요",
+              })}
               errorMessage={[errors.username?.message ?? ""]}
             />
 
             <Controller
+              rules={{
+                required: "아이디를 입력해주세요",
+                pattern: {
+                  value: ID_REGEX,
+                  message: ID_REGEX_ERROR,
+                },
+              }}
               render={({ field }) => (
                 <Input
                   icon={
@@ -365,10 +363,19 @@ const JoinForm = () => {
               placeholder={"업체명"}
               required={true}
               className={"h-16 border-t-1 border-b-1 rounded-t-lg"}
-              {...register("co_name")}
+              {...register("co_name", {
+                required: "업체이름을 입력해주세요",
+              })}
               errorMessage={[errors.co_name?.message ?? ""]}
             />
             <Controller
+              rules={{
+                required: "사업자등록번호를 입력해주세요",
+                pattern: {
+                  value: ONLY_NUMBER_REGEX,
+                  message: ONLY_NUMBER_REGEX_ERROR,
+                },
+              }}
               render={({ field }) => (
                 <Input
                   icon={
