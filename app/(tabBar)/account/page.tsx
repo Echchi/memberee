@@ -72,13 +72,17 @@ const Page = () => {
         />
       )}
 
-      <form className="mt-3 xl:mt-0 xl:box overflow-y-auto" action={action}>
+      <form
+        className="mt-3 xl:mt-0 xl:box overflow-y-auto bg-white pb-3"
+        action={action}
+      >
         <div className="px-3 w-full">
           {/*  유저 : 이름 아이디 비밀번호 휴대폰 번호 메일*/}
           <p className="font-semibold tracking-wide text-stone-600 py-3 xl:pt-5 xl:pb-3 xl:text-lg">
             관리자 정보
           </p>
           <Input
+            isLong={true}
             label={"이름"}
             type={isEdit ? "text" : "div"}
             value={user?.name}
@@ -89,6 +93,7 @@ const Page = () => {
           />
           {!isEdit && (
             <Input
+              isLong={true}
               label={"아이디"}
               type={isEdit ? "text" : "div"}
               value={user?.userid}
@@ -150,6 +155,7 @@ const Page = () => {
           </p>
 
           <Input
+            isLong={true}
             label={"업체명"}
             type={isEdit ? "text" : "div"}
             value={company?.name}

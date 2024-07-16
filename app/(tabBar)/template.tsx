@@ -30,7 +30,7 @@ export default function Template({
       <PageTransition>
         <div
           className={cls(
-            "xl:pt-28 xl:max-w-full xl:w-[1400px] xl:mx-auto px-3 xl:px-5 text-stone-800 min-h-fit",
+            "xl:pt-28 xl:max-w-full xl:w-[1400px] xl:mx-auto px-1 xl:px-5 text-stone-800 min-h-fit",
             hasTabBar ? "mb-20" : "",
             hasTopBar ? "pt-16" : "",
           )}

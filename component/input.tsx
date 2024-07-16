@@ -144,7 +144,8 @@ const Input = forwardRef<
               className={cls(
                 "outline-none bg-white text-stone-600 font-medium text-sm xl:text-lg",
                 icon ? "ml-14 xl:ml-20" : "",
-                label ? "ml-20 xl:ml-48" : "",
+                label ? "ml-32 xl:ml-48" : "",
+                // label ? "ml-20 xl:ml-48" : "",
               )}
               value={selectedValue}
               onChange={handleSelectChange}

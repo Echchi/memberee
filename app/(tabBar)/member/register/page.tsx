@@ -4,7 +4,9 @@ import Input from "../../../../component/input";
 import { cls, formatCurrency } from "../../../../libs/client/utils";
 import Button from "../../../../component/button/button";
 import { format } from "date-fns";
-import SelectTime, { ITime } from "../../../../component/page/member/register/selectTime";
+import SelectTime, {
+  ITime,
+} from "../../../../component/page/member/register/selectTime";
 import { TIME_REGEX, TIME_REGEX_ERROR } from "../../../../libs/regex";
 import { useFormState } from "react-dom";
 import { createMember } from "./action";
@@ -62,13 +64,14 @@ const Page = () => {
   const [state, action] = useFormState(createMemberWithBulk, null);
   return (
     // <div className="p-4 w-fit rounded-lg bg-white">
-    <div className="max-w-screen-lg mx-auto xl:mt-7 xl:p-4 rounded-lg bg-white">
+    <div className="max-w-screen-lg mx-auto xl:mt-7 pb-6 xl:p-4 rounded-lg bg-white">
       <div className="col-span-2 border border-x border-b-0 flex bg-stone-100 text-stone-600 tracking-wider text-lg xl:text-xl font-extrabold items-center border-stone-300 justify-center h-16 rounded-t-lg ">
         회원 등록
       </div>
       <form className="xl:grid grid-cols-2" action={action}>
         <Input
           type={"text"}
+          isLong={true}
           label={"이름"}
           placeholder={"이름"}
           className="h-16 xl:text-lg xl:border-r-0 border-b-0 "
@@ -104,6 +107,7 @@ const Page = () => {
         <Input
           type={"text"}
           label={"직업"}
+          isLong={true}
           placeholder={"직업"}
           className="h-16 xl:text-lg border-b-1"
           name={"job"}
@@ -172,6 +176,7 @@ const Page = () => {
         <div className="col-span-2">
           <Input
             type={"text"}
+            isLong={true}
             label={
               <span className="flex justify-center items-center">
                 <svg
@@ -200,6 +205,7 @@ const Page = () => {
         </div>
         <WorkerList selectedDay={selectedDay} />
         <Input
+          isLong={true}
           type={"text"}
           label={"시작 일자"}
           placeholder={today}

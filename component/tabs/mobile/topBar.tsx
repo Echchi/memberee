@@ -26,6 +26,8 @@ const TopBar = ({ canGoBack }: LayoutProps) => {
       setTitle("계정 관리");
     } else if (pathname.includes("worker")) {
       setTitle("직원 관리");
+    } else if (pathname.includes("join")) {
+      setTitle("회원 가입");
     }
   }, [pathname]);
 

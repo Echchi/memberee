@@ -5,7 +5,7 @@ import localFont from "@next/font/local";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
-const poppins = localFont({
+const pretendard = localFont({
   src: [
     {
       path: "../public/fonts/Pretendard-Light.ttf",
@@ -53,7 +53,7 @@ export default function RootLayout({
       <html lang="en">
         <Analytics />
         <SpeedInsights />
-        <body className={`${poppins.variable} font-sans`}>{children}</body>
+        <body className={`${pretendard.variable} font-sans`}>{children}</body>
       </html>
     </>
   );

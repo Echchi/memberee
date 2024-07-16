@@ -28,9 +28,6 @@ const Carousel = () => {
     return () => clearTimeout(imageTimeOut);
   }, [imageIndex]);
 
-  useEffect(() => {
-    console.log("imageIndex", imageIndex);
-  }, [imageIndex]);
   return (
     <div className="flex items-end mb-4 md:mb-10 md:h-32">
       <div className="relative overflow-hidden h-full">

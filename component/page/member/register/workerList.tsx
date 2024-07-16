@@ -65,6 +65,7 @@ const WorkerList: React.FC<WorkerListProps> = ({
           </select>
         ) : (
           <Input
+            isLong={true}
             type={"select"}
             label={"담당"}
             value={selectedWorker + ""}

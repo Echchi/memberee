@@ -22,6 +22,7 @@ export default function Landing() {
           </ul>
         </nav>
       </div>
+      <SlideMenu />
       <div className="pt-16 px-10 md:px-64 *:h-screen">
         {/*<div className="pt-16 px-10 md:px-64 md:my-[150px] my-24 *:h-screen">*/}
         <Start />
@@ -36,8 +37,6 @@ export default function Landing() {
         {/*</div>*/}
       </div>
       <Footer />
-
-      <SlideMenu />
     </div>
   );
 }

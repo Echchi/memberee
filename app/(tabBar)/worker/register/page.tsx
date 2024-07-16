@@ -33,6 +33,7 @@ const Page = () => {
       </div>
       <form className="xl:grid grid-cols-2" action={action}>
         <Input
+          isLong={true}
           type={"text"}
           label={"이름"}
           placeholder={"이름"}
@@ -68,6 +69,7 @@ const Page = () => {
           errorMessage={state?.fieldErrors?.birth}
         />
         <Input
+          isLong={true}
           type={"text"}
           label={"시작일자"}
           value={today}
@@ -93,6 +95,7 @@ const Page = () => {
         />
         <div className="col-span-2">
           <Input
+            isLong={true}
             type={"number"}
             label={"수수료"}
             placeholder={"10"}
@@ -103,6 +106,7 @@ const Page = () => {
           />
         </div>
         <Input
+          isLong={true}
           type={"text"}
           label={"은행"}
           placeholder={"국민"}

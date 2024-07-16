@@ -39,7 +39,9 @@ import WorkerList from "../../../../component/page/member/register/workerList";
 import { motion } from "framer-motion";
 import Memos from "../../../../component/page/worker/detail/memos";
 import Members from "../../../../component/page/worker/detail/members";
-import SelectTime, { ITime } from "../../../../component/page/member/register/selectTime";
+import SelectTime, {
+  ITime,
+} from "../../../../component/page/member/register/selectTime";
 import ConfirmModal from "../../../../component/modal/confirmModal";
 import { updateWorker } from "../../worker/[id]/action";
 import { useFormState } from "react-dom";
@@ -233,7 +235,7 @@ const Page = ({ params }: { params: { id: string } }) => {
         />
       )}
       <form
-        className="mt-3 xl:mt-0 xl:box justify-center flex-col"
+        className="mt-3 xl:mt-0 bg-white pb-3 xl:box justify-center flex-col"
         action={action}
       >
         <div className="col-span-2 flex justify-end items-center">
