@@ -49,7 +49,8 @@
 
     /* input */
     .inner_input {
-        @apply text-sm xl:text-lg font-medium appearance-none w-full h-full outline-none pr-3 py-2 focus:outline-none focus:ring-emerald-600 focus:ring-inset focus:ring-[1.5px] transition-all bg-white placeholder:xl:text-lg placeholder:text-sm
+        /*@apply text-sm xl:text-lg font-medium appearance-none w-full h-full outline-none pr-3 py-2 focus:outline-none focus:border-emerald-600 focus:border-[1.5px] transition-all bg-white placeholder:xl:text-lg placeholder:text-sm*/
+        @apply text-sm xl:text-lg font-medium appearance-none w-full h-full outline-none pr-3 py-2 focus:outline-none focus:ring-emerald-600 focus:ring-offset-0 focus:ring-[2px] transition-all bg-white placeholder:xl:text-lg placeholder:text-sm
     }
     .inner_input_res {
         @apply font-medium appearance-none w-full h-full outline-none pr-3 py-2 flex items-center text-stone-600 border-stone-300 text-sm xl:text-lg
