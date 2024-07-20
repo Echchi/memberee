@@ -86,12 +86,12 @@ const Input = forwardRef<
     return (
       <div
         className={cls(
-          "relative flex items-center w-full border border-stone-300 bg-white group",
+          "relative flex items-center w-full border border-stone-300 bg-white group *:transition",
           className ? className : "",
         )}
       >
         {icon && (
-          <span className="absolute inset-y-0 left-0 flex items-center pl-4 group-focus-within:z-10">
+          <span className="absolute inset-y-0 left-0 flex items-center pl-4 group-focus-within:z-20 group-focus-within:*:fill-emerald-600">
             {icon}
           </span>
         )}
