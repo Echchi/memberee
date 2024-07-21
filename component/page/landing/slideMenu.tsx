@@ -20,7 +20,7 @@ const SlideMenu = () => {
     <>
       <div className="flex fixed top-0 w-full h-16 lg:hidden items-center px-3 md:px-10 bg-white">
         <span className="text-3xl font-extrabold text-emerald-700">
-          Memberee
+          memberee
         </span>
         <button className="absolute right-2" onClick={() => setMenuOpen(true)}>
           <svg
