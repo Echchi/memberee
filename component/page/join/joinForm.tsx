@@ -15,13 +15,14 @@ import {
   ONLY_NUMBER_REGEX_ERROR,
   PASSWORD_REGEX,
   PASSWORD_REGEX_ERROR,
-  PHONE_REGEX_ERROR,
 } from "../../../libs/regex";
 
 import { checkExpiresAt } from "../../../app/join/api";
 import TokenError from "../../../app/tokenError";
-import { JoinType } from "../../../app/join/schema";
 import { JoinFormType } from "../../../app/join/page";
+import { PaymentType } from "../../../libs/constants";
+import { Prisma } from ".prisma/client";
+import PaymentTypeCheckbox from "./paymentTypeCheckbox";
 
 const JoinForm = () => {
   const searchParams = useSearchParams();
@@ -30,6 +31,7 @@ const JoinForm = () => {
   const [errorPage, setErrorPage] = useState(true);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const [paymentType, setPaymentType] = useState<PaymentType>(PaymentType.SAME);
   const {
     register,
     formState: { errors },
@@ -195,7 +197,9 @@ const JoinForm = () => {
     }
     // }
   };
-
+  useEffect(() => {
+    console.log("paymentType", paymentType);
+  }, [paymentType]);
   return (
     <>
       {errorPage ? (
@@ -203,7 +207,7 @@ const JoinForm = () => {
       ) : (
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="xl:pt-10 xl:max-w-full xl:w-[1400px] xl:mx-auto px-3 xl:px-32 text-stone-800"
+          className="xl:pt-10 xl:max-w-full xl:w-[1400px] xl:mx-auto px-1 xl:px-32"
           data-testid="join-form"
         >
           <div className="flex flex-col justify-center items-center mt-8">
@@ -395,7 +399,7 @@ const JoinForm = () => {
                   type={"text"}
                   placeholder={"사업자 등록 번호를 숫자로만 입력해주세요"}
                   required={true}
-                  className={"h-16 border-t-0"}
+                  className={"h-16 border-t-0 rounded-b-lg"}
                   {...field}
                   maxLength={10}
                   onBlur={(e) => onBlurCoNum(e, field.onBlur)}
@@ -405,7 +409,32 @@ const JoinForm = () => {
               name="co_num"
               control={control}
             />
-
+            <div className="h-20 xl:h-28 flex justify-center items-center space-x-4">
+              <PaymentTypeCheckbox
+                paymentType={paymentType}
+                onChange={() =>
+                  setPaymentType((prevType) =>
+                    prevType === PaymentType.DIFFERENT
+                      ? PaymentType.SAME
+                      : PaymentType.DIFFERENT,
+                  )
+                }
+                value={PaymentType.DIFFERENT}
+                title={"회원마다 납부일이 달라요"}
+              />
+              <PaymentTypeCheckbox
+                paymentType={paymentType}
+                onChange={() =>
+                  setPaymentType((prevType) =>
+                    prevType === PaymentType.SAME
+                      ? PaymentType.DIFFERENT
+                      : PaymentType.SAME,
+                  )
+                }
+                value={PaymentType.SAME}
+                title={"모든 회원의 납부일이 같아요"}
+              />
+            </div>
             <Input
               icon={
                 <svg
@@ -424,7 +453,7 @@ const JoinForm = () => {
               onSelectChange={(e) => setPayday(e.target.value)}
               value={payday}
               required={true}
-              className={"h-16 border-t-0 rounded-b-lg"}
+              className={"h-16 rounded-lg"}
               type={"select"}
               selectDescription={"일이 납부일이에요"}
               options={Array.from({ length: 31 }, (_, index) => ({

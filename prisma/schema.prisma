@@ -33,20 +33,26 @@ model User {
   @@index([name])
 }
 
+enum PaymentType {
+  SAME
+  DIFFERENT
+}
+
 model Company {
-  id        Int       @id @default(autoincrement())
-  user      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int?
-  name      String
-  num       String
-  startTime DateTime?
-  endTime   DateTime?
-  payDay    Int       @default(1) // 납부 일자 (매 월 00 일 1 ~ 31)
-  status    Int       @default(1) // -1: 중단, 0: 탈퇴, 1: 영업중
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  Worker    Worker[]
-  Member    Member[]
+  id          Int         @id @default(autoincrement())
+  user        User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int?
+  name        String
+  num         String
+  startTime   DateTime?
+  endTime     DateTime?
+  status      Int         @default(1) // -1: 중단, 0: 탈퇴, 1: 영업중
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  Worker      Worker[]
+  Member      Member[]
+  paymentType PaymentType @default(SAME) // 동일한 납부일 SAME, 개별 납부일 DIFFERENT
+  payDay      Int?        @default(1) // 납부 일자 (매 월 00 일 1 ~ 31)
 
   @@index([userId])
   @@index([name])
@@ -161,6 +167,7 @@ model Member {
   startDate       DateTime?
   endDate         DateTime?
   suspendedDate   DateTime?
+  payDay          Int?              @default(1) // 개별 납부 업체의 경우 - 납부 일자 (매 월 00 일 1 ~ 31)
   status          Int               @default(1) // -1: 중단, 0: 탈퇴, 1: 수강중
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt

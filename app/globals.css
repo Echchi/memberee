@@ -14,7 +14,7 @@
 
 @layer base {
     html {
-        @apply font-sans text-stone-800 select-none text-sm xl:text-base;
+        @apply font-sans text-gray-900 select-none text-sm xl:text-base;
     }
 
     input[type="number"]::-webkit-inner-spin-button,
@@ -49,8 +49,6 @@
 
     /* input */
     .inner_input {
-        /*@apply text-sm xl:text-lg font-medium appearance-none w-full h-full outline-none pr-3 py-2 focus:outline-none focus:border-emerald-600 focus:border-[1.5px] transition-all bg-white placeholder:xl:text-lg placeholder:text-sm*/
-        /*@apply focus:z-10 text-sm xl:text-lg font-medium appearance-none w-full h-full outline-none pr-3 py-2 focus:outline-none focus:ring-emerald-600 focus:ring-offset-0 focus:ring-[2px] transition-all bg-white placeholder:xl:text-lg placeholder:text-sm*/
         @apply text-sm xl:text-lg font-medium appearance-none w-full h-full outline-none pr-3 py-2 group-focus-within:z-10 group-focus-within:outline-none group-focus-within:ring-emerald-600 group-focus-within:ring-offset-0 group-focus-within:ring-[2px] transition-all bg-white placeholder:xl:text-lg placeholder:text-sm
     }
     .inner_input_res {

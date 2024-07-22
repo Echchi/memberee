@@ -35,6 +35,10 @@ export const PAYMENT_METHOD = [
     label: "기타",
   },
 ];
+export enum PaymentType {
+  SAME = "SAME",
+  DIFFERENT = "DIFFERENT",
+}
 
 export const PAGESIZE = 10;
 
