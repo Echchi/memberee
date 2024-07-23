@@ -177,3 +177,23 @@ export function hideId(id: string) {
 export function generateTemporaryPassword() {
   return Math.floor(10000 + Math.random() * 90000).toString();
 }
+
+export function checkPasswordStrength(password: string): number {
+  let result = 0;
+  if (password.length >= 4) result += 1;
+  if (password.length >= 8) result += 1;
+
+  // 대문자 포함 여부
+  if (/[A-Z]/.test(password)) result += 1;
+
+  // 소문자 포함 여부
+  if (/[a-z]/.test(password)) result += 1;
+
+  // 숫자 포함 여부
+  if (/[0-9]/.test(password)) result += 1;
+
+  // 특수문자 포함 여부
+  if (/[^A-Za-z0-9]/.test(password)) result += 1;
+
+  return result;
+}

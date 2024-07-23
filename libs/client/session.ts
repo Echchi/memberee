@@ -1,10 +1,11 @@
+import { PaymentType } from "@prisma/client";
 import { getIronSession } from "iron-session";
 import { cookies } from "next/headers";
 
 interface SessionContent {
   id?: number;
   company?: number;
-  payday?: number;
+  paymentType?: PaymentType;
 }
 
 export default function getSession() {

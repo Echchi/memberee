@@ -22,7 +22,7 @@ interface IOption {
 interface InputFieldProps {
   name?: string;
   type: string;
-  value?: string | string[] | React.ReactElement;
+  value?: string | string[] | React.ReactElement | null;
   placeholder?: string;
   label?: string | React.ReactElement;
   register?: UseFormRegisterReturn;

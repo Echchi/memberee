@@ -21,8 +21,9 @@ import { checkExpiresAt } from "../../../app/join/api";
 import TokenError from "../../../app/tokenError";
 import { JoinFormType } from "../../../app/join/page";
 import { PaymentType } from "../../../libs/constants";
-import { Prisma } from ".prisma/client";
 import PaymentTypeCheckbox from "./paymentTypeCheckbox";
+import { AnimatePresence, motion } from "framer-motion";
+import PasswordStrength from "./passwordStrength";
 
 const JoinForm = () => {
   const searchParams = useSearchParams();
@@ -31,7 +32,9 @@ const JoinForm = () => {
   const [errorPage, setErrorPage] = useState(true);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const [paymentType, setPaymentType] = useState<PaymentType>(PaymentType.SAME);
+  const [paymentType, setPaymentType] = useState<PaymentType>(
+    PaymentType.DIFFERENT,
+  );
   const {
     register,
     formState: { errors },
@@ -53,8 +56,9 @@ const JoinForm = () => {
       email: "",
       co_name: "",
       co_num: "",
-      payday: "",
+      payDay: "",
       // co_contact: "",
+      paymentType: PaymentType.DIFFERENT,
     },
   });
 
@@ -85,31 +89,32 @@ const JoinForm = () => {
   const password = watch("password");
   const confirm_password = watch("confirm_password");
 
-  useEffect(() => {
-    if (confirm_password.length > 0 && password !== confirm_password) {
-      setError("confirm_password", {
-        type: "manual",
-        message: "비밀번호가 일치하지 않아요",
-      });
-    } else {
-      clearErrors("confirm_password");
-    }
-  }, [password, confirm_password, setError, clearErrors]);
+  // useEffect(() => {
+  //   if (confirm_password.length > 0 && password !== confirm_password) {
+  //     setError("confirm_password", {
+  //       type: "manual",
+  //       message: "비밀번호가 일치하지 않아요",
+  //     });
+  //   } else {
+  //     clearErrors("confirm_password");
+  //   }
+  // }, [password, confirm_password, setError, clearErrors]);
 
   const onSubmit = async (data: JoinFormType) => {
     console.log("onSubmit data", data);
-    if (password !== confirm_password) {
-      setError("confirm_password", {
-        type: "manual",
-        message: "비밀번호가 일치하지 않아요",
-      });
-    }
-    data.payDay = payday;
+    // if (password !== confirm_password) {
+    //   setError("confirm_password", {
+    //     type: "manual",
+    //     message: "비밀번호가 일치하지 않아요",
+    //   });
+    //   return;
+    // }
+    data.payDay = paymentType === PaymentType.SAME ? payday : null;
     data.userid = userid;
     // data.phone = phone;
     data.co_num = co_num;
     data.email = email;
-
+    data.paymentType = paymentType;
     // console.log("onSubmit 제출 잘 되었는가", data);
     setLoading(true);
     try {
@@ -120,7 +125,7 @@ const JoinForm = () => {
     }
   };
 
-  const [payday, setPayday] = useState("1");
+  const [payday, setPayday] = useState("");
 
   const onBlurUserid = async (
     event: React.FocusEvent<HTMLInputElement>,
@@ -190,16 +195,16 @@ const JoinForm = () => {
     if (!isCoNumUnique) {
       setError("co_num", {
         type: "manual",
-        message: "이미 가입된 번호예요",
+        message: "이미 가입된 사업장이에요",
       });
     } else {
       clearErrors("co_num");
     }
     // }
   };
-  useEffect(() => {
-    console.log("paymentType", paymentType);
-  }, [paymentType]);
+  // useEffect(() => {
+  //   console.log("paymentType", paymentType);
+  // }, [paymentType]);
   return (
     <>
       {errorPage ? (
@@ -225,30 +230,30 @@ const JoinForm = () => {
             <p className="font-semibold tracking-wide text-stone-600 pt-5 pb-3 xl:text-lg">
               관리자 정보
             </p>
-            <Input
-              icon={
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="w-6 h-6 text-gray-300"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              }
-              type={"text"}
-              placeholder={"이름"}
-              required={true}
-              className={"h-16 rounded-t-lg"}
-              {...register("username", {
-                required: "이름을 입력해주세요",
-              })}
-              errorMessage={[errors.username?.message ?? ""]}
-            />
+            {/*<Input*/}
+            {/*  icon={*/}
+            {/*    <svg*/}
+            {/*      xmlns="http://www.w3.org/2000/svg"*/}
+            {/*      viewBox="0 0 24 24"*/}
+            {/*      fill="currentColor"*/}
+            {/*      className="w-6 h-6 text-gray-300"*/}
+            {/*    >*/}
+            {/*      <path*/}
+            {/*        fillRule="evenodd"*/}
+            {/*        d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"*/}
+            {/*        clipRule="evenodd"*/}
+            {/*      />*/}
+            {/*    </svg>*/}
+            {/*  }*/}
+            {/*  type={"text"}*/}
+            {/*  placeholder={"이름"}*/}
+            {/*  required={true}*/}
+            {/*  className={"h-16 rounded-t-lg"}*/}
+            {/*  {...register("username", {*/}
+            {/*    required: "이름을 입력해주세요",*/}
+            {/*  })}*/}
+            {/*  errorMessage={[errors.username?.message ?? ""]}*/}
+            {/*/>*/}
 
             <Controller
               rules={{
@@ -278,7 +283,7 @@ const JoinForm = () => {
                   placeholder={"아이디"}
                   maxLength={10}
                   required={true}
-                  className={"h-16 border-t-0 border-b-1"}
+                  className={"h-16 border-b-1 rounded-t-lg"}
                   {...field}
                   onBlur={(e) => onBlurUserid(e, field.onBlur)}
                   errorMessage={[errors.userid?.message ?? ""]}
@@ -306,7 +311,7 @@ const JoinForm = () => {
               type={"password"}
               placeholder={"비밀번호"}
               required={true}
-              className={"h-16 border-t-0 border-b-1"}
+              className={"h-16 border-t-0 border-b-1 rounded-b-lg"}
               {...register("password", {
                 pattern: {
                   value: PASSWORD_REGEX,
@@ -315,34 +320,36 @@ const JoinForm = () => {
               })}
               errorMessage={[errors.password?.message ?? ""]}
             />
-
-            <Input
-              icon={
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="w-6 h-6 text-gray-300"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              }
-              type={"password"}
-              placeholder={"비밀번호 확인"}
-              required={true}
-              className={"h-16 border-t-0 border-b-1 rounded-b-lg"}
-              {...register("confirm_password", {
-                pattern: {
-                  value: PASSWORD_REGEX,
-                  message: PASSWORD_REGEX_ERROR,
-                },
-              })}
-              errorMessage={[errors.confirm_password?.message ?? ""]}
-            />
+            <div className="flex w-full pt-3">
+              <PasswordStrength password={password} />
+            </div>
+            {/*<Input*/}
+            {/*  icon={*/}
+            {/*    <svg*/}
+            {/*      xmlns="http://www.w3.org/2000/svg"*/}
+            {/*      viewBox="0 0 24 24"*/}
+            {/*      fill="currentColor"*/}
+            {/*      className="w-6 h-6 text-gray-300"*/}
+            {/*    >*/}
+            {/*      <path*/}
+            {/*        fillRule="evenodd"*/}
+            {/*        d="M12 1.5a5.25 5.25 0 0 0-5.25 5.25v3a3 3 0 0 0-3 3v6.75a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3v-6.75a3 3 0 0 0-3-3v-3c0-2.9-2.35-5.25-5.25-5.25Zm3.75 8.25v-3a3.75 3.75 0 1 0-7.5 0v3h7.5Z"*/}
+            {/*        clipRule="evenodd"*/}
+            {/*      />*/}
+            {/*    </svg>*/}
+            {/*  }*/}
+            {/*  type={"password"}*/}
+            {/*  placeholder={"비밀번호 확인"}*/}
+            {/*  required={true}*/}
+            {/*  className={"h-16 border-t-0 border-b-1 rounded-b-lg"}*/}
+            {/*  {...register("confirm_password", {*/}
+            {/*    pattern: {*/}
+            {/*      value: PASSWORD_REGEX,*/}
+            {/*      message: PASSWORD_REGEX_ERROR,*/}
+            {/*    },*/}
+            {/*  })}*/}
+            {/*  errorMessage={[errors.confirm_password?.message ?? ""]}*/}
+            {/*/>*/}
 
             <p className="font-semibold tracking-wide text-stone-600 pt-8 pb-3 xl:text-lg">
               업체 정보
@@ -409,7 +416,7 @@ const JoinForm = () => {
               name="co_num"
               control={control}
             />
-            <div className="h-20 xl:h-28 flex justify-center items-center space-x-4">
+            <div className="h-20 xl:h-28 flex justify-center items-center space-x-20">
               <PaymentTypeCheckbox
                 paymentType={paymentType}
                 onChange={() =>
@@ -435,32 +442,47 @@ const JoinForm = () => {
                 title={"모든 회원의 납부일이 같아요"}
               />
             </div>
-            <Input
-              icon={
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="w-6 h-6 text-gray-300"
+            <AnimatePresence>
+              {paymentType === PaymentType.SAME ? (
+                <motion.div
+                  key={"payment_type"}
+                  initial={{ y: -3, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -3, opacity: 0 }}
+                  transition={{ ease: "easeInOut", duration: 0.3 }}
+                  // className="lg:hidden fixed w-full h-full top-0 right-0 bg-white z-50"
                 >
-                  <path
-                    fillRule="evenodd"
-                    d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z"
-                    clipRule="evenodd"
+                  <Input
+                    icon={
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="w-6 h-6 text-gray-300"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    }
+                    onSelectChange={(e) => setPayday(e.target.value || "")}
+                    value={payday}
+                    required={true}
+                    className={"h-16 rounded-lg"}
+                    type={"select"}
+                    selectDescription={"일이 납부일이에요"}
+                    options={Array.from({ length: 31 }, (_, index) => ({
+                      value: index + 1,
+                      label: (index + 1).toString(),
+                    }))}
                   />
-                </svg>
-              }
-              onSelectChange={(e) => setPayday(e.target.value)}
-              value={payday}
-              required={true}
-              className={"h-16 rounded-lg"}
-              type={"select"}
-              selectDescription={"일이 납부일이에요"}
-              options={Array.from({ length: 31 }, (_, index) => ({
-                value: index + 1,
-                label: (index + 1).toString(),
-              }))}
-            />
+                </motion.div>
+              ) : (
+                <motion.div />
+              )}
+            </AnimatePresence>
 
             <FormButton
               text={loading ? "가입중" : "회원가입"}

@@ -7,6 +7,7 @@ import getSession from "../../libs/client/session";
 import { redirect } from "next/navigation";
 import { joinFormSchema, JoinType } from "./schema";
 import { JoinFormType } from "./page";
+import { PaymentType } from ".prisma/client";
 
 export const checkUserid = async (userid: string) => {
   const user = await db.user.findMany({
@@ -60,7 +61,7 @@ export const createAccount = async (data: JoinFormType) => {
       data: {
         userid: result.data.userid,
         password: hashedPassword,
-        name: result.data.username,
+        // name: result.data.username,
         // phone: result.data.phone,
         email: result.data.email,
       },
@@ -72,7 +73,8 @@ export const createAccount = async (data: JoinFormType) => {
         // contact: result.data.co_contact,
         startTime: new Date(),
         endTime: new Date(),
-        payDay: Number(result.data.payDay),
+        paymentType: data.paymentType,
+        payDay: result.data.payDay ? Number(result.data.payDay) : null,
         userId: user.id,
       },
     });
@@ -85,6 +87,7 @@ export const createAccount = async (data: JoinFormType) => {
     const session = await getSession();
     session.id = user.id;
     session.company = company.id;
+    session.paymentType = company.paymentType;
     await session.save();
     redirect("/main");
   }

@@ -20,7 +20,7 @@ model User {
   id        Int       @id @default(autoincrement())
   userid    String
   password  String
-  name      String
+  name      String?
   email     String
   mode      Int       @default(1)
   role      Int       @default(1) // 1: 일반 회원, 2: 관리자
