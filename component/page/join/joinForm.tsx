@@ -115,7 +115,7 @@ const JoinForm = () => {
     data.co_num = co_num;
     data.email = email;
     data.paymentType = paymentType;
-    // console.log("onSubmit 제출 잘 되었는가", data);
+
     setLoading(true);
     try {
       await createAccount(data);
