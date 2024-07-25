@@ -122,7 +122,7 @@ const Join = ({
             <p className="text-lg font-medium">
               아래의 이메일로 인증 메일을 보냈어요!
             </p>
-            <p className="mb-7">
+            <p className="mb-7 whitespace-pre">
               스펨 메일함에 있을 수도 있어요. 스펨 메일함도 확인해주세요.
             </p>
             <div className="bg-gray-100 rounded-lg w-full py-6 text-lg font-semibold text-center">
