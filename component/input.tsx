@@ -37,6 +37,7 @@ interface InputFieldProps {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   onSelectChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  isLoading?: boolean;
 }
 
 const Input = forwardRef<
@@ -62,7 +63,7 @@ const Input = forwardRef<
       onChange,
       onSelectChange,
       onBlur,
-
+      isLoading,
       ...rest
     },
     ref,
@@ -96,7 +97,7 @@ const Input = forwardRef<
           </span>
         )}
         {label && (
-          <span className="text-sm xl:text-lg text-stone-600 min-w-fit max-w-24 xl:max-w-full absolute inset-y-0 left-0 flex flex-nowrap items-center xl:pl-10 pl-4 whitespace-pre-line font-semibold">
+          <span className="text-sm xl:text-lg text-stone-600 min-w-fit max-w-24 xl:max-w-full absolute inset-y-0 left-0 flex flex-nowrap items-center xl:pl-10 pl-4 whitespace-pre-line font-semibold group-focus-within:z-20">
             {label}
           </span>
         )}
@@ -166,6 +167,7 @@ const Input = forwardRef<
         ) : (
           <input
             className={cls(
+              "disabled:text-stone-300",
               errorMessage[0] ? "inner_input_error" : "inner_input",
               icon && isLong ? "xl:pl-20 pl-14 pr-2" : "",
               icon && !isLong ? "xl:px-20 px-14" : "",
@@ -174,6 +176,7 @@ const Input = forwardRef<
               className ? `${className} !h-full` : "",
               className ? `${className} !h-full` : "",
             )}
+            disabled={isLoading}
             name={name}
             type={type}
             maxLength={maxLength || 500}
