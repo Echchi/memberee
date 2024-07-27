@@ -139,6 +139,7 @@ const Join = ({
               비밀번호 찾기나 중요 정보를 전달할 때 쓰기 때문에 확인이 필요해요
             </p>
             <Input
+              isLoading={isLoading}
               icon={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

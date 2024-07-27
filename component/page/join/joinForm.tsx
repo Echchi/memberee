@@ -265,6 +265,7 @@ const JoinForm = () => {
               }}
               render={({ field }) => (
                 <Input
+                  isLoading={loading}
                   icon={
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -294,6 +295,7 @@ const JoinForm = () => {
             />
 
             <Input
+              isLoading={loading}
               icon={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -355,6 +357,7 @@ const JoinForm = () => {
               업체 정보
             </p>
             <Input
+              isLoading={loading}
               icon={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -389,6 +392,7 @@ const JoinForm = () => {
               }}
               render={({ field }) => (
                 <Input
+                  isLoading={loading}
                   icon={
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -453,6 +457,7 @@ const JoinForm = () => {
                   // className="lg:hidden fixed w-full h-full top-0 right-0 bg-white z-50"
                 >
                   <Input
+                    isLoading={loading}
                     icon={
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
