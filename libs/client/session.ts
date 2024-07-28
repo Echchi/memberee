@@ -6,6 +6,7 @@ interface SessionContent {
   id?: number;
   company?: number;
   paymentType?: PaymentType;
+  payday?: number | null;
 }
 
 export default function getSession() {

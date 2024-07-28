@@ -87,6 +87,7 @@ export const createAccount = async (data: JoinFormType) => {
     const session = await getSession();
     session.id = user.id;
     session.company = company.id;
+    session.payday = company.payDay;
     session.paymentType = company.paymentType;
     await session.save();
     redirect("/main");
