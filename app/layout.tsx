@@ -4,6 +4,8 @@ import "./globals.css";
 import localFont from "@next/font/local";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { RecoilRoot } from "recoil";
+import RecoilWrapper from "../libs/client/recoil/recoilWrapper";
 
 const pretendard = localFont({
   src: [
@@ -53,7 +55,9 @@ export default function RootLayout({
       <html lang="en">
         <Analytics />
         <SpeedInsights />
-        <body className={`${pretendard.variable} font-sans`}>{children}</body>
+        <RecoilWrapper>
+          <body className={`${pretendard.variable} font-sans`}>{children}</body>
+        </RecoilWrapper>
       </html>
     </>
   );

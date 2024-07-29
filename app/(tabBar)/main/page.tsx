@@ -1,3 +1,4 @@
+"use server";
 import { getMonth, getYear } from "date-fns";
 
 import Class from "../../../component/page/main/class/class";
@@ -43,7 +44,7 @@ const Page = async () => {
       <div className="xl:grid grid-cols-2 grid-rows-3 gap-3 mt-4 xl:mt-5 xl:h-[700px]">
         <Class classes={classes} />
 
-        <Worker workers={workers} />
+        <Worker workers={workers} isPayDiff={isPayDiff} />
         <Member
           registerOpen={Boolean(workers.length)}
           year={year}

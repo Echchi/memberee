@@ -1,3 +1,4 @@
+"use server";
 import React from "react";
 import { format, getMonth, getYear } from "date-fns";
 import Button from "../../../component/button/button";

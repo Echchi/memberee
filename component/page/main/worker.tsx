@@ -10,7 +10,13 @@ import MemoModal from "../../modal/memoModal";
 import WorkerExcelModal from "./BulkUploadHandlers/worker/workerExcelModal";
 import { cls } from "../../../libs/client/utils";
 
-const Worker = ({ workers }: { workers: WorkerWithMember[] }) => {
+const Worker = ({
+  workers,
+  isPayDiff = false,
+}: {
+  workers: WorkerWithMember[];
+  isPayDiff: boolean;
+}) => {
   const router = useRouter();
   const [isWorkerModalOpen, setIsWorkerModalOpen] = useState(false);
   return (

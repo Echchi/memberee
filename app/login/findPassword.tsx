@@ -6,11 +6,7 @@ import {
   CO_NUM_REGEX_ERROR,
   PHONE_REGEX_ERROR,
 } from "../../libs/regex";
-import {
-  getUserWithData,
-  getUserWithId,
-  sendPasswordEmail,
-} from "./api";
+import { getUserWithData, getUserWithId, sendPasswordEmail } from "./api";
 import validator from "validator";
 import { generateTemporaryPassword } from "../../libs/client/utils";
 import FindPasswordEmail from "../../emails/find-password-email";
