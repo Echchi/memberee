@@ -16,15 +16,13 @@ export async function getTotalCnt(year?: number, month?: number) {
     Date.UTC(year || thisYear, (month || thisMonth) - 1, 1),
   ); // 해당 월의 시작일
   const endDate = new Date(Date.UTC(year || thisYear, month || thisMonth, 0));
-  const payDayDate =
-    company?.payDay &&
-    new Date(
-      Date.UTC(
-        year || getYear(new Date()),
-        (month || getMonth(new Date())) - 1,
-        company?.payDay,
-      ),
-    );
+  const payDayDate = new Date(
+    Date.UTC(
+      year || getYear(new Date()),
+      (month || getMonth(new Date())) - 1,
+      company?.payDay ? company?.payDay : 1,
+    ),
+  );
   const totalCnt = await db.member.count({
     where: {
       companyId: companyId,
@@ -41,15 +39,7 @@ export async function getTotalCnt(year?: number, month?: number) {
                           { endDate: null },
                           {
                             endDate: {
-                              gte: company?.payDay
-                                ? payDayDate
-                                : new Date(
-                                    Date.UTC(
-                                      year || getYear(new Date()),
-                                      (month || getMonth(new Date())) - 1,
-                                      member.payday,
-                                    ),
-                                  ),
+                              gte: payDayDate,
                             },
                           },
                         ],
