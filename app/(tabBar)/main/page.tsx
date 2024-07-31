@@ -1,5 +1,5 @@
 "use server";
-import { getMonth, getYear } from "date-fns";
+import { getDay, getMonth, getYear } from "date-fns";
 
 import Class from "../../../component/page/main/class/class";
 import Alarm from "../../../component/page/main/alarm";
@@ -9,14 +9,14 @@ import Member from "../../../component/page/main/member/member";
 import { getPaidCnt, getTotalCnt } from "./api";
 import { getWorkers } from "../../../component/page/worker/workers";
 import { getClasses } from "../class/api";
-import { getDay } from "date-fns";
 import getSession from "../../../libs/client/session";
 import { PaymentType } from "../../../libs/constants";
 
 const Page = async () => {
   const session = await getSession();
   const payDay = session.payday;
-  const paymentType = session.paymentType;
+  const paymentType = session.paymentType!!;
+
   const isPayDiff = paymentType === PaymentType.DIFFERENT;
   const year = getYear(new Date());
   const isAfterPayDay = getDay(new Date()) >= payDay!!;
@@ -44,11 +44,12 @@ const Page = async () => {
       <div className="xl:grid grid-cols-2 grid-rows-3 gap-3 mt-4 xl:mt-5 xl:h-[700px]">
         <Class classes={classes} />
 
-        <Worker workers={workers} isPayDiff={isPayDiff} />
+        <Worker workers={workers} />
         <Member
           registerOpen={Boolean(workers.length)}
           year={year}
           month={month}
+          paymentType={paymentType}
         />
       </div>
     </>

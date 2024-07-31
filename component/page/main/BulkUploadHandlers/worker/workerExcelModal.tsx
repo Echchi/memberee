@@ -16,6 +16,7 @@ import {
 import WorkersUploadBtn from "./workersUploadBtn";
 import ProgressBar from "../../../../progressbar";
 import BulkLoading from "../../../../excel/builkUpload/bulkLoading";
+import { PaymentType } from "@prisma/client";
 
 const WorkerExcelModal = ({ onClose }: { onClose: () => void }) => {
   const [selecetdFile, setSelectedFile] = useState<string>();

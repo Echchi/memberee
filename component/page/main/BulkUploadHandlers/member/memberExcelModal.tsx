@@ -20,8 +20,11 @@ import MemberUploadBtn from "./memberUploadBtn";
 import RegisterMembers from "./registerMembers";
 import { getWorkerList } from "../../../../../app/(tabBar)/worker/register/api";
 import BulkLoading from "../../../../excel/builkUpload/bulkLoading";
+import { useRecoilValue } from "recoil";
+import { paymentState } from "../../../../../libs/client/recoil/store/atoms";
 
 const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
+  const paymentType = useRecoilValue(paymentState);
   const [selecetdFile, setSelectedFile] = useState<string>();
   const [listData, setListData] = useState<string[][]>([]);
   const [errors, setErrors] = useState<number[]>([]);

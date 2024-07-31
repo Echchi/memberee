@@ -6,17 +6,11 @@ import { WorkerWithMember } from "../../../app/(tabBar)/salary/page";
 import Link from "next/link";
 import { DAYOFWEEK } from "../../../libs/constants";
 import Modal from "../../modal/modal";
-import MemoModal from "../../modal/memoModal";
-import WorkerExcelModal from "./BulkUploadHandlers/worker/workerExcelModal";
-import { cls } from "../../../libs/client/utils";
 
-const Worker = ({
-  workers,
-  isPayDiff = false,
-}: {
-  workers: WorkerWithMember[];
-  isPayDiff: boolean;
-}) => {
+import WorkerExcelModal from "./BulkUploadHandlers/worker/workerExcelModal";
+import { PaymentType } from "@prisma/client";
+
+const Worker = ({ workers }: { workers: WorkerWithMember[] }) => {
   const router = useRouter();
   const [isWorkerModalOpen, setIsWorkerModalOpen] = useState(false);
   return (

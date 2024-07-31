@@ -1,15 +1,20 @@
 import ExcelJS from "exceljs";
+import { PaymentType } from "../../../libs/constants";
+
 export const onClickUploadXLSX = ({
   title,
   header,
   content,
   isMember = false,
+  paymentType,
 }: {
   title: string;
   header?: any;
   content?: any;
   isMember?: boolean;
+  paymentType?: PaymentType;
 }) => {
+  const isPayDiff = paymentType === PaymentType.DIFFERENT;
   const wb = new ExcelJS.Workbook();
   const ws = wb.addWorksheet(title, {
     pageSetup: {
@@ -20,7 +25,11 @@ export const onClickUploadXLSX = ({
   });
 
   // 셀 병합
-  isMember ? ws.mergeCells("A1:I2") : ws.mergeCells("A1:H2");
+  isMember
+    ? isPayDiff
+      ? ws.mergeCells("A1:J2")
+      : ws.mergeCells("A1:I2")
+    : ws.mergeCells("A1:H2");
 
   ws.getCell("A1").value = {
     richText: [
@@ -46,7 +55,11 @@ export const onClickUploadXLSX = ({
   ws.getCell("A1").alignment = { horizontal: "center", vertical: "middle" };
   ws.getRow(1).height = 52;
 
-  isMember ? ws.mergeCells("A3:I3") : ws.mergeCells("A3:H3");
+  isMember
+    ? isPayDiff
+      ? ws.mergeCells("A3:J3")
+      : ws.mergeCells("A3:I3")
+    : ws.mergeCells("A3:H3");
 
   ws.getCell("A3").value = {
     richText: [
