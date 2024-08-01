@@ -11,6 +11,8 @@ import {
   COMMISSION_REGEX,
   DAYOFWEEK_REGEX,
   MONEY_REGEX,
+  MONTH_REGEX,
+  NAME_REGEX,
   ONLY_NUMBER_REGEX,
   STARTDATE_REGEX,
   TIMEDATA_REGEX,
@@ -22,6 +24,7 @@ import { getWorkerList } from "../../../../../app/(tabBar)/worker/register/api";
 import BulkLoading from "../../../../excel/builkUpload/bulkLoading";
 import { useRecoilValue } from "recoil";
 import { paymentState } from "../../../../../libs/client/recoil/store/atoms";
+import { PaymentType } from "../../../../../libs/constants";
 
 const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
   const paymentType = useRecoilValue(paymentState);
@@ -38,6 +41,7 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
       setSelectedFile(file.name);
       readXlsx(file)
         .then((data) => {
+          console.log("data", data);
           setListData(data);
         })
         .catch((error) => {
@@ -55,9 +59,11 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
     };
 
     fetchWorkerList();
+
     try {
       const errorIndexes = listData.reduce((acc: number[], items, idx) => {
         const validations = [
+          NAME_REGEX.test(items[0]),
           validator.isMobilePhone(items[1] + "", "ko-KR"), // 연락처
           BIRTH_REGEX.test(items[2] + ""), // 생년월일
           // 요일과 시간 길이
@@ -77,6 +83,9 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
 
           workers.includes(items[7]), // 담당
           STARTDATE_REGEX.test(items[8] + ""), // 시작일자
+          paymentType === PaymentType.DIFFERENT
+            ? MONTH_REGEX.test(items[9])
+            : null,
         ];
 
         const hasError = validations.some((validation) => !validation);
@@ -135,6 +144,9 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
                     <td>수업료</td>
                     <td>담당</td>
                     <td>시작일자</td>
+                    {paymentType === PaymentType.DIFFERENT ? (
+                      <td>납부일자</td>
+                    ) : null}
                   </tr>
                 </thead>
 

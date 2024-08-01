@@ -44,3 +44,5 @@ export const COMMISSION_REGEX = /^\d{1,3}$/;
 export const DAYOFWEEK_REGEX = /요일$/;
 export const TIMEDATA_REGEX =
   /^([01]?[0-9]|2[0-3]):[0-5][0-9]~([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+
+export const MONTH_REGEX = /^([1-9]|1[0-2])$/;

@@ -5,13 +5,19 @@ import { createWorker } from "../../../../../app/(tabBar)/worker/register/action
 import { useFormState } from "react-dom";
 import { useRouter } from "next/navigation";
 import getSession from "../../../../../libs/client/session";
-import { formatDayOfWeekForDatabase, getWorkerId } from "../../../../../libs/client/utils";
+import {
+  formatDayOfWeekForDatabase,
+  getWorkerId,
+} from "../../../../../libs/client/utils";
 import { getWorkerList } from "../../../../../app/(tabBar)/worker/register/api";
 import { getWorkers } from "../../../worker/workers";
 import { createMember } from "../../../../../app/(tabBar)/member/register/action";
 import { forEachEntryModule } from "next/dist/build/webpack/utils";
 import { ITime } from "../../../member/register/selectTime";
 import { requireOrImportModule } from "jest-util";
+import { useRecoilValue } from "recoil";
+import { paymentState } from "../../../../../libs/client/recoil/store/atoms";
+import { PaymentType } from "../../../../../libs/constants";
 
 const MemberUploadBtn = ({
   listData,
@@ -28,8 +34,7 @@ const MemberUploadBtn = ({
   onClose: () => void;
   setProgress: React.Dispatch<React.SetStateAction<number>>;
 }) => {
-  const router = useRouter();
-  const [workers, setWorkers] = useState<string[]>([]);
+  const paymentType = useRecoilValue(paymentState);
 
   const handleSubmit = useCallback(async () => {
     setIsLoading(true);
@@ -69,6 +74,9 @@ const MemberUploadBtn = ({
       formData.append("lessonFee", data[6]);
       formData.append("worker", workerId);
       formData.append("startDate", data[8]);
+      paymentType === PaymentType.DIFFERENT
+        ? formData.append("payDay", data[9])
+        : null;
 
       const response = await createMember(true, null, formData);
       setProgress(((i + 1) / listData.length) * 100);
