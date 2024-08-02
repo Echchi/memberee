@@ -9,9 +9,9 @@ import { cls, scheduleValid } from "../../../../../libs/client/utils";
 import {
   BIRTH_REGEX,
   COMMISSION_REGEX,
+  DATE_REGEX,
   DAYOFWEEK_REGEX,
   MONEY_REGEX,
-  MONTH_REGEX,
   NAME_REGEX,
   ONLY_NUMBER_REGEX,
   STARTDATE_REGEX,
@@ -84,7 +84,7 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
           workers.includes(items[7]), // 담당
           STARTDATE_REGEX.test(items[8] + ""), // 시작일자
           paymentType === PaymentType.DIFFERENT
-            ? MONTH_REGEX.test(items[9])
+            ? DATE_REGEX.test(items[9])
             : null,
         ];
 
@@ -94,6 +94,7 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
       }, []);
 
       if (errorIndexes.length > 0) {
+        console.log("errors", errors);
         setErrors(errorIndexes);
       }
     } catch (e) {
@@ -161,9 +162,21 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
                           : "",
                       )}
                     >
-                      {items.map((item: string, index) => (
-                        <td key={`register_worker_${idx}-${index}`}>{item}</td>
-                      ))}
+                      {items.map((item: string, index) => {
+                        if (index === 7) {
+                          return (
+                            <td key={`register_member_${idx}-${index}`}>
+                              {item} 변경
+                            </td>
+                          );
+                        } else {
+                          return (
+                            <td key={`register_member_${idx}-${index}`}>
+                              {item}
+                            </td>
+                          );
+                        }
+                      })}
                     </tr>
                   ))}
                 </tbody>

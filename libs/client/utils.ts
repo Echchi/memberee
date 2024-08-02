@@ -3,6 +3,8 @@ import {
   format,
   getMonth,
   getYear,
+  isBefore,
+  isEqual,
   isValid,
   parse,
   parseISO,
@@ -155,11 +157,22 @@ export function scheduleValid(item: string, type: "dayOfWeek" | "time") {
     ?.split(",")
     .map((day) => day.trim().replace(/\s+/g, ""))
     .filter((item) => item.length > 0)
-    .every((day) =>
-      type === "dayOfWeek"
-        ? DAYOFWEEK_REGEX.test(day)
-        : TIMEDATA_REGEX.test(day),
-    );
+    .every((day) => {
+      if (type === "dayOfWeek") {
+        return DAYOFWEEK_REGEX.test(day);
+      } else {
+        if (TIMEDATA_REGEX.test(day)) {
+          const timeArr = day.split("~");
+
+          const startTime = parse(timeArr[0].trim(), "HH:mm", new Date());
+          const endTime = parse(timeArr[1].trim(), "HH:mm", new Date());
+
+          return isStartTimeBeforeOrEqual(startTime, endTime);
+        } else {
+          return false;
+        }
+      }
+    });
 }
 
 export async function getWorkerId(workerName: string) {
@@ -197,3 +210,7 @@ export function checkPasswordStrength(password: string): number {
 
   return result;
 }
+
+export const isStartTimeBeforeOrEqual = (startTime: Date, endTime: Date) => {
+  return isBefore(startTime, endTime) || isEqual(startTime, endTime);
+};

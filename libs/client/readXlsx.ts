@@ -12,7 +12,10 @@ export const readXlsx = (file: File): Promise<any> => {
       const data = new Uint8Array(e.target.result as ArrayBuffer);
       const workbook = XLSX.read(data, { type: "array" });
       const firstWorksheet = workbook.Sheets[workbook.SheetNames[0]];
-      const jsonData = XLSX.utils.sheet_to_json(firstWorksheet, { header: 1 });
+      const jsonData = XLSX.utils.sheet_to_json(firstWorksheet, {
+        header: 1,
+        defval: "",
+      });
 
       resolve(jsonData.slice(6).filter((item: any) => item.length > 0));
     };
