@@ -11,16 +11,20 @@ import Pagination from "../../pagination";
 import Empty from "../../empty";
 import { getPaidCnt, getTotalCnt } from "../../../app/(tabBar)/main/api";
 import { getMonth, getYear } from "date-fns";
+import { PaymentType } from "@prisma/client";
 
 const PayList = ({
   query,
   year,
   month,
+  paymentType,
 }: {
   query?: string;
   year?: number;
   month?: number;
+  paymentType?: PaymentType;
 }) => {
+  console.log("paymentType PayList", paymentType);
   const [members, setMembers] = useState<IMemberWithSchedules[]>();
   const [total, setTotal] = useState<number>();
   const [workers, setWorkers] = useState<IWorker[]>();
@@ -28,20 +32,27 @@ const PayList = ({
   const [paidCnt, setPaidCnt] = useState<number>(0);
   const [workerId, setWorkerId] = useState<number>(-1);
   const [payStatus, setPayStatus] = useState<number>(0);
+  const [payDayOrder, setpayDayOrder] = useState(true);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const initYear = getYear(new Date());
   const initMonth = getMonth(new Date());
   const fetchMembers = useCallback(
     async (year: number, month: number, shouldSetLoading = false) => {
-      console.log("1. fetchMembers");
+      // console.log("1. fetchMembers");
       if (shouldSetLoading) {
         setLoading(true);
       }
-      console.log(query, workerId, payStatus, page, year, month);
+      // console.log(query, workerId, payStatus, page, year, month);
       try {
         const response = await getMembers({
-          params: { query: query ?? "", workerId, payStatus, page },
+          params: {
+            query: query ?? "",
+            workerId,
+            payStatus,
+            page,
+            payDayOrder,
+          },
           year: year ?? getYear(new Date()),
           month: month ?? getMonth(new Date()) + 1,
         });
@@ -55,14 +66,14 @@ const PayList = ({
         setLoading(false);
       }
     },
-    [query, workerId, payStatus, page],
+    [query, workerId, payStatus, page, payDayOrder],
   );
 
   const fetchPaidCounts = async (year: number, month: number) => {
-    console.log("2. fetchPaidCounts");
+    // console.log("2. fetchPaidCounts");
     try {
       const paidResponse = await getPaidCnt(year, month);
-      console.log("2-1. fetchPaidCounts result", paidResponse);
+      // console.log("2-1. fetchPaidCounts result", paidResponse);
       setPaidCnt(paidResponse);
     } catch (e) {
       console.error("error fetch counts", e);
@@ -70,10 +81,10 @@ const PayList = ({
   };
 
   const fetchtotalCounts = async (year: number, month: number) => {
-    console.log("3. fetchtotalCounts");
+    // console.log("3. fetchtotalCounts");
     try {
       const totalResponse = await getTotalCnt(year, month);
-      console.log("3-1. fetchtotalCounts result", totalResponse);
+      // console.log("3-1. fetchtotalCounts result", totalResponse);
       setTotalCnt(totalResponse);
     } catch (e) {
       console.error("error fetch counts", e);
@@ -81,7 +92,7 @@ const PayList = ({
   };
 
   const fetchWorkerList = async (year: number, month: number) => {
-    console.log("4. fetchWorkerList");
+    // console.log("4. fetchWorkerList");
     const workerList = await getWorkerList(year, month);
 
     const workersData = workerList.map((item) => ({
@@ -105,18 +116,6 @@ const PayList = ({
     fetchData();
   }, [year, month]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     await fetchMembers(year ?? initYear, month ?? initMonth, true);
-  //     await fetchWorkerList(year ?? initYear, month ?? initMonth);
-  //     await fetchtotalCounts(year ?? initYear, month ?? initMonth);
-  //     await fetchPaidCounts(year ?? initYear, month ?? initMonth);
-  //     setWorkerId(-1);
-  //     setPayStatus(0);
-  //   };
-  //   fetchData();
-  // }, [year, month]);
-
   useEffect(() => {
     fetchMembers(year ?? initYear, month ?? initMonth);
   }, [query, workerId, payStatus, page, fetchMembers]);
@@ -129,6 +128,10 @@ const PayList = ({
   const handleChangePay = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
     setPayStatus(Number(value));
+  };
+  const defaultPaymentType = PaymentType.DIFFERENT;
+  const handleClickPayDayOrder = () => {
+    setpayDayOrder((prev) => !prev);
   };
   return (
     <>
@@ -158,7 +161,43 @@ const PayList = ({
                       ))}
                   </select>
                 </td>
+
                 <td>수강료</td>
+                {paymentType === PaymentType.DIFFERENT ? (
+                  <td
+                    className="flex justify-center items-center cursor-pointer"
+                    onClick={handleClickPayDayOrder}
+                  >
+                    납부일
+                    {payDayOrder ? (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        className="w-5 h-5 ml-2"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    ) : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        className="w-5 h-5 ml-2"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M9.47 6.47a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 1 1-1.06 1.06L10 8.06l-3.72 3.72a.75.75 0 0 1-1.06-1.06l4.25-4.25Z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    )}
+                  </td>
+                ) : null}
                 <td>
                   <select
                     className="bg-transparent outline-none focus:outline-none cursor-pointer"
@@ -175,7 +214,11 @@ const PayList = ({
             <tbody>
               {!loading && members
                 ? members.map((member, index) => (
-                    <Pay key={`pay_${member.id}`} member={member} />
+                    <Pay
+                      key={`pay_${member.id}`}
+                      member={member}
+                      paymentType={paymentType ?? defaultPaymentType}
+                    />
                   ))
                 : [...Array(10)].map((_, index) => (
                     <tr

@@ -23,7 +23,8 @@ export async function getMembers({
     query,
     workerId,
     dayOfWeek,
-    startDateOrder,
+
+    payDayOrder,
     payStatus,
     page = 1,
     isAll = false,
@@ -48,7 +49,7 @@ export async function getMembers({
     Date.UTC(
       year || getYear(new Date()),
       (month || getMonth(new Date())) - 1,
-      company?.payDay,
+      company?.payDay || 1,
     ),
   );
 
@@ -112,7 +113,7 @@ export async function getMembers({
       where: whereClause,
       skip: isAll ? undefined : (page - 1) * PAGESIZE,
       take: isAll ? undefined : PAGESIZE,
-      orderBy: [{ startDate: startDateOrder ? "desc" : "asc" }],
+      orderBy: [{ payDay: payDayOrder ? "desc" : "asc" }],
       include: {
         Schedule: true,
         worker: true,

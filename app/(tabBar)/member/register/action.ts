@@ -5,20 +5,20 @@ import validator from "validator";
 import {
   BIRTH_REGEX,
   BIRTH_REGEX_ERROR,
+  DATE_REGEX,
   MONEY_REGEX,
   MONEY_REGEX_ERROR,
-  ONLY_NUMBER_REGEX,
-  ONLY_NUMBER_REGEX_ERROR,
   STARTDATE_REGEX,
   STARTDATE_REGEX_ERROR,
-  TIME_REGEX,
-  TIME_REGEX_ERROR,
 } from "../../../../libs/regex";
 import db from "../../../../libs/server/db";
 import getSession from "../../../../libs/client/session";
-import { combineCurrentDateWithTime, formatISODate } from "../../../../libs/client/utils";
+import {
+  combineCurrentDateWithTime,
+  formatISODate,
+} from "../../../../libs/client/utils";
 import { redirect } from "next/navigation";
-import { getDate, getMonth, getYear } from "date-fns";
+import { PaymentType } from "../../../../libs/constants";
 
 const formSchema = z.object({
   name: z.string().min(2, "이름을 올바르게 입력해주세요").trim(),
@@ -42,6 +42,7 @@ const formSchema = z.object({
     .trim()
     .transform((val) => parseInt(val, 10)),
   startDate: z.string().trim().regex(STARTDATE_REGEX, STARTDATE_REGEX_ERROR),
+  payDay: z.string().nullable().optional(),
   content: z.string().nullable().optional(),
 });
 
@@ -52,6 +53,7 @@ export const createMember = async (
 ) => {
   const session = await getSession();
   const companyId = session.company;
+  const paymentType = session.paymentType;
   const data = {
     name: formData.get("name"),
     phone: formData.get("phone"),
@@ -63,7 +65,10 @@ export const createMember = async (
     worker: formData.get("worker"),
     startDate: formData.get("startDate"),
     content: formData.get("content"),
-  };
+  } as any;
+  if (paymentType === PaymentType.DIFFERENT) {
+    data.payDay = formData.get("payDay");
+  }
   const result = formSchema.safeParse(data);
   if (!result.success) {
     return result.error.flatten();
@@ -78,6 +83,7 @@ export const createMember = async (
           workerId: result.data.worker,
           startDate: formatISODate(result.data.startDate),
           companyId: companyId,
+          payDay: Number(result.data.payDay),
         },
         include: {
           worker: true,

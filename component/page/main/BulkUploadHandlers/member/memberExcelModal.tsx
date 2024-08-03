@@ -25,6 +25,7 @@ import BulkLoading from "../../../../excel/builkUpload/bulkLoading";
 import { useRecoilValue } from "recoil";
 import { paymentState } from "../../../../../libs/client/recoil/store/atoms";
 import { PaymentType } from "../../../../../libs/constants";
+import WorkerList from "../../../member/register/workerList";
 
 const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
   const paymentType = useRecoilValue(paymentState);
@@ -90,11 +91,11 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
 
         const hasError = validations.some((validation) => !validation);
         if (hasError) acc.push(idx);
+
         return acc;
       }, []);
 
       if (errorIndexes.length > 0) {
-        console.log("errors", errors);
         setErrors(errorIndexes);
       }
     } catch (e) {
@@ -162,21 +163,25 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
                           : "",
                       )}
                     >
-                      {items.map((item: string, index) => {
-                        if (index === 7) {
-                          return (
-                            <td key={`register_member_${idx}-${index}`}>
-                              {item} 변경
-                            </td>
-                          );
-                        } else {
+                      {items.map(
+                        (item: string, index) => {
+                          // if (index === 7) {
+                          //   return (
+                          //     <WorkerList
+                          //       isOnly={true}
+                          //       key={`workerList_{index}`}
+                          //     />
+                          //   );
+                          // } else {
+
                           return (
                             <td key={`register_member_${idx}-${index}`}>
                               {item}
                             </td>
                           );
-                        }
-                      })}
+                        },
+                        // }
+                      )}
                     </tr>
                   ))}
                 </tbody>
@@ -209,12 +214,15 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
                 (errors.length > 0
                   ? errors[0] === -1
                     ? "양식을 확인해주세요"
-                    : `${errors.length}개의 데이터를 확인해주세요`
+                    : errors[0] === -2
+                      ? "잠시 뒤에 다시 시도해주세요"
+                      : `${errors.length}개의 데이터를 확인해주세요`
                   : `총 ${listData.length} 명`)}
             </p>
             {listData.length > 0 && selecetdFile && (
               <MemberUploadBtn
                 listData={listData}
+                setErrors={setErrors}
                 errors={errors}
                 isLoading={isLoading}
                 setIsLoading={setIsLoading}

@@ -13,6 +13,7 @@ export interface getMembersParams {
   workerId?: number;
   dayOfWeek?: number;
   startDateOrder?: boolean;
+  payDayOrder?: boolean;
   page?: number;
   payStatus?: number;
   isAll?: boolean;
@@ -44,7 +45,7 @@ export async function getMembers({ params }: { params: getMembersParams }) {
     Date.UTC(
       year || getYear(new Date()),
       (month || getMonth(new Date())) - 1,
-      company?.payDay,
+      company?.payDay || 1,
     ),
   );
 
