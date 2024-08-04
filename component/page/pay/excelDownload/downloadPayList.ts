@@ -1,18 +1,24 @@
 import ExcelJS from "exceljs";
-import { dateFormattedtoNum, formatKorDate } from "../../../../libs/client/utils";
+import {
+  dateFormattedtoNum,
+  formatKorDate,
+} from "../../../../libs/client/utils";
 import { format } from "date-fns";
+import { PaymentType } from "@prisma/client";
 export const downloadPayList = ({
   title,
   total,
   paid,
   header,
   content,
+  paymentType,
 }: {
   title: string;
   total?: number;
   paid?: number;
   header?: any;
   content?: any;
+  paymentType?: PaymentType;
 }) => {
   console.log("downloadPayList", content);
   const wb = new ExcelJS.Workbook();
@@ -25,7 +31,7 @@ export const downloadPayList = ({
   });
 
   // 셀 병합
-  ws.mergeCells("A1:F2");
+  ws.mergeCells(paymentType === PaymentType.DIFFERENT ? "A1:G2" : "A1:F2");
 
   ws.getCell("A1").value = {
     richText: [
@@ -73,9 +79,9 @@ export const downloadPayList = ({
     bottom: { style: "thin" },
   };
 
-  ws.mergeCells("D3:F3");
+  ws.mergeCells(paymentType === PaymentType.DIFFERENT ? "D3:G3" : "D3:F3");
 
-  ws.getCell("F3").value = {
+  ws.getCell(paymentType === PaymentType.DIFFERENT ? "G3" : "F3").value = {
     richText: [
       {
         text: `${paid ? paid : 0} 명 납부 / 총 ${total} 명`,

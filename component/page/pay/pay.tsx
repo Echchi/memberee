@@ -54,16 +54,6 @@ const Pay = React.memo(
                 title={`${dateFormattedtoDot(member.suspendedDate)} 중단`}
               />
             </span>
-          ) : paymentType === PaymentType.DIFFERENT ? (
-            member?.Payment && member?.Payment?.length > 0 ? (
-              <span className="text-xs">
-                <Tag color={"emerald"} title={"납부"} />
-              </span>
-            ) : (
-              <span className="text-xs">
-                <Tag color={"orange"} title={"미납"} />
-              </span>
-            )
           ) : member?.Payment && member?.Payment?.length > 0 ? (
             <span className="text-xs">
               <Tag color={"emerald"} title={"납부"} />

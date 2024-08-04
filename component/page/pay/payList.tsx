@@ -215,7 +215,7 @@ const PayList = ({
               {!loading && members
                 ? members.map((member, index) => (
                     <Pay
-                      key={`pay_${member.id}`}
+                      key={`pay_${member.id}x`}
                       member={member}
                       paymentType={paymentType ?? defaultPaymentType}
                     />

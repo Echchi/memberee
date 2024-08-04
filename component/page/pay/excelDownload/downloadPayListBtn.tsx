@@ -1,28 +1,28 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../../../button/button";
-import { downloadMemberList } from "../../member/excelDownload/downloadMemberList";
+
 import { getMembers } from "../../../../app/(tabBar)/member/api";
-import { format, getMonth, getYear } from "date-fns";
+
 import { IMemberWithSchedules } from "../../../../app/(tabBar)/member/[id]/page";
 import {
   cls,
-  dateFormattedtoKor,
-  dateFormattedtoNum,
   formatCurrency,
-  formatKorDate,
   formatPhone,
 } from "../../../../libs/client/utils";
-import { DAYOFWEEK } from "../../../../libs/constants";
+
 import { downloadPayList } from "./downloadPayList";
 import { getPaidCnt } from "../../../../app/(tabBar)/main/api";
+import { PaymentType } from "@prisma/client";
 
 const DownloadPayListBtn = ({
   year,
   month,
+  paymentType,
 }: {
   year: number;
   month: number;
+  paymentType: PaymentType;
 }) => {
   const [loading, setLoading] = useState(false);
   const [members, setMembers] = useState<IMemberWithSchedules[]>([]);
@@ -83,6 +83,11 @@ const DownloadPayListBtn = ({
     { header: "상태", key: "status" },
   ];
 
+  if (paymentType === PaymentType.DIFFERENT) {
+    const index = header.findIndex((item) => item.key === "payment");
+    header.splice(index + 1, 0, { header: "납부일", key: "payDay" });
+  }
+
   const tmp = [
     {
       name: "예시",
@@ -132,6 +137,9 @@ const DownloadPayListBtn = ({
             formatCurrency(
               (member.Schedule && member.Schedule[0]?.lessonFee) || "",
             ) || "-",
+          ...(paymentType === PaymentType.DIFFERENT
+            ? { payDay: member.payDay + " 일" }
+            : {}),
           payment: payment,
           status:
             member.status < 0 ? "중단" : member.status === 0 ? "탈퇴" : "",
@@ -143,6 +151,7 @@ const DownloadPayListBtn = ({
         paid,
         header,
         content,
+        paymentType,
       });
       setClicked(false);
     }

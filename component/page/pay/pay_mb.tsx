@@ -98,9 +98,12 @@ const PayMb = ({
                       key={`pay_mb_${member.id}`}
                       onClick={() => router.push(`/pay/${member.id}`)}
                       worker={member.worker?.name}
-                      day={member.Schedule?.map(
-                        (item, index) => DAYOFWEEK[item.dayOfWeek],
-                      ).join("  ")}
+                      day={
+                        member.payDay + " 일 납부"
+                        // member.Schedule?.map(
+                        //   (item, index) => DAYOFWEEK[item.dayOfWeek],
+                        // ).join("  ")
+                      }
                       name={
                         <span className="flex items-center space-x-2">
                           <span>{member.name}</span>
@@ -133,7 +136,7 @@ const PayMb = ({
             </InfiniteScroll>
           ) : (
             <>
-              <Empty msg={"내역이 없습니다"} className="!my-auto" />
+              <Empty msg={"해당하는 회원이 없습니다"} className="!my-auto" />
             </>
           )
         ) : (

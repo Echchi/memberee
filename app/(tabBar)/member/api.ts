@@ -35,6 +35,7 @@ export async function getMembers({ params }: { params: getMembersParams }) {
   const session = await getSession();
   const companyId = session.company;
   const company = await getCompany();
+  const paymentType = session.paymentType;
   const thisYear = getYear(new Date());
   const thisMonth = getMonth(new Date()) + 1;
   const startDate = new Date(
