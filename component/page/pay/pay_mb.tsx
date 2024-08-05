@@ -41,7 +41,6 @@ const PayMb = ({
     setData([]);
   }, [payStatus, query]);
 
-  // console.log("year, month", year, month);
   useEffect(() => {
     // console.log("data", data);
   }, [data]);
