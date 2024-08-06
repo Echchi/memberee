@@ -35,17 +35,19 @@ const PayMb = ({
 }) => {
   const router = useRouter();
   const [data, setData] = useState<IMemberWithSchedules[]>(members);
+  console.log("slice", slice);
   console.log("members", members);
   useEffect(() => {
     setSlice(1);
     setData([]);
   }, [payStatus, query]);
 
-  useEffect(() => {
-    // console.log("data", data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log("data", data);
+  // }, [data]);
 
   useEffect(() => {
+    console.log("data", data);
     setData((prevData) => {
       const addData = members.filter(
         (newMembers) =>
@@ -53,16 +55,14 @@ const PayMb = ({
             (existingMember) => existingMember.id === newMembers.id,
           ),
       );
+
       return [...prevData, ...addData];
     });
   }, [members, slice]);
 
   useEffect(() => {
-    setData(members);
-  }, [members, year, month]);
-
-  useEffect(() => {
     setSlice(1);
+    setData([]);
   }, [year, month]);
 
   return (

@@ -103,6 +103,8 @@ const PayList = ({
   };
 
   useEffect(() => {
+    console.log("page", page);
+    setPage(1);
     const fetchData = async () => {
       await Promise.all([
         fetchMembers(year ?? initYear, month ?? initMonth, true),
