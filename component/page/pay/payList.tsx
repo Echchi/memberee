@@ -32,7 +32,7 @@ const PayList = ({
   const [paidCnt, setPaidCnt] = useState<number>(0);
   const [workerId, setWorkerId] = useState<number>(-1);
   const [payStatus, setPayStatus] = useState<number>(0);
-  const [payDayOrder, setpayDayOrder] = useState(true);
+  const [payDayOrder, setpayDayOrder] = useState(false);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const initYear = getYear(new Date());
@@ -272,6 +272,7 @@ const PayList = ({
           query={query}
           year={year || 0}
           month={month || 0}
+          paymentType={paymentType || PaymentType.DIFFERENT}
         />
       </div>
     </>

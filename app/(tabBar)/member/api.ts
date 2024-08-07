@@ -17,6 +17,7 @@ export interface getMembersParams {
   page?: number;
   payStatus?: number;
   isAll?: boolean;
+  payDay?: number;
 }
 
 export async function getMembers({ params }: { params: getMembersParams }) {
@@ -30,6 +31,7 @@ export async function getMembers({ params }: { params: getMembersParams }) {
     payStatus,
     page = 1,
     isAll = false,
+    payDay = -1,
   } = params;
 
   const session = await getSession();
@@ -101,6 +103,7 @@ export async function getMembers({ params }: { params: getMembersParams }) {
                 },
               },
             ]),
+      ...(payDay && payDay > 0 ? [{ payDay: payDay }] : []),
     ],
   };
 

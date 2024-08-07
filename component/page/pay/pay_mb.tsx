@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Tag from "../../tag";
 import LineBox from "../../lineBox";
-import { Member } from "@prisma/client";
+import { Member, PaymentType } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { DAYOFWEEK } from "../../../libs/constants";
 import { cls, formatPhone } from "../../../libs/client/utils";
@@ -11,6 +11,7 @@ import InfiniteScroll from "../../infiniteScroll";
 import Link from "next/link";
 import SendMsg from "./sendMsg";
 import Empty from "../../empty";
+import { getDay } from "date-fns";
 
 const PayMb = ({
   members,
@@ -22,6 +23,7 @@ const PayMb = ({
   query,
   year,
   month,
+  paymentType,
 }: {
   members: IMemberWithSchedules[];
   setPayStatus: React.Dispatch<React.SetStateAction<number>>;
@@ -32,11 +34,11 @@ const PayMb = ({
   query?: string;
   year: number;
   month: number;
+  paymentType: PaymentType;
 }) => {
   const router = useRouter();
   const [data, setData] = useState<IMemberWithSchedules[]>(members);
-  console.log("slice", slice);
-  console.log("members", members);
+
   useEffect(() => {
     setSlice(1);
     setData([]);
@@ -67,7 +69,13 @@ const PayMb = ({
 
   return (
     <>
-      <div className="flex justify-between">
+      <div
+        className={cls(
+          paymentType === PaymentType.DIFFERENT
+            ? "grid grid-cols-1 gap-y-4"
+            : "flex justify-between",
+        )}
+      >
         <div className="flex space-x-2">
           <Tag
             color={"orange"}
@@ -84,7 +92,17 @@ const PayMb = ({
             className={"cursor-pointer"}
           />
         </div>
-        <SendMsg year={year} month={month} loading={loading} />
+        <div className="flex space-x-2">
+          <SendMsg
+            year={year}
+            month={month}
+            loading={loading}
+            payDay={
+              paymentType === PaymentType.DIFFERENT ? getDay(new Date()) : -1
+            }
+          />
+          <SendMsg year={year} month={month} loading={loading} />
+        </div>
       </div>
       <div className="relative space-y-3">
         {!loading ? (
@@ -98,10 +116,11 @@ const PayMb = ({
                       onClick={() => router.push(`/pay/${member.id}`)}
                       worker={member.worker?.name}
                       day={
-                        member.payDay + " 일 납부"
-                        // member.Schedule?.map(
-                        //   (item, index) => DAYOFWEEK[item.dayOfWeek],
-                        // ).join("  ")
+                        paymentType === PaymentType.DIFFERENT
+                          ? member.payDay + " 일 납부"
+                          : member.Schedule?.map(
+                              (item, index) => DAYOFWEEK[item.dayOfWeek],
+                            ).join("  ")
                       }
                       name={
                         <span className="flex items-center space-x-2">
