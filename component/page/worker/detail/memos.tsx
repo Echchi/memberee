@@ -126,7 +126,7 @@ const Memos = ({
                     <tr
                       key={index}
                       className={cls(
-                        "*:py-3 text-center border-stone-100 text-sm xl:text-base",
+                        "*:py-3 *:text-center *:align-middle border-stone-100 text-sm xl:text-base",
                         status && status > 0
                           ? "hover:bg-orange-100 cursor-pointer"
                           : "",
@@ -137,7 +137,7 @@ const Memos = ({
                           : undefined
                       }
                     >
-                      <td>{format(memo.createdAt + "", "yyyy년 MM월 dd일")}</td>
+                      <td>{format(memo.createdAt + "", "yyyy. MM. dd.")}</td>
                       <td className="p-3 truncate">
                         {`${memo.content.length > 100 ? memo.content.slice(0, 100) + "..." : memo.content}`}
                       </td>

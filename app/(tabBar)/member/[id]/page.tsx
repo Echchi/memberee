@@ -7,12 +7,11 @@ import {
   dateFormattedtoKor,
   dateFormattedtoNum,
   formatCurrency,
-  formatKorDate,
   formatPhone,
   generatePaymentDates,
 } from "../../../../libs/client/utils";
 import Button from "../../../../component/button/button";
-import { format, getTime } from "date-fns";
+import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import Modal from "../../../../component/modal/modal";
 
@@ -34,21 +33,22 @@ import {
   Payment,
   Company,
   WorkerChangeLog,
+  PaymentType,
 } from "@prisma/client";
 import WorkerList from "../../../../component/page/member/register/workerList";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Memos from "../../../../component/page/worker/detail/memos";
 import Members from "../../../../component/page/worker/detail/members";
 import SelectTime, {
   ITime,
 } from "../../../../component/page/member/register/selectTime";
 import ConfirmModal from "../../../../component/modal/confirmModal";
-import { updateWorker } from "../../worker/[id]/action";
 import { useFormState } from "react-dom";
 import { updateMember } from "./action";
-import { revalidatePath } from "next/cache";
 import { PrintPdfBtn } from "../../../../component/pdf/printPdfBtn";
 import { DAYOFWEEK } from "../../../../libs/constants";
+import { useRecoilValue } from "recoil";
+import { paymentState } from "../../../../libs/client/recoil/store/atoms";
 
 export interface IMemberWithSchedules extends Member {
   Memos?: Memo[];
@@ -64,8 +64,9 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [memos, setMemos] = useState<Memo[]>([]);
   const [slice, setSlice] = useState(1);
   const [loading, setLoading] = useState(true);
+  const paymentType = useRecoilValue(paymentState);
   const memberRef = useRef<HTMLDivElement | null>(null);
-
+  console.log("paymentType === PaymentType.DIFFERENT", paymentType);
   const id = params.id;
   useEffect(() => {
     const fetchMember = async () => {
@@ -440,7 +441,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             value={
               isEdit
                 ? member?.Schedule?.[0]?.lessonFee + ""
-                : formatCurrency(member?.Schedule?.[0]?.lessonFee || "")
+                : formatCurrency(member?.Schedule?.[0]?.lessonFee || "") + " 원"
             }
             placeholder={member?.Schedule?.[0]?.lessonFee + ""}
             className={cls(
@@ -453,6 +454,23 @@ const Page = ({ params }: { params: { id: string } }) => {
             required={true}
             errorMessage={state?.fieldErrors.lessonFee}
           />
+          {paymentType === PaymentType.DIFFERENT && (
+            <Input
+              type={isEdit ? "text" : "div"}
+              label={"납부일자"}
+              value={member?.payDay + " 일"}
+              placeholder={member?.payDay + ""}
+              className={cls(
+                "h-16 xl:text-lg border-b-0 xl:border-r-1",
+                isEdit ? "border-t-0" : "",
+              )}
+              name={"lessonFee"}
+              maxLength={7}
+              minLength={4}
+              required={true}
+              errorMessage={state?.fieldErrors.lessonFee}
+            />
+          )}
           {isEdit ? (
             <WorkerList
               selectedDay={selectedDay}
@@ -482,8 +500,11 @@ const Page = ({ params }: { params: { id: string } }) => {
                 : dateFormattedtoKor(member?.startDate)
             }
             className={cls(
-              "h-16 xl:text-lg border-b-1",
-              isEdit ? "col-span-2 rounded-b-lg" : "xl:border-r-0",
+              "h-16 xl:text-lg border-b-0",
+              paymentType === PaymentType.DIFFERENT
+                ? "xl:border-l-0 border-r-1"
+                : "col-span-2 border-r-1",
+              isEdit ? "col-span-2 rounded-b-lg" : "xl:border-r-1",
             )}
             name={"startDate"}
             maxLength={8}
@@ -491,33 +512,42 @@ const Page = ({ params }: { params: { id: string } }) => {
             required={true}
             errorMessage={state?.fieldErrors.startDate}
           />
-          {!isEdit && (
-            <Input
-              type={"div"}
-              label={"등록일자"}
-              value={dateFormattedtoKor(member?.createdAt)}
-              className="h-16 xl:text-lg border-b-1 rounded-b-xl xl:rounded-b-none"
-            />
-          )}
+          {/*{!isEdit && (*/}
+          {/*  <Input*/}
+          {/*    type={"div"}*/}
+          {/*    label={"등록일자"}*/}
+          {/*    value={dateFormattedtoKor(member?.createdAt)}*/}
+          {/*    className="h-16 xl:text-lg border-b-1 rounded-b-xl xl:rounded-b-none"*/}
+          {/*  />*/}
+          {/*)}*/}
 
-          {isEdit ? (
-            <></>
-          ) : (
-            <motion.div className="col-span-2 hidden xl:block">
-              <Memos
-                memos={memos}
-                id={member?.id + "" || ""}
-                status={member?.status}
-                title={"상담 내역"}
-                isMember={true}
-                createMemo={createMemberMemo}
-                updateMemo={updateMemberMemo}
-                deleteMemo={deleteMemberMemo}
-                setSlice={setSlice}
-                loading={loading}
-              />
-            </motion.div>
-          )}
+          <AnimatePresence>
+            {isEdit ? (
+              <motion.div />
+            ) : (
+              <motion.div
+                key={"Memo"}
+                initial={{ y: -5, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -5, opacity: 0 }}
+                transition={{ ease: "easeInOut", duration: 0.2 }}
+                className="col-span-2"
+              >
+                <Memos
+                  memos={memos}
+                  id={member?.id + "" || ""}
+                  status={member?.status}
+                  title={"상담 내역"}
+                  isMember={true}
+                  createMemo={createMemberMemo}
+                  updateMemo={updateMemberMemo}
+                  deleteMemo={deleteMemberMemo}
+                  setSlice={setSlice}
+                  loading={loading}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
         <div className="flex justify-between mt-4">
           <div className="flex w-full space-x-3">
