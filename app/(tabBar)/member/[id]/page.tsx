@@ -47,8 +47,7 @@ import { useFormState } from "react-dom";
 import { updateMember } from "./action";
 import { PrintPdfBtn } from "../../../../component/pdf/printPdfBtn";
 import { DAYOFWEEK } from "../../../../libs/constants";
-import { useRecoilValue } from "recoil";
-import { paymentState } from "../../../../libs/client/recoil/store/atoms";
+import { getPaymentType } from "../../main/api";
 
 export interface IMemberWithSchedules extends Member {
   Memos?: Memo[];
@@ -64,8 +63,15 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [memos, setMemos] = useState<Memo[]>([]);
   const [slice, setSlice] = useState(1);
   const [loading, setLoading] = useState(true);
-  const paymentType = useRecoilValue(paymentState);
   const memberRef = useRef<HTMLDivElement | null>(null);
+  const [paymentType, setPaymentType] = useState<PaymentType>();
+  useEffect(() => {
+    const fetchPaymentType = async () => {
+      const type = await getPaymentType();
+      setPaymentType(type);
+    };
+    fetchPaymentType();
+  }, []);
   console.log("paymentType === PaymentType.DIFFERENT", paymentType);
   const id = params.id;
   useEffect(() => {

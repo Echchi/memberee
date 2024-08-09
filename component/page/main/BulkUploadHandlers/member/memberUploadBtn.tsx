@@ -7,43 +7,42 @@ import React, {
   useState,
 } from "react";
 import Button from "../../../../button/button";
-import { createWorker } from "../../../../../app/(tabBar)/worker/register/action";
-import { useFormState } from "react-dom";
-import { useRouter } from "next/navigation";
-import getSession from "../../../../../libs/client/session";
+
 import {
   formatDayOfWeekForDatabase,
   getWorkerId,
 } from "../../../../../libs/client/utils";
-import { getWorkerList } from "../../../../../app/(tabBar)/worker/register/api";
-import { getWorkers } from "../../../worker/workers";
 import { createMember } from "../../../../../app/(tabBar)/member/register/action";
-import { forEachEntryModule } from "next/dist/build/webpack/utils";
 import { ITime } from "../../../member/register/selectTime";
-import { requireOrImportModule } from "jest-util";
-import { useRecoilValue } from "recoil";
-import { paymentState } from "../../../../../libs/client/recoil/store/atoms";
 import { PaymentType } from "../../../../../libs/constants";
+import { getPaymentType } from "../../../../../app/(tabBar)/main/api";
 
 const MemberUploadBtn = ({
   listData,
   setErrors,
   errors,
-  isLoading,
   setIsLoading,
   onClose,
   setProgress,
+  isLoading,
 }: {
   listData: string[][];
   setErrors: Dispatch<SetStateAction<number[]>>;
   errors: number[];
-  isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   onClose: () => void;
   setProgress: React.Dispatch<React.SetStateAction<number>>;
+  isLoading: boolean;
 }) => {
   console.log("listData", listData);
-  const paymentType = useRecoilValue(paymentState);
+  const [paymentType, setPaymentType] = useState<PaymentType>();
+  useEffect(() => {
+    const fetchPaymentType = async () => {
+      const type = await getPaymentType();
+      setPaymentType(type);
+    };
+    fetchPaymentType();
+  }, []);
 
   const handleSubmit = useCallback(async () => {
     setIsLoading(true);
@@ -104,7 +103,7 @@ const MemberUploadBtn = ({
     <Button
       text={"등록"}
       className="py-3 hidden xl:block !w-1/6"
-      isButtonDisabled={errors.length > 0}
+      isButtonDisabled={errors.length > 0 || isLoading}
       onClick={handleSubmit}
     />
   );

@@ -11,32 +11,23 @@ import MemberExcelModal from "../BulkUploadHandlers/member/memberExcelModal";
 import { getMembers } from "../../../../app/(tabBar)/member/api";
 import InfiniteScroll from "../../../infiniteScroll";
 import Loading from "./loading";
-import { PaymentType } from "@prisma/client";
-import { useRecoilSnapshot, useRecoilState, useSetRecoilState } from "recoil";
-import { paymentState } from "../../../../libs/client/recoil/store/atoms";
 
 const Member = ({
   year,
   month,
   registerOpen,
-  paymentType: initialPaymentType,
 }: {
   year: number;
   month: number;
   registerOpen: boolean;
-  paymentType: PaymentType;
 }) => {
   const router = useRouter();
-  const setPaymentType = useSetRecoilState(paymentState);
+
   const [isMemberModalOpen, setIsMemberModalOpen] = useState(false);
   const [members, setMembers] = useState<IMemberWithSchedules[]>();
   const [total, setTotal] = useState<number>();
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setPaymentType(initialPaymentType);
-  }, [initialPaymentType]);
 
   useEffect(() => {
     const fetchMembers = async () => {

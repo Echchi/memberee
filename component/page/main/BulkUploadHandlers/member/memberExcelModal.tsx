@@ -22,19 +22,18 @@ import MemberUploadBtn from "./memberUploadBtn";
 import RegisterMembers from "./registerMembers";
 import { getWorkerList } from "../../../../../app/(tabBar)/worker/register/api";
 import BulkLoading from "../../../../excel/builkUpload/bulkLoading";
-import { useRecoilValue } from "recoil";
 import { paymentState } from "../../../../../libs/client/recoil/store/atoms";
 import { PaymentType } from "../../../../../libs/constants";
 import WorkerList from "../../../member/register/workerList";
 
 const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
-  const paymentType = useRecoilValue(paymentState);
   const [selecetdFile, setSelectedFile] = useState<string>();
   const [listData, setListData] = useState<string[][]>([]);
   const [errors, setErrors] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [workers, setWorkers] = useState<string[]>([]);
   const [progress, setProgress] = useState(0);
+
   const handleFileOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setErrors([]);
     if (event.target.files && event.target.files.length > 0) {

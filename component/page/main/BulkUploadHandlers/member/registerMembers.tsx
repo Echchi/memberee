@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../../../../button/button";
 import { onClickUploadXLSX } from "../../../../excel/builkUpload/onClickUploadXLSX";
-import { useRecoilValue } from "recoil";
-import { paymentState } from "../../../../../libs/client/recoil/store/atoms";
-import { PaymentType } from "../../../../../libs/constants";
+import { PaymentType } from ".prisma/client";
+import { getPaymentType } from "../../../../../app/(tabBar)/main/api";
 
 const RegisterMembers = () => {
-  const paymentType = useRecoilValue(paymentState) as PaymentType;
+  const [paymentType, setPaymentType] = useState<PaymentType>();
+  useEffect(() => {
+    const fetchPaymentType = async () => {
+      const type = await getPaymentType();
+      setPaymentType(type);
+    };
+    fetchPaymentType();
+  }, []);
+
   const header = [
     { header: "이름", key: "name" },
     { header: "연락처", key: "phone" },

@@ -83,3 +83,8 @@ export const logout = async () => {
   session.destroy();
   redirect("login");
 };
+
+export const getPaymentType = async () => {
+  const session = await getSession();
+  return session.paymentType;
+};
