@@ -1,7 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Input from "../../../../component/input";
-import { cls, formatCurrency } from "../../../../libs/client/utils";
+import {
+  cls,
+  formatCurrency,
+  generateDateOptions,
+} from "../../../../libs/client/utils";
 import Button from "../../../../component/button/button";
 import { format } from "date-fns";
 import SelectTime, {
@@ -15,6 +19,8 @@ import { z } from "zod";
 import WorkerList from "../../../../component/page/member/register/workerList";
 import { createWorker } from "../../worker/register/action";
 import { DAYOFWEEK } from "../../../../libs/constants";
+import { PaymentType } from "@prisma/client";
+import { getPaymentType } from "../../main/api";
 
 const Page = () => {
   const router = useRouter();
@@ -22,6 +28,14 @@ const Page = () => {
   const [selectedDay, setSelectedDay] = useState<number[]>([1]);
   const [selectedTime, setSelectedTime] = useState<ITime>({});
   const [timeError, setTimeError] = useState("");
+  const [paymentType, setPaymentType] = useState<PaymentType>();
+  useEffect(() => {
+    const fetchPaymentType = async () => {
+      const type = await getPaymentType();
+      setPaymentType(type);
+    };
+    fetchPaymentType();
+  }, []);
   const handleSelectDay = (event: React.MouseEvent, dayIndex: number) => {
     event.preventDefault();
     if (selectedDay.includes(dayIndex)) {
@@ -62,6 +76,8 @@ const Page = () => {
   };
   const createMemberWithBulk = createMember.bind("bulk", false);
   const [state, action] = useFormState(createMemberWithBulk, null);
+  const payDayOptions = generateDateOptions();
+  console.log("payDayOprions", payDayOptions);
   return (
     // <div className="p-4 w-fit rounded-lg bg-white">
     <div className="max-w-screen-lg mx-auto xl:mt-7 pb-6 xl:p-4 rounded-lg bg-white">
@@ -173,7 +189,11 @@ const Page = () => {
           name={"times"}
           readOnly
         />
-        <div className="col-span-2">
+        <div
+          className={cls(
+            paymentType === PaymentType.DIFFERENT ? "" : "col-span-2",
+          )}
+        >
           <Input
             type={"text"}
             isLong={true}
@@ -203,6 +223,18 @@ const Page = () => {
             errorMessage={state?.fieldErrors?.lessonFee}
           />
         </div>
+        {paymentType === PaymentType.DIFFERENT && (
+          <Input
+            type={"select"}
+            isLong={true}
+            label={"납부일"}
+            className="h-16 xl:text-lg border-y-0 border-l-0"
+            name={"payDay"}
+            options={payDayOptions}
+            required={true}
+            errorMessage={state?.fieldErrors?.payDay}
+          />
+        )}
         <WorkerList selectedDay={selectedDay} />
         <Input
           isLong={true}

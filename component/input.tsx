@@ -16,7 +16,7 @@ import { cls } from "../libs/client/utils";
 
 interface IOption {
   value: number | string;
-  label: string;
+  label: number | string;
 }
 
 interface InputFieldProps {

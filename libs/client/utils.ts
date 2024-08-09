@@ -214,3 +214,12 @@ export function checkPasswordStrength(password: string): number {
 export const isStartTimeBeforeOrEqual = (startTime: Date, endTime: Date) => {
   return isBefore(startTime, endTime) || isEqual(startTime, endTime);
 };
+
+export const generateDateOptions = () => {
+  const options = Array.from({ length: 31 }, (_, index) => ({
+    value: index + 1,
+    label: index + 1,
+  }));
+  // console.log("options", options);
+  return options;
+};

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { TIME_REGEX, TIME_REGEX_ERROR } from "../../../../libs/regex";
 import { DAYOFWEEK } from "../../../../libs/constants";
+import { AnimatePresence, motion } from "framer-motion";
 
 export interface ITime {
   [key: number]: { startTime: string; endTime: string };
@@ -132,33 +133,44 @@ const SelectTime = ({
               <div className="!font-semibold">시작 시간</div>
               <div className="!font-semiboldl">종료 시간</div>
               {selectedDay.sort().map((day, index) => (
-                <React.Fragment key={`select_time_${index}`}>
-                  <div className="self-center">{DAYOFWEEK[day]}요일</div>
+                <AnimatePresence key={`animate_select_time_${index}`}>
+                  <motion.div
+                    key={"Memo"}
+                    initial={{ y: -5, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -5, opacity: 0 }}
+                    transition={{ ease: "easeInOut", duration: 0.2 }}
+                    className="col-span-3 grid grid-cols-3 place-items-center gap-3"
+                  >
+                    <React.Fragment key={`select_time_${index}`}>
+                      <div className="self-center">{DAYOFWEEK[day]}요일</div>
 
-                  <input
-                    className="rounded-lg bg-stone-100 outline-none text-xs xl:text-lg font-medium text-center w-full py-2 px-3"
-                    type="text"
-                    placeholder={"10:00"}
-                    required={true}
-                    maxLength={5}
-                    value={times[day]?.startTime || ""}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      handleStartTimeChange(day, e.target.value)
-                    }
-                  />
+                      <input
+                        className="rounded-lg bg-stone-100 outline-none text-xs xl:text-lg font-medium text-center w-full py-2 px-3"
+                        type="text"
+                        placeholder={"10:00"}
+                        required={true}
+                        maxLength={5}
+                        value={times[day]?.startTime || ""}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          handleStartTimeChange(day, e.target.value)
+                        }
+                      />
 
-                  <input
-                    className="rounded-lg bg-stone-100 outline-none text-xs xl:text-lg font-medium text-center w-full py-2 px-3"
-                    type="text"
-                    placeholder={"10:20"}
-                    required={true}
-                    maxLength={5}
-                    value={times[day]?.endTime || ""}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      handleEndTimeChange(day, e.target.value)
-                    }
-                  />
-                </React.Fragment>
+                      <input
+                        className="rounded-lg bg-stone-100 outline-none text-xs xl:text-lg font-medium text-center w-full py-2 px-3"
+                        type="text"
+                        placeholder={"10:20"}
+                        required={true}
+                        maxLength={5}
+                        value={times[day]?.endTime || ""}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          handleEndTimeChange(day, e.target.value)
+                        }
+                      />
+                    </React.Fragment>
+                  </motion.div>
+                </AnimatePresence>
               ))}
             </div>
           </div>
