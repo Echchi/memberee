@@ -8,6 +8,7 @@ import {
   dateFormattedtoNum,
   formatCurrency,
   formatPhone,
+  generateDateOptions,
   generatePaymentDates,
 } from "../../../../libs/client/utils";
 import Button from "../../../../component/button/button";
@@ -65,6 +66,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [loading, setLoading] = useState(true);
   const memberRef = useRef<HTMLDivElement | null>(null);
   const [paymentType, setPaymentType] = useState<PaymentType>();
+  const payDayOptions = generateDateOptions();
   useEffect(() => {
     const fetchPaymentType = async () => {
       const type = await getPaymentType();
@@ -462,15 +464,15 @@ const Page = ({ params }: { params: { id: string } }) => {
           />
           {paymentType === PaymentType.DIFFERENT && (
             <Input
-              type={isEdit ? "text" : "div"}
+              type={isEdit ? "select" : "div"}
               label={"납부일자"}
-              value={member?.payDay + " 일"}
-              placeholder={member?.payDay + ""}
+              value={member?.payDay || 1}
+              options={payDayOptions}
               className={cls(
                 "h-16 xl:text-lg border-b-0 xl:border-r-1",
-                isEdit ? "border-t-0" : "",
+                isEdit ? "xl:border-t-0" : "",
               )}
-              name={"lessonFee"}
+              name={"payDay"}
               maxLength={7}
               minLength={4}
               required={true}
@@ -481,6 +483,9 @@ const Page = ({ params }: { params: { id: string } }) => {
             <WorkerList
               selectedDay={selectedDay}
               selectedWorker={member?.worker?.id}
+              className={
+                paymentType === PaymentType.DIFFERENT ? "rounded-bl-lg" : ""
+              }
             />
           ) : (
             <Input
@@ -506,11 +511,15 @@ const Page = ({ params }: { params: { id: string } }) => {
                 : dateFormattedtoKor(member?.startDate)
             }
             className={cls(
-              "h-16 xl:text-lg border-b-0",
+              "h-16 xl:text-lg",
               paymentType === PaymentType.DIFFERENT
-                ? "xl:border-l-0 border-r-1"
+                ? "xl:border-l-0 "
                 : "col-span-2 border-r-1",
-              isEdit ? "col-span-2 rounded-b-lg" : "xl:border-r-1",
+              isEdit
+                ? paymentType === PaymentType.DIFFERENT
+                  ? "!border-b-1 rounded-br-lg"
+                  : "col-span-2 rounded-b-lg"
+                : "xl:border-r-1 border-b-0",
             )}
             name={"startDate"}
             maxLength={8}

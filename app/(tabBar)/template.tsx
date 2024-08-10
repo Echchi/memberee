@@ -1,12 +1,7 @@
-import { usePathname, useRouter } from "next/navigation";
 import { cls } from "../../libs/client/utils";
-import TabItem from "../../component/tabItem";
-import Link from "next/link";
 import Web from "../../component/tabs/web";
 import TopBar from "../../component/tabs/mobile/topBar";
 import TabBar from "../../component/tabs/mobile/tabBar";
-import { motion } from "framer-motion";
-import Transition from "../../component/pageTransition";
 import PageTransition from "../../component/pageTransition";
 
 export interface LayoutProps {

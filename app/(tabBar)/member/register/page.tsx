@@ -77,7 +77,7 @@ const Page = () => {
   const createMemberWithBulk = createMember.bind("bulk", false);
   const [state, action] = useFormState(createMemberWithBulk, null);
   const payDayOptions = generateDateOptions();
-  console.log("payDayOprions", payDayOptions);
+
   return (
     // <div className="p-4 w-fit rounded-lg bg-white">
     <div className="max-w-screen-lg mx-auto xl:mt-7 pb-6 xl:p-4 rounded-lg bg-white">
@@ -228,7 +228,7 @@ const Page = () => {
             type={"select"}
             isLong={true}
             label={"납부일"}
-            className="h-16 xl:text-lg border-y-0 border-l-0"
+            className="h-16 xl:text-lg xl:border-y-0 xl:border-l-0 border-b-0"
             name={"payDay"}
             options={payDayOptions}
             required={true}

@@ -81,16 +81,16 @@ const Page = () => {
           <p className="font-semibold tracking-wide text-stone-600 py-3 xl:pt-5 xl:pb-3 xl:text-lg">
             관리자 정보
           </p>
-          <Input
-            isLong={true}
-            label={"이름"}
-            type={isEdit ? "text" : "div"}
-            value={user?.name}
-            placeholder={user?.name}
-            className={"h-16 rounded-t-lg"}
-            name={"username"}
-            errorMessage={state?.fieldErrors?.username}
-          />
+          {/*<Input*/}
+          {/*  isLong={true}*/}
+          {/*  label={"이름"}*/}
+          {/*  type={isEdit ? "text" : "div"}*/}
+          {/*  value={user?.name}*/}
+          {/*  placeholder={user?.name}*/}
+          {/*  className={"h-16 rounded-t-lg"}*/}
+          {/*  name={"username"}*/}
+          {/*  errorMessage={state?.fieldErrors?.username}*/}
+          {/*/>*/}
           {!isEdit && (
             <Input
               isLong={true}
@@ -98,7 +98,7 @@ const Page = () => {
               type={isEdit ? "text" : "div"}
               value={user?.userid}
               placeholder={user?.userid}
-              className={"h-16 border-t-0 border-b-1"}
+              className={"h-16 rounded-t-lg border-b-1"}
               name={"id"}
             />
           )}

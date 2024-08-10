@@ -1,5 +1,5 @@
+import { PaymentType } from "@prisma/client";
 import ExcelJS from "exceljs";
-import { PaymentType } from "../../../libs/constants";
 
 export const onClickUploadXLSX = ({
   title,

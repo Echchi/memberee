@@ -14,8 +14,9 @@ import {
 } from "../../../../../libs/client/utils";
 import { createMember } from "../../../../../app/(tabBar)/member/register/action";
 import { ITime } from "../../../member/register/selectTime";
-import { PaymentType } from "../../../../../libs/constants";
+
 import { getPaymentType } from "../../../../../app/(tabBar)/main/api";
+import { PaymentType } from "@prisma/client";
 
 const MemberUploadBtn = ({
   listData,
@@ -34,7 +35,7 @@ const MemberUploadBtn = ({
   setProgress: React.Dispatch<React.SetStateAction<number>>;
   isLoading: boolean;
 }) => {
-  console.log("listData", listData);
+  // console.log("listData", listData);
   const [paymentType, setPaymentType] = useState<PaymentType>();
   useEffect(() => {
     const fetchPaymentType = async () => {

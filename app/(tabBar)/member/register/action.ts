@@ -54,6 +54,7 @@ export const createMember = async (
   const session = await getSession();
   const companyId = session.company;
   const paymentType = session.paymentType;
+  console.log("createMember", formData);
   const data = {
     name: formData.get("name"),
     phone: formData.get("phone"),
@@ -66,14 +67,17 @@ export const createMember = async (
     startDate: formData.get("startDate"),
     content: formData.get("content"),
   } as any;
+
   if (paymentType === PaymentType.DIFFERENT) {
     data.payDay = formData.get("payDay");
   }
+
   const result = formSchema.safeParse(data);
   if (!result.success) {
     return result.error.flatten();
   } else {
     const transactionResult = await db.$transaction(async (prisma) => {
+      console.log("result", result);
       const member = await db.member.create({
         data: {
           name: result.data.name,

@@ -115,7 +115,7 @@ const SelectTime = ({
     const [endHour, endMinute] = endTime.split(":").map(Number);
     const [startHour, startMinute] = startTime.split(":").map(Number);
     return (
-      new Date(0, 0, 0, endHour, endMinute) <=
+      new Date(0, 0, 0, endHour, endMinute) <
       new Date(0, 0, 0, startHour, startMinute)
     );
   };

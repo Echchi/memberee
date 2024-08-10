@@ -55,7 +55,7 @@
         @apply font-medium appearance-none w-full h-full outline-none pr-3 py-2 flex items-center text-stone-600 border-stone-300 text-sm xl:text-lg
     }
     .inner_input_error{
-        @apply text-sm xl:text-lg font-medium appearance-none w-full h-full outline-none pr-3 py-2 focus:outline-none focus:ring-orange-500 focus:ring-inset focus:ring-[1.5px] transition-all placeholder:xl:text-lg placeholder:text-sm
+        @apply text-sm xl:text-lg font-medium appearance-none w-full h-full outline-none pr-3 py-2 group-focus-within:z-10 group-focus-within:outline-none group-focus-within:ring-orange-500 group-focus-within:ring-offset-0 group-focus-within:ring-[2px] transition-all bg-white placeholder:xl:text-lg placeholder:text-sm
     }
     .inner_select {
         @apply appearance-none w-full h-full outline-none pl-2 pr-3 py-2 text-sm xl:text-lg
@@ -68,7 +68,7 @@
 
     /* error */
     .error {
-        @apply absolute inset-y-0 right-2 flex items-center text-orange-500 font-medium my-1 ml-1 px-1  text-xs xl:text-sm bg-white
+        @apply absolute right-1 bottom-0 text-orange-500 font-medium my-1 ml-1 px-1 text-xs xl:text-sm bg-transparent h-fit z-20
     }
 
 
