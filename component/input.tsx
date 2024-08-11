@@ -69,9 +69,7 @@ const Input = forwardRef<
     ref,
   ) => {
     const [selectedValue, setSelectedValue] = useState(value || "");
-    console.log(
-      `${name} : ${errorMessage[0]}, len : ${errorMessage[0].length}`,
-    );
+
     useEffect(() => {
       console.log("value", value);
       if (value && type === "select") {
@@ -97,7 +95,7 @@ const Input = forwardRef<
           <span
             className={cls(
               "absolute inset-y-0 left-0 flex items-center pl-4 group-focus-within:z-20",
-              errorMessage[0].length > 0
+              errorMessage[0]?.length > 0
                 ? "group-focus-within:*:fill-orange-500"
                 : "group-focus-within:*:fill-emerald-600",
             )}

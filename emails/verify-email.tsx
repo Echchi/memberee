@@ -63,9 +63,9 @@ export const VerifyEmail = ({ token }: IVerifyEmail) => {
               <Text className="text-base text-center font-medium">
                 아래 버튼을 눌러 회원가입을 완료해 주세요
               </Text>
-              <Section className="mx-auto my-10 text-center">
+              <Section className="my-10 text-center">
                 <Link
-                  className="px-32 py-4 text-white font-bold text-lg bg-emerald-700 border-0 rounded-lg cursor-pointer"
+                  className="px-24 py-4 text-white font-bold text-lg bg-emerald-700 border-0 rounded-lg cursor-pointer"
                   // href={`https://www.memberee.com/join?token=${token}`}
                   href={
                     process.env.NODE_ENV === "production"

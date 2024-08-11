@@ -24,12 +24,14 @@ import { PaymentType } from "../../../libs/constants";
 import PaymentTypeCheckbox from "./paymentTypeCheckbox";
 import { AnimatePresence, motion } from "framer-motion";
 import PasswordStrength from "./passwordStrength";
+import Loading from "../../../app/loading";
 
 const JoinForm = () => {
   const searchParams = useSearchParams();
   const token = searchParams.get("token") || "";
   const [email, setEmail] = useState("");
-  const [errorPage, setErrorPage] = useState(true);
+  const [errorPage, setErrorPage] = useState(false);
+  const [tokenLoading, setTokenLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [paymentType, setPaymentType] = useState<PaymentType>(
@@ -70,12 +72,16 @@ const JoinForm = () => {
         setErrorPage(false);
         setEmail(result.email);
       }
+      setTokenLoading(false);
     } catch {
+      setTokenLoading(false);
       setErrorPage(true);
     }
   };
 
   useEffect(() => {
+    setTokenLoading(true);
+
     if (token) {
       checkTokenExpires(token);
     }
@@ -132,6 +138,19 @@ const JoinForm = () => {
     fieldOnBlur: () => void,
   ) => {
     const userId = event.target.value.trim();
+    if (userId.length === 0) {
+      setError("userid", {
+        type: "manual",
+        message: "아이디를 입력해주세요",
+      });
+      return;
+    } else if (ID_REGEX.test(userId)) {
+      setError("userid", {
+        type: "manual",
+        message: ID_REGEX_ERROR,
+      });
+      return;
+    }
 
     const isUseridUnique = await checkUserid(userId);
 
@@ -179,11 +198,13 @@ const JoinForm = () => {
   ) => {
     const coNum = event.target.value.trim();
 
-    // if (coNum.length === 0) {
-    //   setError("co_num", {
-    //     type: "manual",
-    //     message: PHONE_REGEX_ERROR,
-    //   });
+    if (coNum.length === 0) {
+      setError("co_num", {
+        type: "manual",
+        message: "사업자 등록번호를 입력해주세요",
+      });
+      return;
+    }
     // } else if (!ONLY_NUMBER_REGEX.test(coNum)) {
     //   setError("co_num", {
     //     type: "manual",
@@ -207,7 +228,9 @@ const JoinForm = () => {
   // }, [paymentType]);
   return (
     <>
-      {errorPage ? (
+      {tokenLoading ? (
+        <Loading />
+      ) : errorPage ? (
         <TokenError />
       ) : (
         <form
@@ -315,6 +338,7 @@ const JoinForm = () => {
               required={true}
               className={"h-16 border-t-0 border-b-1 rounded-b-lg"}
               {...register("password", {
+                required: "비밀번호를 입력해주세요",
                 pattern: {
                   value: PASSWORD_REGEX,
                   message: PASSWORD_REGEX_ERROR,
@@ -322,7 +346,7 @@ const JoinForm = () => {
               })}
               errorMessage={[errors.password?.message ?? ""]}
             />
-            <div className="flex w-full pt-3">
+            <div className="flex justify-end pt-3">
               <PasswordStrength password={password} />
             </div>
             {/*<Input*/}

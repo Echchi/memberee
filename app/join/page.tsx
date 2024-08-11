@@ -8,6 +8,7 @@ import { PaymentType } from "../../libs/constants";
 
 export interface JoinFormType {
   userid: string;
+  password: string;
   co_num: string;
   email: string;
   payDay?: string | null;
