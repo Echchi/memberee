@@ -7,19 +7,33 @@ import Button from "../../../component/button/button";
 
 import { getUser, terminateUser } from "./api";
 import { User } from ".prisma/client";
-import { cls, formatPhone } from "../../../libs/client/utils";
-import { Company } from "@prisma/client";
+import {
+  cls,
+  formatPhone,
+  generateDateOptions,
+} from "../../../libs/client/utils";
+import { Company, PaymentType } from "@prisma/client";
 import Modal from "../../../component/modal/modal";
 import ConfirmModal from "../../../component/modal/confirmModal";
 import { useFormState } from "react-dom";
 import { updateUser } from "./action";
 import ChangePassword from "./changePassword";
+import { getPaymentType } from "../main/api";
 
 const Page = () => {
   const [user, setUser] = useState<User | null>(null);
   const [company, setCompany] = useState<Company | null>(null);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
+  const [paymentType, setPaymentType] = useState<PaymentType>();
+  const payDayOptions = generateDateOptions();
+  useEffect(() => {
+    const fetchPaymentType = async () => {
+      const type = await getPaymentType();
+      setPaymentType(type);
+    };
+    fetchPaymentType();
+  }, []);
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -160,24 +174,29 @@ const Page = () => {
             type={isEdit ? "text" : "div"}
             value={company?.name}
             placeholder={company?.name}
-            className={"h-16 border-t-1 border-b-1 rounded-t-lg"}
+            className={cls(
+              "h-16 border-t-1 border-b-1 rounded-t-lg",
+              paymentType === PaymentType.SAME ? "" : "rounded-b-lg",
+            )}
             name={"co_name"}
             errorMessage={state?.fieldErrors?.co_name}
           />
-          <Input
-            label={"납부일"}
-            name={"payDay"}
-            required={true}
-            className={"h-16 border-t-0 rounded-b-lg"}
-            type={isEdit ? "select" : "div"}
-            selectDescription={company?.payDay ? "일" : ""}
-            value={company?.payDay ? company?.payDay + "" : ""}
-            options={Array.from({ length: 31 }, (_, index) => ({
-              value: index + 1,
-              label: (index + 1).toString(),
-            }))}
-            errorMessage={state?.fieldErrors?.payDay}
-          />
+          {paymentType === PaymentType.SAME && (
+            <Input
+              label={"납부일"}
+              name={"payDay"}
+              required={true}
+              className={"h-16 border-t-0 rounded-b-lg"}
+              type={isEdit ? "select" : "div"}
+              selectDescription={company?.payDay ? "일" : ""}
+              value={company?.payDay ? company?.payDay + "" : ""}
+              options={Array.from({ length: 31 }, (_, index) => ({
+                value: index + 1,
+                label: (index + 1).toString(),
+              }))}
+              errorMessage={state?.fieldErrors?.payDay}
+            />
+          )}
 
           {/*<Input*/}
           {/*  label={"연락처"}*/}

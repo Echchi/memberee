@@ -74,7 +74,7 @@ const Page = ({ params }: { params: { id: string } }) => {
     };
     fetchPaymentType();
   }, []);
-  console.log("paymentType === PaymentType.DIFFERENT", paymentType);
+
   const id = params.id;
   useEffect(() => {
     const fetchMember = async () => {
