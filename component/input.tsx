@@ -71,7 +71,7 @@ const Input = forwardRef<
     const [selectedValue, setSelectedValue] = useState(value || "");
 
     useEffect(() => {
-      console.log("value", value);
+      // console.log("value", value);
       if (value && type === "select") {
         setSelectedValue(value);
       }

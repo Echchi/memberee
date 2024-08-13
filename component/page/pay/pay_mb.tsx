@@ -93,14 +93,14 @@ const PayMb = ({
           />
         </div>
         <div className="flex space-x-2">
-          <SendMsg
-            year={year}
-            month={month}
-            loading={loading}
-            payDay={
-              paymentType === PaymentType.DIFFERENT ? getDay(new Date()) : -1
-            }
-          />
+          {paymentType === PaymentType.DIFFERENT && (
+            <SendMsg
+              year={year}
+              month={month}
+              loading={loading}
+              payDay={getDay(new Date())}
+            />
+          )}
           <SendMsg year={year} month={month} loading={loading} />
         </div>
       </div>

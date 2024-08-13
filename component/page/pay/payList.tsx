@@ -24,7 +24,7 @@ const PayList = ({
   month?: number;
   paymentType?: PaymentType;
 }) => {
-  console.log("paymentType PayList", paymentType);
+  console.count("payList");
   const [members, setMembers] = useState<IMemberWithSchedules[]>();
   const [total, setTotal] = useState<number>();
   const [workers, setWorkers] = useState<IWorker[]>();
@@ -69,7 +69,7 @@ const PayList = ({
     [query, workerId, payStatus, page, payDayOrder],
   );
 
-  const fetchPaidCounts = async (year: number, month: number) => {
+  const fetchPaidCounts = useCallback(async (year: number, month: number) => {
     // console.log("2. fetchPaidCounts");
     try {
       const paidResponse = await getPaidCnt(year, month);
@@ -78,9 +78,9 @@ const PayList = ({
     } catch (e) {
       console.error("error fetch counts", e);
     }
-  };
+  }, []);
 
-  const fetchtotalCounts = async (year: number, month: number) => {
+  const fetchtotalCounts = useCallback(async (year: number, month: number) => {
     // console.log("3. fetchtotalCounts");
     try {
       const totalResponse = await getTotalCnt(year, month);
@@ -89,9 +89,9 @@ const PayList = ({
     } catch (e) {
       console.error("error fetch counts", e);
     }
-  };
+  }, []);
 
-  const fetchWorkerList = async (year: number, month: number) => {
+  const fetchWorkerList = useCallback(async (year: number, month: number) => {
     // console.log("4. fetchWorkerList");
     const workerList = await getWorkerList(year, month);
 
@@ -100,10 +100,10 @@ const PayList = ({
       name: item.name,
     }));
     setWorkers(workersData);
-  };
+  }, []);
 
   useEffect(() => {
-    console.log("page", page);
+    // console.log("page", page);
     setPage(1);
     const fetchData = async () => {
       await Promise.all([
@@ -132,9 +132,9 @@ const PayList = ({
     setPayStatus(Number(value));
   };
   const defaultPaymentType = PaymentType.DIFFERENT;
-  const handleClickPayDayOrder = () => {
+  const handleClickPayDayOrder = useCallback(() => {
     setpayDayOrder((prev) => !prev);
-  };
+  }, []);
   return (
     <>
       <div className="hidden xl:block box mt-3">
