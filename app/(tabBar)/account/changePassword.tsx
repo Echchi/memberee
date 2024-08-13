@@ -122,7 +122,7 @@ const ChangePassword = ({ onClose }: { onClose: () => void }) => {
       <>
         {isSuccess && (
           // <div className="absolute right-0 h-3/4 w-full flex flex-col justify-center items-center bg-white z-20 space-y-4">
-          <div className="h-full w-full flex flex-col justify-center items-center bg-white z-20 space-y-4">
+          <div className="h-full w-full flex flex-col justify-center items-center bg-white z-20 space-y-4 pb-10">
             <svg width="50" height="50" viewBox="0 0 100 100">
               <circle
                 cx="50"

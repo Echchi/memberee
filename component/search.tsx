@@ -1,7 +1,8 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Input from "./input";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { debounce } from "lodash";
 
 const Search = ({ placeholder }: { placeholder: string }) => {
   const pathname = usePathname();
@@ -11,13 +12,21 @@ const Search = ({ placeholder }: { placeholder: string }) => {
   const { replace } = useRouter();
 
   const handleChange = (searchTerm: string) => {
-    if (searchTerm) {
-      params.set("query", searchTerm.trim());
-    } else {
-      params.delete("query");
-    }
-    replace(`${pathname}?${params.toString()}`);
+    debounceSearch(searchTerm);
   };
+
+  const debounceSearch = useMemo(
+    () =>
+      debounce((searchTerm) => {
+        if (searchTerm) {
+          params.set("query", searchTerm.trim());
+        } else {
+          params.delete("query");
+        }
+        replace(`${pathname}?${params.toString()}`);
+      }, 200),
+    [serchedTerm],
+  );
 
   return (
     <div className="w-full">

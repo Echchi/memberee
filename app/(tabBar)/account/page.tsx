@@ -117,7 +117,7 @@ const Page = () => {
             />
           )}
           {isEdit ? (
-            <div className="relative hidden xl:flex items-center w-full border border-stone-300 border-t-0 bg-white h-18 rounded-b-lg">
+            <div className="relative hidden xl:flex items-center w-full border border-stone-300 bg-white h-18 rounded-lg">
               <span className="text-sm xl:text-lg text-stone-600 max-w-24 xl:max-w-full absolute inset-y-0 left-0 flex flex-nowrap items-center xl:pl-10 pl-4 whitespace-pre-line font-semibold">
                 비밀번호
               </span>
