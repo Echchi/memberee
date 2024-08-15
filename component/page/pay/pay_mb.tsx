@@ -2,16 +2,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import Tag from "../../tag";
 import LineBox from "../../lineBox";
-import { Member, PaymentType } from "@prisma/client";
+import { PaymentType } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { DAYOFWEEK } from "../../../libs/constants";
 import { cls, formatPhone } from "../../../libs/client/utils";
 import { IMemberWithSchedules } from "../../../app/(tabBar)/member/[id]/page";
 import InfiniteScroll from "../../infiniteScroll";
-import Link from "next/link";
 import SendMsg from "./sendMsg";
 import Empty from "../../empty";
-import { getDay } from "date-fns";
+import { getDate } from "date-fns";
 
 const PayMb = ({
   members,
@@ -49,7 +48,6 @@ const PayMb = ({
   // }, [data]);
 
   useEffect(() => {
-    console.log("data", data);
     setData((prevData) => {
       const addData = members.filter(
         (newMembers) =>
@@ -98,7 +96,7 @@ const PayMb = ({
               year={year}
               month={month}
               loading={loading}
-              payDay={getDay(new Date())}
+              payDay={getDate(new Date())}
             />
           )}
           <SendMsg year={year} month={month} loading={loading} />
