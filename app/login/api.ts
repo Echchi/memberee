@@ -10,12 +10,11 @@ import jwt from "jsonwebtoken";
 export interface FindParam {
   phone: string;
   coNum: string;
-  name?: string;
   id?: string;
 }
 
 export async function getUserWithData(param: FindParam) {
-  const { phone, coNum, name, id } = param;
+  const { phone, coNum, id } = param;
   const whereClause: any = {
     phone: phone,
     status: { in: [-1, 1] },
@@ -25,10 +24,6 @@ export async function getUserWithData(param: FindParam) {
       },
     },
   };
-
-  if (name) {
-    whereClause.name = name;
-  }
 
   if (id) {
     whereClause.userid = id;
@@ -85,10 +80,9 @@ export const sendPasswordEmail = async (param: SendPasswordEmail) => {
   const { email, name, tmpPassword } = param;
   const res = await sendEmail({
     to: [email],
-    subject: `${name} 님! memberee 임시 비밀번호 입니다 `,
+    subject: `memberee 임시 비밀번호 입니다 `,
     react: React.createElement(FindPasswordEmail, {
       tmpPassword,
-      name: name,
     }),
   });
   return res ? { success: true } : { success: false };

@@ -30,7 +30,6 @@ const FindPassword = ({ onClose }: { onClose: () => void }) => {
   const [coNum, setCoNum] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const [result, setResult] = useState<FindPasswordRes>({
-    name: "",
     userid: "",
     email: "",
   });
@@ -107,13 +106,13 @@ const FindPassword = ({ onClose }: { onClose: () => void }) => {
 
   const handleFindPassword = async () => {
     setIsLoading(true);
-    const parma = {
+    const param = {
       id,
       coNum,
       phone,
     };
 
-    const result = await getUserWithData(parma);
+    const result = await getUserWithData(param);
 
     if (result) {
       setResult(result);
