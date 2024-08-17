@@ -8,15 +8,15 @@ import VerifyEmail from "../../emails/verify-email";
 import jwt from "jsonwebtoken";
 
 export interface FindParam {
-  phone: string;
+  email: string;
   coNum: string;
   id?: string;
 }
 
 export async function getUserWithData(param: FindParam) {
-  const { phone, coNum, id } = param;
+  const { email, coNum, id } = param;
   const whereClause: any = {
-    phone: phone,
+    email: email,
     status: { in: [-1, 1] },
     Company: {
       some: {
@@ -72,12 +72,11 @@ export const sendEmail = async (payload: Email) => {
 
 interface SendPasswordEmail {
   email: string;
-  name: string;
   tmpPassword: string;
 }
 
 export const sendPasswordEmail = async (param: SendPasswordEmail) => {
-  const { email, name, tmpPassword } = param;
+  const { email, tmpPassword } = param;
   const res = await sendEmail({
     to: [email],
     subject: `memberee 임시 비밀번호 입니다 `,

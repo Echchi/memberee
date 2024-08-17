@@ -13,7 +13,6 @@ import FindPasswordEmail from "../../emails/find-password-email";
 import { updatePassword } from "../(tabBar)/account/api";
 
 export interface FindPasswordRes {
-  name: string;
   userid: string;
   email: string;
 }
@@ -21,12 +20,12 @@ export interface FindPasswordRes {
 const FindPassword = ({ onClose }: { onClose: () => void }) => {
   const [error, setError] = useState({
     id: "",
-    phone: "",
+    email: "",
     coNum: "",
     result: "",
   });
   const [id, setId] = useState("");
-  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [coNum, setCoNum] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const [result, setResult] = useState<FindPasswordRes>({
@@ -55,28 +54,28 @@ const FindPassword = ({ onClose }: { onClose: () => void }) => {
       }));
     }
   };
-  const handleChangePhone = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     if (value.length > 0) {
       setError((prev) => ({
         ...prev,
-        phone: "",
+        email: "",
         result: "",
       }));
 
-      if (validator.isMobilePhone(value, "ko-KR")) {
-        setPhone(value);
+      if (validator.isEmail(value)) {
+        setEmail(value);
       } else {
         setError((prev) => ({
           ...prev,
-          phone: PHONE_REGEX_ERROR,
+          email: "이메일을 올바르게 입력해주세요",
           result: "",
         }));
       }
     } else {
       setError((prev) => ({
         ...prev,
-        phone: "연락처를 입력해주세요",
+        email: "이메일을 입력해주세요",
       }));
     }
   };
@@ -109,7 +108,7 @@ const FindPassword = ({ onClose }: { onClose: () => void }) => {
     const param = {
       id,
       coNum,
-      phone,
+      email,
     };
 
     const result = await getUserWithData(param);
@@ -126,7 +125,6 @@ const FindPassword = ({ onClose }: { onClose: () => void }) => {
         // 임시 비밀번호 메일 전송
         const param = {
           email: result.email,
-          name: result.name,
           tmpPassword,
         };
 
@@ -166,7 +164,7 @@ const FindPassword = ({ onClose }: { onClose: () => void }) => {
           // <div className="absolute right-0 h-4/5 w-full flex flex-col justify-center items-center bg-white z-20 px-10 pb-10">
           <div className="h-full w-full flex flex-col justify-center items-center bg-white z-20 px-4 pb-10">
             <p className="text-lg font-medium">
-              {result.name} 님의 이메일로 임시 비밀번호를 보냈어요!
+              가입시 등록한 이메일로 임시 비밀번호를 보냈어요!
             </p>
             <p className="mb-7">
               스펨 메일함에 있을 수도 있어요. 스펨 메일함도 확인해주세요.
@@ -192,26 +190,12 @@ const FindPassword = ({ onClose }: { onClose: () => void }) => {
               required={true}
               errorMessage={error?.id.length > 0 ? [error?.id] : undefined}
             />
-            <Input
-              type={"연락처"}
-              label={"연락처"}
-              placeholder={"연락처"}
-              className="h-16 xl:text-lg border-b-0"
-              onBlur={(event: React.ChangeEvent<HTMLInputElement>) =>
-                handleChangePhone(event)
-              }
-              isLong={true}
-              required={true}
-              maxLength={11}
-              errorMessage={
-                error?.phone.length > 0 ? [error?.phone] : undefined
-              }
-            />
+
             <Input
               type={"사업자등록번호"}
               label={"사업자등록번호"}
               placeholder={"사업자등록번호"}
-              className="h-16 xl:text-lg rounded-b-lg"
+              className="h-16 xl:text-lg border-b-0"
               onBlur={(event: React.ChangeEvent<HTMLInputElement>) =>
                 handleChangeCoNum(event)
               }
@@ -220,6 +204,20 @@ const FindPassword = ({ onClose }: { onClose: () => void }) => {
               maxLength={10}
               errorMessage={error.coNum.length > 0 ? [error?.coNum] : undefined}
             />
+            <Input
+              type={"이메일"}
+              label={"이메일"}
+              placeholder={"가입시 등록한 이메일"}
+              className="h-16 xl:text-lg rounded-b-lg"
+              onBlur={(event: React.ChangeEvent<HTMLInputElement>) =>
+                handleChangeEmail(event)
+              }
+              isLong={true}
+              required={true}
+              errorMessage={
+                error?.email.length > 0 ? [error?.email] : undefined
+              }
+            />
             <p className="text-orange-500 pt-3 font-semibold">{error.result}</p>
             <Button
               text={isLoading ? "찾는 중" : "비밀번호 찾기"}
@@ -227,7 +225,7 @@ const FindPassword = ({ onClose }: { onClose: () => void }) => {
               large={true}
               isButtonDisabled={
                 error.id.length > 0 ||
-                error.phone.length > 0 ||
+                error.email.length > 0 ||
                 error.coNum.length > 0 ||
                 isSuccess ||
                 isLoading
