@@ -49,7 +49,6 @@ const Page = async () => {
           registerOpen={Boolean(workers.length)}
           year={year}
           month={month}
-          paymentType={paymentType}
         />
       </div>
     </>

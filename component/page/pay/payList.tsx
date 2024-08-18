@@ -24,7 +24,6 @@ const PayList = ({
   month?: number;
   paymentType?: PaymentType;
 }) => {
-  console.count("payList");
   const [members, setMembers] = useState<IMemberWithSchedules[]>();
   const [total, setTotal] = useState<number>();
   const [workers, setWorkers] = useState<IWorker[]>();
@@ -32,7 +31,7 @@ const PayList = ({
   const [paidCnt, setPaidCnt] = useState<number>(0);
   const [workerId, setWorkerId] = useState<number>(-1);
   const [payStatus, setPayStatus] = useState<number>(0);
-  const [payDayOrder, setpayDayOrder] = useState(false);
+  const [payDayOrder, setPayDayOrder] = useState(false);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const initYear = getYear(new Date());
@@ -133,7 +132,7 @@ const PayList = ({
   };
   const defaultPaymentType = PaymentType.DIFFERENT;
   const handleClickPayDayOrder = useCallback(() => {
-    setpayDayOrder((prev) => !prev);
+    setPayDayOrder((prev) => !prev);
   }, []);
   return (
     <>

@@ -1,6 +1,6 @@
 "use server";
 import React from "react";
-import { format, getMonth, getYear } from "date-fns";
+import { format, getDate, getMonth, getYear } from "date-fns";
 import Button from "../../../component/button/button";
 
 import SalaryList from "../../../component/page/salary/salaryList";
@@ -18,7 +18,10 @@ async function getWorkersSalarys(year: number, month: number) {
   const session = await getSession();
   const companyId = session.company;
   const company = await getCompany();
-  const payDayDate = new Date(Date.UTC(year, month - 1, company?.payDay));
+  const today = getDate(new Date());
+  const payDayDate = new Date(
+    Date.UTC(year, month - 1, company?.payDay ?? today),
+  );
   const thisYear = getYear(new Date());
   const thisMonth = getMonth(new Date()) + 1;
   const startDate = new Date(

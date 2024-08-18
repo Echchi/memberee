@@ -53,7 +53,7 @@ const Members = ({
             page,
           },
         });
-        console.timeEnd("member getMembers");
+        // console.timeEnd("member getMembers");
         if (response) {
           setMembers(response.members);
           setTotal(response.total);
