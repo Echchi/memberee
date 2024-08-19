@@ -3,11 +3,11 @@ import React, { useEffect, useState } from "react";
 import { addMonths, format, getMonth, getYear } from "date-fns";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import _ from "lodash";
-const MonthChanger = () => {
+const MonthChanger = ({ type }: { type?: string }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams().toString();
   const { replace } = useRouter();
-  const today = new Date();
+  const today = addMonths(new Date(), 1);
   const [date, setDate] = useState(today);
 
   const debouncedReplace = React.useCallback(
@@ -43,7 +43,9 @@ const MonthChanger = () => {
           />
         </svg>
       </button>
-      <span className="xl:px-6 px-4">{format(date, "yyyy년 MM월")}</span>
+      <span className="xl:px-6 px-4">
+        {format(date, "yyyy년 MM월")} {type === "pay" ? "수업료" : ""}
+      </span>
       <button onClick={() => setDate(addMonths(date, 1))}>
         <svg
           xmlns="http://www.w3.org/2000/svg"

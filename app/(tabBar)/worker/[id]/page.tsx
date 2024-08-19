@@ -141,7 +141,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             />
           }
         />
-      )}{" "}
+      )}
       {isWarningOpen && (
         <Modal
           title={""}

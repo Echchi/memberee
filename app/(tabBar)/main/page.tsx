@@ -1,5 +1,5 @@
 "use server";
-import { getDay, getMonth, getYear } from "date-fns";
+import { getDate, getDay, getMonth, getYear } from "date-fns";
 
 import Class from "../../../component/page/main/class/class";
 import Alarm from "../../../component/page/main/alarm";
@@ -19,12 +19,12 @@ const Page = async () => {
 
   const isPayDiff = paymentType === PaymentType.DIFFERENT;
   const year = getYear(new Date());
-  const isAfterPayDay = getDay(new Date()) >= payDay!!;
+  const isAfterPayDay = getDate(new Date()) >= payDay!!;
   const month = isPayDiff
-    ? getMonth(new Date())
+    ? getMonth(new Date()) + 1
     : isAfterPayDay
-      ? getMonth(new Date()) + 1
-      : getMonth(new Date());
+      ? getMonth(new Date()) + 2
+      : getMonth(new Date()) + 1;
   const dayOfWeek = getDay(new Date()) === 0 ? 7 : getDay(new Date());
 
   const paidCnt = await getPaidCnt(year, month);
@@ -39,7 +39,12 @@ const Page = async () => {
   return (
     <>
       {totalMemCnt - paidCnt > 0 && (
-        <Alarm overdueCnt={totalMemCnt - paidCnt} month={month} />
+        <Alarm
+          overdueCnt={totalMemCnt - paidCnt}
+          month={month}
+          paymentType={paymentType}
+          payDay={payDay}
+        />
       )}
       <div className="xl:grid grid-cols-2 grid-rows-3 gap-3 mt-4 xl:mt-5 xl:h-[700px]">
         <Class classes={classes} />

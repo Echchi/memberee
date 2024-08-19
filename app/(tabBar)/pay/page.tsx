@@ -20,7 +20,7 @@ const Page = async ({
 
   return (
     <>
-      <MonthChanger />
+      <MonthChanger type={"pay"} />
       <PayHeader year={year} month={month} paymentType={paymentType} />
       <PayList
         query={query}
