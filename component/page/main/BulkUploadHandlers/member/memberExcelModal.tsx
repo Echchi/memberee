@@ -5,7 +5,11 @@ import Input from "../../../../input";
 import RegisterWorkers from "../worker/registerWorkers";
 import { readXlsx } from "../../../../../libs/client/readXlsx";
 import validator from "validator";
-import { cls, scheduleValid } from "../../../../../libs/client/utils";
+import {
+  cls,
+  generateDateOptions,
+  scheduleValid,
+} from "../../../../../libs/client/utils";
 import {
   BIRTH_REGEX,
   COMMISSION_REGEX,
@@ -22,9 +26,8 @@ import MemberUploadBtn from "./memberUploadBtn";
 import RegisterMembers from "./registerMembers";
 import { getWorkerList } from "../../../../../app/(tabBar)/worker/register/api";
 import BulkLoading from "../../../../excel/builkUpload/bulkLoading";
-import { paymentState } from "../../../../../libs/client/recoil/store/atoms";
-import { PaymentType } from "../../../../../libs/constants";
-import WorkerList from "../../../member/register/workerList";
+import { getPaymentType } from "../../../../../app/(tabBar)/main/api";
+import { PaymentType } from "@prisma/client";
 
 const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
   const [selecetdFile, setSelectedFile] = useState<string>();
@@ -33,7 +36,14 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [workers, setWorkers] = useState<string[]>([]);
   const [progress, setProgress] = useState(0);
-
+  const [paymentType, setPaymentType] = useState<PaymentType>();
+  useEffect(() => {
+    const fetchPaymentType = async () => {
+      const type = await getPaymentType();
+      setPaymentType(type);
+    };
+    fetchPaymentType();
+  }, []);
   const handleFileOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setErrors([]);
     if (event.target.files && event.target.files.length > 0) {
