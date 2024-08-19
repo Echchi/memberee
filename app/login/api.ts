@@ -8,7 +8,7 @@ import VerifyEmail from "../../emails/verify-email";
 import jwt from "jsonwebtoken";
 
 export interface FindParam {
-  email: string;
+  email?: string;
   coNum: string;
   id?: string;
 }
