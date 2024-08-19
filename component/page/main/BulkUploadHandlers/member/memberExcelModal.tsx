@@ -40,6 +40,7 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
   useEffect(() => {
     const fetchPaymentType = async () => {
       const type = await getPaymentType();
+      console.log("type", type);
       setPaymentType(type);
     };
     fetchPaymentType();
@@ -51,8 +52,11 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
       setSelectedFile(file.name);
       readXlsx(file)
         .then((data) => {
-          console.log("data", data);
-          setListData(data);
+          const filteredData = data.filter((innerArray: any[]) => {
+            return innerArray.some((item) => item !== ""); // 빈 문자열이 아닌 요소가 하나라도 있는지 확인
+          });
+          console.log("filteredData", filteredData);
+          setListData(filteredData);
         })
         .catch((error) => {
           console.error("Error reading file: ", error);
@@ -95,7 +99,7 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
           STARTDATE_REGEX.test(items[8] + ""), // 시작일자
           paymentType === PaymentType.DIFFERENT
             ? DATE_REGEX.test(items[9])
-            : null,
+            : true,
         ];
 
         const hasError = validations.some((validation) => !validation);
