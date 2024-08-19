@@ -144,7 +144,7 @@ const JoinForm = () => {
         message: "아이디를 입력해주세요",
       });
       return;
-    } else if (ID_REGEX.test(userId)) {
+    } else if (!ID_REGEX.test(userId)) {
       setError("userid", {
         type: "manual",
         message: ID_REGEX_ERROR,
