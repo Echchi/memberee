@@ -52,7 +52,7 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <html lang="en">
+      <html lang="ko">
         <Analytics />
         <SpeedInsights />
         <RecoilWrapper>
