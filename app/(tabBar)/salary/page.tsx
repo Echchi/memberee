@@ -74,41 +74,6 @@ async function getWorkersSalarys(year: number, month: number) {
     },
   });
 
-  // const updatedWorkers = await Promise.all(
-  //   workers.map(async (worker) => {
-  //     const updatedMembers = await Promise.all(
-  //       worker.Member.map(async (member) => {
-  //         const latestWorkerLog = await db.workerChangeLog.findFirst({
-  //           where: {
-  //             memberId: member.id,
-  //             previousWorkerId: worker.id,
-  //             changedDate: { lt: endDate },
-  //           },
-  //           orderBy: { changedDate: "desc" },
-  //         });
-  //
-  //         // console.log("으휴 시발 샐러리", latestWorkerLog);
-  //
-  //         const memberToUse = latestWorkerLog
-  //           ? latestWorkerLog &&
-  //             isAfterYearMonth(latestWorkerLog.changedDate, startDate)
-  //             ? await db.member.findUnique({
-  //                 where: { id: latestWorkerLog.previousWorkerId },
-  //               })
-  //             : await db.member.findUnique({
-  //                 where: { id: latestWorkerLog.workerId },
-  //               })
-  //           : member;
-  //         return memberToUse;
-  //       }),
-  //     );
-  //     return {
-  //       ...worker,
-  //       Member: updatedMembers,
-  //     };
-  //   }),
-  // );
-
   return workers;
 }
 

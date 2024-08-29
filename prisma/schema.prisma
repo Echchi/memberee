@@ -156,7 +156,7 @@ model Salary {
 
 model Member {
   id              Int               @id @default(autoincrement())
-  worker          Worker            @relation(fields: [workerId], references: [id], onDelete: Cascade)
+  worker          Worker?           @relation(fields: [workerId], references: [id], onDelete: Cascade)
   workerId        Int
   company         Company?          @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId       Int?

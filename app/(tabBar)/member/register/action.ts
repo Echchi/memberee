@@ -38,7 +38,7 @@ const formSchema = z.object({
     .regex(MONEY_REGEX, MONEY_REGEX_ERROR)
     .transform((val) => parseInt(val, 10)),
   worker: z
-    .string()
+    .string({ message: "담당직원을 선택해주세요" })
     .trim()
     .transform((val) => parseInt(val, 10)),
   startDate: z.string().trim().regex(STARTDATE_REGEX, STARTDATE_REGEX_ERROR),

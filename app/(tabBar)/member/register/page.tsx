@@ -235,7 +235,10 @@ const Page = () => {
             errorMessage={state?.fieldErrors?.payDay}
           />
         )}
-        <WorkerList selectedDay={selectedDay} />
+        <WorkerList
+          selectedDay={selectedDay}
+          errorMessage={state?.fieldErrors?.worker}
+        />
         <Input
           isLong={true}
           type={"text"}

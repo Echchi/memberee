@@ -15,6 +15,7 @@ interface WorkerListProps {
     React.SetStateAction<{ id: string; name: string }>
   >;
   className?: string;
+  errorMessage?: string[] | string;
 }
 
 const WorkerList: React.FC<WorkerListProps> = ({
@@ -24,6 +25,7 @@ const WorkerList: React.FC<WorkerListProps> = ({
   onChange,
   setInitValue,
   className,
+  errorMessage,
 }) => {
   const [workers, setWorkers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -81,6 +83,7 @@ const WorkerList: React.FC<WorkerListProps> = ({
               "h-16 xl:text-lg border-b-0 xl:border-b",
               className || "",
             )}
+            errorMessage={errorMessage}
           />
         )
       ) : (
