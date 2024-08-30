@@ -31,8 +31,8 @@ const DownloadMemberListBtn = () => {
           isAll: true,
         },
       });
-      if (response) {
-        setMembers(response.members);
+      if (response.members) {
+        setMembers(response);
         setTotal(response.total);
       }
     } catch (e) {
