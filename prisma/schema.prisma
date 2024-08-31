@@ -62,7 +62,7 @@ model Company {
 model Worker {
   id              Int               @id @default(autoincrement())
   company         Company?          @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  companyId       Int?
+  companyId       Int
   name            String
   birth           DateTime?
   phone           String
