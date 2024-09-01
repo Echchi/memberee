@@ -53,7 +53,7 @@ import { getPaymentType } from "../../main/api";
 export interface IMemberWithSchedules extends Member {
   Memos?: Memo[];
   Schedule?: Schedule[];
-  worker: Worker | null;
+  worker?: Worker | null;
   Payment?: Payment[];
   company?: Company | null;
   WorkerChangeLog?: WorkerChangeLog[] | null;

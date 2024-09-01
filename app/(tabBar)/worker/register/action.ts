@@ -71,7 +71,7 @@ export const createWorker = async (
         commission: result.data.commission,
         bank: result.data.bank,
         accountNumber: result.data.accountNumber,
-        companyId: session.company,
+        companyId: session.company!,
       },
     });
 
