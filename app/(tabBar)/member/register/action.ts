@@ -117,7 +117,7 @@ export const createMember = async (
           ([dayOfWeek, { startTime: startTimeVal, endTime: endTimeVal }]) =>
             db.schedule.create({
               data: {
-                workerId: member.worker.id,
+                workerId: member.worker!.id,
                 memberId: member.id,
                 lessonFee: result.data.lessonFee,
                 dayOfWeek: parseInt(dayOfWeek, 10),
