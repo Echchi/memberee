@@ -17,7 +17,7 @@ const Worker = ({ workers }: { workers: WorkerWithMember[] }) => {
     <>
       {isWorkerModalOpen && (
         <Modal
-          title={"직원 엑셀 ㅌㅌㅌ등록"}
+          title={"직원 엑셀 등록"}
           content={
             <WorkerExcelModal onClose={() => setIsWorkerModalOpen(false)} />
           }
