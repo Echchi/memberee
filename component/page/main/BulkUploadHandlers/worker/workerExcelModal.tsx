@@ -67,7 +67,7 @@ const WorkerExcelModal = ({ onClose }: { onClose: () => void }) => {
   }, [listData]);
 
   return (
-    <div className="w-full relative">
+    <div className="h-full flex flex-col">
       {isLoading ? (
         <BulkLoading progress={progress} />
       ) : (
@@ -95,7 +95,7 @@ const WorkerExcelModal = ({ onClose }: { onClose: () => void }) => {
               </div>
             )}
           </div>
-          <div className="h-[495px] my-3 overflow-y-scroll">
+          <div className="h-2/3 my-3 overflow-y-scroll">
             {listData.length > 0 && selecetdFile ? (
               <table className="w-full table-auto text-center border-stone-100">
                 <thead className="*:text-lg font-semibold bg-stone-100 h-16 sticky top-0">
@@ -133,10 +133,15 @@ const WorkerExcelModal = ({ onClose }: { onClose: () => void }) => {
               </table>
             ) : (
               <div className="w-full h-full flex flex-col justify-center items-center text-sm xl:text-lg xl:space-y-2 space-y-1">
+                {listData.length === 0 && selecetdFile ? (
+                  <span className="text-base xl:text-xl text-green-600 font-semibold">
+                    내용이 작성되지 않았어요!
+                  </span>
+                ) : null}
                 <p>
-                  양식을 다운로드하시고,
-                  <span className="text-red-600"> 빨간 글씨</span>에 맞게 직원
-                  정보를 입력해주세요
+                  양식을 다운로드 하시고,
+                  <span className="text-red-600 font-semibold"> 빨간 글씨</span>
+                  에 맞게 직원 정보를 입력해주세요
                 </p>
                 <p>
                   그 다음, 왼쪽 위에 파일을 등록해주시면 등록을 도와드릴게요!
@@ -147,7 +152,7 @@ const WorkerExcelModal = ({ onClose }: { onClose: () => void }) => {
               </div>
             )}
           </div>
-          <div className="flex justify-between pb-3">
+          <div className="absolute bottom-0 w-full flex justify-between pb-3">
             <p
               className={cls(
                 "flex justify-center items-center font-semibold text-xl",

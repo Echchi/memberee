@@ -319,9 +319,11 @@ const Page = ({ params }: { params: { id: string } }) => {
             type={isEdit ? "text" : "div"}
             label={"생년월일"}
             value={
-              isEdit
-                ? dateFormattedtoNum(member?.birth)
-                : dateFormattedtoKor(member?.birth)
+              member?.birth
+                ? isEdit
+                  ? dateFormattedtoNum(member?.birth)
+                  : dateFormattedtoKor(member?.birth)
+                : ""
             }
             placeholder={dateFormattedtoNum(member?.birth)}
             className="h-16 xl:text-lg border-b-1 xl:border-r-0"

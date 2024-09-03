@@ -97,7 +97,7 @@ const MemberUploadBtn = ({
     }
     setIsLoading(false);
     onClose();
-    location.reload();
+    // location.reload();
   }, [listData, errors]);
 
   return (

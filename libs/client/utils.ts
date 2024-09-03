@@ -28,7 +28,7 @@ export function formatCurrency(currency: string | number) {
 }
 
 export function formatISODate(date: string | Date | null | undefined): string {
-  if (typeof date === "string") {
+  if (typeof date === "string" && date.length > 0) {
     const parsedDate = parseISO(date);
     return format(parsedDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
   } else if (date instanceof Date) {
@@ -54,6 +54,7 @@ export function combineCurrentDateWithTime(time: string) {
     parseInt(timeParts[1], 10),
     0,
   ); // 시, 분, 초 설정
+
   return currentDate;
 }
 

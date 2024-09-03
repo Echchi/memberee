@@ -17,7 +17,10 @@ export const readXlsx = (file: File): Promise<any> => {
         defval: "",
       });
 
-      resolve(jsonData.slice(6).filter((item: any) => item.length > 0));
+      const filteredData = jsonData.slice(6).filter((row: any) => {
+        return row.some((cell: any) => cell !== "");
+      });
+      resolve(filteredData);
     };
 
     reader.onerror = (error) => reject(error);

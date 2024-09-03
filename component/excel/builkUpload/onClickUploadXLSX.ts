@@ -113,7 +113,7 @@ export const onClickUploadXLSX = ({
   content.forEach((item: any, index: number) => {
     const newRow = ws.addRow(header.map((h: any) => item[h.key]));
     newRow.eachCell((cell, colNumber) => {
-      if (colNumber === 2) {
+      if (colNumber === 2 || colNumber === 8) {
         cell.numFmt = "@";
       }
       if (index === 0 || index === 1) {
@@ -124,6 +124,17 @@ export const onClickUploadXLSX = ({
     });
     newRow.height = 32;
   });
+
+  const totalRows = 100;
+  for (let i = content.length + 1; i <= totalRows; i++) {
+    const newRow = ws.addRow(header.map(() => ""));
+    newRow.eachCell((cell, colNumber) => {
+      if (colNumber === 2 || colNumber === 8) {
+        cell.numFmt = "@";
+      }
+    });
+    newRow.height = 32;
+  }
 
   let promise: any[] = [];
   Promise.all(promise).then(() => {

@@ -32,7 +32,18 @@ const formSchema = z.object({
       (phone) => validator.isMobilePhone(phone, "ko-KR"),
       "연락처를 올바르게 입력해주세요",
     ),
-  birth: z.string().trim().regex(BIRTH_REGEX, BIRTH_REGEX_ERROR),
+  birth: z
+    .string()
+    .trim()
+    .nullable()
+    .optional()
+    .refine(
+      (value) =>
+        value === null || value === undefined || BIRTH_REGEX.test(value),
+      {
+        message: BIRTH_REGEX_ERROR,
+      },
+    ),
   job: z.string().trim().optional(),
   dayOfWeek: z.string().trim().min(1, "요일을 선택해주세요"),
   lessonFee: z
@@ -106,7 +117,10 @@ export const updateMember = async (
     const updateData = {
       name: result.data.name,
       phone: result.data.phone,
-      birth: formatISODate(result.data.birth),
+      birth:
+        formatISODate(result.data.birth) === ""
+          ? null
+          : formatISODate(result.data.birth),
       job: result.data.job,
       workerId: Number(result.data.worker),
       startDate: formatISODate(result.data.startDate),

@@ -86,7 +86,7 @@ const Modal = ({
         >
           <div
             className={cls(
-              "bg-white p-4 xl:p-6 w-full min-h-fit relative rounded-lg overflow-y-auto",
+              "flex flex-col bg-white p-4 xl:p-6 w-full  max-h-[90vh] rounded-lg",
               className ? className : "xl:w-2/5",
             )}
           >
@@ -100,7 +100,9 @@ const Modal = ({
             </button>
             <h2 className="text-lg font-semibold">{title}</h2>
 
-            <div className="mt-4">{content || children}</div>
+            <div className="grow relative mt-4 h-full">
+              {content || children}
+            </div>
           </div>
         </motion.div>
       )}

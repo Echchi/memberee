@@ -29,8 +29,9 @@ const formSchema = z.object({
       (phone) => validator.isMobilePhone(phone, "ko-KR"),
       "연락처를 올바르게 입력해주세요",
     ),
-  birth: z.string().trim().regex(BIRTH_REGEX, BIRTH_REGEX_ERROR),
-  job: z.string().trim().optional(),
+  birth: z.string().nullable().optional(),
+
+  job: z.string().trim().nullable().optional(),
   dayOfWeek: z.string().trim().min(1, "요일을 선택해주세요"),
   lessonFee: z
     .string()
@@ -54,7 +55,6 @@ export const createMember = async (
   const session = await getSession();
   const companyId = session.company;
   const paymentType = session.paymentType;
-  console.log("createMember", formData);
   const data = {
     name: formData.get("name"),
     phone: formData.get("phone"),
@@ -77,12 +77,14 @@ export const createMember = async (
     return result.error.flatten();
   } else {
     const transactionResult = await db.$transaction(async (prisma) => {
-      console.log("result", result);
       const member = await db.member.create({
         data: {
           name: result.data.name,
           phone: result.data.phone,
-          birth: formatISODate(result.data.birth),
+          birth:
+            formatISODate(result.data.birth) === ""
+              ? null
+              : formatISODate(result.data.birth),
           job: result.data.job,
           workerId: result.data.worker,
           startDate: formatISODate(result.data.startDate),
@@ -93,7 +95,7 @@ export const createMember = async (
           worker: true,
         },
       });
-
+      console.log("member", member);
       const workerChangeLog = await db.workerChangeLog.create({
         data: {
           memberId: member.id,
@@ -102,7 +104,7 @@ export const createMember = async (
           changedDate: formatISODate(result.data.startDate),
         },
       });
-
+      console.log("workerChangeLog", workerChangeLog);
       const salary = await db.salary.create({
         data: {
           salaryForLesson: Math.round(
@@ -110,8 +112,9 @@ export const createMember = async (
           ),
         },
       });
-
+      console.log("salary", salary);
       if (data?.times) {
+        console.log("data?.times", data?.times);
         const schedulePromises = Object.entries(data?.times).map(
           // @ts-ignore
           ([dayOfWeek, { startTime: startTimeVal, endTime: endTimeVal }]) =>
@@ -140,6 +143,7 @@ export const createMember = async (
       }
       return member;
     });
+    console.log("transactionResult -----------------> ", transactionResult);
     !bulk && redirect(`${transactionResult.id}`);
   }
 };
