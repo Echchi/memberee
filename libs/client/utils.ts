@@ -11,8 +11,8 @@ import {
   subMonths,
 } from "date-fns";
 import { DAYOFWEEK_REGEX, TIMEDATA_REGEX } from "../regex";
-import { IMemberWithSchedules } from "../../app/(tabBar)/member/[id]/page";
-import { getWorkerList } from "../../app/(tabBar)/worker/register/api";
+import { IMemberWithSchedules } from "../../app/(protected)/member/[id]/page";
+import { getWorkerList } from "../../app/(protected)/worker/register/api";
 import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
 import { DAYOFWEEK_TONUM } from "../constants";
 

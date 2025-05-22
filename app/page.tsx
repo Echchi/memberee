@@ -2,9 +2,9 @@
 
 import ScrollProvider, {
   useScrollContext,
-} from "../component/page/landing/scrollProvider";
+} from "../components/common/pagination/scrollProvider";
 
-import Landing from "../component/page/landing/landing";
+import Landing from "../components/page/landing/landing";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 

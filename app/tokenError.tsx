@@ -1,14 +1,14 @@
 "use client";
 import React, { useState } from "react";
-import Web from "../component/tabs/web";
-import TopBar from "../component/tabs/mobile/topBar";
-import PageTransition from "../component/pageTransition";
-import TabBar from "../component/tabs/mobile/tabBar";
+import Web from "../components/layouts/tabs/web";
+import TopBar from "../components/layouts/tabs/mobile/topBar";
+import PageTransition from "../components/common/pagination/pageTransition";
+import TabBar from "../components/layouts/tabs/mobile/tabBar";
 import { useRouter } from "next/navigation";
-import Modal from "../component/modal/modal";
-import Join from "./login/join";
-import FindId from "./login/findId";
-import Button from "../component/button/button";
+import Modal from "../components/modal/modal";
+import Join from "./(public)/login/components/join";
+import FindId from "./(public)/login/components/findId";
+import Button from "../components/button/button";
 
 const TokenError = () => {
   const [isJoinOpen, setIsJoinOpen] = useState(false);

@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
-import Web from "../component/tabs/web";
-import TopBar from "../component/tabs/mobile/topBar";
-import PageTransition from "../component/pageTransition";
+import Web from "../components/layouts/tabs/web";
+import TopBar from "../components/layouts/tabs/mobile/topBar";
+import PageTransition from "../components/common/pagination/pageTransition";
 import { cls } from "../libs/client/utils";
-import TabBar from "../component/tabs/mobile/tabBar";
+import TabBar from "../components/layouts/tabs/mobile/tabBar";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
