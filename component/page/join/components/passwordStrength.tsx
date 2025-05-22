@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { checkPasswordStrength, cls } from "../../../libs/client/utils";
-import { PASSWORD_REGEX_ERROR } from "../../../libs/regex";
+import { checkPasswordStrength, cls } from "../../../../libs/client/utils";
+import { PASSWORD_REGEX_ERROR } from "../../../../libs/regex";
 
 const PasswordStrength = ({ password }: { password: string }) => {
   const [level, setLevel] = useState(0);

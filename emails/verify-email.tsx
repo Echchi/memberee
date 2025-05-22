@@ -70,7 +70,7 @@ export const VerifyEmail = ({ token }: IVerifyEmail) => {
                   href={
                     process.env.NODE_ENV === "production"
                       ? `https://www.memberee.com/join?token=${token}`
-                      : `http://localhost:3000/join?token=${token}`
+                      : `http://localhost:3001/join?token=${token}`
                   }
                 >
                   인증하기

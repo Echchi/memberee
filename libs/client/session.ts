@@ -13,7 +13,7 @@ export default function getSession() {
   const ttl = 3 * 60 * 60;
   return getIronSession<SessionContent>(cookies() as any, {
     cookieName: "memberee",
-    password: process.env.COOKIE_PASSWORD!,
+    password: process.env.IRON_SESSION_PASSWORD!,
     cookieOptions: {
       httpOnly: process.env.NODE_ENV === "production",
       secure: process.env.NODE_ENV === "production",

@@ -1,6 +1,6 @@
 import React from "react";
-import { cls } from "../../../libs/client/utils";
-import { PaymentType } from "../../../libs/constants";
+import { cls } from "../../../../libs/client/utils";
+import { PaymentType } from "../../../../libs/constants";
 
 const PaymentTypeCheckbox = ({
   paymentType,
