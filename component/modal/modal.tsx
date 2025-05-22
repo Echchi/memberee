@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { cls } from "../../libs/client/utils";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -18,63 +18,46 @@ const Modal = ({
   className,
   children,
 }: ModalProps) => {
-  const [isOpen, setIsOpen] = useState(true); // 모달 상태 관리
+  const [isVisible, setIsVisible] = useState(true);
+  const [isMouseDownOnBackdrop, setIsMouseDownOnBackdrop] = React.useState(false);
 
-  const [isMouseDownOnBackdrop, setIsMouseDownOnBackdrop] = useState(false); // 백드롭에서 mousedown 이벤트가 발생했는지 추적
+  const handleClose = useCallback(() => {
+    setIsVisible(false);
+    setTimeout(() => {
+      onClose();
+    }, 300); // 애니메이션 시간과 동일하게 설정
+  }, [onClose]);
 
-  const handleBackgroundMouseDown = (e: React.MouseEvent) => {
+  const handleBackgroundMouseDown = useCallback((e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       setIsMouseDownOnBackdrop(true);
     }
-  };
+  }, []);
 
-  const handleBackgroundMouseUp = (e: React.MouseEvent) => {
+  const handleBackgroundMouseUp = useCallback((e: React.MouseEvent) => {
     if (e.target === e.currentTarget && isMouseDownOnBackdrop) {
-      setTimeout(() => {
-        setIsOpen(false);
-
-        onClose();
-      }, 200);
+      handleClose();
     }
     setIsMouseDownOnBackdrop(false);
-  };
+  }, [isMouseDownOnBackdrop, handleClose]);
 
-  const handleMouseUp = () => {
+  const handleMouseUp = useCallback(() => {
     setIsMouseDownOnBackdrop(false);
-  };
-
-  useEffect(() => {
-    window.addEventListener("mouseup", handleMouseUp);
-    return () => {
-      window.removeEventListener("mouseup", handleMouseUp);
-    };
   }, []);
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
+    document.body.style.overflow = "hidden";
+    window.addEventListener("mouseup", handleMouseUp);
+
     return () => {
       document.body.style.overflow = "unset";
+      window.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [isOpen]);
-
-  const handleClose = (event: React.MouseEvent) => {
-    // event.preventDefault();
-
-    setTimeout(() => {
-      setIsOpen(false);
-      onClose();
-    }, 200);
-  };
-
-  if (!isOpen) return null;
+  }, [handleMouseUp]);
 
   return (
-    <AnimatePresence>
-      {isOpen && (
+    <AnimatePresence mode="wait">
+      {isVisible && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -82,17 +65,21 @@ const Modal = ({
           transition={{ duration: 0.3 }}
           onMouseDown={handleBackgroundMouseDown}
           onMouseUp={handleBackgroundMouseUp}
-          className="fixed inset-0 flex bg-black  bg-opacity-50 items-center justify-center z-20"
+          className="fixed inset-0 flex bg-black bg-opacity-50 items-center justify-center z-20"
         >
-          <div
+          <motion.div
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.95, opacity: 0 }}
+            transition={{ duration: 0.3 }}
             className={cls(
-              "flex flex-col bg-white p-4 xl:p-6 w-full  max-h-[90vh] rounded-lg",
-              className ? className : "xl:w-2/5",
+              "relative flex flex-col bg-white p-4 xl:p-6 w-full max-h-[90vh] rounded-lg",
+              className ? className : "w-[95%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%]",
             )}
           >
             <button
               data-testid={"close-button"}
-              onClick={(event: React.MouseEvent) => handleClose(event)}
+              onClick={handleClose}
               className="absolute top-4 right-4 text-2xl"
               type="button"
             >
@@ -103,7 +90,7 @@ const Modal = ({
             <div className="grow relative mt-4 h-full">
               {content || children}
             </div>
-          </div>
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
