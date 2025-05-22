@@ -4,6 +4,7 @@ import db from "../../../../libs/server/db";
 import Input from "../../../input";
 import getSession from "../../../../libs/client/session";
 import { getWorkerList } from "../../../../app/(tabBar)/worker/register/api";
+import { cls } from "../../../../libs/client/utils";
 
 interface WorkerListProps {
   selectedDay?: number[];
@@ -13,6 +14,8 @@ interface WorkerListProps {
   setInitValue?: React.Dispatch<
     React.SetStateAction<{ id: string; name: string }>
   >;
+  className?: string;
+  errorMessage?: string[] | string;
 }
 
 const WorkerList: React.FC<WorkerListProps> = ({
@@ -21,6 +24,8 @@ const WorkerList: React.FC<WorkerListProps> = ({
   isOnly = false,
   onChange,
   setInitValue,
+  className,
+  errorMessage,
 }) => {
   const [workers, setWorkers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -74,7 +79,11 @@ const WorkerList: React.FC<WorkerListProps> = ({
               label: worker.name,
             }))}
             name={"worker"}
-            className="h-16 xl:text-lg border-b-0 xl:border-b"
+            className={cls(
+              "h-16 xl:text-lg border-b-0 xl:border-b",
+              className || "",
+            )}
+            errorMessage={errorMessage}
           />
         )
       ) : (

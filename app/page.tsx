@@ -5,11 +5,19 @@ import ScrollProvider, {
 } from "../component/page/landing/scrollProvider";
 
 import Landing from "../component/page/landing/landing";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
-  return (
-    <ScrollProvider>
-      <Landing />
-    </ScrollProvider>
-  );
+  const router = useRouter();
+  useEffect(() => {
+    router.push("/login");
+  }, [router]);
+  return null;
+
+  // return (
+  //   <ScrollProvider>
+  //     <Landing />
+  //   </ScrollProvider>
+  // );
 }

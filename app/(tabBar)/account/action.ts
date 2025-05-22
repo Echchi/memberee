@@ -137,6 +137,9 @@ export const updateUser = async (prevState: any, formData: FormData) => {
         // contact: result.data.co_contact,
       },
     });
+    const session = await getSession();
+    session.payday = company.payDay;
+    await session.save();
 
     redirect("account");
   }

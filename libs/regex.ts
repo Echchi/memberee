@@ -1,7 +1,9 @@
-export const ID_REGEX = new RegExp(/^[a-z]+[a-z0-9]{4,10}$/g);
-export const ID_REGEX_ERROR = "영문자 또는 숫자 4 ~ 10 글자여야해요";
+export const ID_REGEX = new RegExp(
+  /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]{4,10}$/g,
+);
+export const ID_REGEX_ERROR = "영문자와 숫자로 된 4 ~ 10 글자여야해요";
 export const PASSWORD_REGEX = new RegExp(
-  /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{4,}$/,
+  /^(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*])[a-z\d!@#$%^&*]{4,}$/,
 );
 
 export const NAME_REGEX = new RegExp(/^[a-zA-Z가-힣]{2,}$/);

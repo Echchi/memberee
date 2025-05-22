@@ -17,7 +17,7 @@ import { getCompany } from "./api";
 import List, { IPay } from "../../../../component/page/pay/[id]/list";
 import Tag from "../../../../component/tag";
 import DownloadPayDetailBtn from "../../../../component/page/pay/[id]/excelDownload/downloadPayDetailBtn";
-import { format } from "date-fns";
+import { format, getDate } from "date-fns";
 
 const Page = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
@@ -77,11 +77,14 @@ const Page = ({ params }: { params: { id: string } }) => {
             (member?.endDate
               ? generatePaymentDates(
                   member?.startDate,
-                  response.payDay,
+                  response.payDay ?? getDate(member?.startDate),
                   true,
                   member?.endDate,
                 )
-              : generatePaymentDates(member?.startDate, response.payDay));
+              : generatePaymentDates(
+                  member?.startDate,
+                  response.payDay ?? getDate(member?.startDate),
+                ));
 
           setTotalPeriod(total || []);
         }

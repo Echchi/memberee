@@ -2,9 +2,7 @@ import {
   Body,
   Container,
   Head,
-  Heading,
   Html,
-  Img,
   Link,
   Section,
   Text,
@@ -13,14 +11,10 @@ import * as React from "react";
 import { Hr, Preview, Tailwind } from "@react-email/components";
 
 interface IFindPasswordEmailprops {
-  name: string;
   tmpPassword: string;
 }
 
-export const FindPasswordEmail = ({
-  tmpPassword,
-  name,
-}: IFindPasswordEmailprops) => {
+export const FindPasswordEmail = ({ tmpPassword }: IFindPasswordEmailprops) => {
   return (
     <Html>
       <Head>
@@ -52,7 +46,7 @@ export const FindPasswordEmail = ({
           },
         }}
       >
-        <Preview>{name} 님, memberee 임시 비밀번호가 발급되었습니다!</Preview>
+        <Preview>memberee 임시 비밀번호가 발급되었습니다!</Preview>
         <Body className="font-sans text-center">
           <Container className="bg-gray-100 my-auto mx-auto p-5 rounded-lg text-center">
             <Container className="bg-white my-0 mx-auto p-10 rounded-lg text-center">
@@ -64,7 +58,7 @@ export const FindPasswordEmail = ({
               </Link>
 
               <Text className="font-medium text-xl mt-9 text-center">
-                {name} 님, 임시비밀번호가 발급되었습니다!
+                임시비밀번호가 발급되었습니다!
               </Text>
               <Text className="text-base text-center">
                 임시 비밀번호로 로그인 후, 반드시 비밀번호를 변경해주시기
@@ -83,7 +77,7 @@ export const FindPasswordEmail = ({
                   href={"https://www.memberee.com/login"}
                   className="font-medium text-base cursor-pointer text-emerald-800 text-center"
                 >
-                  다시 로그인하러 가볼까요?
+                  다시 로그인하러 갈까요?
                 </Link>
               </Section>
               <Hr />

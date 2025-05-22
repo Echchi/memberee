@@ -8,16 +8,15 @@ import VerifyEmail from "../../emails/verify-email";
 import jwt from "jsonwebtoken";
 
 export interface FindParam {
-  phone: string;
+  email?: string;
   coNum: string;
-  name?: string;
   id?: string;
 }
 
 export async function getUserWithData(param: FindParam) {
-  const { phone, coNum, name, id } = param;
+  const { email, coNum, id } = param;
   const whereClause: any = {
-    phone: phone,
+    email: email,
     status: { in: [-1, 1] },
     Company: {
       some: {
@@ -25,10 +24,6 @@ export async function getUserWithData(param: FindParam) {
       },
     },
   };
-
-  if (name) {
-    whereClause.name = name;
-  }
 
   if (id) {
     whereClause.userid = id;
@@ -77,18 +72,16 @@ export const sendEmail = async (payload: Email) => {
 
 interface SendPasswordEmail {
   email: string;
-  name: string;
   tmpPassword: string;
 }
 
 export const sendPasswordEmail = async (param: SendPasswordEmail) => {
-  const { email, name, tmpPassword } = param;
+  const { email, tmpPassword } = param;
   const res = await sendEmail({
     to: [email],
-    subject: `${name} 님! memberee 임시 비밀번호 입니다 `,
+    subject: `memberee 임시 비밀번호 입니다 `,
     react: React.createElement(FindPasswordEmail, {
       tmpPassword,
-      name: name,
     }),
   });
   return res ? { success: true } : { success: false };

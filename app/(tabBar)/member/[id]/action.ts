@@ -14,10 +14,14 @@ import {
 } from "../../../../libs/regex";
 import db from "../../../../libs/server/db";
 import getSession from "../../../../libs/client/session";
-import { combineCurrentDateWithTime, formatISODate } from "../../../../libs/client/utils";
+import {
+  combineCurrentDateWithTime,
+  formatISODate,
+} from "../../../../libs/client/utils";
 import { redirect, useSearchParams } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { isAfter, parseISO } from "date-fns";
+import { PaymentType } from "../../../../libs/constants";
 
 const formSchema = z.object({
   name: z.string().min(2, "이름을 올바르게 입력해주세요").trim(),
@@ -28,7 +32,18 @@ const formSchema = z.object({
       (phone) => validator.isMobilePhone(phone, "ko-KR"),
       "연락처를 올바르게 입력해주세요",
     ),
-  birth: z.string().trim().regex(BIRTH_REGEX, BIRTH_REGEX_ERROR),
+  birth: z
+    .string()
+    .trim()
+    .nullable()
+    .optional()
+    .refine(
+      (value) =>
+        value === null || value === undefined || BIRTH_REGEX.test(value),
+      {
+        message: BIRTH_REGEX_ERROR,
+      },
+    ),
   job: z.string().trim().optional(),
   dayOfWeek: z.string().trim().min(1, "요일을 선택해주세요"),
   lessonFee: z
@@ -51,6 +66,7 @@ const formSchema = z.object({
       },
       { message: "시작일을 올바르게 입력해주세요" },
     ),
+  payDay: z.string().nullable().optional(),
 });
 
 export const updateMember = async (
@@ -60,6 +76,7 @@ export const updateMember = async (
 ) => {
   const session = await getSession();
   const companyId = session.company;
+  const paymentType = session.paymentType;
   const savedMember = await db.member.findUnique({
     where: { id: +id, companyId },
     include: {
@@ -72,7 +89,7 @@ export const updateMember = async (
       worker: true,
     },
   });
-
+  console.log('formData.get("payDay")', formData.get("payDay"));
   const data = {
     name: formData.get("name") || savedMember?.name,
     phone: formData.get("phone") || savedMember?.phone,
@@ -85,11 +102,13 @@ export const updateMember = async (
 
     lessonFee:
       formData.get("lessonFee") || savedMember?.Schedule?.[0]?.lessonFee,
+    payDay: formData.get("payDay") || savedMember?.payDay,
     worker: formData.get("worker") || savedMember?.worker,
     startDate: formData.get("startDate") || savedMember?.startDate,
   };
 
   const result = formSchema.safeParse(data);
+
   if (!result.success) {
     return result.error.flatten();
   } else {
@@ -98,12 +117,18 @@ export const updateMember = async (
     const updateData = {
       name: result.data.name,
       phone: result.data.phone,
-      birth: formatISODate(result.data.birth),
+      birth:
+        formatISODate(result.data.birth) === ""
+          ? null
+          : formatISODate(result.data.birth),
       job: result.data.job,
       workerId: Number(result.data.worker),
       startDate: formatISODate(result.data.startDate),
       companyId: companyId,
-    };
+    } as any;
+    if (paymentType === PaymentType.DIFFERENT) {
+      updateData.payDay = Number(formData.get("payDay"));
+    }
 
     const member = await db.member.update({
       where: { id: +id, companyId },
@@ -112,7 +137,7 @@ export const updateMember = async (
         worker: true,
       },
     });
-
+    console.log("member result", member);
     // workerId가 변경되었다면 모든 스케줄 업데이트
     if (workerIdChanged) {
       await db.workerChangeLog.create({

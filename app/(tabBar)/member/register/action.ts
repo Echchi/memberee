@@ -29,8 +29,9 @@ const formSchema = z.object({
       (phone) => validator.isMobilePhone(phone, "ko-KR"),
       "연락처를 올바르게 입력해주세요",
     ),
-  birth: z.string().trim().regex(BIRTH_REGEX, BIRTH_REGEX_ERROR),
-  job: z.string().trim().optional(),
+  birth: z.string().nullable().optional(),
+
+  job: z.string().trim().nullable().optional(),
   dayOfWeek: z.string().trim().min(1, "요일을 선택해주세요"),
   lessonFee: z
     .string()
@@ -38,7 +39,7 @@ const formSchema = z.object({
     .regex(MONEY_REGEX, MONEY_REGEX_ERROR)
     .transform((val) => parseInt(val, 10)),
   worker: z
-    .string()
+    .string({ message: "담당직원을 선택해주세요" })
     .trim()
     .transform((val) => parseInt(val, 10)),
   startDate: z.string().trim().regex(STARTDATE_REGEX, STARTDATE_REGEX_ERROR),
@@ -66,9 +67,11 @@ export const createMember = async (
     startDate: formData.get("startDate"),
     content: formData.get("content"),
   } as any;
+
   if (paymentType === PaymentType.DIFFERENT) {
     data.payDay = formData.get("payDay");
   }
+
   const result = formSchema.safeParse(data);
   if (!result.success) {
     return result.error.flatten();
@@ -78,7 +81,10 @@ export const createMember = async (
         data: {
           name: result.data.name,
           phone: result.data.phone,
-          birth: formatISODate(result.data.birth),
+          birth:
+            formatISODate(result.data.birth) === ""
+              ? null
+              : formatISODate(result.data.birth),
           job: result.data.job,
           workerId: result.data.worker,
           startDate: formatISODate(result.data.startDate),
@@ -89,7 +95,7 @@ export const createMember = async (
           worker: true,
         },
       });
-
+      console.log("member", member);
       const workerChangeLog = await db.workerChangeLog.create({
         data: {
           memberId: member.id,
@@ -98,7 +104,7 @@ export const createMember = async (
           changedDate: formatISODate(result.data.startDate),
         },
       });
-
+      console.log("workerChangeLog", workerChangeLog);
       const salary = await db.salary.create({
         data: {
           salaryForLesson: Math.round(
@@ -106,14 +112,15 @@ export const createMember = async (
           ),
         },
       });
-
+      console.log("salary", salary);
       if (data?.times) {
+        console.log("data?.times", data?.times);
         const schedulePromises = Object.entries(data?.times).map(
           // @ts-ignore
           ([dayOfWeek, { startTime: startTimeVal, endTime: endTimeVal }]) =>
             db.schedule.create({
               data: {
-                workerId: member.worker.id,
+                workerId: member.worker!.id,
                 memberId: member.id,
                 lessonFee: result.data.lessonFee,
                 dayOfWeek: parseInt(dayOfWeek, 10),
@@ -136,6 +143,7 @@ export const createMember = async (
       }
       return member;
     });
+    console.log("transactionResult -----------------> ", transactionResult);
     !bulk && redirect(`${transactionResult.id}`);
   }
 };

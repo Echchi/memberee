@@ -17,10 +17,10 @@ const Page = async ({
   const query = searchParams?.query || "";
   const year = Number(searchParams?.year || getYear(new Date()));
   const month = Number(searchParams?.month || getMonth(new Date()) + 1);
-  console.log("paymentType", paymentType);
+
   return (
     <>
-      <MonthChanger />
+      <MonthChanger type={"pay"} />
       <PayHeader year={year} month={month} paymentType={paymentType} />
       <PayList
         query={query}

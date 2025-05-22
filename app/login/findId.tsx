@@ -107,12 +107,11 @@ const FindId = ({ onClose }: { onClose: () => void }) => {
   };
 
   const handleFindId = async () => {
-    const parma = {
-      name,
+    const param = {
       coNum,
       phone,
     };
-    const result = await getUserWithData(parma);
+    const result = await getUserWithData(param);
     if (result) {
       setResult(result);
       setIsSuccess(true);

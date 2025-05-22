@@ -1,6 +1,7 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { cls } from "../../libs/client/utils";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface ModalProps {
   title: string;
@@ -17,88 +18,82 @@ const Modal = ({
   className,
   children,
 }: ModalProps) => {
-  const [isOpen, setIsOpen] = useState(true); // 모달 상태 관리
+  const [isVisible, setIsVisible] = useState(true);
+  const [isMouseDownOnBackdrop, setIsMouseDownOnBackdrop] = React.useState(false);
 
-  const [isMouseDownOnBackdrop, setIsMouseDownOnBackdrop] = useState(false); // 백드롭에서 mousedown 이벤트가 발생했는지 추적
+  const handleClose = useCallback(() => {
+    setIsVisible(false);
+    setTimeout(() => {
+      onClose();
+    }, 300); // 애니메이션 시간과 동일하게 설정
+  }, [onClose]);
 
-  const handleBackgroundMouseDown = (e: React.MouseEvent) => {
-    console.log("handleBackgroundMouseDown");
-
+  const handleBackgroundMouseDown = useCallback((e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       setIsMouseDownOnBackdrop(true);
     }
-  };
+  }, []);
 
-  const handleBackgroundMouseUp = (e: React.MouseEvent) => {
+  const handleBackgroundMouseUp = useCallback((e: React.MouseEvent) => {
     if (e.target === e.currentTarget && isMouseDownOnBackdrop) {
-      setIsOpen(false);
-      setTimeout(onClose, 200);
+      handleClose();
     }
     setIsMouseDownOnBackdrop(false);
-  };
+  }, [isMouseDownOnBackdrop, handleClose]);
 
-  const handleMouseUp = () => {
+  const handleMouseUp = useCallback(() => {
     setIsMouseDownOnBackdrop(false);
-  };
-
-  useEffect(() => {
-    window.addEventListener("mouseup", handleMouseUp);
-    return () => {
-      window.removeEventListener("mouseup", handleMouseUp);
-    };
   }, []);
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
+    document.body.style.overflow = "hidden";
+    window.addEventListener("mouseup", handleMouseUp);
+
     return () => {
       document.body.style.overflow = "unset";
+      window.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [isOpen]);
-
-  const handleClose = (event: React.MouseEvent) => {
-    // event.preventDefault();
-
-    setTimeout(() => {
-      setIsOpen(false);
-      onClose();
-    }, 200);
-  };
-
-  if (!isOpen) return null;
+  }, [handleMouseUp]);
 
   return (
-    <div
-      data-testid={"modal-backdrop"}
-      onMouseDown={handleBackgroundMouseDown}
-      onMouseUp={handleBackgroundMouseUp}
-      className={cls(
-        "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20",
-        isOpen ? " animate-fadeIn" : "animate-fadeOut",
-      )}
-    >
-      <div
-        className={cls(
-          "bg-white p-4 xl:p-6 w-full min-h-fit relative rounded-lg overflow-y-auto",
-          className ? className : "xl:w-2/5",
-        )}
-      >
-        <button
-          data-testid={"close-button"}
-          onClick={(event: React.MouseEvent) => handleClose(event)}
-          className="absolute top-4 right-4 text-2xl"
-          type="button"
+    <AnimatePresence mode="wait">
+      {isVisible && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          onMouseDown={handleBackgroundMouseDown}
+          onMouseUp={handleBackgroundMouseUp}
+          className="fixed inset-0 flex bg-black bg-opacity-50 items-center justify-center z-20"
         >
-          &times;
-        </button>
-        <h2 className="text-lg font-semibold">{title}</h2>
+          <motion.div
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.95, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className={cls(
+              "relative flex flex-col bg-white p-4 xl:p-6 w-full max-h-[90vh] rounded-lg",
+              className ? className : "w-[95%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%]",
+            )}
+          >
+            <button
+              data-testid={"close-button"}
+              onClick={handleClose}
+              className="absolute top-4 right-4 text-2xl"
+              type="button"
+            >
+              &times;
+            </button>
+            <h2 className="text-lg font-semibold">{title}</h2>
 
-        <div className="mt-4">{content || children}</div>
-      </div>
-    </div>
+            <div className="grow relative mt-4 h-full">
+              {content || children}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 

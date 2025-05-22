@@ -24,7 +24,6 @@ const PayList = ({
   month?: number;
   paymentType?: PaymentType;
 }) => {
-  console.log("paymentType PayList", paymentType);
   const [members, setMembers] = useState<IMemberWithSchedules[]>();
   const [total, setTotal] = useState<number>();
   const [workers, setWorkers] = useState<IWorker[]>();
@@ -32,7 +31,7 @@ const PayList = ({
   const [paidCnt, setPaidCnt] = useState<number>(0);
   const [workerId, setWorkerId] = useState<number>(-1);
   const [payStatus, setPayStatus] = useState<number>(0);
-  const [payDayOrder, setpayDayOrder] = useState(false);
+  const [payDayOrder, setPayDayOrder] = useState(false);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const initYear = getYear(new Date());
@@ -69,7 +68,7 @@ const PayList = ({
     [query, workerId, payStatus, page, payDayOrder],
   );
 
-  const fetchPaidCounts = async (year: number, month: number) => {
+  const fetchPaidCounts = useCallback(async (year: number, month: number) => {
     // console.log("2. fetchPaidCounts");
     try {
       const paidResponse = await getPaidCnt(year, month);
@@ -78,9 +77,9 @@ const PayList = ({
     } catch (e) {
       console.error("error fetch counts", e);
     }
-  };
+  }, []);
 
-  const fetchtotalCounts = async (year: number, month: number) => {
+  const fetchtotalCounts = useCallback(async (year: number, month: number) => {
     // console.log("3. fetchtotalCounts");
     try {
       const totalResponse = await getTotalCnt(year, month);
@@ -89,9 +88,9 @@ const PayList = ({
     } catch (e) {
       console.error("error fetch counts", e);
     }
-  };
+  }, []);
 
-  const fetchWorkerList = async (year: number, month: number) => {
+  const fetchWorkerList = useCallback(async (year: number, month: number) => {
     // console.log("4. fetchWorkerList");
     const workerList = await getWorkerList(year, month);
 
@@ -100,10 +99,10 @@ const PayList = ({
       name: item.name,
     }));
     setWorkers(workersData);
-  };
+  }, []);
 
   useEffect(() => {
-    console.log("page", page);
+    // console.log("page", page);
     setPage(1);
     const fetchData = async () => {
       await Promise.all([
@@ -132,9 +131,9 @@ const PayList = ({
     setPayStatus(Number(value));
   };
   const defaultPaymentType = PaymentType.DIFFERENT;
-  const handleClickPayDayOrder = () => {
-    setpayDayOrder((prev) => !prev);
-  };
+  const handleClickPayDayOrder = useCallback(() => {
+    setPayDayOrder((prev) => !prev);
+  }, []);
   return (
     <>
       <div className="hidden xl:block box mt-3">

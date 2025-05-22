@@ -5,7 +5,11 @@ import Input from "../../../../input";
 import RegisterWorkers from "../worker/registerWorkers";
 import { readXlsx } from "../../../../../libs/client/readXlsx";
 import validator from "validator";
-import { cls, scheduleValid } from "../../../../../libs/client/utils";
+import {
+  cls,
+  generateDateOptions,
+  scheduleValid,
+} from "../../../../../libs/client/utils";
 import {
   BIRTH_REGEX,
   COMMISSION_REGEX,
@@ -22,9 +26,8 @@ import MemberUploadBtn from "./memberUploadBtn";
 import RegisterMembers from "./registerMembers";
 import { getWorkerList } from "../../../../../app/(tabBar)/worker/register/api";
 import BulkLoading from "../../../../excel/builkUpload/bulkLoading";
-import { paymentState } from "../../../../../libs/client/recoil/store/atoms";
-import { PaymentType } from "../../../../../libs/constants";
-import WorkerList from "../../../member/register/workerList";
+import { getPaymentType } from "../../../../../app/(tabBar)/main/api";
+import { PaymentType } from "@prisma/client";
 
 const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
   const [selecetdFile, setSelectedFile] = useState<string>();
@@ -33,7 +36,15 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [workers, setWorkers] = useState<string[]>([]);
   const [progress, setProgress] = useState(0);
-
+  const [paymentType, setPaymentType] = useState<PaymentType>();
+  useEffect(() => {
+    const fetchPaymentType = async () => {
+      const type = await getPaymentType();
+      console.log("type", type);
+      setPaymentType(type);
+    };
+    fetchPaymentType();
+  }, []);
   const handleFileOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setErrors([]);
     if (event.target.files && event.target.files.length > 0) {
@@ -41,8 +52,11 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
       setSelectedFile(file.name);
       readXlsx(file)
         .then((data) => {
-          console.log("data", data);
-          setListData(data);
+          const filteredData = data.filter((innerArray: any[]) => {
+            return innerArray.some((item) => item !== ""); // 빈 문자열이 아닌 요소가 하나라도 있는지 확인
+          });
+          console.log("filteredData", filteredData);
+          setListData(filteredData);
         })
         .catch((error) => {
           console.error("Error reading file: ", error);
@@ -65,7 +79,7 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
         const validations = [
           NAME_REGEX.test(items[0]),
           validator.isMobilePhone(items[1] + "", "ko-KR"), // 연락처
-          BIRTH_REGEX.test(items[2] + ""), // 생년월일
+          items[2].length > 0 ? BIRTH_REGEX.test(items[2] + "") : true, // 생년월일
           // 요일과 시간 길이
           items[4]
             ?.split(",")
@@ -85,7 +99,7 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
           STARTDATE_REGEX.test(items[8] + ""), // 시작일자
           paymentType === PaymentType.DIFFERENT
             ? DATE_REGEX.test(items[9])
-            : null,
+            : true,
         ];
 
         const hasError = validations.some((validation) => !validation);
@@ -103,7 +117,7 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
   }, [listData]);
 
   return (
-    <div className="w-full relative">
+    <div className="h-full flex flex-col">
       {isLoading ? (
         <BulkLoading progress={progress} />
       ) : (
@@ -131,7 +145,7 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
               </div>
             )}
           </div>
-          <div className="h-[495px] my-3 overflow-scroll ">
+          <div className="h-2/3 my-3 overflow-y-scroll">
             {listData.length > 0 && selecetdFile ? (
               <table className="w-full table-auto text-center border-stone-100">
                 <thead className="*:text-lg font-semibold bg-stone-100 h-16 sticky top-0">
@@ -187,10 +201,15 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
               </table>
             ) : (
               <div className="w-full h-full flex flex-col justify-center items-center text-sm xl:text-lg xl:space-y-2 space-y-1">
+                {listData.length === 0 && selecetdFile ? (
+                  <span className="text-base xl:text-xl text-green-600 font-semibold">
+                    내용이 작성되지 않았어요!
+                  </span>
+                ) : null}
                 <p>
                   양식을 다운로드하시고,
-                  <span className="text-red-600"> 빨간 글씨</span>에 맞게 회원
-                  정보를 입력해주세요
+                  <span className="text-red-600 font-semibold"> 빨간 글씨</span>
+                  에 맞게 회원 정보를 입력해주세요
                 </p>
                 <p>
                   그 다음, 왼쪽 위에 파일을 등록해주시면 등록을 도와드릴게요!
@@ -201,7 +220,7 @@ const MemberExcelModal = ({ onClose }: { onClose: () => void }) => {
               </div>
             )}
           </div>
-          <div className="flex justify-between">
+          <div className="absolute bottom-0 w-full flex justify-between pb-3">
             <p
               className={cls(
                 "flex justify-center items-center font-semibold text-xl",

@@ -157,5 +157,6 @@ export async function getMembers({ params }: { params: getMembersParams }) {
   });
 
   // await new Promise((resolve) => setTimeout(resolve, 5000));
+
   return { members: formattedMembers, total };
 }

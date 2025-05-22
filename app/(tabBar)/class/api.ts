@@ -13,13 +13,13 @@ export async function getClasses(options: {
   const session = await getSession();
   const companyId = session.company;
   const company = await getCompany();
-  const payDayDate = new Date(
-    Date.UTC(
-      options.year || getYear(new Date()),
-      options.month || getMonth(new Date()) - 1,
-      company?.payDay,
-    ),
-  );
+  // const payDayDate = new Date(
+  //   Date.UTC(
+  //     options.year || getYear(new Date()),
+  //     options.month || getMonth(new Date()) - 1,
+  //     company?.payDay,
+  //   ),
+  // );
 
   // const members = await db.member.findMany({
   //   where: {

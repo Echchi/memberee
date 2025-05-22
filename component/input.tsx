@@ -16,13 +16,13 @@ import { cls } from "../libs/client/utils";
 
 interface IOption {
   value: number | string;
-  label: string;
+  label: number | string;
 }
 
 interface InputFieldProps {
   name?: string;
   type: string;
-  value?: string | string[] | React.ReactElement | null;
+  value?: string | string[] | React.ReactElement | null | number;
   placeholder?: string;
   label?: string | React.ReactElement;
   register?: UseFormRegisterReturn;
@@ -92,7 +92,14 @@ const Input = forwardRef<
         )}
       >
         {icon && (
-          <span className="absolute inset-y-0 left-0 flex items-center pl-4 group-focus-within:z-20 group-focus-within:*:fill-emerald-600">
+          <span
+            className={cls(
+              "absolute inset-y-0 left-0 flex items-center pl-4 group-focus-within:z-20",
+              errorMessage[0]?.length > 0
+                ? "group-focus-within:*:fill-orange-500"
+                : "group-focus-within:*:fill-emerald-600",
+            )}
+          >
             {icon}
           </span>
         )}
@@ -169,12 +176,16 @@ const Input = forwardRef<
             className={cls(
               "disabled:text-stone-300",
               errorMessage[0] ? "inner_input_error" : "inner_input",
-              icon && isLong ? "xl:pl-20 pl-14 pr-2" : "",
-              icon && !isLong ? "xl:px-20 px-14" : "",
-              label && isLong ? "xl:pl-48 pl-32 pr-2" : "",
-              label && !isLong ? "xl:px-48 px-20" : "",
+              icon ? "xl:pl-20 pl-14 pr-2" : "",
+              label ? "xl:pl-48 pl-32 pr-2" : "",
               className ? `${className} !h-full` : "",
-              className ? `${className} !h-full` : "",
+
+              // errorMessage[0] ? "inner_input_error" : "inner_input",
+              // icon && isLong ? "xl:pl-20 pl-14 pr-2" : "",
+              // icon && !isLong ? "xl:px-20 px-14" : "",
+              // label && isLong ? "xl:pl-48 pl-32 pr-2" : "",
+              // label && !isLong ? "xl:px-48 px-20" : "",
+              // className ? `${className} !h-full` : "",
             )}
             disabled={isLoading}
             name={name}

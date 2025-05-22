@@ -54,6 +54,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   const [memSlice, setMemSlice] = useState(1);
   const [memLoading, setMemLoading] = useState(false);
   const workerRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     const fetchWorker = async () => {
       try {
@@ -140,7 +141,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             />
           }
         />
-      )}{" "}
+      )}
       {isWarningOpen && (
         <Modal
           title={""}
