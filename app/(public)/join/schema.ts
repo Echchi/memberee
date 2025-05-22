@@ -1,26 +1,15 @@
 import { z } from "zod";
-import {
-  CO_NUM_REGEX,
-  ID_REGEX,
-  ID_REGEX_ERROR,
-  PASSWORD_REGEX,
-  PASSWORD_REGEX_ERROR,
-} from "../../libs/regex";
+import { CO_NUM_REGEX, ID_REGEX, ID_REGEX_ERROR, PASSWORD_REGEX, PASSWORD_REGEX_ERROR } from "../../../libs/regex";
 
 interface ICheckPassword {
   password: string;
   confirm_password: string;
 }
-export const checkPassword = ({ password, confirm_password }: ICheckPassword) =>
-  password === confirm_password;
+export const checkPassword = ({ password, confirm_password }: ICheckPassword) => password === confirm_password;
 
 export const joinFormSchema = z.object({
   // username: z.string().trim().min(2, "이름을 올바르게 입력해주세요"),
-  userid: z
-    .string()
-    .trim()
-    .min(4, ID_REGEX_ERROR)
-    .regex(ID_REGEX, ID_REGEX_ERROR),
+  userid: z.string().trim().min(4, ID_REGEX_ERROR).regex(ID_REGEX, ID_REGEX_ERROR),
   password: z.string().trim().regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR),
   // confirm_password: z.string().trim(),
   // phone: z
@@ -32,9 +21,7 @@ export const joinFormSchema = z.object({
   //   ),
   email: z.string().trim().email("이메일을 올바르게 입력해주세요"),
   co_name: z.string().trim(),
-  co_num: z
-    .string({ required_error: "사업자등록번호를 올바르게 입력해주세요" })
-    .trim(),
+  co_num: z.string({ required_error: "사업자등록번호를 올바르게 입력해주세요" }).trim(),
   payDay: z.string().optional().nullable(),
   // co_contact: z
   //   .string()

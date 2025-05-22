@@ -1,28 +1,16 @@
 import React, { useEffect, useState } from "react";
-import Input from "../../component/input";
-import Button from "../../component/button/button";
+import Input from "../../../component/input";
+import Button from "../../../component/button/button";
 import jwt from "jsonwebtoken";
 import validator from "validator";
-import {
-  checkEmail,
-  checkTmpEmail,
-  createTmpEmail,
-  sendVerifyEmail,
-  updateTmpEmail,
-} from "./api";
+import { checkEmail, checkTmpEmail, createTmpEmail, sendVerifyEmail, updateTmpEmail } from "./api";
 
 export interface ITmpEmail {
   id?: number;
   email?: string;
   expiresAt: Date;
 }
-const Join = ({
-  onClose,
-  findId,
-}: {
-  onClose: () => void;
-  findId?: () => void;
-}) => {
+const Join = ({ onClose, findId }: { onClose: () => void; findId?: () => void }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState({
@@ -119,22 +107,14 @@ const Join = ({
       <>
         {isSuccess && (
           <div className="h-full w-full flex flex-col justify-center items-center bg-white z-20 px-10 pb-10">
-            <p className="text-lg font-medium">
-              아래의 이메일로 인증 메일을 보냈어요!
-            </p>
-            <p className="mb-7 whitespace-pre">
-              스펨 메일함에 있을 수도 있어요. 스펨 메일함도 확인해주세요.
-            </p>
-            <div className="bg-gray-100 rounded-lg w-full py-6 text-lg font-semibold text-center">
-              {email}
-            </div>
+            <p className="text-lg font-medium">아래의 이메일로 인증 메일을 보냈어요!</p>
+            <p className="mb-7 whitespace-pre">스펨 메일함에 있을 수도 있어요. 스펨 메일함도 확인해주세요.</p>
+            <div className="bg-gray-100 rounded-lg w-full py-6 text-lg font-semibold text-center">{email}</div>
           </div>
         )}
         {!isSuccess && (
           <div className="xl:px-8 xl:pb-5">
-            <p className="text-lg font-medium text-center xl:pt-3">
-              인증 메일을 받을 이메일을 입력해주세요
-            </p>
+            <p className="text-lg font-medium text-center xl:pt-3">인증 메일을 받을 이메일을 입력해주세요</p>
             <p className="text-sm font-medium text-center pb-3 xl:pb-5">
               비밀번호 찾기나 중요 정보를 전달할 때 쓰기 때문에 확인이 필요해요
             </p>
@@ -155,21 +135,14 @@ const Join = ({
               placeholder={"이메일"}
               required={true}
               className={"h-16  rounded-lg"}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                handleChangeEmail(event)
-              }
-              errorMessage={
-                error?.email.length > 0 ? [error?.email] : undefined
-              }
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleChangeEmail(event)}
+              errorMessage={error?.email.length > 0 ? [error?.email] : undefined}
             />
             <p className="w-full flex justify-between text-orange-500 pt-3 font-semibold">
               {error.result && (
                 <>
                   <p>{error.result}</p>
-                  <p
-                    className="text-emerald-700 cursor-pointer"
-                    onClick={() => handleClickFindId()}
-                  >
+                  <p className="text-emerald-700 cursor-pointer" onClick={() => handleClickFindId()}>
                     아이디를 찾아볼까요?
                   </p>
                 </>
@@ -180,11 +153,7 @@ const Join = ({
               className="mt-4"
               large={true}
               isButtonDisabled={
-                error.email.length > 0 ||
-                error.result.length > 0 ||
-                email.length === 0 ||
-                isSuccess ||
-                isLoading
+                error.email.length > 0 || error.result.length > 0 || email.length === 0 || isSuccess || isLoading
               }
               onClick={handleClickSendBtn}
             />

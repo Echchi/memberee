@@ -1,21 +1,12 @@
 "use client";
-import React, {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import Button from "../../../../button/button";
 
-import {
-  formatDayOfWeekForDatabase,
-  getWorkerId,
-} from "../../../../../libs/client/utils";
-import { createMember } from "../../../../../app/(tabBar)/member/register/action";
+import { formatDayOfWeekForDatabase, getWorkerId } from "../../../../../libs/client/utils";
+import { createMember } from "../../../../../app/(protected)/member/register/action";
 import { ITime } from "../../../member/register/selectTime";
 
-import { getPaymentType } from "../../../../../app/(tabBar)/main/api";
+import { getPaymentType } from "../../../../../app/(protected)/main/api";
 import { PaymentType } from "@prisma/client";
 
 const MemberUploadBtn = ({
@@ -84,9 +75,7 @@ const MemberUploadBtn = ({
         formData.append("lessonFee", data[6]);
         formData.append("worker", workerId);
         formData.append("startDate", data[8]);
-        paymentType === PaymentType.DIFFERENT
-          ? formData.append("payDay", data[9])
-          : null;
+        paymentType === PaymentType.DIFFERENT ? formData.append("payDay", data[9]) : null;
 
         const response = await createMember(true, null, formData);
         // console.log("response", response);

@@ -1,13 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import Input from "../../../../component/input";
-import {
-  cls,
-  dateFormattedtoKor,
-  dateFormattedtoNum,
-  formatKorDate,
-  formatPhone,
-} from "../../../../libs/client/utils";
+import { cls, dateFormattedtoKor, dateFormattedtoNum, formatKorDate, formatPhone } from "../../../../libs/client/utils";
 import Button from "../../../../component/button/button";
 import { format } from "date-fns";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -28,7 +22,7 @@ import Memos from "../../../../component/page/worker/detail/memos";
 import { motion } from "framer-motion";
 import SelectWorkingDay from "../../../../component/page/worker/workingDay";
 import { useFormState } from "react-dom";
-import { createAccount } from "../../../join/action";
+import { createAccount } from "../../../(public)/join/action";
 import { updateWorker } from "./action";
 import ConfirmModal from "../../../../component/modal/confirmModal";
 import { Memo, Schedule } from "@prisma/client";
@@ -107,9 +101,7 @@ const Page = ({ params }: { params: { id: string } }) => {
 
   const handleSelectDay = (event: React.MouseEvent, dayIndex: number) => {
     if (selectedDay.includes(dayIndex)) {
-      setSelectedDay((prev) =>
-        prev.filter((selected) => selected !== dayIndex),
-      );
+      setSelectedDay((prev) => prev.filter((selected) => selected !== dayIndex));
     } else {
       setSelectedDay((prev) => [...prev, dayIndex]);
     }
@@ -150,20 +142,14 @@ const Page = ({ params }: { params: { id: string } }) => {
             <Modal
               title={""}
               content={
-                <WarningContent
-                  memberCnt={worker?.Member?.length || 0}
-                  onClose={() => setIsWarningOpen(false)}
-                />
+                <WarningContent memberCnt={worker?.Member?.length || 0} onClose={() => setIsWarningOpen(false)} />
               }
               onClose={() => setIsWarningOpen(false)}
             />
           }
         />
       )}
-      <form
-        className="mt-3 xl:mt-0 xl:box justify-center flex-col"
-        action={action}
-      >
+      <form className="mt-3 xl:mt-0 xl:box justify-center flex-col" action={action}>
         <div className="col-span-2 flex justify-end items-center">
           <div className="hidden xl:flex items-center justify-end space-x-4 w-full *:w-32">
             <div>
@@ -175,10 +161,7 @@ const Page = ({ params }: { params: { id: string } }) => {
               />
             </div>
             <div>
-              <PrintPdfBtn
-                title={`직원 ${worker?.name} 상세_${format(new Date(), "yyyyMMdd")}`}
-                content={workerRef}
-              />
+              <PrintPdfBtn title={`직원 ${worker?.name} 상세_${format(new Date(), "yyyyMMdd")}`} content={workerRef} />
             </div>
           </div>
         </div>
@@ -202,13 +185,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             isLong={true}
             type={isEdit ? "text" : "tel"}
             label={"연락처"}
-            value={
-              !isEdit
-                ? worker?.phone
-                  ? formatPhone(worker?.phone)
-                  : ""
-                : worker?.phone
-            }
+            value={!isEdit ? (worker?.phone ? formatPhone(worker?.phone) : "") : worker?.phone}
             placeholder={worker?.phone ? formatPhone(worker?.phone) : ""}
             className="h-16 xl:text-lg border-b-0"
             name="phone"
@@ -220,11 +197,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             isLong={true}
             type={isEdit ? "text" : "div"}
             label={"생년월일"}
-            value={
-              isEdit
-                ? dateFormattedtoNum(worker?.birth)
-                : dateFormattedtoKor(worker?.birth)
-            }
+            value={isEdit ? dateFormattedtoNum(worker?.birth) : dateFormattedtoKor(worker?.birth)}
             placeholder={dateFormattedtoNum(worker?.birth)}
             className="h-16 xl:text-lg border-b-0 xl:border-r-0"
             name="birth"
@@ -235,11 +208,7 @@ const Page = ({ params }: { params: { id: string } }) => {
           <Input
             type={isEdit ? "text" : "div"}
             label={"시작일자"}
-            value={
-              isEdit
-                ? dateFormattedtoNum(worker?.startDate)
-                : dateFormattedtoKor(worker?.startDate)
-            }
+            value={isEdit ? dateFormattedtoNum(worker?.startDate) : dateFormattedtoKor(worker?.startDate)}
             placeholder={dateFormattedtoNum(worker?.startDate)}
             className="h-16 xl:text-lg border-b-0"
             name="startDate"
@@ -260,30 +229,15 @@ const Page = ({ params }: { params: { id: string } }) => {
                 className="h-16 xl:text-lg border-b-0"
               />
             ) : (
-              <SelectWorkingDay
-                selectedDay={selectedDay}
-                handleSelectDay={handleSelectDay}
-              />
+              <SelectWorkingDay selectedDay={selectedDay} handleSelectDay={handleSelectDay} />
             )}
           </div>
-          <input
-            type={"text"}
-            value={selectedDay.join("")}
-            className="hidden"
-            name={"dayOfWeek"}
-            readOnly
-          />
+          <input type={"text"} value={selectedDay.join("")} className="hidden" name={"dayOfWeek"} readOnly />
           <div className="col-span-2">
             <Input
               type={isEdit ? "text" : "div"}
               label={"수수료"}
-              value={
-                isEdit
-                  ? worker?.commission + ""
-                  : worker?.commission
-                    ? `${worker?.commission} %`
-                    : ""
-              }
+              value={isEdit ? worker?.commission + "" : worker?.commission ? `${worker?.commission} %` : ""}
               placeholder={`${worker?.commission} %` || ""}
               className="h-16 xl:text-lg border-b-1"
               name="commission"
@@ -296,10 +250,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             type={isEdit ? "text" : "div"}
             label={"은행"}
             placeholder={worker?.bank || ""}
-            className={cls(
-              "h-16 xl:text-lg border-t-0 xl:border-r-0",
-              isEdit ? "xl:rounded-bl-lg" : "",
-            )}
+            className={cls("h-16 xl:text-lg border-t-0 xl:border-r-0", isEdit ? "xl:rounded-bl-lg" : "")}
             value={worker?.bank || ""}
             name={"bank"}
             maxLength={8}
@@ -311,7 +262,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             isLong={true}
             className={cls(
               "h-16 xl:text-lg border-t-0",
-              isEdit ? "rounded-b-lg xl:rounded-br-lg xl:rounded-bl-none" : "",
+              isEdit ? "rounded-b-lg xl:rounded-br-lg xl:rounded-bl-none" : ""
             )}
             name={"accountNumber"}
             value={worker?.accountNumber || ""}
@@ -332,11 +283,7 @@ const Page = ({ params }: { params: { id: string } }) => {
                 updateMemo={updateWorkerMemo}
                 deleteMemo={deleteWorkerMemo}
               />
-              <Members
-                members={worker?.Member || []}
-                setMemSlice={setMemSlice}
-                loading={loading}
-              />
+              <Members members={worker?.Member || []} setMemSlice={setMemSlice} loading={loading} />
             </motion.div>
           )}
         </div>
@@ -348,10 +295,7 @@ const Page = ({ params }: { params: { id: string } }) => {
             onClick={
               isEdit
                 ? (event: MouseEvent) => handleCancelBtn(event)
-                : () =>
-                    worker?.Member && worker?.Member?.length > 0
-                      ? setIsWarningOpen(true)
-                      : setIsConfirmOpen(true)
+                : () => (worker?.Member && worker?.Member?.length > 0 ? setIsWarningOpen(true) : setIsConfirmOpen(true))
             }
           />
 

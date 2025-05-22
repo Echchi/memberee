@@ -1,10 +1,10 @@
 "use client";
 import React, { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import JoinForm from "../../component/page/join/joinForm";
-import TokenError from "../tokenError";
+import JoinForm from "../../../component/page/join/joinForm";
+import TokenError from "../../tokenError";
 import { checkExpiresAt } from "./api";
-import { PaymentType } from "../../libs/constants";
+import { PaymentType } from "../../../libs/constants";
 
 export interface JoinFormType {
   userid: string;

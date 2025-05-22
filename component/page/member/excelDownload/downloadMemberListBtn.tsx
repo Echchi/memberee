@@ -2,9 +2,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Button from "../../../button/button";
 import { downloadMemberList } from "./downloadMemberList";
-import { getMembers } from "../../../../app/(tabBar)/member/api";
+import { getMembers } from "../../../../app/(protected)/member/api";
 import { format, getMonth, getYear } from "date-fns";
-import { IMemberWithSchedules } from "../../../../app/(tabBar)/member/[id]/page";
+import { IMemberWithSchedules } from "../../../../app/(protected)/member/[id]/page";
 import {
   dateFormattedtoKor,
   dateFormattedtoNum,
@@ -67,12 +67,9 @@ const DownloadMemberListBtn = () => {
   useEffect(() => {
     if (!loading && members.length > 0) {
       const content = members.map((member) => {
-        const formattedDayOfWeek = member?.Schedule?.map(
-          (sch) => DAYOFWEEK[sch.dayOfWeek],
-        ).join(", ");
+        const formattedDayOfWeek = member?.Schedule?.map((sch) => DAYOFWEEK[sch.dayOfWeek]).join(", ");
         const formattedTimes = member.Schedule?.map(
-          (sch) =>
-            `${format(sch.startTime || "", "HH:mm")} ~ ${format(sch.endTime || "", "HH:mm")}`,
+          (sch) => `${format(sch.startTime || "", "HH:mm")} ~ ${format(sch.endTime || "", "HH:mm")}`
         ).join(", ");
         return {
           name: member.name,
@@ -81,14 +78,10 @@ const DownloadMemberListBtn = () => {
           job: member.job,
           dayOfWeek: formattedDayOfWeek,
           times: formattedTimes,
-          lessonFee:
-            formatCurrency(
-              (member.Schedule && member.Schedule[0]?.lessonFee) || "",
-            ) || "-",
+          lessonFee: formatCurrency((member.Schedule && member.Schedule[0]?.lessonFee) || "") || "-",
           worker: member.worker?.name,
           startDate: dateFormattedtoKor(member?.startDate),
-          status:
-            member.status === 0 ? "중단" : member.status < 0 ? "탈퇴" : "",
+          status: member.status === 0 ? "중단" : member.status < 0 ? "탈퇴" : "",
         };
       });
       downloadMemberList({

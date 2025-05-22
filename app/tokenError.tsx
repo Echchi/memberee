@@ -6,8 +6,8 @@ import PageTransition from "../component/pageTransition";
 import TabBar from "../component/tabs/mobile/tabBar";
 import { useRouter } from "next/navigation";
 import Modal from "../component/modal/modal";
-import Join from "./login/join";
-import FindId from "./login/findId";
+import Join from "./(public)/login/join";
+import FindId from "./(public)/login/findId";
 import Button from "../component/button/button";
 
 const TokenError = () => {
@@ -26,12 +26,7 @@ const TokenError = () => {
         <Modal
           onClose={() => setIsJoinOpen(false)}
           title={"이메일 인증"}
-          content={
-            <Join
-              onClose={() => setIsJoinOpen(false)}
-              findId={() => setIsFindIdOpen(true)}
-            />
-          }
+          content={<Join onClose={() => setIsJoinOpen(false)} findId={() => setIsFindIdOpen(true)} />}
         />
       )}
       <div className="flex flex-col xl:w-full xl:max-w-full max-w-xl mx-auto min-h-screen bg-gradient-to-b from-white from-[1%] to-stone-100">
@@ -45,20 +40,11 @@ const TokenError = () => {
               <p className="text-xl xl:text-4xl text-green-700 font-bold">
                 인증이 완료되었거나 유효시간이 만료되었어요
               </p>
-              <p className="text-sm xl:text-lg font-bold">
-                멤버리 서비스를 이용하시려면,
-              </p>
-              <p className="text-sm xl:text-lg font-bold">
-                아래 버튼을 눌러 이메일을 다시 인증해 주세요
-              </p>
+              <p className="text-sm xl:text-lg font-bold">멤버리 서비스를 이용하시려면,</p>
+              <p className="text-sm xl:text-lg font-bold">아래 버튼을 눌러 이메일을 다시 인증해 주세요</p>
 
               <div className="flex xl:flex-row flex-col justify-center items-center w-2/3 xl:w-1/3 pt-2 xl:pt-4">
-                <Button
-                  onClick={() => setIsJoinOpen(true)}
-                  type="button"
-                  text={"인증 메일 요청하기"}
-                  large={true}
-                />
+                <Button onClick={() => setIsJoinOpen(true)} type="button" text={"인증 메일 요청하기"} large={true} />
               </div>
             </div>
           </div>

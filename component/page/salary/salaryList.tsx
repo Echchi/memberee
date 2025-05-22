@@ -3,9 +3,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { calculateSalary, formatCurrency } from "../../../libs/client/utils";
 import Salary from "./salary";
 import Modal from "../../modal/modal";
-import SalaryDetail from "../../../app/(tabBar)/salary/salaryDetail";
-import { WorkerWithMember } from "../../../app/(tabBar)/salary/page";
-import { IMemberWithSchedules } from "../../../app/(tabBar)/member/[id]/page";
+import SalaryDetail from "../../../app/(protected)/salary/salaryDetail";
+import { WorkerWithMember } from "../../../app/(protected)/salary/page";
+import { IMemberWithSchedules } from "../../../app/(protected)/member/[id]/page";
 import { format } from "date-fns";
 import { PrintPdfBtn } from "../../pdf/printPdfBtn";
 
@@ -14,9 +14,7 @@ const SalaryList = ({ workers }: { workers: WorkerWithMember[] }) => {
   const [openDetailModal, setOpenDetailModal] = useState(false);
   const [totalLessonFee, setTotalLessonFee] = useState<number[]>([]);
   const [clickedWorker, setClickedWorker] = useState<number>(-1);
-  const [selectedMembers, setSelectedMembers] = useState<
-    IMemberWithSchedules[] | null
-  >(null);
+  const [selectedMembers, setSelectedMembers] = useState<IMemberWithSchedules[] | null>(null);
   const [totalLessonFeeVal, setTotalLessonFeeVal] = useState(0);
   const [totalSalaryVal, setTotalSalaryVal] = useState(0);
 
@@ -34,7 +32,7 @@ const SalaryList = ({ workers }: { workers: WorkerWithMember[] }) => {
     setTotalLessonFee(allTotalLessonFee);
 
     const allWorkerSalaries = allTotalLessonFee.map((lessonFee, index) =>
-      calculateSalary(lessonFee, workers[index]?.commission),
+      calculateSalary(lessonFee, workers[index]?.commission)
     );
 
     setWorkerSalaries(allWorkerSalaries);
@@ -48,9 +46,7 @@ const SalaryList = ({ workers }: { workers: WorkerWithMember[] }) => {
   }, [totalLessonFee]);
 
   useEffect(() => {
-    const selectedWorker = workers?.find(
-      (worker) => worker?.id === clickedWorker,
-    );
+    const selectedWorker = workers?.find((worker) => worker?.id === clickedWorker);
     setSelectedMembers(selectedWorker ? selectedWorker.Member : null);
   }, [workers, clickedWorker]);
 
@@ -60,17 +56,13 @@ const SalaryList = ({ workers }: { workers: WorkerWithMember[] }) => {
         <Modal
           onClose={() => setOpenDetailModal(false)}
           title={"회원 수업료"}
-          content={
-            selectedMembers ? <SalaryDetail members={selectedMembers} /> : <></>
-          }
+          content={selectedMembers ? <SalaryDetail members={selectedMembers} /> : <></>}
         />
       )}
       <div ref={salaryRef} className="xl:box my-4 xl:mt-3 xl:mb-0 flex-col">
         <>
           <div className="flex justify-center items-center font-semibold text-xl xl:text-2xl mb-3 xl:mb-7 mt-4">
-            <span className="xl:px-6 px-4 mx-auto">
-              {format(new Date(), "yyyy년 MM월")}
-            </span>
+            <span className="xl:px-6 px-4 mx-auto">{format(new Date(), "yyyy년 MM월")}</span>
             <div className="w-16 xl:w-32 print:hidden hidden xl:block">
               <PrintPdfBtn
                 title={`${format(new Date(), "yyyy년 MM월")} 예상 임금_${format(new Date(), "yyyyMMdd")}`}
@@ -118,9 +110,7 @@ const SalaryList = ({ workers }: { workers: WorkerWithMember[] }) => {
                 <tr className="*:text-xs xl:*:text-base *:bold sticky bottom-0 *:py-3 text-center border-b border-stone-100 bg-orange-100">
                   <td colSpan={4}>예상 수익</td>
 
-                  <td colSpan={2}>
-                    {formatCurrency(totalLessonFeeVal - totalSalaryVal)} 원
-                  </td>
+                  <td colSpan={2}>{formatCurrency(totalLessonFeeVal - totalSalaryVal)} 원</td>
                 </tr>
               </tfoot>
             </table>

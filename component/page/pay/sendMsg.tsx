@@ -1,6 +1,6 @@
 "use client";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { getMembers } from "../../../app/(tabBar)/member/api";
+import { getMembers } from "../../../app/(protected)/member/api";
 
 import Link from "next/link";
 import { cls } from "../../../libs/client/utils";
@@ -77,7 +77,7 @@ const SendMsg = ({
               "text-sm xl:text-base outline-none px-3 py-2 rounded-lg font-semibold transition-all disabled:bg-gray-300 disabled:cursor-default  cursor-pointer",
               isAllMember || payDay
                 ? "text-green-600 bg-green-600/30 hover:bg-green-600/10 active:bg-green-600/40"
-                : "text-orange-600 bg-orange-500/30 hover:bg-orange-500/10 active:bg-orange-500/40",
+                : "text-orange-600 bg-orange-500/30 hover:bg-orange-500/10 active:bg-orange-500/40"
             )}
           >
             {isAllMember

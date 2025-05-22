@@ -3,13 +3,13 @@ import React, { useCallback, useEffect, useState } from "react";
 
 import Pay from "./pay";
 import PayMb from "./pay_mb";
-import { getMembers } from "../../../app/(tabBar)/pay/api";
-import { IMemberWithSchedules } from "../../../app/(tabBar)/member/[id]/page";
+import { getMembers } from "../../../app/(protected)/pay/api";
+import { IMemberWithSchedules } from "../../../app/(protected)/member/[id]/page";
 import { IWorker } from "../member/members";
-import { getWorkerList } from "../../../app/(tabBar)/worker/register/api";
+import { getWorkerList } from "../../../app/(protected)/worker/register/api";
 import Pagination from "../../pagination";
 import Empty from "../../empty";
-import { getPaidCnt, getTotalCnt } from "../../../app/(tabBar)/main/api";
+import { getPaidCnt, getTotalCnt } from "../../../app/(protected)/main/api";
 import { getMonth, getYear } from "date-fns";
 import { PaymentType } from "@prisma/client";
 
@@ -65,7 +65,7 @@ const PayList = ({
         setLoading(false);
       }
     },
-    [query, workerId, payStatus, page, payDayOrder],
+    [query, workerId, payStatus, page, payDayOrder]
   );
 
   const fetchPaidCounts = useCallback(async (year: number, month: number) => {
@@ -153,10 +153,7 @@ const PayList = ({
                     <option value={-1}>담당</option>
                     {workers &&
                       workers.map((worker) => (
-                        <option
-                          key={`payment_workerList_${worker.id}`}
-                          value={worker.id}
-                        >
+                        <option key={`payment_workerList_${worker.id}`} value={worker.id}>
                           {worker.name}
                         </option>
                       ))}
@@ -165,10 +162,7 @@ const PayList = ({
 
                 <td>수강료</td>
                 {paymentType === PaymentType.DIFFERENT ? (
-                  <td
-                    className="flex justify-center items-center cursor-pointer"
-                    onClick={handleClickPayDayOrder}
-                  >
+                  <td className="flex justify-center items-center cursor-pointer" onClick={handleClickPayDayOrder}>
                     납부일
                     {payDayOrder ? (
                       <svg
@@ -215,17 +209,10 @@ const PayList = ({
             <tbody>
               {!loading && members
                 ? members.map((member, index) => (
-                    <Pay
-                      key={`pay_${member.id}x`}
-                      member={member}
-                      paymentType={paymentType ?? defaultPaymentType}
-                    />
+                    <Pay key={`pay_${member.id}x`} member={member} paymentType={paymentType ?? defaultPaymentType} />
                   ))
                 : [...Array(10)].map((_, index) => (
-                    <tr
-                      key={`payList_loading_${index}`}
-                      className="w-full *:h-14 *:rounded"
-                    >
+                    <tr key={`payList_loading_${index}`} className="w-full *:h-14 *:rounded">
                       <td>
                         <div className="flex justify-center items-center">
                           <span className="w-2/3 skeleton rounded-lg h-8" />

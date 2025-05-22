@@ -1,18 +1,7 @@
-import {
-  addMonths,
-  format,
-  getMonth,
-  getYear,
-  isBefore,
-  isEqual,
-  isValid,
-  parse,
-  parseISO,
-  subMonths,
-} from "date-fns";
+import { addMonths, format, getMonth, getYear, isBefore, isEqual, isValid, parse, parseISO, subMonths } from "date-fns";
 import { DAYOFWEEK_REGEX, TIMEDATA_REGEX } from "../regex";
-import { IMemberWithSchedules } from "../../app/(tabBar)/member/[id]/page";
-import { getWorkerList } from "../../app/(tabBar)/worker/register/api";
+import { IMemberWithSchedules } from "../../app/(protected)/member/[id]/page";
+import { getWorkerList } from "../../app/(protected)/worker/register/api";
 import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
 import { DAYOFWEEK_TONUM } from "../constants";
 
@@ -49,11 +38,7 @@ export function formatPhone(phoneNumber: string) {
 export function combineCurrentDateWithTime(time: string) {
   const currentDate = new Date();
   const timeParts = time.split(":");
-  currentDate.setHours(
-    parseInt(timeParts[0], 10),
-    parseInt(timeParts[1], 10),
-    0,
-  ); // 시, 분, 초 설정
+  currentDate.setHours(parseInt(timeParts[0], 10), parseInt(timeParts[1], 10), 0); // 시, 분, 초 설정
 
   return currentDate;
 }
@@ -68,15 +53,8 @@ export const dateFormattedtoDot = (date?: Date | null) => {
   return date ? format(date, "yyyy.MM.dd.") : "";
 };
 
-export function generatePaymentDates(
-  date: Date,
-  paymentDay: number,
-  includeThisMonth: boolean = true,
-  endDate?: Date,
-) {
-  const currentDate = includeThisMonth
-    ? addMonths(new Date(), 1)
-    : subMonths(new Date(), 1);
+export function generatePaymentDates(date: Date, paymentDay: number, includeThisMonth: boolean = true, endDate?: Date) {
+  const currentDate = includeThisMonth ? addMonths(new Date(), 1) : subMonths(new Date(), 1);
   const start = new Date(date);
   const end = endDate ? endDate : new Date(currentDate);
 
@@ -105,10 +83,7 @@ export const calculateLessonFee = (members: IMemberWithSchedules[]) => {
   }, 0);
 };
 
-export const calculateSalary = (
-  lessonFee: number,
-  commission: number | null,
-) => {
+export const calculateSalary = (lessonFee: number, commission: number | null) => {
   const commissionDecimal = (commission || 0) / 100;
   return lessonFee * commissionDecimal * (1 - 0.033);
 };
@@ -127,10 +102,8 @@ export function calculateGridRowStart(startTime: string, endTime: string) {
 }
 
 export function calculateGridRowEnd(startTime: string, endTime: string) {
-  const startMinutes =
-    parseInt(startTime.split(":")[0]) * 60 + parseInt(startTime.split(":")[1]);
-  const endMinutes =
-    parseInt(endTime.split(":")[0]) * 60 + parseInt(endTime.split(":")[1]);
+  const startMinutes = parseInt(startTime.split(":")[0]) * 60 + parseInt(startTime.split(":")[1]);
+  const endMinutes = parseInt(endTime.split(":")[0]) * 60 + parseInt(endTime.split(":")[1]);
   return Math.ceil((endMinutes - startMinutes) / 10);
 }
 

@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
-import Input from "../../component/input";
-import Button from "../../component/button/button";
-import {
-  CO_NUM_REGEX,
-  CO_NUM_REGEX_ERROR,
-  PHONE_REGEX_ERROR,
-} from "../../libs/regex";
+import Input from "../../../component/input";
+import Button from "../../../component/button/button";
+import { CO_NUM_REGEX, CO_NUM_REGEX_ERROR, PHONE_REGEX_ERROR } from "../../../libs/regex";
 import { getUserWithData, getUserWithId, sendPasswordEmail } from "./api";
 import validator from "validator";
-import { generateTemporaryPassword } from "../../libs/client/utils";
-import FindPasswordEmail from "../../emails/find-password-email";
-import { updatePassword } from "../(tabBar)/account/api";
+import { generateTemporaryPassword } from "../../../libs/client/utils";
+import FindPasswordEmail from "../../../emails/find-password-email";
+import { updatePassword } from "../../(protected)/account/api";
 
 export interface FindPasswordRes {
   userid: string;
@@ -163,15 +159,9 @@ const FindPassword = ({ onClose }: { onClose: () => void }) => {
         {isSuccess && (
           // <div className="absolute right-0 h-4/5 w-full flex flex-col justify-center items-center bg-white z-20 px-10 pb-10">
           <div className="h-full w-full flex flex-col justify-center items-center bg-white z-20 px-4 pb-10">
-            <p className="text-lg font-medium">
-              가입시 등록한 이메일로 임시 비밀번호를 보냈어요!
-            </p>
-            <p className="mb-7">
-              스펨 메일함에 있을 수도 있어요. 스펨 메일함도 확인해주세요.
-            </p>
-            <div className="bg-gray-100 rounded-lg w-full py-6 text-lg font-semibold text-center">
-              {result.email}
-            </div>
+            <p className="text-lg font-medium">가입시 등록한 이메일로 임시 비밀번호를 보냈어요!</p>
+            <p className="mb-7">스펨 메일함에 있을 수도 있어요. 스펨 메일함도 확인해주세요.</p>
+            <div className="bg-gray-100 rounded-lg w-full py-6 text-lg font-semibold text-center">{result.email}</div>
           </div>
         )}
         {!isSuccess && (
@@ -183,9 +173,7 @@ const FindPassword = ({ onClose }: { onClose: () => void }) => {
               maxLength={10}
               className="h-16 xl:text-lg border-b-0 rounded-t-lg"
               onBlur={handleCheckId}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                setId(event.target.value)
-              }
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => setId(event.target.value)}
               isLong={true}
               required={true}
               errorMessage={error?.id.length > 0 ? [error?.id] : undefined}
@@ -196,9 +184,7 @@ const FindPassword = ({ onClose }: { onClose: () => void }) => {
               label={"사업자등록번호"}
               placeholder={"사업자등록번호"}
               className="h-16 xl:text-lg border-b-0"
-              onBlur={(event: React.ChangeEvent<HTMLInputElement>) =>
-                handleChangeCoNum(event)
-              }
+              onBlur={(event: React.ChangeEvent<HTMLInputElement>) => handleChangeCoNum(event)}
               isLong={true}
               required={true}
               maxLength={10}
@@ -209,14 +195,10 @@ const FindPassword = ({ onClose }: { onClose: () => void }) => {
               label={"이메일"}
               placeholder={"가입시 등록한 이메일"}
               className="h-16 xl:text-lg rounded-b-lg"
-              onBlur={(event: React.ChangeEvent<HTMLInputElement>) =>
-                handleChangeEmail(event)
-              }
+              onBlur={(event: React.ChangeEvent<HTMLInputElement>) => handleChangeEmail(event)}
               isLong={true}
               required={true}
-              errorMessage={
-                error?.email.length > 0 ? [error?.email] : undefined
-              }
+              errorMessage={error?.email.length > 0 ? [error?.email] : undefined}
             />
             <p className="text-orange-500 pt-3 font-semibold">{error.result}</p>
             <Button
@@ -224,11 +206,7 @@ const FindPassword = ({ onClose }: { onClose: () => void }) => {
               className="mt-4"
               large={true}
               isButtonDisabled={
-                error.id.length > 0 ||
-                error.email.length > 0 ||
-                error.coNum.length > 0 ||
-                isSuccess ||
-                isLoading
+                error.id.length > 0 || error.email.length > 0 || error.coNum.length > 0 || isSuccess || isLoading
               }
               onClick={handleFindPassword}
             />

@@ -1,10 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Member } from "@prisma/client";
-import { getWorker } from "../../../../app/(tabBar)/worker/[id]/api";
+import { getWorker } from "../../../../app/(protected)/worker/[id]/api";
 
 import { dateFormattedtoKor } from "../../../../libs/client/utils";
-import { MemberWithSch } from "../../../../app/(tabBar)/worker/[id]/page";
+import { MemberWithSch } from "../../../../app/(protected)/worker/[id]/page";
 import { DAYOFWEEK } from "../../../../libs/constants";
 import { useRouter } from "next/navigation";
 import Empty from "../../../empty";
@@ -48,11 +48,7 @@ const Members = ({
                   <td>{member.name}</td>
                   <td>{member.phone}</td>
 
-                  <td>
-                    {member.Schedule.map(
-                      (item, index) => DAYOFWEEK[item.dayOfWeek],
-                    ).join("  ")}
-                  </td>
+                  <td>{member.Schedule.map((item, index) => DAYOFWEEK[item.dayOfWeek]).join("  ")}</td>
                   <td>{dateFormattedtoKor(member.createdAt)}</td>
                 </tr>
               ))}
@@ -61,10 +57,7 @@ const Members = ({
           {/*</InfiniteScroll>*/}
         </div>
       ) : !loading ? (
-        <Empty
-          item={"담당회원"}
-          className="border border-neutral-300 rounded-b-lg *:!text-stone-300"
-        />
+        <Empty item={"담당회원"} className="border border-neutral-300 rounded-b-lg *:!text-stone-300" />
       ) : (
         <></>
       )}

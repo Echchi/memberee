@@ -6,12 +6,12 @@ import Member from "./member";
 import MemberMb from "./member_mb";
 
 import Empty from "../../empty";
-import { getMembers } from "../../../app/(tabBar)/member/api";
-import { IMemberWithSchedules } from "../../../app/(tabBar)/member/[id]/page";
-import { getWorkerList } from "../../../app/(tabBar)/worker/register/api";
+import { getMembers } from "../../../app/(protected)/member/api";
+import { IMemberWithSchedules } from "../../../app/(protected)/member/[id]/page";
+import { getWorkerList } from "../../../app/(protected)/worker/register/api";
 import Pagination from "../../pagination";
-import Mobile from "../../../app/(tabBar)/member/mobile";
-import { getPaidCnt, getTotalCnt } from "../../../app/(tabBar)/main/api";
+import Mobile from "../../../app/(protected)/member/mobile";
+import { getPaidCnt, getTotalCnt } from "../../../app/(protected)/main/api";
 import { getMonth, getYear } from "date-fns";
 
 export interface IWorker {
@@ -19,13 +19,7 @@ export interface IWorker {
   name: string;
 }
 
-const Members = ({
-  query,
-  setDesc,
-}: {
-  query?: string;
-  setDesc?: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+const Members = ({ query, setDesc }: { query?: string; setDesc?: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const [members, setMembers] = useState<IMemberWithSchedules[]>();
   const [total, setTotal] = useState<number>();
   const [workers, setWorkers] = useState<IWorker[]>();
@@ -84,10 +78,7 @@ const Members = ({
     const fetchCounts = async () => {
       try {
         // console.time("member getTotalCnt");
-        const totalResponse = await getTotalCnt(
-          getYear(new Date()),
-          getMonth(new Date()),
-        );
+        const totalResponse = await getTotalCnt(getYear(new Date()), getMonth(new Date()));
         // console.timeEnd("member getTotalCnt");
         if (totalResponse) {
           setTotalCnt(totalResponse);
@@ -130,10 +121,7 @@ const Members = ({
                     <option value={-1}>담당</option>
                     {workers &&
                       workers.map((worker) => (
-                        <option
-                          key={`members_workerList_${worker.id}`}
-                          value={worker.id}
-                        >
+                        <option key={`members_workerList_${worker.id}`} value={worker.id}>
                           {worker.name}
                         </option>
                       ))}
@@ -156,10 +144,7 @@ const Members = ({
                   </select>
                 </td>
 
-                <td
-                  className="flex justify-center items-center cursor-pointer"
-                  onClick={handleClickCreateDateOrder}
-                >
+                <td className="flex justify-center items-center cursor-pointer" onClick={handleClickCreateDateOrder}>
                   시작일
                   {startDateOrder ? (
                     <svg
@@ -193,14 +178,9 @@ const Members = ({
             </thead>
             <tbody>
               {!loading && members
-                ? members?.map((member, index) => (
-                    <Member member={member} key={member.id} />
-                  ))
+                ? members?.map((member, index) => <Member member={member} key={member.id} />)
                 : [...Array(10)].map((_, index) => (
-                    <tr
-                      key={`payList_loading_${index}`}
-                      className="w-full *:h-14 *:rounded"
-                    >
+                    <tr key={`payList_loading_${index}`} className="w-full *:h-14 *:rounded">
                       <td>
                         <div className="flex justify-center items-center">
                           <span className="w-2/3 skeleton rounded-lg h-8" />
@@ -239,12 +219,7 @@ const Members = ({
           {members && members.length === 0 && <Empty item={"회원"} />}
         </div>
       </div>
-      <Mobile
-        query={query}
-        members={members || []}
-        setSlice={setPage}
-        loading={loading}
-      />
+      <Mobile query={query} members={members || []} setSlice={setPage} loading={loading} />
     </>
   );
 };

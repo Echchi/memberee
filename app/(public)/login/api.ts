@@ -1,10 +1,10 @@
 "use server";
-import db from "../../libs/server/db";
+import db from "../../../libs/server/db";
 import { Resend } from "resend";
 import React from "react";
-import FindPasswordEmail from "../../emails/find-password-email";
+import FindPasswordEmail from "../../../emails/find-password-email";
 import { ITmpEmail } from "./join";
-import VerifyEmail from "../../emails/verify-email";
+import VerifyEmail from "../../../emails/verify-email";
 import jwt from "jsonwebtoken";
 
 export interface FindParam {
@@ -147,10 +147,7 @@ export async function createTmpEmail(params: ITmpEmail) {
   return tmpEmail;
 }
 
-export const sendVerifyEmail = async (param: {
-  email: string;
-  token: string;
-}) => {
+export const sendVerifyEmail = async (param: { email: string; token: string }) => {
   const { email, token } = param;
   const res = await sendEmail({
     to: [email],

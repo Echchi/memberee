@@ -3,11 +3,7 @@ import Input from "../../input";
 import { Controller, useForm } from "react-hook-form";
 import FormButton from "../../button/formButton";
 import { useRouter, useSearchParams } from "next/navigation";
-import {
-  checkCoNum,
-  checkUserid,
-  createAccount,
-} from "../../../app/join/action";
+import { checkCoNum, checkUserid, createAccount } from "../../../app/(public)/join/action";
 import {
   ID_REGEX,
   ID_REGEX_ERROR,
@@ -17,9 +13,9 @@ import {
   PASSWORD_REGEX_ERROR,
 } from "../../../libs/regex";
 
-import { checkExpiresAt } from "../../../app/join/api";
+import { checkExpiresAt } from "../../../app/(public)/join/api";
 import TokenError from "../../../app/tokenError";
-import { JoinFormType } from "../../../app/join/page";
+import { JoinFormType } from "../../../app/(public)/join/page";
 import { PaymentType } from "../../../libs/constants";
 import PaymentTypeCheckbox from "./paymentTypeCheckbox";
 import { AnimatePresence, motion } from "framer-motion";
@@ -34,9 +30,7 @@ const JoinForm = () => {
   const [tokenLoading, setTokenLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const [paymentType, setPaymentType] = useState<PaymentType>(
-    PaymentType.DIFFERENT,
-  );
+  const [paymentType, setPaymentType] = useState<PaymentType>(PaymentType.DIFFERENT);
   const {
     register,
     formState: { errors },
@@ -133,10 +127,7 @@ const JoinForm = () => {
 
   const [payday, setPayday] = useState("");
 
-  const onBlurUserid = async (
-    event: React.FocusEvent<HTMLInputElement>,
-    fieldOnBlur: () => void,
-  ) => {
+  const onBlurUserid = async (event: React.FocusEvent<HTMLInputElement>, fieldOnBlur: () => void) => {
     const userId = event.target.value.trim();
     if (userId.length === 0) {
       setError("userid", {
@@ -192,10 +183,7 @@ const JoinForm = () => {
   //     }
   //   }
   // };
-  const onBlurCoNum = async (
-    event: React.FocusEvent<HTMLInputElement>,
-    fieldOnBlur: () => void,
-  ) => {
+  const onBlurCoNum = async (event: React.FocusEvent<HTMLInputElement>, fieldOnBlur: () => void) => {
     const coNum = event.target.value.trim();
 
     if (coNum.length === 0) {
@@ -245,14 +233,10 @@ const JoinForm = () => {
             >
               memberee
             </h3>
-            <h3 className="text-black py-2">
-              누구나 편하게 쓰기 쉬운 회원관리
-            </h3>
+            <h3 className="text-black py-2">누구나 편하게 쓰기 쉬운 회원관리</h3>
           </div>
           <div className="px-3 mt-4 mb-8">
-            <p className="font-semibold tracking-wide text-stone-600 pt-5 pb-3 xl:text-lg">
-              관리자 정보
-            </p>
+            <p className="font-semibold tracking-wide text-stone-600 pt-5 pb-3 xl:text-lg">관리자 정보</p>
             {/*<Input*/}
             {/*  icon={*/}
             {/*    <svg*/}
@@ -377,9 +361,7 @@ const JoinForm = () => {
             {/*  errorMessage={[errors.confirm_password?.message ?? ""]}*/}
             {/*/>*/}
 
-            <p className="font-semibold tracking-wide text-stone-600 pt-8 pb-3 xl:text-lg">
-              업체 정보
-            </p>
+            <p className="font-semibold tracking-wide text-stone-600 pt-8 pb-3 xl:text-lg">업체 정보</p>
             <Input
               isLoading={loading}
               icon={
@@ -449,9 +431,7 @@ const JoinForm = () => {
                 paymentType={paymentType}
                 onChange={() =>
                   setPaymentType((prevType) =>
-                    prevType === PaymentType.DIFFERENT
-                      ? PaymentType.SAME
-                      : PaymentType.DIFFERENT,
+                    prevType === PaymentType.DIFFERENT ? PaymentType.SAME : PaymentType.DIFFERENT
                   )
                 }
                 value={PaymentType.DIFFERENT}
@@ -461,9 +441,7 @@ const JoinForm = () => {
                 paymentType={paymentType}
                 onChange={() =>
                   setPaymentType((prevType) =>
-                    prevType === PaymentType.SAME
-                      ? PaymentType.DIFFERENT
-                      : PaymentType.SAME,
+                    prevType === PaymentType.SAME ? PaymentType.DIFFERENT : PaymentType.SAME
                   )
                 }
                 value={PaymentType.SAME}

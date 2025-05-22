@@ -3,16 +3,13 @@ import React from "react";
 import Link from "next/link";
 import { cls } from "../../libs/client/utils";
 import { usePathname } from "next/navigation";
-import { logout } from "../../app/(tabBar)/main/api";
+import { logout } from "../../app/(protected)/main/api";
 
 const Web = () => {
   const pathname = usePathname();
   return (
     <div className="hidden xl:flex fixed top-0 z-10 h-20 w-full px-7 py-2 items-center space-x-6 bg-white/90">
-      <Link
-        className="text-3xl font-extrabold text-emerald-700 cursor-pointer"
-        href={"/main"}
-      >
+      <Link className="text-3xl font-extrabold text-emerald-700 cursor-pointer" href={"/main"}>
         memberee
       </Link>
       <div className="flex-1 flex justify-center">
@@ -20,9 +17,7 @@ const Web = () => {
           <Link
             className={cls(
               "cursor-pointer",
-              pathname.includes("/pay")
-                ? "text-emerald-700"
-                : "hover:text-emerald-700 transition-colors text-stone-800",
+              pathname.includes("/pay") ? "text-emerald-700" : "hover:text-emerald-700 transition-colors text-stone-800"
             )}
             href={"/pay"}
           >
@@ -33,7 +28,7 @@ const Web = () => {
               "cursor-pointer",
               pathname.includes("/member")
                 ? "text-emerald-700"
-                : "hover:text-emerald-700 transition-colors text-stone-800",
+                : "hover:text-emerald-700 transition-colors text-stone-800"
             )}
             href={"/member"}
           >
@@ -44,7 +39,7 @@ const Web = () => {
               "cursor-pointer",
               pathname.includes("/worker")
                 ? "text-emerald-700"
-                : "hover:text-emerald-700 transition-colors text-stone-800",
+                : "hover:text-emerald-700 transition-colors text-stone-800"
             )}
             href={"/worker"}
           >
@@ -55,7 +50,7 @@ const Web = () => {
               "cursor-pointer",
               pathname.includes("/class")
                 ? "text-emerald-700"
-                : "hover:text-emerald-700 transition-colors text-stone-800",
+                : "hover:text-emerald-700 transition-colors text-stone-800"
             )}
             href={"/class"}
           >
@@ -66,7 +61,7 @@ const Web = () => {
               "cursor-pointer",
               pathname.includes("/salary")
                 ? "text-emerald-700"
-                : "hover:text-emerald-700 transition-colors text-stone-800",
+                : "hover:text-emerald-700 transition-colors text-stone-800"
             )}
             href={"/salary"}
           >
@@ -77,7 +72,7 @@ const Web = () => {
               "cursor-pointer",
               pathname.includes("/account")
                 ? "text-emerald-700"
-                : "hover:text-emerald-700 transition-colors text-stone-800",
+                : "hover:text-emerald-700 transition-colors text-stone-800"
             )}
             href={"/account"}
           >

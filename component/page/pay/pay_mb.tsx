@@ -6,7 +6,7 @@ import { PaymentType } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { DAYOFWEEK } from "../../../libs/constants";
 import { cls, formatPhone } from "../../../libs/client/utils";
-import { IMemberWithSchedules } from "../../../app/(tabBar)/member/[id]/page";
+import { IMemberWithSchedules } from "../../../app/(protected)/member/[id]/page";
 import InfiniteScroll from "../../infiniteScroll";
 import SendMsg from "./sendMsg";
 import Empty from "../../empty";
@@ -50,10 +50,7 @@ const PayMb = ({
   useEffect(() => {
     setData((prevData) => {
       const addData = members.filter(
-        (newMembers) =>
-          !prevData.some(
-            (existingMember) => existingMember.id === newMembers.id,
-          ),
+        (newMembers) => !prevData.some((existingMember) => existingMember.id === newMembers.id)
       );
 
       return [...prevData, ...addData];
@@ -67,13 +64,7 @@ const PayMb = ({
 
   return (
     <>
-      <div
-        className={cls(
-          paymentType === PaymentType.DIFFERENT
-            ? "grid grid-cols-1 gap-y-4"
-            : "flex justify-between",
-        )}
-      >
+      <div className={cls(paymentType === PaymentType.DIFFERENT ? "grid grid-cols-1 gap-y-4" : "flex justify-between")}>
         <div className="flex space-x-2">
           <Tag
             color={"orange"}
@@ -92,12 +83,7 @@ const PayMb = ({
         </div>
         <div className="flex space-x-2">
           {paymentType === PaymentType.DIFFERENT && (
-            <SendMsg
-              year={year}
-              month={month}
-              loading={loading}
-              payDay={getDate(new Date())}
-            />
+            <SendMsg year={year} month={month} loading={loading} payDay={getDate(new Date())} />
           )}
           <SendMsg year={year} month={month} loading={loading} />
         </div>
@@ -116,9 +102,7 @@ const PayMb = ({
                       day={
                         paymentType === PaymentType.DIFFERENT
                           ? member.payDay + " 일 납부"
-                          : member.Schedule?.map(
-                              (item, index) => DAYOFWEEK[item.dayOfWeek],
-                            ).join("  ")
+                          : member.Schedule?.map((item, index) => DAYOFWEEK[item.dayOfWeek]).join("  ")
                       }
                       name={
                         <span className="flex items-center space-x-2">
@@ -128,9 +112,7 @@ const PayMb = ({
                               <Tag color="stone" title="탈퇴" />
                             </span>
                           ) : member.status < 0 ||
-                            (member?.Payment &&
-                              member?.Payment[0]?.lessonFee &&
-                              member?.Payment[0]?.lessonFee < 0) ? (
+                            (member?.Payment && member?.Payment[0]?.lessonFee && member?.Payment[0]?.lessonFee < 0) ? (
                             <span className="text-xs">
                               <Tag color="yellow" title="중단" />
                             </span>
@@ -138,14 +120,8 @@ const PayMb = ({
                         </span>
                       }
                       phone={formatPhone(member.phone)}
-                      active={
-                        member.status > 0 ||
-                        (member?.Payment && Number(member?.Payment[0]) < 0) ||
-                        false
-                      }
-                      isNotPaid={
-                        member?.Payment && member?.Payment.length === 0
-                      }
+                      active={member.status > 0 || (member?.Payment && Number(member?.Payment[0]) < 0) || false}
+                      isNotPaid={member?.Payment && member?.Payment.length === 0}
                     />
                   ))}
               </>

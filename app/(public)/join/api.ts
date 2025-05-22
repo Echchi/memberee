@@ -1,6 +1,6 @@
 "use server";
 import jwt from "jsonwebtoken";
-import db from "../../libs/server/db";
+import db from "../../../libs/server/db";
 
 export async function checkExpiresAt(token: string) {
   console.log("token", token);

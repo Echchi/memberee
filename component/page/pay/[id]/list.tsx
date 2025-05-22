@@ -1,18 +1,14 @@
 "use client";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import {
-  cls,
-  dateFormattedtoKor,
-  formatCurrency,
-} from "../../../../libs/client/utils";
+import { cls, dateFormattedtoKor, formatCurrency } from "../../../../libs/client/utils";
 import Button from "../../../button/button";
 import Modal from "../../../modal/modal";
 
-import PayCheck from "../../../../app/(tabBar)/pay/[id]/payCheck";
+import PayCheck from "../../../../app/(protected)/pay/[id]/payCheck";
 import { Member } from "@prisma/client";
-import { IMemberWithSchedules } from "../../../../app/(tabBar)/member/[id]/page";
+import { IMemberWithSchedules } from "../../../../app/(protected)/member/[id]/page";
 import { Payment } from ".prisma/client";
-import PayRegister from "../../../../app/(tabBar)/pay/[id]/payRegister";
+import PayRegister from "../../../../app/(protected)/pay/[id]/payRegister";
 import Tag from "../../../tag";
 import { filter } from "lodash";
 import { getYear } from "date-fns";
@@ -57,21 +53,13 @@ const List = ({
       const year = day.slice(0, 4);
       newSet.add(year);
       const month = day.slice(4);
-      const id = payment.find(
-        (item) => item.forYear + "" === year && item.forMonth + "" === month,
-      )?.id;
-      const method = payment.find(
-        (item) => item.forYear + "" === year && item.forMonth + "" === month,
-      )?.paymentMethod;
-      const memo = payment.find(
-        (item) => item.forYear + "" === year && item.forMonth + "" === month,
-      )?.memo;
+      const id = payment.find((item) => item.forYear + "" === year && item.forMonth + "" === month)?.id;
+      const method = payment.find((item) => item.forYear + "" === year && item.forMonth + "" === month)?.paymentMethod;
+      const memo = payment.find((item) => item.forYear + "" === year && item.forMonth + "" === month)?.memo;
       const paymentDate = payment.find(
-        (item) => item.forYear + "" === year && item.forMonth + "" === month,
+        (item) => item.forYear + "" === year && item.forMonth + "" === month
       )?.paymentDate;
-      const lessonFee = payment.find(
-        (item) => item.forYear + "" === year && item.forMonth + "" === month,
-      )?.lessonFee;
+      const lessonFee = payment.find((item) => item.forYear + "" === year && item.forMonth + "" === month)?.lessonFee;
 
       return {
         id: id,
@@ -121,12 +109,7 @@ const List = ({
           content={
             <PayRegister
               param={selectedPay}
-              lessonFee={
-                (member?.Schedule &&
-                  member?.Schedule[0] &&
-                  member?.Schedule[0]?.lessonFee) ||
-                0
-              }
+              lessonFee={(member?.Schedule && member?.Schedule[0] && member?.Schedule[0]?.lessonFee) || 0}
             />
           }
         />
@@ -141,7 +124,7 @@ const List = ({
       <div
         className={cls(
           "border border-stone-300 border-t-0 rounded-b-lg w-full h-[73\x20px]",
-          member && member?.status <= 0 ? "*:bg-stone-100" : "",
+          member && member?.status <= 0 ? "*:bg-stone-100" : ""
         )}
       >
         <table className="w-full table-auto">
@@ -187,20 +170,15 @@ const List = ({
                   key={index}
                   className={cls(
                     "*:py-3 text-center border-b border-stone-100",
-                    (item && item?.lessonFee < 0) ||
-                      (member && member.status < 0)
+                    (item && item?.lessonFee < 0) || (member && member.status < 0)
                       ? "bg-stone-100"
-                      : "hover:bg-orange-100 cursor-pointer active:bg-orange-200 has-[button]:hover:bg-white has-[button]:hover:cursor-default has-[button]:active:bg-white",
+                      : "hover:bg-orange-100 cursor-pointer active:bg-orange-200 has-[button]:hover:bg-white has-[button]:hover:cursor-default has-[button]:active:bg-white"
                   )}
                 >
                   <td>{item.year}</td>
                   <td>{item.month}</td>
-                  <td className="hidden xl:table-cell">
-                    {item.method ? item.method : "-"}
-                  </td>
-                  <td className="hidden xl:table-cell">
-                    {item.method ? formatCurrency(item.lessonFee) : "-"}
-                  </td>
+                  <td className="hidden xl:table-cell">{item.method ? item.method : "-"}</td>
+                  <td className="hidden xl:table-cell">{item.method ? formatCurrency(item.lessonFee) : "-"}</td>
                   <td>
                     {item.lessonFee < 0 ? (
                       <div className="mx-auto min-w-fit w-1/2 xl:w-1/4">
@@ -220,13 +198,9 @@ const List = ({
                             "!py-3",
                             member.status < 0
                               ? "!bg-neutral-300 hover:!bg-neutral-300 active:!bg-neutral-300"
-                              : "!bg-amber-500 hover:!bg-amber-500/80 active:!bg-amber-600",
+                              : "!bg-amber-500 hover:!bg-amber-500/80 active:!bg-amber-600"
                           )}
-                          onClick={
-                            member.status < 0
-                              ? undefined
-                              : () => handleClickPay(item)
-                          }
+                          onClick={member.status < 0 ? undefined : () => handleClickPay(item)}
                         />
                       </div>
                     )}

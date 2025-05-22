@@ -2,8 +2,8 @@
 
 import bcrypt from "bcrypt";
 
-import db from "../../libs/server/db";
-import getSession from "../../libs/client/session";
+import db from "../../../libs/server/db";
+import getSession from "../../../libs/client/session";
 import { redirect } from "next/navigation";
 import { joinFormSchema, JoinType } from "./schema";
 import { JoinFormType } from "./page";

@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import Button from "../../../../button/button";
-import { createWorker } from "../../../../../app/(tabBar)/worker/register/action";
+import { createWorker } from "../../../../../app/(protected)/worker/register/action";
 import { useFormState } from "react-dom";
 import { useRouter } from "next/navigation";
 import getSession from "../../../../../libs/client/session";

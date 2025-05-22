@@ -3,10 +3,10 @@ import getSession from "../../../libs/client/session";
 import db from "../../../libs/server/db";
 import { redirect } from "next/navigation";
 import bcrypt from "bcrypt";
-import { ITmpEmail } from "../../login/join";
+import { ITmpEmail } from "../../(public)/login/join";
 import React from "react";
 import FindPasswordEmail from "../../../emails/find-password-email";
-import { sendEmail } from "../../login/api";
+import { sendEmail } from "../../(public)/login/api";
 
 export async function getUser() {
   const session = await getSession();

@@ -5,7 +5,7 @@ import LineBox from "../../lineBox";
 import { DAYOFWEEK } from "../../../libs/constants";
 import { formatPhone } from "../../../libs/client/utils";
 import { useRouter } from "next/navigation";
-import { IMemberWithSchedules } from "../../../app/(tabBar)/member/[id]/page";
+import { IMemberWithSchedules } from "../../../app/(protected)/member/[id]/page";
 
 const MemberMb = ({ member }: { member: IMemberWithSchedules }) => {
   const router = useRouter();
@@ -18,9 +18,7 @@ const MemberMb = ({ member }: { member: IMemberWithSchedules }) => {
           <LineBox
             onClick={() => router.push(`/member/${member.id}`)}
             worker={member.worker?.name}
-            day={member.Schedule?.map(
-              (item, index) => DAYOFWEEK[item.dayOfWeek],
-            ).join("  ")}
+            day={member.Schedule?.map((item, index) => DAYOFWEEK[item.dayOfWeek]).join("  ")}
             name={member.name}
             phone={formatPhone(member.phone)}
             active={member.status > 0}

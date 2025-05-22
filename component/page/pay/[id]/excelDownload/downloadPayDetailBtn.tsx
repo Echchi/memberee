@@ -2,9 +2,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Button from "../../../../button/button";
 import { downloadMemberList } from "../../../member/excelDownload/downloadMemberList";
-import { getMembers } from "../../../../../app/(tabBar)/member/api";
+import { getMembers } from "../../../../../app/(protected)/member/api";
 import { format, getMonth, getYear } from "date-fns";
-import { IMemberWithSchedules } from "../../../../../app/(tabBar)/member/[id]/page";
+import { IMemberWithSchedules } from "../../../../../app/(protected)/member/[id]/page";
 import {
   dateFormattedtoKor,
   dateFormattedtoNum,
@@ -14,8 +14,8 @@ import {
 } from "../../../../../libs/client/utils";
 import { DAYOFWEEK } from "../../../../../libs/constants";
 import { downloadPayList } from "../../excelDownload/downloadPayList";
-import { getPaidCnt } from "../../../../../app/(tabBar)/main/api";
-import { getMember } from "../../../../../app/(tabBar)/member/[id]/api";
+import { getPaidCnt } from "../../../../../app/(protected)/main/api";
+import { getMember } from "../../../../../app/(protected)/member/[id]/api";
 import { Payment } from ".prisma/client";
 import { Member } from "@prisma/client";
 import { IPay } from "../list";
@@ -50,9 +50,7 @@ const DownloadPayDetailBtn = ({
     month: item.month,
     method: item.method || "-",
     lessonFee: item.lessonFee || "-",
-    paymentDate: item.paymentDate
-      ? format(item.paymentDate || "", "yyyy년 MM월 dd일")
-      : "-",
+    paymentDate: item.paymentDate ? format(item.paymentDate || "", "yyyy년 MM월 dd일") : "-",
   }));
   return (
     <Button

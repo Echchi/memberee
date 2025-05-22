@@ -2,17 +2,13 @@
 import React, { useEffect, useState } from "react";
 import Button from "../../../button/button";
 
-import { getMembers } from "../../../../app/(tabBar)/member/api";
+import { getMembers } from "../../../../app/(protected)/member/api";
 
-import { IMemberWithSchedules } from "../../../../app/(tabBar)/member/[id]/page";
-import {
-  cls,
-  formatCurrency,
-  formatPhone,
-} from "../../../../libs/client/utils";
+import { IMemberWithSchedules } from "../../../../app/(protected)/member/[id]/page";
+import { cls, formatCurrency, formatPhone } from "../../../../libs/client/utils";
 
 import { downloadPayList } from "./downloadPayList";
-import { getPaidCnt } from "../../../../app/(tabBar)/main/api";
+import { getPaidCnt } from "../../../../app/(protected)/main/api";
 import { PaymentType } from "@prisma/client";
 
 const DownloadPayListBtn = ({
@@ -108,16 +104,10 @@ const DownloadPayListBtn = ({
           name: member.name,
           phone: formatPhone(member.phone),
           worker: member.worker?.name,
-          lessonFee:
-            formatCurrency(
-              (member.Schedule && member.Schedule[0]?.lessonFee) || "",
-            ) || "-",
-          ...(paymentType === PaymentType.DIFFERENT
-            ? { payDay: member.payDay + " 일" }
-            : {}),
+          lessonFee: formatCurrency((member.Schedule && member.Schedule[0]?.lessonFee) || "") || "-",
+          ...(paymentType === PaymentType.DIFFERENT ? { payDay: member.payDay + " 일" } : {}),
           payment: payment,
-          status:
-            member.status < 0 ? "중단" : member.status === 0 ? "탈퇴" : "",
+          status: member.status < 0 ? "중단" : member.status === 0 ? "탈퇴" : "",
         };
       });
       downloadPayList({

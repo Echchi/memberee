@@ -1,12 +1,12 @@
 "use client";
 import Link from "next/link";
-import Input from "../../component/input";
+import Input from "../../../component/input";
 import React, { useState } from "react";
-import FormButton from "../../component/button/formButton";
+import FormButton from "../../../component/button/formButton";
 import { login } from "./action";
 import { useFormState } from "react-dom";
-import Modal from "../../component/modal/modal";
-import ChangePassword from "../(tabBar)/account/changePassword";
+import Modal from "../../../component/modal/modal";
+import ChangePassword from "../../(protected)/account/changePassword";
 import FindId from "./findId";
 import FindPassword from "./findPassword";
 import Join from "./join";
@@ -29,32 +29,21 @@ const Login = () => {
         <Modal
           onClose={() => setIsFindPasswordOpen(false)}
           title={"비밀번호 찾기"}
-          content={
-            <FindPassword onClose={() => setIsFindPasswordOpen(false)} />
-          }
+          content={<FindPassword onClose={() => setIsFindPasswordOpen(false)} />}
         />
       )}
       {isJoinOpen && (
         <Modal
           onClose={() => setIsJoinOpen(false)}
           title={"이메일 인증"}
-          content={
-            <Join
-              onClose={() => setIsJoinOpen(false)}
-              findId={() => setIsFindIdOpen(true)}
-            />
-          }
+          content={<Join onClose={() => setIsJoinOpen(false)} findId={() => setIsFindIdOpen(true)} />}
         />
       )}
       <div className="w-full max-w-lg mx-auto">
         <form action={action} className="w-full mt-32 px-8">
           <div className="flex flex-col justify-center items-center space-y-3">
-            <h3 className="text-5xl xl:text-7xl font-extrabold text-emerald-700">
-              memberee
-            </h3>
-            <h3 className="ml-3 text-black">
-              누구나 편하게 쓰기 쉬운 회원관리
-            </h3>
+            <h3 className="text-5xl xl:text-7xl font-extrabold text-emerald-700">memberee</h3>
+            <h3 className="ml-3 text-black">누구나 편하게 쓰기 쉬운 회원관리</h3>
           </div>
 
           <div className="w-full h-32 mt-16">
@@ -104,10 +93,8 @@ const Login = () => {
           </div>
           {state?.fieldErrors && (
             <p className="text-orange-500 text-center mt-5">
-              {(state?.fieldErrors?.userid &&
-                state?.fieldErrors?.userid?.[0]) ||
-                (state?.fieldErrors?.password &&
-                  state?.fieldErrors?.password?.[0])}
+              {(state?.fieldErrors?.userid && state?.fieldErrors?.userid?.[0]) ||
+                (state?.fieldErrors?.password && state?.fieldErrors?.password?.[0])}
             </p>
           )}
           <FormButton text={"로그인"} className="mt-10" />
@@ -122,10 +109,7 @@ const Login = () => {
               </button>
             </div>
             <div>
-              <button
-                onClick={() => setIsFindPasswordOpen(true)}
-                type={"button"}
-              >
+              <button onClick={() => setIsFindPasswordOpen(true)} type={"button"}>
                 비밀번호 찾기
               </button>
             </div>

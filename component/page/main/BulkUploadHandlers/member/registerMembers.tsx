@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Button from "../../../../button/button";
 import { onClickUploadXLSX } from "../../../../excel/builkUpload/onClickUploadXLSX";
 import { PaymentType } from ".prisma/client";
-import { getPaymentType } from "../../../../../app/(tabBar)/main/api";
+import { getPaymentType } from "../../../../../app/(protected)/main/api";
 
 const RegisterMembers = () => {
   const [paymentType, setPaymentType] = useState<PaymentType>();
@@ -24,9 +24,7 @@ const RegisterMembers = () => {
     { header: "수업료", key: "lessonFee" },
     { header: "담당", key: "worker" },
     { header: "시작일자", key: "startDate" },
-    paymentType === PaymentType.DIFFERENT
-      ? { header: "납부일자", key: "payDay" }
-      : {},
+    paymentType === PaymentType.DIFFERENT ? { header: "납부일자", key: "payDay" } : {},
   ];
 
   const content = [
@@ -40,9 +38,7 @@ const RegisterMembers = () => {
       lessonFee: "수업료",
       worker: "담당 직원 이름을 정확하게 입력해주세요",
       startDate: "시작일자를 8자리로 입력해주세요",
-      ...(paymentType === PaymentType.DIFFERENT
-        ? { payDay: "숫자로만 입력해주세요" }
-        : {}),
+      ...(paymentType === PaymentType.DIFFERENT ? { payDay: "숫자로만 입력해주세요" } : {}),
     },
     {
       name: "이멤버 (예시)",
